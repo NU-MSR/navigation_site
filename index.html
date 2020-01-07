@@ -1,0 +1,538 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>ME495 Sensing, Navigation, and Machine Learing for Robotics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#ros-and-robotics">ROS and Robotics</a></li>
+<li><a href="#c">C++</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">ME495 Sensing, Navigation, and Machine Learing for Robotics</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="resources">Resources</h1>
+<p>The following resources will be useful in this course.</p>
+<h1 id="ros-and-robotics">ROS and Robotics</h1>
+<ul>
+<li><a href="https://nu-msr.github.io/me495_site/">Notes from my other ME495</a></li>
+<li><a href="https://wiki.ros.org">ROS wiki</a></li>
+<li><a href="https://answers.ros.org">ROS Answers</a> Stack Overflow for ROS, many core ROS developers will answer questions on this website.</li>
+<li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Modern Robotics, by Kevin Lynch and Frank Park</a></li>
+<li><a href="http://planning.cs.uiuc.edu">Planning Algorithms by Steven M. LaValle</a></li>
+</ul>
+<h1 id="c">C++</h1>
+<ul>
+<li>Professional C++ 4th Edtion by Marc Gregoire (Available online through the Northwestern Library).</li>
+<li>A Tour of C++ by Bjarne Stroustrup (Available online through the Northwestern Library)</li>
+<li>More Effective C++ by Scott Meyers (Available online through the Northwestern Library)
+<ul>
+<li>Best practices for C++, but pre c++11</li>
+</ul></li>
+<li>Effective Modern C++ by Scott Meyers (Available online through the Northwestern Library)
+<ul>
+<li>Best practices for C++11</li>
+</ul></li>
+<li>Effective STL by Scott Meyers (Available online through the Northwestern Library)
+<ul>
+<li>How to use the standard template library. Pre C++11</li>
+</ul></li>
+<li><a href="http://en.cppreference.com/w/">cppreference.com</a> A good reference website for C++ that is usually correct and up-to-date with the standards.
+<ul>
+<li>www.cplusplus.com. This website usually comes up on google before cppreference but is not good. It is seemingly "beginner friendly" but it also contains outdated information and often reinforces bad habits.</li>
+</ul></li>
+<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>
+<ul>
+<li>Formalizes best practices for C++, written by Bjarne Stroustrup (creator of C++) and Herb Sutter (very involved in C++ standards committee)</li>
+</ul></li>
+<li><a href="https://herbsutter.com/gotw/">GotW</a> Good source for C++ best practices</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4713.pdf">Draft of the C++17 Standard</a>
+<ul>
+<li>Hard to read but contains almost the final word about the mechanics of C++17</li>
+<li>The actual ISO standard can be purchased <a href="https://www.iso.org/standard/68564.html">here</a> for 198 Swiss Francs
+<ul>
+<li>Maybe the Northwestern Library will obtain it for you if it were actually needed.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
