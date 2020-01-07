@@ -1,0 +1,854 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 00</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#task-group-0-preliminaries">Task Group 0 (Preliminaries)</a>
+<ul>
+<li><a href="#task-0.000-reading-the-guidelines">Task 0.000 (Reading the Guidelines)</a></li>
+<li><a href="#task-0.001-making-a-git-repository">Task 0.001 (Making a Git Repository)</a></li>
+<li><a href="#task-0.002-making-a-readme">Task 0.002 (Making a README)</a></li>
+</ul></li>
+<li><a href="#task-group-a-robot-description">Task Group A (Robot Description)</a>
+<ul>
+<li><a href="#task-a.000-nuturtle_description-package">Task A.000 (nuturtle_description package)</a></li>
+<li><a href="#task-a.001-yaml-file">Task A.001 (Yaml File)</a></li>
+<li><a href="#task-a.002-xacro-file-visual-only">Task A.002 (Xacro File: Visual Only)</a></li>
+<li><a href="#task-a.003-launch-file">Task A.003 (Launch File)</a></li>
+<li><a href="#task-a.004-readme">Task A.004 (README)</a></li>
+</ul></li>
+<li><a href="#task-group-b-turtle-sim">Task Group B (Turtle Sim)</a>
+<ul>
+<li><a href="#task-b.000-tsim-package">Task B.000 (tsim package)</a></li>
+<li><a href="#task-b.001-turtle_rect-node">Task B.001 (turtle_rect node)</a></li>
+<li><a href="#task-b.002-subscriber-and-service">Task B.002 (subscriber and service)</a></li>
+<li><a href="#task-b.003-trect.launch">Task B.003 (trect.launch)</a></li>
+<li><a href="#task-b.004-documentation">Task B.004 (documentation)</a></li>
+</ul></li>
+<li><a href="#task-c-c-and-2d-transforms">Task C (C++ and 2D Transforms)</a>
+<ul>
+<li><a href="#task-c.000-library-implementation">Task C.000 (library implementation)</a></li>
+<li><a href="#task-c.001-main-implementation">Task C.001 (main implementation)</a></li>
+<li><a href="#task-c.002-conceptual-questions">Task C.002 (conceptual questions)</a></li>
+<li><a href="#task-c.003-adjoints-and-twists">Task C.003 (adjoints and twists)</a></li>
+<li><a href="#task-c.004-testing">Task C.004 (testing)</a></li>
+</ul></li>
+<li><a href="#useful-ros-pages">Useful ROS Pages</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 00</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="task-group-0-preliminaries">Task Group 0 (Preliminaries)</h1>
+<h2 id="task-0.000-reading-the-guidelines">Task 0.000 (Reading the Guidelines)</h2>
+<ol>
+<li>Carefully read the homework submission guidelines.
+<ul>
+<li>Failure to follow these rules may result in receiving <strong>no credit</strong> for your homework.</li>
+</ul></li>
+</ol>
+<h2 id="task-0.001-making-a-git-repository">Task 0.001 (Making a Git Repository)</h2>
+<ol>
+<li>Create a git repository using the github classroom link (sent separately)
+<ul>
+<li>Name it LastName_FirstName_Navigation</li>
+</ul></li>
+</ol>
+<h2 id="task-0.002-making-a-readme">Task 0.002 (Making a README)</h2>
+<ol>
+<li>Add a file called <code>README.md</code> to the repository
+<ul>
+<li>The title should be "ME495 Sensing, Navigation, and Machine Learning"</li>
+<li>Indicate that the author is "FirstName LastName"</li>
+<li>commit this file to your repository.</li>
+<li>Update it in accordance with the homework submission guidelines</li>
+</ul></li>
+</ol>
+<h1 id="task-group-a-robot-description">Task Group A (Robot Description)</h1>
+<p>The goal of this task group is to create descriptions of robots suitable for simulation. This task group will be spread over several assignments.</p>
+<h2 id="task-a.000-nuturtle_description-package">Task A.000 (nuturtle_description package)</h2>
+<ol>
+<li>Create a ros package called <code>nuturtle_description</code>.
+<ul>
+<li>This should be a directory within your repository (i.e., <code>&lt;reponame&gt;/nuturtle_description</code>)</li>
+<li>The package will contain urdf files and basic debugging, testing, and visualization code for the robots you will be using in this class</li>
+<li>Update the <code>package.xml</code> as follows
+<ul>
+<li>Give it a version number of 0.0.1</li>
+<li>Provide a description other than the default.</li>
+<li>Fill in your name and email address as the maintainer and as an author</li>
+<li>Choose a license other than TODO</li>
+</ul></li>
+</ul></li>
+<li>The package must pass <code>catkin_lint -W2</code> with no warnings or problems (you will likely need to revisit point this as you add to the package).</li>
+</ol>
+<h2 id="task-a.001-yaml-file">Task A.001 (Yaml File)</h2>
+<ol>
+<li>Create <code>diff_params.yaml</code> file to provide a complete parametric description of a differential drive robot.</li>
+<li>You should have the following parameters:
+<ul>
+<li><code>wheel_width</code>: The width of the wheels</li>
+<li><code>wheel_radius</code>: The radius of the wheels</li>
+<li><code>wheel_base</code>: The distance between the centers wheels</li>
+<li><code>chassis_length</code>: The length of the main chassis link</li>
+<li><code>chassis_thickness</code>: The thickness of the plate that forms the chassis</li>
+</ul></li>
+<li>Include comments in the <code>.yaml</code> file explaining what each parameter does.</li>
+<li>The parameters above completely describe the geometry of the robot.</li>
+</ol>
+<h2 id="task-a.002-xacro-file-visual-only">Task A.002 (Xacro File: Visual Only)</h2>
+<ol>
+<li>Create a <code>diff_drive.urdf.xacro</code> file to describe a differential drive robot.
+<ul>
+<li>The name of the robot should be <code>diff_drive</code></li>
+</ul></li>
+<li>The <code>diff_drive.urdf.xacro</code> file should retrieve the robot geometric properties from <code>diff_params.yaml</code>
+<ul>
+<li>There should be no hard-coded dimensions</li>
+</ul></li>
+<li>Each link should have properly defined visual properties
+<ul>
+<li>You do not need to provide inertial or collision properties for this task</li>
+</ul></li>
+<li>The body of the robot should be called <code>base_link</code> and consist of a single rectangular plate.
+<ul>
+<li>The size of this plate should automatically adjust when <code>wheel_base</code> changes.</li>
+<li>Note: The width of the plate is not exactly <code>wheel_base</code> since the <code>wheel_base</code> is defined to be the distance between wheel centers.</li>
+</ul></li>
+<li>The <code>base_link</code> reference frame should be defined as follows:
+<ul>
+<li>The frame origin is centered between the wheels and wheel_radius from the rear edge of the chassis</li>
+<li>The frame x-axis points in the forward direction of the robot</li>
+<li>The frame z-axis points up</li>
+</ul></li>
+<li>The robot should have a third "ball caster" for support.
+<ul>
+<li>Changing <code>wheel_radius</code> should automatically adjust the height of the caster so that the chassis lies flat when placed on level ground</li>
+<li>The caster can be implemented as a sphere that is tangent to the bottom of the chassis</li>
+<li>The caster should be one "caster_radius" from the front of the robot and lie on the <code>base_link</code> x-axis</li>
+</ul></li>
+<li>The left wheel joint should be called <code>left_wheel_axle</code>.</li>
+<li>The right wheel joint should be called <code>right_wheel_axle</code>.</li>
+<li>Each wheel's x-axis should point forward and the wheel should rotate about it's own y axis.
+<ul>
+<li>Increasing the wheel joint angle should result in a "forward" rotation of each wheel</li>
+</ul></li>
+<li>The wheel locations axis should be offset by wheel_radius from the rear of the chassis
+<ul>
+<li>Thus the back of the wheel and the back edge of the chassis are aligned</li>
+</ul></li>
+<li>The robot's main chassis link should be called <code>base_link</code></li>
+<li>Use different colors for the wheels, the caster, and the chassis</li>
+</ol>
+<h2 id="task-a.003-launch-file">Task A.003 (Launch File)</h2>
+<ol>
+<li><p>Create a launchfile called <code>view_diff_drive.launch</code></p></li>
+<li><p>When invoked with <code>--ros-args</code> it should have the following behavior</p>
+<pre><code>$ roslaunch nuturtle_description view_diff_drive.launch --ros-args
+  Optional Arguments:
+   use_jsp_gui (default &quot;true&quot;): Launch the joint_state_publisher gui to publish joint angles
+</code></pre></li>
+<li><p>When invoked as <code>roslaunch nuturtle_description view_diff_drive.launch</code></p>
+<ul>
+<li>rviz should launch and display your differential drive robot model. (You will need to save <code>rviz</code> configuration file in the <code>config</code> directory and load it from the launchfile).</li>
+<li>There should be no errors or warnings.</li>
+<li>The <code>joint_state_publisher</code> gui should be displayed and let you control each wheel angle.</li>
+<li>There should be a Tf Display enabled. When <code>rviz</code> opens it should show only the <code>base_link</code> frame and the <code>left_wheel</code> frame (no other frames should be visible</li>
+<li>The fixed frame should be set to <code>base_link</code></li>
+</ul></li>
+<li><p>The launchfile should contain a comment with a brief description of what it is used for</p></li>
+<li><p>rviz should be required. So when rviz is closed all nodes launched by the launchfile should terminate</p></li>
+<li><p>The parameters defined in <code>diff_params.yaml</code> should be loaded into the parameter server</p></li>
+</ol>
+<h2 id="task-a.004-readme">Task A.004 (README)</h2>
+<ol>
+<li>Write a README.md for your package that includes the following sections
+<ul>
+<li>A brief description of the package</li>
+<li>The <code>roslaunch</code> command to visualize the robot in rviz</li>
+<li>A listing of every file, with a brief description of what its purpose</li>
+</ul></li>
+</ol>
+<h1 id="task-group-b-turtle-sim">Task Group B (Turtle Sim)</h1>
+<p>The goal of this task is to make a turtle in the turtle simulator move in a rectangular trajectory.</p>
+<h2 id="task-b.000-tsim-package">Task B.000 (tsim package)</h2>
+<ol>
+<li>Create a ros package called <code>tsim</code>.
+<ul>
+<li>This should be a directory within your repository (i.e., <code>&lt;reponame&gt;/tsim</code>)</li>
+<li>Update the <code>package.xml</code> as follows
+<ul>
+<li>Give it a version number of 0.0.1</li>
+<li>Provide a description other than the default.</li>
+<li>Fill in your name and email address as the maintainer and as an author</li>
+<li>Choose a license other than TODO</li>
+<li>The package has an <code>exec_depend</code> on the <code>turtlesim</code> package</li>
+<li>The package has a <code>depend</code> on <code>roscpp</code>, <code>geometry_msgs</code>, and <code>std_srvs</code></li>
+</ul></li>
+</ul></li>
+<li>The package must pass <code>catkin_lint -W2</code> with no warnings or problems (you will likely need to revisit point this as you add to the package).</li>
+</ol>
+<h2 id="task-b.001-turtle_rect-node">Task B.001 (turtle_rect node)</h2>
+<ol>
+<li>Write a node called <code>turtle_rect</code> that reads the following parameters and logs them as <code>ROS_INFO</code> messages
+<ul>
+<li><code>x</code> - The x coordinate of the lower left corner of a rectangle</li>
+<li><code>y</code> - The y coordinate of the lower left corner of a rectangle</li>
+<li><code>width</code> - The width of the rectangle</li>
+<li><code>height</code> - The height of the rectangle</li>
+<li><code>trans_vel</code> - The translational velocity of the robot</li>
+<li><code>rot_vel</code> - The rotational velocity of the robot</li>
+<li><code>frequency</code> - The frequency of the control loop</li>
+<li>Be sure to document these parameters in the comments in the <code>.yaml</code> file.</li>
+</ul></li>
+<li>When <code>turtle_rect</code> starts, lift the pen, teleport the turtle to the rectangle's lower left corner, and put the pen down.
+<ul>
+<li>The node should wait for the appropriate turtlesim service to be available prior to calling the necessary services</li>
+</ul></li>
+<li>After the robot has moved to the lower left corner of the rectangle, publish velocity commands at <code>frequency</code> Hz to <code>cmd_vel</code>.
+<ul>
+<li>The <code>turtle_node</code> will subscribe to this topic to receive its velocity commands</li>
+</ul></li>
+<li>Hint: You may wish to use a state machine to transition between each leg of the trajectory</li>
+</ol>
+<h2 id="task-b.002-subscriber-and-service">Task B.002 (subscriber and service)</h2>
+<ol>
+<li>Add a service to <code>turtle_rect</code> called <code>traj_reset</code> that moves the turtle to its original orientation and resumes the trajectory.
+<ul>
+<li>You can use a <code>std_srvs/Empty</code> for the service type</li>
+</ul></li>
+<li>Create a custom message called <code>PoseError</code>, containing the following fields
+<ul>
+<li><code>x_error</code> - absolute value of the x error</li>
+<li><code>y_error</code> - absolute value of the x error</li>
+<li><code>theta_error</code> - absolute value of the angular error</li>
+<li>Include comments in the .msg file describing the message and each field</li>
+</ul></li>
+<li>Subscribe to the <code>turtlesim/Pose</code> message published by the turtle simulator. Use this subscription to get the actual position of the turtle</li>
+<li>In your main control loop, compute the error between the position the turtle would be in, had it followed your velocity commands precisely and the latest Pose value received from the turtle simulator.
+<ul>
+<li>Publish this information as a <code>PoseError</code> message on the <code>pose_error</code> topic</li>
+</ul></li>
+<li>Upon starting the trajectory (either the first time or after a <code>traj_reset</code>), after calling the <code>turtle1/teleport_absolute</code>, wait for the turtle's position to actually be correct before beginning the trajectory
+<ul>
+<li>If you used a state machine in task B.001, then you can implement the reset/startup as another state in your state machine</li>
+</ul></li>
+</ol>
+<h2 id="task-b.003-trect.launch">Task B.003 (trect.launch)</h2>
+<ol>
+<li>Write a launchfile called <code>trect.launch</code> that runs the turtle simulator and sets the parameters to have the following values: <code>x = 3</code>, <code>y = 2</code>, <code>width = 4</code>, <code>height = 5</code>, <code>trans_vel = 2</code>, <code>rot_vel = 1</code>, <code>frequency = 100</code></li>
+<li>Make sure the output of <code>turtle_rect</code> is directed to the screen so you can see the messages printed by the subscriber you implement in B.003</li>
+<li>Add a launchfile argument called "plot_gui" that defaults to true. When true, the launchfile should
+<ul>
+<li>Launch the <code>turtle_check</code> node</li>
+<li>Launch <code>rqt_plot~to plot the values of the ~pose_error</code> topic</li>
+<li>Be sure to document this launchfile argument using the "doc" attribute</li>
+</ul></li>
+</ol>
+<h2 id="task-b.004-documentation">Task B.004 (documentation)</h2>
+<ol>
+<li>Write a README.md for your package that includes the following sections
+<ul>
+<li>A brief description of the package</li>
+<li>The <code>roslaunch</code> command to run the turtle simulation and start the trajectory</li>
+<li>A listing of every file and a brief description of its purpose</li>
+<li>A screenshot of the turtle</li>
+<li>A screenshot of rqt_plot, showing one full trajectory cycle
+<ul>
+<li>Be sure to zoom in on the y axis so I can see the error</li>
+<li>Since this an open loop controller, some error is expected</li>
+</ul></li>
+<li>A link to a video of the turtle following the trajectory</li>
+</ul></li>
+</ol>
+<h1 id="task-c-c-and-2d-transforms">Task C (C++ and 2D Transforms)</h1>
+<p>Here you will begin to write a library called <code>rigid2d</code> for performing 2D rigid body transformations.</p>
+<h2 id="task-c.000-library-implementation">Task C.000 (library implementation)</h2>
+<ol>
+<li>Create a new directory called <code>rigid2d</code> in your base git directory.
+<ul>
+<li>For this assignment, you will compile the code as a single executable. Later we will turn it into a library</li>
+</ul></li>
+<li>Download <a href="./rigid2d.hpp">rigid2d.hpp</a> into <code>rigid2d</code>. This is a header file for the library you will implement.
+<ul>
+<li>Each function you must implement is specified in the header file</li>
+<li>You should implement these functions in <code>$rigid2d.cpp</code></li>
+<li>You may add private members to any class but not any public members</li>
+<li>Note that the <a href="http://www.doxygen.nl">doxygen</a> style comments in the header files do not need to be repeated in the implementation files
+<ul>
+<li>It is a matter of style whether to put these detailed comments in the <code>.cpp</code> or <code>.hpp</code> file</li>
+</ul></li>
+</ul></li>
+</ol>
+<h3 id="resources">Resources</h3>
+<ol>
+<li>For more information about the operator overloading going on in this example see <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">(atypically good Stack Overflow post)</a></li>
+<li>For more information about transforms, see <a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Lynch &amp; Park, "Modern Robotics", Chapter 3</a></li>
+</ol>
+<h2 id="task-c.001-main-implementation">Task C.001 (main implementation)</h2>
+<ol>
+<li>Write a file called <code>main.cpp</code>.
+<ul>
+<li>This program should prompt the user to enter two transforms: <span class="math inline">\(Tab\)</span> and <span class="math inline">\(Tbc\)</span></li>
+<li>It should then compute and output <span class="math inline">\(Tab\)</span>, <span class="math inline">\(Tbc\)</span>, <span class="math inline">\(Tac\)</span>, and <span class="math inline">\(Tca\)</span></li>
+<li>Next the program should prompt the user to enter a vector <span class="math inline">\(v\)</span> and the frame in which it is defined (either 'a', 'b', or 'c').</li>
+<li>It should then output the vector in frames 'a', 'b', and 'c'</li>
+</ul></li>
+<li>Compile your program using the following command:
+<ul>
+<li><code>g++ -Wall -Wextra -g -std=c++17 -o rigid2d_test main.cpp rigid2d.cpp</code></li>
+</ul></li>
+</ol>
+<h2 id="task-c.002-conceptual-questions">Task C.002 (conceptual questions)</h2>
+<p>Answer the questions below in <code>rigid2d/C002_answers.md</code>. Copy and paste each question into the file and place your answer below it.</p>
+<ol>
+<li>What is the difference between a class and a struct in C++? <a href="https://en.cppreference.com/w/cpp/language/classes">Hint</a></li>
+<li>Why is Vector2D a struct and Transform2DClass? Refer to specific <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-class">C++ Core guidelines (Classes and Class Hierarchies)</a> in your answer. (You should refer to at least 2 guidelines).</li>
+<li>Why are some of the constructors in Transform2D explicit? Refer to specific <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-ctor">C++ Core guidelines (Constructors, Assignments, and Destructors)</a> in your answer</li>
+<li>We need to be able to <code>normalize</code> Vector2D objects (i.e., find the unit vector in the direction of a given Vector2D):
+<ul>
+<li>Propose three different designs for implementing the <code>normalize</code> functionality</li>
+<li>Discuss the pros and cons of each proposed method, in light of <a href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-class">The C++ Core guidelines (Classes and Class Hierarchies)</a></li>
+<li>Which of the methods would you implement and why?</li>
+</ul></li>
+<li>Implement the <code>normalize</code> functionality using the method you chose.</li>
+<li>Why is Transform2D::inv() declared const while Transform2D::operator*=() is not?
+<ul>
+<li>Refer to <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#con-constants-and-immutability">C++ Core Guidelines (Constants and Immutability)</a> in your answer</li>
+</ul></li>
+</ol>
+<h2 id="task-c.003-adjoints-and-twists">Task C.003 (adjoints and twists)</h2>
+<ol>
+<li>Add a class or struct called <code>Twist2D</code> to represent a two-dimensional twist
+<ul>
+<li>You should also define <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> for this class</li>
+<li>We follow the convention used in Modern Robotics to place the angular component prior to the linear component</li>
+</ul></li>
+<li>Add functionality to <code>Transform2D</code> to convert a twist using the adjoint
+<ul>
+<li>Be sure to document everything, in a manner consistent with the rest of the file</li>
+</ul></li>
+<li>Add a prompt to <code>main.cpp</code> that allows a user to enter a twist in addition to a vector
+<ul>
+<li>The twist is specified in the same frame as the vector</li>
+</ul></li>
+<li>Output the twist in frames 'a', 'b', and 'c'</li>
+</ol>
+<h2 id="task-c.004-testing">Task C.004 (testing)</h2>
+<ol>
+<li>Test your program to see if it works.
+<ul>
+<li>Include a test where both <span class="math inline">\(Tab\)</span> and <span class="math inline">\(Tbc\)</span> include rotation and translation and <span class="math inline">\(v\)</span> is entered in frame <span class="math inline">\(c\)</span></li>
+</ul></li>
+<li>Store the input used for the test described above called <code>test1_input.txt</code> and include in your git repository</li>
+<li>Store the expected output from the test described above called <code>test1_answer.txt</code> and include in your git repository</li>
+<li>Write a script called <code>test_compile.bash</code> that
+<ul>
+<li>Compiles your program</li>
+<li>Runs it using the input from <code>test1_input.txt</code></li>
+<li>Compares the output to <code>test1_answer.txt</code> and prints "Success!" if they match or "Failure!" if they don't.</li>
+<li>The script should have executable permissions</li>
+<li>Hints:
+<ol>
+<li>Running the test and completing the comparison can be (but need not) be completed in one line of bash</li>
+<li><code>cmp -s - file</code> will compare file with <code>stdin</code> and return success (0) if they match and failure (1) if they don't</li>
+<li><code>a | b</code> sends the <code>stdout</code> of <code>a</code> into the <code>stdin</code> of <code>b</code></li>
+<li><code>a &lt; file</code> will direct contents of <code>file</code> into the <code>stdin</code> of program <code>a</code></li>
+<li><code>a &amp;&amp; b</code> will execute <code>b</code> only if <code>a</code> returns successfully</li>
+<li><code>a || b</code> will execute <code>b</code> only if <code>a</code> returns failure</li>
+</ol></li>
+</ul></li>
+</ol>
+<h1 id="useful-ros-pages">Useful ROS Pages</h1>
+<ol>
+<li><a href="https://wiki.ros.org/roscpp">Ros C++ API</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials">ROS tutorials</a></li>
+<li><a href="https://wiki.ros.org/urdf">Urdf</a></li>
+<li><a href="https://wiki.ros.org/xacro">Xacro</a></li>
+<li><a href="https://wiki.ros.org/roslaunch">roslaunch</a></li>
+<li><a href="https://wiki.ros.org/roslaunch/XML">Launchfile XML</a></li>
+<li><a href="https://wiki.ros.org/turtlesim">turtlesim</a></li>
+<li><a href="https://docs.ros.org/melodic/api/catkin/html/index.htl">catkin</a></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
