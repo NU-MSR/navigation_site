@@ -204,6 +204,7 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
+  line-height: normal;
 }
 
 .line-block {
@@ -522,10 +523,7 @@ table td {
 </ol>
 <h2 id="task-0.001-making-a-git-repository">Task 0.001 (Making a Git Repository)</h2>
 <ol>
-<li>Create a git repository using the github classroom link (sent separately)
-<ul>
-<li>Name it LastName_FirstName_Navigation</li>
-</ul></li>
+<li>Create a git repository using the github classroom link (sent separately)</li>
 </ol>
 <h2 id="task-0.002-making-a-readme">Task 0.002 (Making a README)</h2>
 <ol>
@@ -677,6 +675,7 @@ table td {
 <li>When <code>turtle_rect</code> starts, lift the pen, teleport the turtle to the rectangle's lower left corner, and put the pen down.
 <ul>
 <li>The node should wait for the appropriate turtlesim service to be available prior to calling the necessary services</li>
+<li>Use a feedforward control strategy: that is, assume that the turtle follows the commands exactly and compute the control inputs that should make the turtle follow the trajectory</li>
 </ul></li>
 <li>After the robot has moved to the lower left corner of the rectangle, publish velocity commands at <code>frequency</code> Hz to <code>cmd_vel</code>.
 <ul>
@@ -686,7 +685,7 @@ table td {
 </ol>
 <h2 id="task-b.002-subscriber-and-service">Task B.002 (subscriber and service)</h2>
 <ol>
-<li>Add a service to <code>turtle_rect</code> called <code>traj_reset</code> that moves the turtle to its original orientation and resumes the trajectory.
+<li>Add a service to <code>turtle_rect</code> called <code>traj_reset</code> that moves the turtle to the lower-left corner of the rectangle and restarts the trajectory.
 <ul>
 <li>You can use a <code>std_srvs/Empty</code> for the service type</li>
 </ul></li>
@@ -713,7 +712,6 @@ table td {
 <li>Make sure the output of <code>turtle_rect</code> is directed to the screen so you can see the messages printed by the subscriber you implement in B.003</li>
 <li>Add a launchfile argument called "plot_gui" that defaults to true. When true, the launchfile should
 <ul>
-<li>Launch the <code>turtle_check</code> node</li>
 <li>Launch <code>rqt_plot~to plot the values of the ~pose_error</code> topic</li>
 <li>Be sure to document this launchfile argument using the "doc" attribute</li>
 </ul></li>
@@ -762,8 +760,8 @@ table td {
 <ol>
 <li>Write a file called <code>main.cpp</code>.
 <ul>
-<li>This program should prompt the user to enter two transforms: <span class="math inline">\(Tab\)</span> and <span class="math inline">\(Tbc\)</span></li>
-<li>It should then compute and output <span class="math inline">\(Tab\)</span>, <span class="math inline">\(Tbc\)</span>, <span class="math inline">\(Tac\)</span>, and <span class="math inline">\(Tca\)</span></li>
+<li>This program should prompt the user to enter two transforms: <span class="math inline">\(T_{ab}\)</span> and <span class="math inline">\(T_{bc}\)</span></li>
+<li>It should then compute and output <span class="math inline">\(T_{ab}\)</span>, <span class="math inline">\(T_{ba}\)</span>, <span class="math inline">\(T_{bc}\)</span>, <span class="math inline">\(T_{cb}\)</span>, <span class="math inline">\(T_{ac}\)</span>, and <span class="math inline">\(T_{ca}\)</span></li>
 <li>Next the program should prompt the user to enter a vector <span class="math inline">\(v\)</span> and the frame in which it is defined (either 'a', 'b', or 'c').</li>
 <li>It should then output the vector in frames 'a', 'b', and 'c'</li>
 </ul></li>
@@ -811,7 +809,7 @@ table td {
 <ol>
 <li>Test your program to see if it works.
 <ul>
-<li>Include a test where both <span class="math inline">\(Tab\)</span> and <span class="math inline">\(Tbc\)</span> include rotation and translation and <span class="math inline">\(v\)</span> is entered in frame <span class="math inline">\(c\)</span></li>
+<li>Include a test where both <span class="math inline">\(T_ab\)</span> and <span class="math inline">\(T_bc\)</span> include rotation and translation and <span class="math inline">\(v\)</span> is entered in frame <span class="math inline">\(c\)</span></li>
 </ul></li>
 <li>Store the input used for the test described above called <code>test1_input.txt</code> and include in your git repository</li>
 <li>Store the expected output from the test described above called <code>test1_answer.txt</code> and include in your git repository</li>
@@ -824,7 +822,7 @@ table td {
 <li>Hints:
 <ol>
 <li>Running the test and completing the comparison can be (but need not) be completed in one line of bash</li>
-<li><code>cmp -s - file</code> will compare file with <code>stdin</code> and return success (0) if they match and failure (1) if they don't</li>
+<li><code>cmp -s - file</code> will compare <code>file</code> with <code>stdin</code> and return success (0) if they match and failure (1) if they don't</li>
 <li><code>a | b</code> sends the <code>stdout</code> of <code>a</code> into the <code>stdin</code> of <code>b</code></li>
 <li><code>a &lt; file</code> will direct contents of <code>file</code> into the <code>stdin</code> of program <code>a</code></li>
 <li><code>a &amp;&amp; b</code> will execute <code>b</code> only if <code>a</code> returns successfully</li>
