@@ -586,12 +586,14 @@ A.004
 <h2 id="ros">ROS</h2>
 <ol>
 <li><code>catkin_lint -W2</code> warning/error/problem</li>
-<li>Failing to adhere to the following package layout guidelines:
+<li>Failing to adhere to the following package layout guidelines: (note: if you have no files that fit in a given category, you do not need the corresponding directory)
 <ul>
 <li><code>config/</code> Contains <code>.yaml</code> and <code>.rviz</code> files</li>
 <li><code>launch/</code> Contains <code>.launch</code> files</li>
 <li><code>urdf/</code> Contains <code>.xacro</code>, <code>.urdf</code>, and <code>.gazebo</code> files (but not if they are generated at runtime).</li>
 <li><code>src/</code> Contains the source code for your ROS nodes</li>
+<li><code>msg/</code> Contains message files</li>
+<li><code>srv/</code> Contains service files</li>
 </ul></li>
 <li>Launchfile results in errors due to code in one of your packages. (<strong>Automatic Zero for Task</strong>)</li>
 <li>Launchfile results in warnings due to code in one of your packages.</li>
