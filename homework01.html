@@ -751,11 +751,17 @@ public:
 <li>Write a launchfile called <code>turtle_odom.launch</code> that runs
 <ul>
 <li>The <code>turtle_way</code> node (via <code>turtle_pent.launch</code>),</li>
-<li><code>rviz</code>, with the fixed frame being called <code>odom</code></li>
-<li><code>fake_odom</code>, which reads <code>cmd_vel</code> being sent to the turtle from <code>turtle_way</code></li>
+<li><code>rviz</code>, with the fixed frame being called <code>odom</code>
+<ul>
+<li>tf frames should be displayed, as should your <code>diff_drive.urdf.xacro</code> robot from Task A.</li>
+</ul></li>
+<li><code>fake_odom</code> should run, reading <code>cmd_vel</code> being sent to the turtle from <code>turtle_way</code> and publishing fake joint_states</li>
 <li><code>rigid2d/odometer</code> This node should read the fake odometry data and publish the appropriate odometry transforms</li>
 </ul></li>
-<li>You should see the robot moving and following a trajectory in <code>rviz</code> that mimics the turtlesim trajectory, based on the fake odometry data</li>
+<li>You should see your differential drive robot moving and following a trajectory in <code>rviz</code> that mimics the turtlesim trajectory, based on the fake odometry data
+<ul>
+<li>You will need to set parameters to <code>rigid2d/odometer</code> appropriately to make this work properly</li>
+</ul></li>
 </ol>
 </div>
 <div class="footer">
