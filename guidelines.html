@@ -476,6 +476,7 @@ table td {
 <ul>
 <li><a href="#git">Git</a></li>
 <li><a href="#c">C++</a></li>
+<li><a href="#added-on-week-2">Added on Week 2</a></li>
 <li><a href="#ros">ROS</a></li>
 </ul></li>
 </ul>
@@ -583,20 +584,32 @@ A.004
 </code></pre></li>
 <li><p>Classes should have a <code>doxygen</code> comment block describing what the class does. You should also provide comments for private members, where appropriate</p></li>
 </ol>
+<h2 id="added-on-week-2">Added on Week 2</h2>
+<ol>
+<li>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Werror</code></li>
+</ol>
 <h2 id="ros">ROS</h2>
 <ol>
-<li><code>catkin_lint -W2</code> warning/error/problem</li>
+<li><code>catkin_lint -W2</code> warning/error/problem
+<ul>
+<li>You can ignore some notice level warnings (these are only shown with -W2)</li>
+</ul></li>
 <li>Failing to adhere to the following package layout guidelines: (note: if you have no files that fit in a given category, you do not need the corresponding directory)
 <ul>
 <li><code>config/</code> Contains <code>.yaml</code> and <code>.rviz</code> files</li>
 <li><code>launch/</code> Contains <code>.launch</code> files</li>
 <li><code>urdf/</code> Contains <code>.xacro</code>, <code>.urdf</code>, and <code>.gazebo</code> files (but not if they are generated at runtime).</li>
 <li><code>src/</code> Contains the source code for your ROS nodes</li>
+<li><code>src/</code> Contains the source code for your ROS nodes</li>
 <li><code>msg/</code> Contains message files</li>
 <li><code>srv/</code> Contains service files</li>
+<li><code>include/pkgname</code> Public headers, if you are treating your package as a single "library"</li>
+<li><code>tests/</code> Unit tests and test scripts</li>
 </ul></li>
 <li>Launchfile results in errors due to code in one of your packages. (<strong>Automatic Zero for Task</strong>)</li>
 <li>Launchfile results in warnings due to code in one of your packages.</li>
+<li>Launchfile arguments should have a <code>doc</code> attribute to explain their use (<strong>Automatic Zero for Task</strong>)</li>
+<li>Any <code>package.xml</code> files should be kept up-to-date with the proper dependencies, a description, and author information</li>
 </ol>
 </div>
 <div class="footer">

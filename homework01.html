@@ -1,0 +1,768 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 01</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#task-group-0-preliminaries">Task Group 0 (Preliminaries)</a>
+<ul>
+<li><a href="#task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</a></li>
+</ul></li>
+<li><a href="#task-c-c-and-rigid-transforms">Task C (C++ and Rigid Transforms)</a>
+<ul>
+<li><a href="#task-c.005-rosifying-rigid2d">Task C.005 (ROSifying rigid2d)</a></li>
+<li><a href="#task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</a></li>
+<li><a href="#task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</a></li>
+<li><a href="#task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</a></li>
+<li><a href="#task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</a></li>
+<li><a href="#task-c.010-normalize-angle-it-may-be-useful">Task C.010 (Normalize angle, it may be useful)</a></li>
+</ul></li>
+<li><a href="#task-group-e-kinematics">Task Group E (Kinematics)</a>
+<ul>
+<li><a href="#task-e.000-math">Task E.000 (Math)</a></li>
+<li><a href="#task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</a></li>
+<li><a href="#task-e.002-unit-test-diff_drive">Task E.002 (Unit Test diff_drive)</a></li>
+<li><a href="#task-e.003-waypoints">Task E.003 (Waypoints)</a></li>
+<li><a href="#task-e.004-odometry-node">Task E.004 (Odometry Node)</a></li>
+</ul></li>
+<li><a href="#task-group-b-turtle-sim">Task Group B (Turtle Sim)</a>
+<ul>
+<li><a href="#task-b.005-turtle-waypoints">Task B.005 (Turtle Waypoints)</a></li>
+<li><a href="#task-b.006-fake-odometry">Task B.006 (Fake Odometry)</a></li>
+<li><a href="#task-b.006-turtle-odometry">Task B.006 (Turtle Odometry)</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 01</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="task-group-0-preliminaries">Task Group 0 (Preliminaries)</h1>
+<h2 id="task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</h2>
+<ol>
+<li>All C++ code from hereon out should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Werror</code>
+<ul>
+<li>If you are asked to modify or add to code in a package that already exists, you should update the <code>CMakeLists.txt</code> file accordingly</li>
+</ul></li>
+</ol>
+<h1 id="task-c-c-and-rigid-transforms">Task C (C++ and Rigid Transforms)</h1>
+<h2 id="task-c.005-rosifying-rigid2d">Task C.005 (ROSifying rigid2d)</h2>
+<ol>
+<li>Turn the rigid2d library into a ROS package
+<ul>
+<li>Move the <code>rigid2d.hpp</code> into the <code>include/rigid2d</code> subdirectory and add <code>include</code> to your include file paths in <code>CMakeLists.txt</code> so you can <code>#include"rigid2d/rigid2.hpp"</code> in files where you need to use it</li>
+<li>Move <code>rigid2d.cpp</code> into the <code>src/rigid2d</code> directory: this source file is to be a module in the library</li>
+<li>Rename <code>main.cpp</code> to <code>rigid2d_node.cpp</code> into <code>src</code> and compile this file as a regular ROS node called <code>node</code>.</li>
+</ul></li>
+<li>Be sure to update the compiler flags to use <code>c++17</code> and <code>-Wall</code> and <code>-Werror</code> in <code>CMakeLists.txt</code></li>
+<li>You should delete the executable you compiled (rigid2d_test), if it is still present</li>
+<li>After making this change, recompile and re-run the tests you implemented in <code>C.004</code>
+<ul>
+<li>You will now invoke the program using <code>rosrun rigid2d rigid2d_node</code></li>
+</ul></li>
+<li>For the time being, we will be using this library as a catch-all for code that is generically useful.
+<ul>
+<li>For example, for any future projects that need a definition of PI, we can use <code>rigid2d::PI</code></li>
+</ul></li>
+</ol>
+<h2 id="task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</h2>
+<ol>
+<li>Add unit tests to the rigid2d library
+<ul>
+<li>The tests should run when using <code>catkin_make run_tests</code></li>
+<li>There should be at least one test per public method or function method of <code>Transform2D</code>
+<ul>
+<li>This includes the public members and <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> and <code>operator*</code></li>
+<li>You may find <code>std::stringstream</code> useful when testing <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> (see <a href="https://en.cppreference.com/w/cpp/io/basic_stringstream">stringstream</a>. Note that <code>stringstream</code> is a type alias for <code>basic_stringstream&lt;char&gt;</code></li>
+</ul></li>
+<li>Tests with floating point results can use <a href="https://github.com/google/googletest/blob/master/googletest/docs/advanced.md">Floating Point Comparison</a> assertions.</li>
+</ul></li>
+</ol>
+<h2 id="task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</h2>
+<ol>
+<li>Add a <code>Twist2D</code> datatype to the <code>rigid2d</code> library
+<ul>
+<li>include an <code>operator&lt;&lt;</code> to output it</li>
+</ul></li>
+<li>Add an overload for <code>operator()</code> to <code>Transform2D</code> that converts a twist from one reference frame to another
+<ul>
+<li>Hint: use the adjoint</li>
+</ul></li>
+<li>Add a function called <code>displacement</code> that returns the x, y, and theta values from your transform</li>
+</ol>
+<h2 id="task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</h2>
+<ol>
+<li>Write a function called <code>integrateTwist</code> to compute the transformation corresponding to a rigid body following a constant twist for one time unit.</li>
+<li>Include unit tests for this function</li>
+</ol>
+<h2 id="task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</h2>
+<ol>
+<li>Add the following operations to Vector2D (referring to <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">Operator Overloading Rules</a>
+<ul>
+<li>operator+= and operator+ (perform basic vector addition)</li>
+<li>operator-= and operator- (perform basic vector subtraction)</li>
+<li>operator*= and operator* (perform SCALAR multiplication)
+<ul>
+<li>Be careful with this, remember scalar multiplication is valid from the left or the right</li>
+</ul></li>
+<li>length(Vector2D) (computer the length of the vector)</li>
+<li>distance(Vector2D, Vector2D) (compute the distance between the two vectors</li>
+<li>angle(Vector2D) (compute the angle of the vector)</li>
+<li>Note: some of these changes affect what functions the compiler generates for us, therefore we need to add
+<ul>
+<li>A constructor that takes two doubles (x and y)</li>
+</ul></li>
+<li>A default constructor that creates a zero vector.</li>
+</ul></li>
+<li>Write unit tests for each of the operations you added.</li>
+</ol>
+<h2 id="task-c.010-normalize-angle-it-may-be-useful">Task C.010 (Normalize angle, it may be useful)</h2>
+<ol>
+<li>Add a function <code>constexpr double normalize_angle(double rad)</code> that turns any angle into the equivalent one between -Pi and Pi</li>
+<li>Write some static assertions to test this function</li>
+</ol>
+<h1 id="task-group-e-kinematics">Task Group E (Kinematics)</h1>
+<p>Task E is related to the Kinematics of wheeled mobile robots. You can add these files to the <code>rigid2d</code> library. You will likely not be able to complete these tasks until all of Task C is complete.</p>
+<h2 id="task-e.000-math">Task E.000 (Math)</h2>
+<ol>
+<li>This task may require you to perform some mathematical calculations. Show all your derivations in a file called <code>Kinematics.pdf</code> in the <code>doc</code> folder of the <code>rigid2d</code> package.
+<ul>
+<li>How you generate the documentation is up to you (latex, scanned hand-written notes, etc.)</li>
+<li>Refer to your notes in your code, using comments to explain the origin of the mathematical expressions you use (labeling equations with numbers helps)</li>
+</ul></li>
+</ol>
+<h2 id="task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</h2>
+<ol>
+<li><p>Create a <code>DiffDrive</code> class in <code>rigid2d</code>. The header file is called <code>diff_drive.hpp</code> and implementation file is called <code>diff_drive.cpp</code></p>
+<ul>
+<li>This class will track the state of a differential drive robot as its wheel positions are updated</li>
+<li>The class should be in the <code>rigid2d</code> namespace</li>
+</ul></li>
+<li><p>I've provided a partial pseudocode version of <code>diff_drive.hpp</code> below. You should use this as a guide to implement the required functionality (so fill in the missing pieces in the header and implement the class). Note that the code, as presented is not valid C++ code.</p>
+<pre><code>class DiffDrive
+{
+public:
+    /// \brief the default constructor creates a robot at (0,0,0), with a fixed wheel base and wheel radius
+    DiffDrive()
+
+    /// \brief create a DiffDrive model by specifying the pose, and geometry
+    ///
+    /// \param pose - the current position of the robot
+    /// \param wheel_base - the distance between the wheel centers
+    /// \param wheel_radius - the raidus of the wheels
+    DiffDrive(
+
+    /// \brief determine the wheel velocities required to make the robot
+    ///        move with the desired linear and angular velocities
+    /// \param twist - the desired twist in the body frame of the robot
+    /// \returns - the wheel velocities to use
+    /// \throws std::exception
+    WheelVelocities twistToWheels(
+
+    /// \brief determine the body twist of the robot from its wheel velocities
+    /// \param vel - the velocities of the wheels, assumed to be held constant
+    ///  for one time unit
+    /// \returns twist in the original body frame of the
+    wheelsToTwist(WheelVelocities vel
+
+    /// \brief Update the robot&#39;s odometry based on the current encoder readings
+    /// \param left - the left encoder angle (in radians)
+    /// \param right - the right encoder angle (in radians)
+    /// \return the velocities of each wheel, assuming that they have been
+    /// constant since the last call to updateOdometry
+    WheelVelocities updateOdometry
+
+    /// \brief update the odometry of the diff drive robot, assuming that
+    /// it follows the given body twist for one time  unit
+    /// \param cmd - the twist command to send to the robot
+    void feedforward(
+
+    /// \brief get the current pose of the robot
+    Twist2D pose()
+
+    /// \brief get the wheel speeds, based on the last encoder update
+    WheelVelocities wheelVelocities() const
+
+    /// \brief reset the robot to the given position/orientation
+    void reset(Twist2D ps);
+};
+
+</code></pre></li>
+</ol>
+<h2 id="task-e.002-unit-test-diff_drive">Task E.002 (Unit Test diff_drive)</h2>
+<ol>
+<li>Write unit tests for diff_drive. Be sure to verify that odometry works in the following cases
+<ul>
+<li>twistToWheels works</li>
+<li>wheelsToTwist works</li>
+<li>feedforward and updateOdometry updated properly when moving straight</li>
+<li>feedforward and updateOdometry updated properly when turning</li>
+<li>feedforward and updateOdometry updated properly when translating and turning</li>
+<li>NOTE: When I did this problem unit testing was extremely helpful for debugging</li>
+<li>The key is to think of simple tests where you know what the answer should be</li>
+</ul></li>
+</ol>
+<h2 id="task-e.003-waypoints">Task E.003 (Waypoints)</h2>
+<ol>
+<li>Create a module called <code>waypoints.hpp</code> and <code>waypoints.cpp</code> in the <code>rigid2d</code> namespace
+<ul>
+<li>Make a class called <code>Waypoints</code> that helps you calculate a sequence of forward and angular velocities required for a robot to travel between the waypoints</li>
+</ul></li>
+<li>The design is up to you as long as it meets the following constraints
+<ul>
+<li>The waypoints should be provided as an <code>std::vector&lt;Vector2D&gt;</code></li>
+<li>When the robot reaches the last waypoint, it should continue toward the first one</li>
+<li>Rather than pre-computing a whole trajectory, there should be a method called <code>nextWaypoint</code> to get the next velocity.</li>
+<li>Use the <code>DiffDrive</code> class to model the robot movement</li>
+</ul></li>
+<li>Example: Suppose I am sending 1 velocity command every 0.1 seconds.
+<ul>
+<li>Every 0.1 seconds, I should call <code>nextWaypoint</code>: this is the velocity that will be used to move the robot toward the waypoint</li>
+<li>Waypoints adjusts its belief in the current position of the robot based on it following the given velocity command for 0.1 second</li>
+</ul></li>
+<li>Hint: it might make sense to adopt a turn and translate strategy:
+<ol>
+<li>turn toward the next waypoint until heading is within a threshold</li>
+<li>travel to waypoint until you reach it, then target the next waypoint</li>
+</ol></li>
+</ol>
+<h2 id="task-e.004-odometry-node">Task E.004 (Odometry Node)</h2>
+<p>This tasks is to create a node that publishes Odometry messages in a standard ROS way. A guide to Odometry in ros can be found <a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom">here</a></p>
+<ol>
+<li>Write a node called <code>odometer</code> (in the <code>rigid2d</code> package) that subscribes to <code>sensor_msgs/JointState</code> on the <code>joint_states</code> topic</li>
+<li>The node should have private parameters:
+<ul>
+<li><code>odom_frame_id</code>: The name of the odometry tf frame</li>
+<li><code>body_frame_id</code>: The name of the body tf frame</li>
+<li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
+<li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
+</ul></li>
+<li>Every time the node receives a <code>JointState</code> message it should:
+<ol>
+<li>Update its internal odometry state (perhaps using DiffDrive)</li>
+<li>Publish a <a href="https://docs.ros.org/melodic/api/nav_msgs/html/msg/Odemetry.html">nav_msgs/Odometry</a> message
+<ul>
+<li>You do not need to fill out any covariance information (all covariance can be set to zero)</li>
+<li>The pose should be specified in the odom_frame_id frame (this is the nav_msgs/Odometry/header/frame_id)</li>
+<li>The velocity will be specified as the body velocity of the robot in the body_frame_id (this is nav_msgs/Odometry/child_frame_id)</li>
+</ul></li>
+<li>Broadcast the transform between <code>odom_frame_id</code> and the <code>body_frame_id</code> on <code>/tf</code> (use a <code>tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a>)</li>
+</ol></li>
+</ol>
+<h1 id="task-group-b-turtle-sim">Task Group B (Turtle Sim)</h1>
+<h2 id="task-b.005-turtle-waypoints">Task B.005 (Turtle Waypoints)</h2>
+<ol>
+<li>Write a new node called <code>turtle_way</code> in the tsim package that has the turtle follow a trajectory of user-specified waypoints
+<ul>
+<li>The waypoint x coordinates are specified in the <code>waypoint_x</code> parameter</li>
+<li>The waypoint y coordinates are specified in the <code>waypoint_y</code> parameter</li>
+<li>The node should also subscribe to <code>turtle/pose</code> and compute the error between its actual and expected trajectory
+<ul>
+<li>For this task, the trajectory must be computed without knowledge of the pose.</li>
+</ul></li>
+<li>As in <code>turtle_rect</code>, the turtle should pick its pen up, teleport to the first waypoint, and put its pen down and</li>
+<li>The robot can publish velocity commands at a fixed rate of <code>60Hz</code></li>
+<li>The robot has a fixed max forward velocity of 0.5 m/s and rotational velocity 0.5 rad/s</li>
+</ul></li>
+<li>Write a launchfile called <code>turtle_pent.launch</code> that uses <code>turtle_way</code> to make a simulated turtle traverse a pentagonal trajectory</li>
+<li>You may re-use as much code from the previous assignment as you want</li>
+</ol>
+<h2 id="task-b.006-fake-odometry">Task B.006 (Fake Odometry)</h2>
+<ol>
+<li>Write a new node called <code>fake_odom</code>
+<ul>
+<li>The node subscribes to <code>geometry_msgs/Twist</code> messages on <code>cmd_vel</code>. Assume that, once a <code>cmd_vel</code> is received, the turtle follows that velocity until the next <code>cmd_vel</code> command</li>
+<li>When a <code>cmd_vel</code> is received, publish fake joint state data on <code>joint_states</code> for <code>left_wheel</code> and <code>right_wheel</code> assuming that the turtle had been moving at the previously received <code>cmd_vel</code> for the whole time period.</li>
+</ul></li>
+</ol>
+<h2 id="task-b.006-turtle-odometry">Task B.006 (Turtle Odometry)</h2>
+<ol>
+<li>Write a launchfile called <code>turtle_odom.launch</code> that runs
+<ul>
+<li>The <code>turtle_way</code> node (via <code>turtle_pent.launch</code>),</li>
+<li><code>rviz</code>, with the fixed frame being called <code>odom</code></li>
+<li><code>fake_odom</code>, which reads <code>cmd_vel</code> being sent to the turtle from <code>turtle_way</code></li>
+<li><code>rigid2d/odometer</code> This node should read the fake odometry data and publish the appropriate odometry transforms</li>
+</ul></li>
+<li>You should see the robot moving and following a trajectory in <code>rviz</code> that mimics the turtlesim trajectory, based on the fake odometry data</li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

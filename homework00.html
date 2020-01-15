@@ -667,19 +667,20 @@ table td {
 <li><code>y</code> - The y coordinate of the lower left corner of a rectangle</li>
 <li><code>width</code> - The width of the rectangle</li>
 <li><code>height</code> - The height of the rectangle</li>
-<li><code>trans_vel</code> - The translational velocity of the robot</li>
-<li><code>rot_vel</code> - The rotational velocity of the robot</li>
+<li><code>trans_vel</code> - The maximum translational velocity of the robot</li>
+<li><code>rot_vel</code> - The maximum rotational velocity of the robot</li>
 <li><code>frequency</code> - The frequency of the control loop</li>
 <li>Be sure to document these parameters in the comments in the <code>.yaml</code> file.</li>
 </ul></li>
 <li>When <code>turtle_rect</code> starts, lift the pen, teleport the turtle to the rectangle's lower left corner, and put the pen down.
 <ul>
 <li>The node should wait for the appropriate turtlesim service to be available prior to calling the necessary services</li>
-<li>Use a feedforward control strategy: that is, assume that the turtle follows the commands exactly and compute the control inputs that should make the turtle follow the trajectory</li>
 </ul></li>
 <li>After the robot has moved to the lower left corner of the rectangle, publish velocity commands at <code>frequency</code> Hz to <code>cmd_vel</code>.
 <ul>
 <li>The <code>turtle_node</code> from the <code>turtlesim</code> package should use this topic to receive its velocity commands</li>
+<li>Use a feedforward control strategy: that is, assume that the turtle follows the commands exactly and compute the control inputs that should make the turtle follow the trajectory</li>
+<li>You should NOT use any information received via a subscriber in your control law</li>
 </ul></li>
 <li>Hint: You may wish to use a state machine to transition between each leg of the trajectory</li>
 </ol>
