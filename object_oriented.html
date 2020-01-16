@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Mobile Robot Kinematics</title>
+<title>C++, ROS Nodes, and You</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,13 +466,11 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#digression">Digression</a></li>
-<li><a href="#single-wheel-no-slip">Single Wheel, No Slip</a></li>
-<li><a href="#holonomic-nonholonomic">Holonomic, Nonholonomic</a></li>
-<li><a href="#steered-car-example">Steered Car Example</a></li>
-<li><a href="#differential-flatness">Differential Flatness</a></li>
-<li><a href="#odometry">Odometry</a></li>
-<li><a href="#some-ros-conventions">Some ROS Conventions:</a></li>
+<li><a href="#warning">Warning</a></li>
+<li><a href="#classes-and-objects">Classes and Objects</a></li>
+<li><a href="#why-use-classes">Why Use Classes</a></li>
+<li><a href="#some-ros-uses-of-classes">Some ROS uses of classes</a></li>
+<li><a href="#my-suggestion">My Suggestion</a></li>
 </ul>
 </nav>
 
@@ -484,36 +482,142 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Mobile Robot Kinematics</h1>
+<h1 class="title">C++, ROS Nodes, and You</h1>
 </header>
 
 <!-- The main content of the file -->
-<p>Lecture on Kinematics: See diff<sub>drivekinematics</sub>.tex but use a different example. Define reference frames:</p>
-<p>Each rigid body gets a frame. Each wheel gets a frame. There is a world frame.</p>
-<p>Next, define the transforms between the frames: The variables from the world frame to the body frame become the state of the robot.</p>
-<p>Next, write the twist at each wheel. For conventional wheels, the twist is angular velocity is the same as the angular velocity of the body (since the wheel is point contact, it can rotate in place. x velocity is based on the wheel spinning without slipping y velocity is 0 no slipping to the side.</p>
-<p>Using adjoints, write the wheel twists in the body frame and set the equations equal to each other These are your kinematic equations, that should be solved</p>
-<h2 id="digression">Digression</h2>
-<p>Deriving the adjoint in 2D:</p>
-<p>Rotation in 2d is always about positive z axis, this means that in any frame the angular component of the rotation is the same. Activity to see this: two pieces of paper, draw several lines of different directions, match them up on both pages. Stack the paper on top of each other. Then, rotate the top paper about any point. Notice that all lines have rotated from there original ones by the same angle. Do the rotation again, by the same amount but by a different point. Notice all lines have rotated by same angle. Note however, the displacement is different.</p>
-<p>FOr linear velocity: If you translate the sheet of paper X distance in T time, notice that all points move by the same distance, hence this linear velocity is a component. Note that if the coordinate system at the target point is rotated then thse velocities should be rotated as well.</p>
-<p>Angular velocity on linear effect: Rotate the paper about a point. Notice that a point in the positive y direction moves in the -x direction, proportional to how high above it is</p>
-<p>Notice that a point in the positive x direction moves in the y direction, proportional to how far it is.</p>
-<h1 id="single-wheel-no-slip">Single Wheel, No Slip</h1>
+<h1 id="warning">Warning</h1>
+<p>These notes are evolving…</p>
+<h1 id="classes-and-objects">Classes and Objects</h1>
 <ul>
-<li>What does it mean "not to slip" Zero relative velocity between wheel contact point and the ground.</li>
+<li>A class is a description of data and the functions that operate on it</li>
+<li>An object is an instance of a class: it is a specific piece of memory containing values corresponding to the members of the class</li>
 </ul>
-<h1 id="holonomic-nonholonomic">Holonomic, Nonholonomic</h1>
-<h1 id="steered-car-example">Steered Car Example</h1>
-<h1 id="differential-flatness">Differential Flatness</h1>
-<h1 id="odometry">Odometry</h1>
-<p>Odometry as a measure of the control</p>
-<h1 id="some-ros-conventions">Some ROS Conventions:</h1>
+<h1 id="why-use-classes">Why Use Classes</h1>
 <ol>
-<li>The forward direction of the vehicle is the x axis of that vehicle's frame.</li>
-<li>Where applicable, it is easiest to have the y axis of the vehicle's frame aligned with at least one wheel axis.</li>
-<li>The axis of a wheel is the y axis and the x axis is the primary rolling direction.</li>
+<li>Hide the state of the system into manageable pieces
+<ul>
+<li>Private class members are inaccessible outside a class</li>
+<li>Thus, code elsewhere can't change the values</li>
+<li>Thus, if the class is correct, the object will always be in a proper state</li>
+<li>So, classes can be used to enforce <em>invariants</em> or constraints in your program</li>
+<li>Once a class is created, you know that its state is ALWAYS valid and CANNOT be changed to an invalid state by another part of the program
+<ul>
+<li>If your class does not satisfy the above it either has a bug or a fundamental design flaw.</li>
+</ul></li>
+<li>This is why we prefer <em>const</em> members functions to <em>non-const</em> (a <em>const</em> member function can't change state and accidently invalidate a class</li>
+<li>This is why we prefer non-members to members
+<ul>
+<li>non-members only need to change when the public interface to the class changes</li>
+</ul></li>
+<li>Example of invariants</li>
+</ul></li>
+<li>A class defines a new <em>type</em> in the C++ language
+<ul>
+<li><em>types</em> are descriptions of variables</li>
+<li>Without specific conversion operations/type casting, one datatype cannot be used where another one is called for
+<ul>
+<li>assignment</li>
+<li>parameter passing</li>
+</ul></li>
+<li>The C++ compiler knows the type of each variable and can use this information to help you
+<ul>
+<li><p>Since C++11 the <em>auto</em> keyword enables the compiler to infer the type of a variable: for example:</p>
+<pre><code>vector&lt;double&gt; some_fun() {...}
+auto xvec = some_fun();
+
+// lets throw in a c++11 style foreach loop
+for(auto d : xvec)
+{
+}
+</code></pre></li>
+</ul>
+<ul>
+<li>See <a href="https://herbsutter.com/2013/08/12/gotw-94-solution-aaa-style-almost-always-auto/">Almost Always Auto</a></li>
+<li>Types can be used to get the compiler to enforce invariants at compile time
+<ul>
+<li>For example, in an extreme case, you could define separate classes for inches and gallons.</li>
+<li>With operator overloading, they would behave like regular floats</li>
+<li>But, with proper design, you could never accidently add inches and gallons as that is a non-sensical quantity This is due to types being enforced by the compiler</li>
+</ul></li>
+</ul></li>
+</ul></li>
 </ol>
+<h1 id="some-ros-uses-of-classes">Some ROS uses of classes</h1>
+<ul>
+<li><p>Some of you have seen the following pattern</p>
+<pre><code>class MyNode
+{
+    MyNode():
+      NodeHandle()
+    {
+       // setup publishers
+       // setup subscribers
+    }
+
+    callback1()
+    callback2()
+
+    private:
+    all the data 
+
+}
+
+int main()
+{
+   ros::init ...
+   MyNode()
+   ros::spin()
+   return 0
+}
+</code></pre></li>
+<li><p>There is nothing inherently wrong with this, especially with small nodes</p></li>
+<li><p>But, there is also not really much benefit</p></li>
+<li><p>The class is designed to be used once (so no reusability)</p></li>
+<li><p>There are no global variables, but the private members of the class are effectively the same thing</p></li>
+<li><p>The sate of your node is now tightly coupled to ROS subscribers and handlers</p></li>
+<li><p>There is extra syntactic clutter and complication</p></li>
+<li><p>It has the advantage that if you put the class in a header file, you could theoretically use it in more than one place</p></li>
+</ul>
+<h1 id="my-suggestion">My Suggestion</h1>
+<ol>
+<li>In C++ in your main ROS file, it is okay to have <code>static</code> global variables to manage the state of your system between callbacks
+<ul>
+<li>such variables cannot be seen outside the specific c++ file</li>
+</ul></li>
+<li>You can then write your callbacks as regular functions at file scope</li>
+<li>Do most of the procedural work of setting up the node in <code>main()</code></li>
+<li>If you start accumulating too many <code>static</code> global variables, define some classes to manage the state of the system
+<ul>
+<li>If these classes do not incorporate ROS handles, publishers etc, then you are much more quickly on your way to writing more generic code that is not tied to ROS as directly</li>
+</ul></li>
+<li>This method is even better if you want to have a main loop to publish messages or anything similar to that rather than just spinning and having your work done in timers.</li>
+<li>You can often do this without needing to share NodeHandles, publishers, or subscribers with the callbacks
+<ul>
+<li>Callbacks change state, main loop handles the transitions</li>
+</ul></li>
+</ol>
+<pre><code>static bool reset = false;
+
+void reset_callback1()
+{
+    reset = true;
+}
+
+int main()
+{
+   setup_publishers_etc
+   while()
+   {
+      if(reset)
+      {
+         initialize()
+         reset = false;
+       }
+   }
+}
+
+</code></pre>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

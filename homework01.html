@@ -486,11 +486,11 @@ table td {
 <li><a href="#task-e.002-unit-test-diff_drive">Task E.002 (Unit Test diff_drive)</a></li>
 <li><a href="#task-e.003-waypoints">Task E.003 (Waypoints)</a></li>
 <li><a href="#task-e.004-odometry-node">Task E.004 (Odometry Node)</a></li>
+<li><a href="#task-e.005-fake-odometry">Task E.005 (Fake Odometry)</a></li>
 </ul></li>
 <li><a href="#task-group-b-turtle-sim">Task Group B (Turtle Sim)</a>
 <ul>
 <li><a href="#task-b.005-turtle-waypoints">Task B.005 (Turtle Waypoints)</a></li>
-<li><a href="#task-b.006-fake-odometry">Task B.006 (Fake Odometry)</a></li>
 <li><a href="#task-b.006-turtle-odometry">Task B.006 (Turtle Odometry)</a></li>
 </ul></li>
 </ul>
@@ -720,6 +720,15 @@ public:
 <li>Broadcast the transform between <code>odom_frame_id</code> and the <code>body_frame_id</code> on <code>/tf</code> (use a <code>tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a>)</li>
 </ol></li>
 </ol>
+<h2 id="task-e.005-fake-odometry">Task E.005 (Fake Odometry)</h2>
+<ol>
+<li>Write a new node called <code>fake_diff_encoders</code>
+<ul>
+<li>The node subscribes to <code>geometry_msgs/Twist</code> messages on <code>cmd_vel</code>. Assume that, once a <code>cmd_vel</code> is received, the robot follows that velocity until the next <code>cmd_vel</code> command</li>
+<li>When a <code>cmd_vel</code> is received, publish fake joint state data on <code>joint_states</code> for <code>left_wheel</code> and <code>right_wheel</code> assuming that a differential drive robot had been moving at the previously received <code>cmd_vel</code> for the whole time period.</li>
+<li>The node should take in <code>wheel_base</code> and <code>wheel_radius</code> as parameters</li>
+</ul></li>
+</ol>
 <h1 id="task-group-b-turtle-sim">Task Group B (Turtle Sim)</h1>
 <h2 id="task-b.005-turtle-waypoints">Task B.005 (Turtle Waypoints)</h2>
 <ol>
@@ -730,21 +739,18 @@ public:
 <li>The node should also subscribe to <code>turtle/pose</code> and compute the error between its actual and expected trajectory
 <ul>
 <li>For this task, the trajectory must be computed without knowledge of the pose.</li>
+<li>The error should be published on <code>/pose_error</code></li>
 </ul></li>
 <li>As in <code>turtle_rect</code>, the turtle should pick its pen up, teleport to the first waypoint, and put its pen down and</li>
 <li>The robot can publish velocity commands at a fixed rate of <code>60Hz</code></li>
-<li>The robot has a fixed max forward velocity of 0.5 m/s and rotational velocity 0.5 rad/s</li>
+<li>The robot has a maximum forward velocity of 0.5 m/s and rotational velocity 0.5 rad/s</li>
 </ul></li>
 <li>Write a launchfile called <code>turtle_pent.launch</code> that uses <code>turtle_way</code> to make a simulated turtle traverse a pentagonal trajectory</li>
-<li>You may re-use as much code from the previous assignment as you want</li>
-</ol>
-<h2 id="task-b.006-fake-odometry">Task B.006 (Fake Odometry)</h2>
-<ol>
-<li>Write a new node called <code>fake_odom</code>
+<li>You should also run rqt_plot to plot the error in <code>rqt_plot</code>
 <ul>
-<li>The node subscribes to <code>geometry_msgs/Twist</code> messages on <code>cmd_vel</code>. Assume that, once a <code>cmd_vel</code> is received, the turtle follows that velocity until the next <code>cmd_vel</code> command</li>
-<li>When a <code>cmd_vel</code> is received, publish fake joint state data on <code>joint_states</code> for <code>left_wheel</code> and <code>right_wheel</code> assuming that the turtle had been moving at the previously received <code>cmd_vel</code> for the whole time period.</li>
+<li>Include a screenshot of the error for a full pentagon cycle.</li>
 </ul></li>
+<li>You may re-use as much code from the previous assignment as you want</li>
 </ol>
 <h2 id="task-b.006-turtle-odometry">Task B.006 (Turtle Odometry)</h2>
 <ol>
