@@ -886,12 +886,14 @@ table td {
 <li>Reads waypoints from the parameter server (<code>waypoint_x</code> and <code>waypoint_y</code>)</li>
 <li>Reads the required velocity characteristics (such as <code>max_trans_velocity</code>) from the parameter server
 <ul>
-<li>Also take an argument or parameter called <code>frac_vel</code> that is the fraction of the max speed for turning or driving</li>
+<li>Also take an argument or parameter called <code>frac_vel</code> that is the fraction of the max speed for turning or driving.</li>
+<li>You may traverse the waypoints with <code>frac_vel &lt; 1.0</code></li>
 </ul></li>
 <li>Puts a persistent marker in <code>rviz</code> at the location of each waypoint (latched publisher may be useful here)
 <ul>
 <li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Basic%20Shapes">Marker Tutorial</a></li>
 <li>HINT: The markers are drawn by publishing; however, if <code>rviz</code> has not started they will not be drawn, Therefore, you may want to draw the waypoint markers only upon calling the <code>start</code> service</li>
+<li>HINT: It will be helpful if the markers are cylinders with a radius equal to the tolerance of your waypoint arrival detection code You can then test your waypoing following by visualizing in <code>rviz</code></li>
 </ul></li>
 <li>Has a <code>start</code> service that, when called, causes the robot to follow the waypoints
 <ul>
