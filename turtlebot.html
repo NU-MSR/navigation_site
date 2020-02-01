@@ -1,0 +1,657 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Turtlebot3 (NU Style)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#differences-between-turtlebot3-and-nuturtlebot3">Differences Between Turtlebot3 and NuTurtlebot3</a></li>
+<li><a href="#stock-turtlebot3">Stock TurtleBot3</a></li>
+<li><a href="#nu-style">NU Style</a></li>
+</ul></li>
+<li><a href="#getting-setup-and-logistics">Getting Setup and Logistics</a>
+<ul>
+<li><a href="#hierarchy-of-robot-testing">Hierarchy of Robot Testing</a></li>
+</ul></li>
+<li><a href="#conceptual-overview">Conceptual Overview</a>
+<ul>
+<li><a href="#ros">ROS</a></li>
+<li><a href="#first-connection">First Connection</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Turtlebot3 (NU Style)</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<ul>
+<li>The <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/turtlebot3">Turtlebot3</a> is a small differential drive robot.
+<ul>
+<li>We are using the Burger model</li>
+</ul></li>
+<li>It is driven by two <a href="http://emanual.robotis.com/docs/en/dxl/x/xl430-w250/">Dynamixel XL430</a> motors.</li>
+<li>The low-level control is performed by the <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/appendix_opencr1_0/">OpenCR 1.0</a> board
+<ul>
+<li>This board also contains a 9-DOF IMU</li>
+</ul></li>
+<li>Higher-Level control is done with a Raspberry Pi 3 Model B+
+<ul>
+<li>Some of our robots have a Raspberry PI 3 Model B</li>
+</ul></li>
+<li>The Raspberry Pi communicates with OpenCR over a serial port.</li>
+<li>The robot also has a LiDAR and can be equiped with a camera</li>
+</ul>
+<h2 id="differences-between-turtlebot3-and-nuturtlebot3">Differences Between Turtlebot3 and NuTurtlebot3</h2>
+<ul>
+<li>Although the hardware is the same, our TurtleBots (for this class) run different software.</li>
+</ul>
+<h2 id="stock-turtlebot3">Stock TurtleBot3</h2>
+<ul>
+<li>Ubuntu Mate 16.04 or Raspian</li>
+<li>ROS Kinetic</li>
+<li>OpenCR firmware does kinematics and odometry and IMU calibration</li>
+</ul>
+<h2 id="nu-style">NU Style</h2>
+<ul>
+<li>Ubuntu 18.04 LTS</li>
+<li>ROS Melodic</li>
+<li>OpenCR firmware provides low level access to sensors and actuators
+<ul>
+<li>You implement the odometry and kinematics</li>
+</ul></li>
+</ul>
+<h1 id="getting-setup-and-logistics">Getting Setup and Logistics</h1>
+<ol>
+<li>Each turtlebot has a hostname of <code>turtlebotX</code>, where <code>X</code> is a number from 1 - 5.</li>
+<li>You must put your computer on the <code>TURTLENET</code> network.
+<ul>
+<li>The turtlebots automatically connect to this network</li>
+</ul></li>
+<li>On <code>TURTLENET</code> hostname resolution works
+<ul>
+<li>Thus, no need to fiddle with ROS<sub>IP</sub> or ROS<sub>HOST</sub></li>
+<li>When on <code>TURTLENET</code> you should be able to <code>ping</code> a turtlebot by its hostname</li>
+</ul></li>
+<li>Stay off <code>TURTLENET</code> unless you actively want to connect to the robot, to avoid overloading the router
+<ul>
+<li>I am working with NUIT to get <code>Device Northwestern</code> working for us, where hopefully this will no longer be an issue</li>
+</ul></li>
+<li>The turtlebot battery chargers are located next to the turtlebot location.
+<ul>
+<li>Keep the batteries charging when not in use</li>
+</ul></li>
+<li>I you have a problem with a robot, please let me know.</li>
+</ol>
+<h2 id="hierarchy-of-robot-testing">Hierarchy of Robot Testing</h2>
+<p>My philosophy for working with the robots</p>
+<ol>
+<li>Any code that can be independent of the hardware should be
+<ul>
+<li>Easier to test</li>
+<li>Easier to debug</li>
+<li>(Secondary issue) easier to reuse.</li>
+</ul></li>
+<li>Any code that can be tested with the robot "up on blocks" should be
+<ul>
+<li>No chance of crashing the robot</li>
+<li>No need to chase after the robot</li>
+<li>You can run the test with the robot plugged in to wall power, avoiding needless battery charging</li>
+</ul></li>
+<li>Eventually, you can and should run the code on the robot, on the ground, that is the whole point after all.</li>
+</ol>
+<h1 id="conceptual-overview">Conceptual Overview</h1>
+<ol>
+<li>We want to develop code on our nice fast laptops and then deploy code to the slow computers on the turtlebot</li>
+<li>All decisions and actions that are taken should be done on the turtlebot.</li>
+<li>High-level logistical commands (such as "start the task") should be controlled from our PC</li>
+<li>All data should be visualized on our PC.</li>
+</ol>
+<h2 id="ros">ROS</h2>
+<ul>
+<li>ROS lets you run nodes on multiple computers, all sharing the same <code>rosmaster</code>
+<ul>
+<li>The computers can even have different architectures <code>x86-64</code> versus <code>arm</code> in our case</li>
+</ul></li>
+<li>The turtlebots can run with the <code>rosmaster</code> running on your computer or onboard
+<ul>
+<li>We will do both, but mostly we will run <code>rosmaster</code> on our computer
+<ul>
+<li><code>rosmaster</code> just coordinates messages: they do not all get sent to the <code>master</code>.</li>
+<li>By running <code>rosmaster</code> on our computer we can more easily start and stop nodes running on the robot via launchfiles.</li>
+<li>Sometimes it is helpful to <code>ssh</code> into the turtlebot and run commands directly</li>
+</ul></li>
+</ul></li>
+<li><code>roslaunch</code> can start nodes on other machines using the <code>machine</code> tag
+<ul>
+<li>It is useful to write launchfiles in such a way that they can run either directly on the <code>turtlebot</code> or from your computer.</li>
+</ul></li>
+<li><code>ROS_MASTER_URI</code> is the most important <code>ROS</code> environment variable for network use
+<ul>
+<li>It tells every node where to find <code>rosmaster</code></li>
+<li>If <code>ROS_MASTER_URI</code> is set to an address that is resolvable from every computer on the network then no further network setup is required.
+<ul>
+<li>Thus, if <code>rosmaster</code> is running on <code>turtlebot8</code> then <code>ROS_MASTER_URI=http://turtlebot8:11311</code></li>
+<li>If <code>rosmaster</code> is running on your computer with hostname <code>tarantula</code> then <code>ROS_MASTER_URI=http://tarantula:11311</code></li>
+<li>On the network we will be using, all local hostnames will be resolvable.</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="first-connection">First Connection</h2>
+<ol>
+<li>Generate an <code>ssh</code> key to use just with the turtlebots: <code>ssh-keygen -t rsa -f ~/.ssh/id_turtle -N ''</code></li>
+<li>Copy your public ssh key to the robot <code>ssh-copy-id -oHostKeyAlgorithms='ssh-rsa' -i ~/.ssh/id_turtle student@turtlebotX</code>
+<ul>
+<li>This should be the last time you need to enter the password</li>
+<li>The <code>HostKeyAlgorithm</code> part is needed because <code>roslaunch</code> does not work with other algorithms for authenticating that <code>turtlebotX</code> is indeed the computer you expect to be connecting to.</li>
+</ul></li>
+</ol>
+<ul>
+<li>We will all share the user account <code>student</code> and copy our code to <code>/home/student/install</code>.
+<ul>
+<li>Only one person at a time can use each robot</li>
+<li>Copying the necessary files requires running a single <code>rsync</code> command</li>
+<li>You do not have <code>root</code>. Theoretically</li>
+</ul></li>
+</ul>
+<ol>
+<li>Confirm your setup:
+<ol>
+<li><code>ssh</code> into the turtlebot. you should not need to enter a password</li>
+<li>Once ssh'd in, you should be able to ping your own computer by its <code>hostname</code></li>
+<li>Remember, you must be on <code>TURTLENET</code> for this to work</li>
+</ol></li>
+<li>When ssh'd in run the following commands <code>roscore &amp;</code> <code>rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=1000000</code> <code>rostopic pub /sound turtlebot3_msgs/Sound "value: 2"</code>
+<ul>
+<li>You should here a noise, this is the low battery noise.</li>
+<li>If you hear this value while running the turtlebot you must turn off the robot and charge the battery; otherwise you can damage the battery</li>
+<li>Why are we using <code>rosserial_python</code>? Isn't this class all about <code>C++</code>?
+<ul>
+<li>The <code>C++</code> of version of rosserial is incomplete.</li>
+<li>The original <code>OpenCR</code> firmware uses <code>rosserial_python</code></li>
+<li>My firmware is really just a modification of the original turtlebot firmware</li>
+</ul></li>
+</ul></li>
+<li>To properly restart the robot, sudo reboot. To properly poweroff the robot, sudo poweroff. (this just turns off the computer and nothing else).</li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

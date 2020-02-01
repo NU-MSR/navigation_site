@@ -571,8 +571,9 @@ table td {
 </ul></li>
 </ol>
 <h2 id="unit-testing-in-c">Unit Testing in C++</h2>
+<h3 id="independent-of-roscore">Independent of roscore</h3>
 <ol>
-<li><p>Unit tests using <a href="https://github.com/google/googletest">Google Test</a> (<code>gtest</code>) can be done in ROS natively</p>
+<li>Unit tests using <a href="https://github.com/google/googletest">Google Test</a> (<code>gtest</code>) can be done in ROS natively
 <ul>
 <li>This is the most common (and only officially supported) C++ unit testing framework in ROS</li>
 <li><a href="https://github.com/catchorg/Catch2">Catch2</a> is another option, but requires additional <a href="http://wiki.ros.org/catch_ros">packages</a> to work with ROS
@@ -580,7 +581,7 @@ table td {
 <li>I find it simpler to use and lighter on the dependencies</li>
 </ul></li>
 </ul></li>
-<li><p>To add a unit test, when that test does not depend on <code>roscore</code></p>
+<li>To add a unit test, when that test does not depend on <code>roscore</code>
 <ul>
 <li><p>Create a <code>test</code> directory in your package</p></li>
 <li><p>Write <code>.cpp</code> files in the <code>tests</code> directory using <code>gtest</code></p></li>
@@ -592,9 +593,13 @@ table td {
 <span id="cb1-4"><a href="#cb1-4"></a><span class="kw">endif</span>()</span></code></pre></div>
 <p>Note that by linking with <code>gtest_main</code> you are using the default google test main() function, which is suitable when you are testing a library and not trying to test a node</p></li>
 </ul></li>
+</ol>
+<h3 id="dependent-upon-roscore">Dependent upon roscore</h3>
+<ol>
 <li><p>To add a unit test that does depend on roscore you will need to use <code>rostest</code> and make your test cases a ROS node</p>
 <ul>
 <li><p>Add the the test as you did for a regular unit test</p></li>
+<li><p>Add a <code>&lt;test_depend&gt;</code> on <code>rostest</code> to the <code>package.xml</code></p></li>
 <li><p>Implement your own main in the test code, as follows</p>
 <pre><code>int main(int argc, char * argv[])
 {
@@ -608,7 +613,7 @@ table td {
 <ul>
 <li><p>In your <code>CMakeLists.txt</code>, after the initial <code>find_package(catkin ...)</code> add</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>   <span class="kw">find_package</span>(catkin <span class="ot">REQUIRED</span> <span class="ot">COMPONENTS</span> rostest)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>   <span class="kw">find_package</span>(rostest <span class="ot">REQUIRED</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 <li><p>You then want to compile your node and have it run from a test launchfile</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>

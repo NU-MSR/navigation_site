@@ -532,10 +532,7 @@ A.004
 (List the tasks that you finished in previous assignments here)
 </code></pre></li>
 <li><p>Merge your work into your <code>master</code> branch (unless stated otherwise)</p></li>
-<li><p>Tag the commit you want me to grade with HomeworkYY, where YY is the homework assignment number</p>
-<ul>
-<li>Be sure to push the tag to the remote repository</li>
-</ul></li>
+<li><p>I will grade whatever commit is at the <code>HEAD</code> of <code>master</code> when I download your repository, so make sure to work in a separate branch and only merge code you want me to grade into <code>master</code></p></li>
 </ul></li>
 </ol>
 <h1 id="coding-standards">Coding Standards</h1>
@@ -583,10 +580,18 @@ A.004
 /// T factorial (T F);
 </code></pre></li>
 <li><p>Classes should have a <code>doxygen</code> comment block describing what the class does. You should also provide comments for private members, where appropriate</p></li>
+<li><p>Be careful with abs: fabs() takes double and float, abs takes and returns int:</p>
+<ul>
+<li>Since c++17 std::abs() works for floating point as well</li>
+<li>Better yet: include a using std::abs and the correct version will be called.</li>
+</ul></li>
+<li><p>Use <code>const</code> everywhere you can</p></li>
 </ol>
 <h2 id="added-on-week-2">Added on Week 2</h2>
 <ol>
 <li>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Werror</code></li>
+<li>Constructors should use initializer lists to initialize member variables</li>
+<li>Put braces after control-flow expressions even if they are one line (see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</li>
 </ol>
 <h2 id="ros">ROS</h2>
 <ol>

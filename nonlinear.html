@@ -1,0 +1,723 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Nonlinear Control for Wheeled Mobile Robots</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#omnidirectional-vs-nonholonomic">Omnidirectional vs Nonholonomic</a>
+<ul>
+<li><a href="#holonomic-constraint">Holonomic Constraint:</a></li>
+<li><a href="#nonholonomic-constraints">Nonholonomic constraints</a></li>
+</ul></li>
+<li><a href="#holonomic-constraint-example">Holonomic constraint example:</a></li>
+<li><a href="#non-holonomic-constraint-example">Non-holonomic constraint example:</a></li>
+<li><a href="#control-vector-fields">Control Vector Fields</a></li>
+<li><a href="#lie-brackets">Lie Brackets</a></li>
+<li><a href="#minimum-time-paths-for-diff-drive">Minimum time paths for diff drive</a></li>
+<li><a href="#differential-flatness-trajectory-following">Differential Flatness (Trajectory following)</a>
+<ul>
+<li><a href="#definitions-and-analysis">Definitions and Analysis</a></li>
+</ul></li>
+<li><a href="#shortest-and-optimal-paths">Shortest and Optimal Paths</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Nonlinear Control for Wheeled Mobile Robots</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="omnidirectional-vs-nonholonomic">Omnidirectional vs Nonholonomic</h1>
+<ul>
+<li>The four and three wheeled omnidirectional robots
+<ul>
+<li><p>They are omnidirectional</p></li>
+<li><p>No equality constraints on Chassis Velocity</p>
+<span class="math display">\[\begin{align}
+ \begin{bmatrix}
+ \dot{\theta} \\
+ \dot{x} \\
+ \dot{y}
+ \end{bmatrix}
+ =
+ \frac{r}{4}
+ \begin{bmatrix}
+ -\frac{1}{D+L} &amp; \frac{1}{D+L} &amp; \frac{1}{D+L} &amp; -\frac{1}{D+L} \\
+ 1 &amp; 1 &amp; 1 &amp; 1\\
+ -1 &amp; 1 &amp; -1 &amp; 1
+ \end{bmatrix}
+ \begin{bmatrix}
+ u_1 \\ u_2 \\ u_3 \\ u_4
+ \end{bmatrix}
+\end{align}
+\]</span></li>
+</ul></li>
+<li>Car like robots that can move in <span class="math inline">\(x\)</span> direction and turn
+<ul>
+<li><p>They have constraints on velocity</p></li>
+<li><p>Constraints are "not integrable"</p></li>
+<li><p>These are nonholonomic constraints</p>
+<span class="math display">\[\begin{equation}
+ \begin{bmatrix}
+ \dot{\theta}\\
+ \dot{x}\\
+ \dot{y}
+ \end{bmatrix}
+ =
+ \begin{bmatrix}
+ 0 &amp; 1\\
+ \cos\theta &amp; 0\\
+ \sin\theta &amp; 0
+ \end{bmatrix}
+ \begin{bmatrix}
+ \omega \\
+ v
+ \end{bmatrix}
+\end{equation}
+\]</span></li>
+</ul></li>
+<li>The above is a model that holds generally for many types of cars
+<ul>
+<li>Any car whose twist has <span class="math inline">\(v_y = 0\)</span> but not a restriction on <span class="math inline">\(\dot{\theta}\)</span> or <span class="math inline">\(v_x\)</span></li>
+<li>Map the individual controls to the body twist- these are then the controls for the generic car</li>
+<li>Limits on the controls map differently for different cars</li>
+</ul></li>
+</ul>
+<h2 id="holonomic-constraint">Holonomic Constraint:</h2>
+<ul>
+<li>Equality constraints directly on the state of the robot</li>
+<li>Holonomic constraints reduce the degrees of freedom of the robot</li>
+</ul>
+<h2 id="nonholonomic-constraints">Nonholonomic constraints</h2>
+<ul>
+<li>Equality constraints on state and derivatives of the robot that cannot be integrated. Thus they always depend on derivatives of the state and not just the state itself.</li>
+<li>Nonholonomic constraints do not reduce the degrees of freedom of the robot!</li>
+</ul>
+<h1 id="holonomic-constraint-example">Holonomic constraint example:</h1>
+<ul>
+<li><p>Train on a track: The train's configuration in the plane is <span class="math inline">\((\theta, x,y)\)</span>, but if we must be on the track, then we can parameterize the track by a single variable that controls position and heading, and use this variable to describe the train's position.</p></li>
+<li><p>Thus a train on a track has only one degree of freedom</p></li>
+<li><p>We can also use the derivative of the constraint</p>
+<ul>
+<li>The train can only move in the direction of the track</li>
+<li>It is equivalent to the train must be on the track (assuming that the train starts on the track)</li>
+</ul>
+<ul>
+<li>You cannot put the train anywhere in x, y and satisfy the on track constraint, it must be on the track</li>
+</ul></li>
+<li><p>Regardless of the path taken around the track (moving back and forth, etc..) at each position on the track the configuration of the train is the same</p></li>
+<li><p>Thus, a train is holonomic but not omni-directional!</p></li>
+<li><p>Penny rolling along a line, cannot turn</p>
+<ul>
+<li>State is angle of Lincoln's head and the coin's x position</li>
+<li>There is a no-slip constraint <span class="math inline">\(\dot{x} = r \dot{phi}\)</span></li>
+<li>Knowing the <span class="math inline">\(x\)</span> position gives you the angle of Lincoln's head</li>
+</ul></li>
+</ul>
+<h1 id="non-holonomic-constraint-example">Non-holonomic constraint example:</h1>
+<ul>
+<li>Coin rolling on a plane</li>
+<li>State is angle of Lincoln's head, the heading angle, x and y position</li>
+<li>There is a no slip constraint</li>
+<li>Knowing the <span class="math inline">\(x\)</span> position does NOT give you the angle of Lincoln's head: it can be anything depending on the path the penny took</li>
+</ul>
+<h1 id="control-vector-fields">Control Vector Fields</h1>
+<ul>
+<li>A vector field is an arrow at every point in space</li>
+<li>The vehicles we deal with here are <em>control affine</em> which means that their dynamics are linear in there controls</li>
+<li>Each control value determines the robot's velocity a long a vector in the configuration space
+<ul>
+<li>That vector may vary depending on where the configuration of the robot is.</li>
+<li>Example: The four wheeled omni robot has FOUR controls, and thus it has four control vector fields
+<ul>
+<li>The vector fields are the same everywhere in space (they do not depend on configuration)</li>
+<li>Everywhere in space, the vector fields span the state space, hence the robot can move in any direction</li>
+</ul></li>
+<li>Example: The steered car has two controls and therefore two control vector fields
+<ul>
+<li>Since there are 3 degrees of freedom, these vectors cannot span the configuration space</li>
+<li>Some directions we cannot move in (directly)</li>
+</ul></li>
+</ul></li>
+<li><em>insert vector fields in 3D twisting around image here</em></li>
+</ul>
+<h1 id="lie-brackets">Lie Brackets</h1>
+<ul>
+<li>"Like parallel parking a car"</li>
+<li>Basic concept - given two vector fields <span class="math inline">\(g_1\)</span> and <span class="math inline">\(g_2\)</span>
+<ol>
+<li>Start from <span class="math inline">\(q_0\)</span> and follow <span class="math inline">\(g_1(q)\)</span> for <span class="math inline">\(\epsilon\)</span> time. You end up at <span class="math inline">\(q_1\)</span></li>
+<li>Go from <span class="math inline">\(q_1\)</span> and follow <span class="math inline">\(g_2(q)\)</span> for <span class="math inline">\(\epsilon\)</span> time. You end up at <span class="math inline">\(q_2\)</span></li>
+<li>Go from <span class="math inline">\(q_2\)</span> and follow <span class="math inline">\(-g_1(q)\)</span> for <span class="math inline">\(\epsilon\)</span> time. You end up at <span class="math inline">\(q_3\)</span></li>
+<li>Go from <span class="math inline">\(q_3\)</span> and follow <span class="math inline">\(-g_2(q)\)</span> for <span class="math inline">\(\epsilon\)</span> time. Where do you end up
+<ul>
+<li>If you are at <span class="math inline">\(q_0\)</span>, you've accomplished nothing</li>
+<li>If you are not at <span class="math inline">\(q_0\)</span>, you've just moved in a different direction!</li>
+</ul></li>
+</ol></li>
+<li>Lie bracket: $[g<sub>i</sub>, g<sub>j</sub>](q) = (g<sub>i</sub> -  g<sub>j</sub>)(q)
+<ul>
+<li>Let epsilon get very small</li>
+<li>Generates a new "vector field" and shows that by switching controls we can move in a new direction</li>
+<li>Can use these to show if we can move in any direction by switching the controls</li>
+</ul></li>
+<li>See Modern Robotics 13.3.2.2 For a derivation and deeper discussion</li>
+</ul>
+<h1 id="minimum-time-paths-for-diff-drive">Minimum time paths for diff drive</h1>
+<ul>
+<li>Always be moving as fast as possible</li>
+<li>Either Full Forward, Reverse, Turn Left or Turn Right</li>
+<li>40 combinations, with different turning and driving times. Some combinations have multiple solutions.
+<ul>
+<li>Always has only one translation in a given direction.</li>
+</ul></li>
+</ul>
+<h1 id="differential-flatness-trajectory-following">Differential Flatness (Trajectory following)</h1>
+<ul>
+<li>Goal is to find "outputs" (functions of state, inputs and input derivatives) such that we can write the states and inputs of the system in terms of these outputs.
+<ul>
+<li>That is, we have <span class="math inline">\(\dot{q}=f(q,u}\)</span> and want to find <span class="math inline">\(z = h(q, u, \dot{u}, ...)\)</span> such that <span class="math inline">\(u =a(z, \dot{z}, \ddot{z}, ...)\)</span> and <span class="math inline">\(\dot{q} = b(z, \dot{z}, \ddot{z}, ...)\)</span>.</li>
+<li>Then, if we want robot to find a trajectory, we simply
+<ul>
+<li>Solve for the <span class="math inline">\(z\)</span> that makes the desired trajectory happen</li>
+<li>Then we automatically know the inputs to make the trajectory happen</li>
+<li>Hopefully, solving for <span class="math inline">\(z\)</span> is now easier.</li>
+</ul></li>
+</ul></li>
+<li>What is the easiest <span class="math inline">\(z\)</span> we can choose for our car system? -If <span class="math inline">\(z_1 = x\)</span> and <span class="math inline">\(z_2 = y\)</span> and we can put the system into its differentially flat form then given a trajectory <span class="math inline">\(x_d(t)\)</span> and <span class="math inline">\(y_d(t)\)</span>, we can easily find <span class="math inline">\(z_1\)</span> and <span class="math inline">\(z_2\)</span> and derivatives, which then gives us the inputs.</li>
+<li>Let's try it!
+<ul>
+<li>Let <span class="math inline">\(z_1 =x\)</span> and <span class="math inline">\(z_2 = y\)</span>. Take derivatives and we've found <span class="math inline">\(\dot{x}_1 = \dot{z}_1\)</span> and <span class="math inline">\(\dot{x}_2 = \dot{z}_2\)</span>
+<ul>
+<li>Now we just need <span class="math inline">\(\dot{\theta}\)</span>, <span class="math inline">\(\omega\)</span>, and $v$!</li>
+</ul></li>
+<li>Use <span class="math inline">\(\dot{x} = v\cos\theta\)</span> and <span class="math inline">\(\dot{y} = v\sin\theta\)</span> to solve for <span class="math inline">\(\theta\)</span>. Note this can be written with <span class="math inline">\(z\)</span> and derivatives
+<ul>
+<li>Take derivative of <span class="math inline">\(\theta\)</span> to solve for <span class="math inline">\(\dot{\theta}\)</span>. Note that this is also <span class="math inline">\(\omega\)</span></li>
+</ul></li>
+<li>Finally, solve for <span class="math inline">\(v\)</span>. If you can do it in terms of <span class="math inline">\(\dot{x}_1\)</span> and <span class="math inline">\(\dot{x}_2\)</span>, you're done.</li>
+</ul></li>
+</ul>
+<h2 id="definitions-and-analysis">Definitions and Analysis</h2>
+<ul>
+<li><p>Do there exist controls <span class="math inline">\(u(t)\)</span> that drive the robot from <span class="math inline">\(q\)</span> to any <span class="math inline">\(q_goal\)</span> in finite time?</p>
+<ul>
+<li>If Yes: controllable</li>
+<li>If Yes, we can achieve any configuration, given enough time</li>
+<li>If no, there are some configurations the robot can never be in.</li>
+</ul></li>
+<li><p>Given a time <span class="math inline">\(T &gt; 0\)</span> and an neighborhood around an initial configuration, the configurations that the robot can reach without leaving the neighborhood is the reachable set</p></li>
+<li><p>If for any given time <span class="math inline">\(T &gt; 0\)</span> and neighborhood, if the union of all reachable sets for that neighborhood, <span class="math inline">\(0 t \leq T\)</span> is fully dimensional, the robot is small-time locally accessible (STLA)</p>
+<ul>
+<li>If the reachable set is the whole neighborhood, the robot is small time locally controllable STLC
+<ul>
+<li>This is an important property, it means that the robot can move anywhere by putting together STLC neighborhoods</li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="shortest-and-optimal-paths">Shortest and Optimal Paths</h1>
+<ul>
+<li>Deriving these facts is a topic for another class; however, having the general knowledge of this is useful:
+<ul>
+<li>For most common types of cars/configurations the hard work has been done for you</li>
+<li>Therefore, knowledge of these ideas can help you plan better motions and trajectories!</li>
+</ul></li>
+<li>Shortest path for diff drive
+<ul>
+<li>turn drive turn.</li>
+</ul></li>
+<li>Dubins car - a car that can only drive forward
+<ul>
+<li>Interesting because it's a simple model</li>
+<li>Starting point for other models</li>
+<li>Even a Ford Model A (1903) had reverse</li>
+<li>Path consists of optimal segments: Circular Arc C and straight S, <span class="math inline">\(C_\alpha\)</span> is a more than 180 degree curve
+<ul>
+<li>CSC or C$C_α$C, with any <span class="math inline">\(C\)</span> or <span class="math inline">\(S\)</span> segment being 0</li>
+<li>Circular arc is minimum turning radius</li>
+</ul></li>
+</ul></li>
+<li>Reeds-Shepp car - add the reverse gear
+<ul>
+<li>more combinations of shortest paths</li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

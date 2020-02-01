@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Sensing, Navigation, and Machine Learing for Robotics</title>
+<title>Cross-Compilation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,11 +466,12 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#homework">Homework</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#ros-and-robotics">ROS and Robotics</a></li>
-<li><a href="#c">C++</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#cross-compilation-1">Cross Compilation</a>
+<ul>
+<li><a href="#cross-compiler-docker-container">Cross-Compiler Docker Container</a></li>
+</ul></li>
+<li><a href="#remote-debugging">Remote Debugging</a></li>
 </ul>
 </nav>
 
@@ -482,73 +483,68 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Sensing, Navigation, and Machine Learing for Robotics</h1>
+<h1 class="title">Cross-Compilation</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="homework">Homework</h1>
-<ol>
-<li><a href="./guidelines.html">Guidelines</a> (Read this first)</li>
-<li><a href="./homework00.html">Homework 00</a> (Choose A, B, or C to turn in on 1/10, the rest are due 1/14).</li>
-<li><a href="./homework01.html">Homework 01</a> (Due on 1/28)</li>
-<li><a href="./homework02.html">Homework 02</a> (Due on 2/13)</li>
-</ol>
-<h1 id="notes">Notes</h1>
-<ol>
-<li><a href="./cmake_basics.html">CMake Basics</a></li>
-<li><a href="./unit_test_cpp.html">Testing With ROS and C++</a></li>
-<li><a href="./derive_kinematics.html">Deriving Kinematics</a></li>
-<li><a href="./odometry.html">Odometry</a></li>
-<li><a href="./nonlinear.html">A Taste of Nonlinear Control</a></li>
-<li><a href="./fsm.html">Finite State Machines</a></li>
-<li><a href="./cpp1.html">Some Notes on C++</a></li>
-<li><a href="./turtlebot.html">The Turtlebot3</a></li>
-<li><a href="./cross-compile.html">Cross Compiling</a></li>
-</ol>
-<h1 id="resources">Resources</h1>
-<p>The following resources will be useful in this course.</p>
-<h1 id="ros-and-robotics">ROS and Robotics</h1>
+<h1 id="overview">Overview</h1>
+<p>This document describes how to cross-compile for <code>Ubuntu 18.04 LTS</code> running on a raspberry pi 3.</p>
+<h1 id="cross-compilation-1">Cross Compilation</h1>
 <ul>
-<li><a href="https://nu-msr.github.io/me495_site/">Notes from my other ME495</a></li>
-<li><a href="https://wiki.ros.org">ROS wiki</a></li>
-<li><a href="https://answers.ros.org">ROS Answers</a> Stack Overflow for ROS, many core ROS developers will answer questions on this website.</li>
-<li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Modern Robotics, by Kevin Lynch and Frank Park</a></li>
-<li><a href="http://planning.cs.uiuc.edu">Planning Algorithms by Steven M. LaValle</a></li>
-</ul>
-<h1 id="c">C++</h1>
+<li>The act of using a compiler on one system to generate code for another system.
 <ul>
-<li>Professional C++ 4th Edtion by Marc Gregoire (Available online through the Northwestern Library).</li>
-<li>A Tour of C++ by Bjarne Stroustrup (Available online through the Northwestern Library)</li>
-<li>More Effective C++ by Scott Meyers (Available online through the Northwestern Library)
+<li>In our case, <code>x86-x64</code> to <code>armhf</code></li>
+<li>Not only must our own code be compiled for armhf, but also any libraries that we use
 <ul>
-<li>Best practices for C++, but pre c++11</li>
+<li>This issue greatly complicates our code, as our host systems usually only have libraries for our own architecture</li>
+<li><code>Ubuntu</code> supports <code>multi-arch</code>, that is having libraries installed for multiple architectures
+<ul>
+<li>However, getting all the libraries installed and configured is a difficult task.</li>
 </ul></li>
-<li>Effective Modern C++ by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>Best practices for C++11</li>
 </ul></li>
-<li>Effective STL by Scott Meyers (Available online through the Northwestern Library)
+<li>The alternative is to use a native compiler on the raspberry pi on the turtlebot
 <ul>
-<li>How to use the standard template library. Pre C++11</li>
-</ul></li>
-<li><a href="http://en.cppreference.com/w/">cppreference.com</a> A good reference website for C++ that is usually correct and up-to-date with the standards.
-<ul>
-<li>www.cplusplus.com. This website usually comes up on google before cppreference but is not good. It is seemingly "beginner friendly" but it also contains outdated information and often reinforces bad habits.</li>
-</ul></li>
-<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>
-<ul>
-<li>Formalizes best practices for C++, written by Bjarne Stroustrup (creator of C++) and Herb Sutter (very involved in C++ standards committee)</li>
-</ul></li>
-<li><a href="https://herbsutter.com/gotw/">GotW</a> Good source for C++ best practices</li>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4713.pdf">Draft of the C++17 Standard</a>
-<ul>
-<li>Hard to read but contains almost the final word about the mechanics of C++17</li>
-<li>The actual ISO standard can be purchased <a href="https://www.iso.org/standard/68564.html">here</a> for 198 Swiss Francs
-<ul>
-<li>Maybe the Northwestern Library will obtain it for you if it were actually needed.</li>
+<li>This is slow, our laptops are much faster than a raspberry pi</li>
+<li>I actually ran out of RAM when trying to compile the homework00 and homework01 code on the <code>raspberry pi</code></li>
 </ul></li>
 </ul></li>
 </ul>
+<h2 id="cross-compiler-docker-container">Cross-Compiler Docker Container</h2>
+<p>I've created a docker container with the necessary libraries and setup for cross compilation. I explain how to use it here. To understand what it actually does (not necessary to use it) see <code>[[https://github.com/m-elwin/ros_x86_arm_docker][my github repository]]</code></p>
+<ul>
+<li>To use, install docker <code>sudo apt install docker.io</code></li>
+<li>Next, in your workspace, run <code>docker run reem17/x86_to_arm &gt; arm &amp;&amp; chmod 755 arm</code>
+<ul>
+<li>This command runs my docker container and outputs a script (<code>arm</code>) that makes it easy to use.</li>
+<li>The docker image should be downloaded automatically the first time you use this command</li>
+</ul></li>
+<li>In your workspace run <code>./arm catkin_arm install</code> to run <code>catkin_make install</code> inside the docker container on your workspace
+<ul>
+<li>The build, devel, and install spaces are all called <code>arm_build</code>, <code>arm_devel</code> and <code>arm_install</code></li>
+<li><code>./arm</code> essentially just calls a command inside the docker container. Use <code>./arm bash</code> to get a bash prompt, for example</li>
+</ul></li>
+<li>The deployment process depends upon your <code>ROS</code> nodes being installed properly because the devel space does not always work when it is moved to a different location
+<ul>
+<li>Thus, you must make sure that your nodes are installed properly.</li>
+<li>Anything that is not installed, will not be in the <code>arm_install</code> space and will not be present or available on the <code>raspberry pi</code></li>
+</ul></li>
+<li><code>rsync -av --delete arm_install/ student@turtlebotX:/home/student/install</code>
+<ul>
+<li>Make <code>turtlebotX:/home/student/install</code> contain the same exact files as <code>yourcomputer:/path/to/ros/ws/arm_install</code></li>
+</ul></li>
+</ul>
+<h1 id="remote-debugging">Remote Debugging</h1>
+<p>Because we are only copying the install space to the <code>raspberry pi</code> and because the <code>raspberry pi</code> is so slow, it makes sense, for debugging, to run the debugger on our host computer. To do this, the following commands work (after installing <code>gdb-multiarch</code> on your host machine)</p>
+<ol>
+<li>Mount the <code>raspberry pi</code>'s disk image to <code>/mnt/raspberrypi/</code>
+<ul>
+<li>Calculate offset to start of image <code>sudo fdisk -lu turtle.img</code></li>
+<li>The second sector starts at 526336. Offset is 526336*512=269484032</li>
+<li>Add to Fstab. Can now mount raspberry pi image to /mnt/raspberrypi <code>/home/user/turtle.img /mnt/raspberrypi noauto loop,offset=269484032,users 0 0</code></li>
+</ul></li>
+<li>On raspberry pi <code>gdbserver host:2345 executable</code></li>
+<li>On your pc: <code>gdb-multiarch file</code> <code>set debug-file-directory /mnt/raspberrypi/usr/lib/debug</code> <code>set sysroot=/mnt/raspberrypi</code> <code>target extended-remote turtlebotX:2345</code> To kill the remote server: <code>monitor exit</code></li>
+</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

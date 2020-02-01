@@ -15,6 +15,7 @@ span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -466,13 +467,32 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#digression">Digression</a></li>
-<li><a href="#single-wheel-no-slip">Single Wheel, No Slip</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#configuration-of-a-wheeled-mobile-robot">Configuration of a Wheeled Mobile Robot</a></li>
+<li><a href="#basic-transformations">Basic Transformations</a></li>
+<li><a href="#wheel-types">Wheel Types</a>
+<ul>
+<li><a href="#no-slip-condition">No Slip Condition</a></li>
+<li><a href="#other-options">Other options:</a></li>
+</ul></li>
+<li><a href="#kinematics-of-wheeled-mobile-robots">Kinematics of Wheeled Mobile Robots</a></li>
+<li><a href="#overall-approach">Overall Approach</a>
+<ul>
+<li><a href="#wheels-as-constraints-and-actuators">Wheels as Constraints and actuators</a></li>
+</ul></li>
+<li><a href="#omnidirectional-vs-nonholonomic">Omnidirectional vs Nonholonomic</a>
+<ul>
+<li><a href="#apply-the-approach-to-a-three-wheeled-omni-robot">Apply the approach to a three wheeled omni robot</a></li>
+</ul></li>
 <li><a href="#holonomic-nonholonomic">Holonomic, Nonholonomic</a></li>
 <li><a href="#steered-car-example">Steered Car Example</a></li>
 <li><a href="#differential-flatness">Differential Flatness</a></li>
 <li><a href="#odometry">Odometry</a></li>
 <li><a href="#some-ros-conventions">Some ROS Conventions:</a></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#bicycle">Bicycle</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -488,21 +508,148 @@ table td {
 </header>
 
 <!-- The main content of the file -->
-<p>Lecture on Kinematics: See diff<sub>drivekinematics</sub>.tex but use a different example. Define reference frames:</p>
-<p>Each rigid body gets a frame. Each wheel gets a frame. There is a world frame.</p>
-<p>Next, define the transforms between the frames: The variables from the world frame to the body frame become the state of the robot.</p>
-<p>Next, write the twist at each wheel. For conventional wheels, the twist is angular velocity is the same as the angular velocity of the body (since the wheel is point contact, it can rotate in place. x velocity is based on the wheel spinning without slipping y velocity is 0 no slipping to the side.</p>
-<p>Using adjoints, write the wheel twists in the body frame and set the equations equal to each other These are your kinematic equations, that should be solved</p>
-<h2 id="digression">Digression</h2>
-<p>Deriving the adjoint in 2D:</p>
-<p>Rotation in 2d is always about positive z axis, this means that in any frame the angular component of the rotation is the same. Activity to see this: two pieces of paper, draw several lines of different directions, match them up on both pages. Stack the paper on top of each other. Then, rotate the top paper about any point. Notice that all lines have rotated from there original ones by the same angle. Do the rotation again, by the same amount but by a different point. Notice all lines have rotated by same angle. Note however, the displacement is different.</p>
-<p>FOr linear velocity: If you translate the sheet of paper X distance in T time, notice that all points move by the same distance, hence this linear velocity is a component. Note that if the coordinate system at the target point is rotated then thse velocities should be rotated as well.</p>
-<p>Angular velocity on linear effect: Rotate the paper about a point. Notice that a point in the positive y direction moves in the -x direction, proportional to how high above it is</p>
-<p>Notice that a point in the positive x direction moves in the y direction, proportional to how far it is.</p>
-<h1 id="single-wheel-no-slip">Single Wheel, No Slip</h1>
+<h1 id="overview">Overview</h1>
+<p>A practical guide to wheeled mobile robots, with some digressions into more theoretical matters, with an emphasis on building intuition rather than mathematical rigor.</p>
+<h1 id="configuration-of-a-wheeled-mobile-robot">Configuration of a Wheeled Mobile Robot</h1>
 <ul>
-<li>What does it mean "not to slip" Zero relative velocity between wheel contact point and the ground.</li>
+<li><span class="math inline">\(\q = (\theta, x, y)\)</span>
+<ul>
+<li>Position and orientation in the plane</li>
+</ul></li>
+<li><span class="math inline">\(\dot{q} = (\dot{\theta}, \dot{x}, \dot{y})\)</span>
+<ul>
+<li>Chassis velocity</li>
+</ul></li>
+<li><span class="math inline">\(V_b = (\omega, v_x, v_y)\)</span>
+<ul>
+<li>Body Twist</li>
+</ul></li>
 </ul>
+<h1 id="basic-transformations">Basic Transformations</h1>
+<ul>
+<li><p>Let <span class="math inline">\(\{s\}\)</span> be the world frame.</p></li>
+<li><p>Let <span class="math inline">\(\{b\}\)</span> be the body frame</p></li>
+<li><p>Given robot configuration <span class="math inline">\(q\)</span>, we can write the transform from body to world coordinates as $$ T<sub>sb</sub> =</p>
+<p>\begin{bmatrix} cos θ &amp; -sin θ &amp; x\\ sin θ &amp; cos θ &amp; y<br />
+0 &amp; 0 &amp; 1</p>
+<p>\begin{bmatrix}</p></li>
+<li><p>(Insert picture of two frames here)</p></li>
+</ul>
+<h1 id="wheel-types">Wheel Types</h1>
+<ul>
+<li>Conventional
+<ul>
+<li>Roll about their axis, don't slip, don't move side to side</li>
+<li>Mechanically simple, very common</li>
+</ul></li>
+<li>Traditional Caster
+<ul>
+<li>Conventional wheel whose orientation may change along an axis perpendicular to the rotation axis</li>
+<li>may be active or passive</li>
+<li>"Shopping Cart Wheel"</li>
+</ul></li>
+<li>Ball Caster
+<ul>
+<li>A captured ball that may spin freely</li>
+</ul></li>
+<li>Omni wheel
+<ul>
+<li>has rollers along the rim. The rollers roll in the direction of the wheel axes</li>
+</ul></li>
+<li>Mecanum (Swedish wheel)
+<ul>
+<li>rollers along the rim, but do not roll in direction of wheel axes</li>
+</ul></li>
+</ul>
+<h2 id="no-slip-condition">No Slip Condition</h2>
+<ul>
+<li>Velocity of center of mass = radius * angular velocity</li>
+<li>Assume that contact point has zero velocity.</li>
+<li>Can also assume that arclength along wheel = distance traveled along a surface</li>
+<li>Also assume that wheel only moves in it's permitted direction</li>
+</ul>
+<h2 id="other-options">Other options:</h2>
+<ul>
+<li>Slipping (wheel rotates faster than translation) (Think accelerating on ice)</li>
+<li>Skidding (wheel translates faster than rotation) (braking hard)</li>
+</ul>
+<h1 id="kinematics-of-wheeled-mobile-robots">Kinematics of Wheeled Mobile Robots</h1>
+<ol>
+<li>Kinematic model: how do wheel velocities relate to relate to velocities?</li>
+<li>Dynamic model: how do wheel torques relate to robot accelerations?</li>
+<li>Focus on kinematic here.</li>
+</ol>
+<p>Given the velocity of the wheels, what is the velocity of the robot? Given the velocity of the robot, what are the velocity of the wheels?</p>
+<h1 id="overall-approach">Overall Approach</h1>
+<p>This is an to robot kinematics that outsources our thinking to adjoints.</p>
+<ol>
+<li>Draw the reference frames
+<ul>
+<li>World</li>
+<li>Robot</li>
+<li>Every wheel</li>
+</ul></li>
+<li>Write transforms and adjoints between them</li>
+<li>Write the twist at each wheel</li>
+<li>Convert the wheel twists to twists in the body frame
+<ul>
+<li>The body is rigid, so all these equations must be equal</li>
+</ul></li>
+<li>Apply wheel constraints (no slip, no sideways, etc)</li>
+<li>Solve the resulting system of equations</li>
+<li>Note: there are some shortcuts:
+<ol>
+<li>All the wheels we talked about can rotate, all rotation velocities are the same, so we can drop the first row of the adjoint.</li>
+</ol></li>
+</ol>
+<h2 id="wheels-as-constraints-and-actuators">Wheels as Constraints and actuators</h2>
+<ol>
+<li>Omni-wheel is no constraint on motion since it can passively move in any direction.
+<ul>
+<li>Only actuated along main axis</li>
+</ul></li>
+<li>Mecanum wheel can also move in any direction
+<ul>
+<li>Only actuated along main access</li>
+</ul></li>
+<li>Caster can move in any direction
+<ul>
+<li>Can be actuated along both axes (but need not be)</li>
+</ul></li>
+<li>Conventional Wheel can only move in one direction
+<ul>
+<li>Can be actuated in only one direction</li>
+</ul></li>
+</ol>
+<h1 id="omnidirectional-vs-nonholonomic">Omnidirectional vs Nonholonomic</h1>
+<ul>
+<li>Holonomic Constraint: equality constraints directly on the state of the robot
+<ul>
+<li>Holonomic constraints reduce the degrees of freedom of the robot</li>
+</ul></li>
+<li>Nonholonomic constraints: equality constraints on state and derivatives of the robot that cannot be integrated such that they depend only on the state.
+<ul>
+<li>This means that at all configurations are valid and the constraint still holds.</li>
+</ul></li>
+<li>Holonomic constraint example: Train on a track: trains configuration in the plane is (x,y), but if we must be on the track, then we can parameterize the track by a single number and know exactly where the train is.
+<ul>
+<li>Another way to view this constraint is: The train can only move in the direction of the track (this is a constraint on the derviative). But note that it is equivalent to the train must be on the track (given that the train starts on the track)</li>
+<li>Note: I can not put the train anywhere in x, y and satisfy the on track constraint</li>
+</ul></li>
+<li>Non-holonomic constraint example: Wheel rolling in plane and it can turn:
+<ul>
+<li>It can only move in the direction of rolling</li>
+<li>But, I can place it anywhere and that constraint is still satisfied.</li>
+</ul></li>
+</ul>
+<p>Omni-directional robots have no equality constraints on their configuration and no non-holonomic constraints.</p>
+<ul>
+<li>Thus they can move in any direction in their configuration space instantaneously</li>
+<li>Need at least 3 actuators for a omni directional robot</li>
+<li>Need to use only wheel types that don't impose constraints</li>
+</ul>
+<p>Basically, if the constraint eliminates a state variable it is holonomic</p>
+<h2 id="apply-the-approach-to-a-three-wheeled-omni-robot">Apply the approach to a three wheeled omni robot</h2>
 <h1 id="holonomic-nonholonomic">Holonomic, Nonholonomic</h1>
 <h1 id="steered-car-example">Steered Car Example</h1>
 <h1 id="differential-flatness">Differential Flatness</h1>
@@ -514,6 +661,148 @@ table td {
 <li>Where applicable, it is easiest to have the y axis of the vehicle's frame aligned with at least one wheel axis.</li>
 <li>The axis of a wheel is the y axis and the x axis is the primary rolling direction.</li>
 </ol>
+<p>Lecture on Kinematics: See diff<sub>drivekinematics</sub>.tex but use a different example. Define reference frames:</p>
+<h1 id="examples">Examples</h1>
+<h2 id="bicycle">Bicycle</h2>
+<p>We will construct a bicycle from the four wheel vehicle by setting <span class="math inline">\(D = 0\)</span> and eliminating wheels 2 and 3.</p>
+<ul>
+<li>The rear wheel is a conventional wheel with control input <span class="math inline">\(u_3\)</span></li>
+<li>The front wheel is a steered caster, with steering angle velocity controlled by <span class="math inline">\(u_1\)</span>.</li>
+</ul>
+<h3 id="wheel-1">Wheel 1</h3>
+<p>This is a steered wheel. It rolls freely but the steering angle is controlled. Thus <span class="math inline">\(\dot{\psi}_1 = u_1\)</span>.</p>
+<p>Relating the wheel frame twist to body frame twist and solving for controls and constraints:</p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta}\\
+\dot{\phi}_1\\
+0 \\
+u_1
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; \frac{1}{r}\cos\psi_i &amp; \frac{1}{r}\sin\psi_i &amp; 0\\
+0 &amp; -\sin\psi_i &amp; \cos\psi_i &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}
+
+\begin{bmatrix}
+\dot{\theta}\\
+v_x\\
+L\dot{\theta} + v_y\\
+\dot{\psi}
+\end{bmatrix}\\
+
+\begin{bmatrix}
+\dot{\theta}\\
+\dot{\phi}_1\\
+0 \\
+u_1
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+\frac{1}{r}L\sin\psi_1 &amp; \frac{1}{r}\cos\psi_1 &amp; \frac{1}{r}\sin\psi_1 &amp; 0\\
+L\cos\psi_1 &amp; -\sin\psi_1 &amp; \cos\psi_1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y \\
+0
+\end{bmatrix}
+
+\end{align}
+\]</span>
+<h3 id="wheel-4">Wheel 4</h3>
+<p>Wheel 4 is a conventional wheel whose velocity is controlled</p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta}\\
+u_2 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0\\
+0 &amp; \frac{1}{r} &amp; 0 \\
+-L &amp; 0 &amp; 1 
+   \end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x\\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>Write the control and constraint equations: Controls:</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+u_1\\
+u_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; \frac{1}{r} &amp; 0 &amp; 0 
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x\\
+v_y \\
+\dot{\psi}
+\end{bmatrix}
+\end{equation}
+\]</span>
+<p>Constraints:</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+\dot{\phi}_1 \\
+0 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{1}{r}L\sin\psi_1 &amp; \frac{1}{r}\cos\psi_1 &amp; \frac{1}{r}\sin\psi_1 &amp; 0\\
+L\cos\psi_1 &amp; \sin\psi_1 &amp; \cos\psi_1 &amp; 0 \\
+-L &amp; 0 &amp; 1 &amp; 0
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x\\
+v_y \\
+\dot{\psi}
+\end{bmatrix}
+\end{equation}
+\]</span>
+<p>Note that the Null space of the constraints is spanned by <span class="math inline">\(\begin{bmatrix}0\\0\\0\\1\end{bmatrix}\)</span>, which means that any steering angle velocity can be used. Furthermore, the first row of the constraint matrix is not really a constraint since <span class="math inline">\(\dot{\phi}_1\)</span> can take on any value. Eliminating these rows and columns yields the actual constraints of the system:</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+L\cos\psi_1 &amp; \sin\psi_1 &amp; \cos\psi_1  \\
+-L &amp; 0 &amp; 1 
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x\\
+v_y \\
+\end{bmatrix}
+\end{equation}
+\]</span>
+<p>All permissible twists are in the Nullspace of the above matrix. To get an intuitive feel, first let <span class="math inline">\(\psi = 0\)</span>. Then</p>
+<p>\begin{equation} Q=</p>
+<span class="math display">\[\begin{bmatrix}
+L &amp; 0 &amp; 1\\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\]</span>
+<p>In this case the Null space of <span class="math inline">\(Q\)</span> is <span class="math inline">\(\begin{bmatrix}0\\1\\0\end{bmatrix}\)</span>, meaning that the bicycle cannot move in the <span class="math inline">\(y\)</span> direction. Similarly, letting <span class="math inline">\(\psi = \frac{\pi}{2}\)</span> reveals that the bicycle can have no <span class="math inline">\(v_x\)</span> and that it must rotate while translating in the <span class="math inline">\(y\)</span> direction.</p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

@@ -15,6 +15,7 @@ span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -466,6 +467,10 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
+<li><a href="#changes">Changes</a>
+<ul>
+<li><a href="#section">01/23</a></li>
+</ul></li>
 <li><a href="#task-group-0-preliminaries">Task Group 0 (Preliminaries)</a>
 <ul>
 <li><a href="#task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</a></li>
@@ -473,8 +478,8 @@ table td {
 <li><a href="#task-c-c-and-rigid-transforms">Task C (C++ and Rigid Transforms)</a>
 <ul>
 <li><a href="#task-c.005-rosifying-rigid2d">Task C.005 (ROSifying rigid2d)</a></li>
-<li><a href="#task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</a></li>
 <li><a href="#task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</a></li>
+<li><a href="#task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</a></li>
 <li><a href="#task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</a></li>
 <li><a href="#task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</a></li>
 <li><a href="#task-c.010-normalize-angle-it-may-be-useful">Task C.010 (Normalize angle, it may be useful)</a></li>
@@ -486,7 +491,7 @@ table td {
 <li><a href="#task-e.002-unit-test-diff_drive">Task E.002 (Unit Test diff_drive)</a></li>
 <li><a href="#task-e.003-waypoints">Task E.003 (Waypoints)</a></li>
 <li><a href="#task-e.004-odometry-node">Task E.004 (Odometry Node)</a></li>
-<li><a href="#task-e.005-fake-odometry">Task E.005 (Fake Odometry)</a></li>
+<li><a href="#task-e.005-fake-encoders">Task E.005 (Fake Encoders)</a></li>
 </ul></li>
 <li><a href="#task-group-b-turtle-sim">Task Group B (Turtle Sim)</a>
 <ul>
@@ -508,6 +513,19 @@ table td {
 </header>
 
 <!-- The main content of the file -->
+<h1 id="changes">Changes</h1>
+<ol>
+<li>Removed two items from task C.007 that were redundant with task C.003</li>
+<li><code>fake_odom</code> was renamed to <code>fake_encoders</code>, a more descriptive name.</li>
+<li>Task E.004 specified that the node should read <code>wheel_base</code> and <code>wheel_radius</code> parameters</li>
+<li>Task B.006 hint that you can use nuturtle_description/launch/view_diff_drive.launch (with slight modification)</li>
+<li>Task E.005, the joint state names should be read from private parameters "left_wheel_joint" and "right_wheel_joint"</li>
+</ol>
+<h2 id="section">01/23</h2>
+<ol>
+<li>updateOdometry can now return void</li>
+<li>wheelVelocities - this really returns displacements, since  is assumed to be 1</li>
+</ol>
 <h1 id="task-group-0-preliminaries">Task Group 0 (Preliminaries)</h1>
 <h2 id="task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</h2>
 <ol>
@@ -536,6 +554,10 @@ table td {
 <li>For example, for any future projects that need a definition of PI, we can use <code>rigid2d::PI</code></li>
 </ul></li>
 </ol>
+<h2 id="task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</h2>
+<ol>
+<li>Add a function called <code>displacement</code> that returns the x, y, and theta values from your transform</li>
+</ol>
 <h2 id="task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</h2>
 <ol>
 <li>Add unit tests to the rigid2d library
@@ -548,18 +570,6 @@ table td {
 </ul></li>
 <li>Tests with floating point results can use <a href="https://github.com/google/googletest/blob/master/googletest/docs/advanced.md">Floating Point Comparison</a> assertions.</li>
 </ul></li>
-</ol>
-<h2 id="task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</h2>
-<ol>
-<li>Add a <code>Twist2D</code> datatype to the <code>rigid2d</code> library
-<ul>
-<li>include an <code>operator&lt;&lt;</code> to output it</li>
-</ul></li>
-<li>Add an overload for <code>operator()</code> to <code>Transform2D</code> that converts a twist from one reference frame to another
-<ul>
-<li>Hint: use the adjoint</li>
-</ul></li>
-<li>Add a function called <code>displacement</code> that returns the x, y, and theta values from your transform</li>
 </ol>
 <h2 id="task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</h2>
 <ol>
@@ -639,9 +649,7 @@ public:
     /// \brief Update the robot&#39;s odometry based on the current encoder readings
     /// \param left - the left encoder angle (in radians)
     /// \param right - the right encoder angle (in radians)
-    /// \return the velocities of each wheel, assuming that they have been
-    /// constant since the last call to updateOdometry
-    WheelVelocities updateOdometry
+    void updateOdometry
 
     /// \brief update the odometry of the diff drive robot, assuming that
     /// it follows the given body twist for one time  unit
@@ -652,10 +660,13 @@ public:
     Twist2D pose()
 
     /// \brief get the wheel speeds, based on the last encoder update
+    /// \returns the velocity of the wheels, which is equivalent to
+    /// displacement because \Delta T = 1
     WheelVelocities wheelVelocities() const
 
     /// \brief reset the robot to the given position/orientation
     void reset(Twist2D ps);
+
 };
 
 </code></pre></li>
@@ -708,6 +719,7 @@ public:
 <li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
 <li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
 </ul></li>
+<li>The node should also read <code>wheel_base</code> and <code>wheel_radius</code> parameters</li>
 <li>Every time the node receives a <code>JointState</code> message it should:
 <ol>
 <li>Update its internal odometry state (perhaps using DiffDrive)</li>
@@ -720,13 +732,16 @@ public:
 <li>Broadcast the transform between <code>odom_frame_id</code> and the <code>body_frame_id</code> on <code>/tf</code> (use a <code>tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a>)</li>
 </ol></li>
 </ol>
-<h2 id="task-e.005-fake-odometry">Task E.005 (Fake Odometry)</h2>
+<h2 id="task-e.005-fake-encoders">Task E.005 (Fake Encoders)</h2>
 <ol>
 <li>Write a new node called <code>fake_diff_encoders</code>
 <ul>
 <li>The node subscribes to <code>geometry_msgs/Twist</code> messages on <code>cmd_vel</code>. Assume that, once a <code>cmd_vel</code> is received, the robot follows that velocity until the next <code>cmd_vel</code> command</li>
-<li>When a <code>cmd_vel</code> is received, publish fake joint state data on <code>joint_states</code> for <code>left_wheel</code> and <code>right_wheel</code> assuming that a differential drive robot had been moving at the previously received <code>cmd_vel</code> for the whole time period.</li>
+<li>Read the names for the left and right wheel joints from <code>left_wheel_joint</code> and <code>right_wheel_jont</code> private parameters.</li>
+<li>When a <code>cmd_vel</code> is received, publish fake joint state data on <code>joint_states</code> a differential drive robot had been moving at the previously received <code>cmd_vel</code> for the whole time period.</li>
 <li>The node should take in <code>wheel_base</code> and <code>wheel_radius</code> as parameters</li>
+<li>The node should assume the initial configuration is <span class="math inline">\((0, 0, 0)\)</span></li>
+<li>Hint: You may wish to add functionality to DiffDrive that enables you to retrieve its internal view of encoder values</li>
 </ul></li>
 </ol>
 <h1 id="task-group-b-turtle-sim">Task Group B (Turtle Sim)</h1>
@@ -749,6 +764,7 @@ public:
 <li>You should also run rqt_plot to plot the error in <code>rqt_plot</code>
 <ul>
 <li>Include a screenshot of the error for a full pentagon cycle.</li>
+<li>Due to current behavior in <code>rqt_plot</code>, if the topic you specified does not exist when it is launched then it will not show that topic and you will have to manually select it.</li>
 </ul></li>
 <li>You may re-use as much code from the previous assignment as you want</li>
 </ol>
@@ -761,12 +777,19 @@ public:
 <ul>
 <li>tf frames should be displayed, as should your <code>diff_drive.urdf.xacro</code> robot from Task A.</li>
 </ul></li>
-<li><code>fake_odom</code> should run, reading <code>cmd_vel</code> being sent to the turtle from <code>turtle_way</code> and publishing fake joint_states</li>
+<li><code>fake_encoders</code> should run, reading <code>cmd_vel</code> being sent to the turtle from <code>turtle_way</code> and publishing fake joint_states</li>
 <li><code>rigid2d/odometer</code> This node should read the fake odometry data and publish the appropriate odometry transforms</li>
 </ul></li>
-<li>You should see your differential drive robot moving and following a trajectory in <code>rviz</code> that mimics the turtlesim trajectory, based on the fake odometry data
+<li>You should see your differential drive robot moving and following a trajectory in <code>rviz</code> that mimics the turtlesim trajectory, based on the fake odometry data</li>
+<li>Note: the absolute coordinates of the robot in the <code>odom</code> frame will be different than the absolute coordinates of the turtle
 <ul>
-<li>You will need to set parameters to <code>rigid2d/odometer</code> appropriately to make this work properly</li>
+<li>This error is realistic if we assume we are using odometry from an unknown starting position</li>
+<li>We will add functionality to set the initial starting position when it is needed</li>
+</ul></li>
+<li>You can use <code>nuturtle_description/view_diff_drive.launch</code> to launch the visualization.
+<ul>
+<li>You will likely need to add an argument that enables you to specify the rviz configuration</li>
+<li>You will also want an argument to disable the joint_state_publisher, since our fake_odom node is publishing joint states</li>
 </ul></li>
 </ol>
 </div>
