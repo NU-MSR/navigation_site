@@ -540,7 +540,7 @@ table td {
 <ul>
 <li>Calculate offset to start of image <code>sudo fdisk -lu turtle.img</code></li>
 <li>The second sector starts at 526336. Offset is 526336*512=269484032</li>
-<li>Add to Fstab. Can now mount raspberry pi image to /mnt/raspberrypi <code>/home/user/turtle.img /mnt/raspberrypi noauto loop,offset=269484032,users 0 0</code></li>
+<li>Add to Fstab. Can now mount raspberry pi image to /mnt/raspberrypi <code>/home/user/turtle.img /mnt/raspberrypi ext4 loop,offset=269484032,users,noauto 0 0</code></li>
 </ul></li>
 <li>On raspberry pi <code>gdbserver host:2345 executable</code></li>
 <li>On your pc: <code>gdb-multiarch file</code> <code>set debug-file-directory /mnt/raspberrypi/usr/lib/debug</code> <code>set sysroot=/mnt/raspberrypi</code> <code>target extended-remote turtlebotX:2345</code> To kill the remote server: <code>monitor exit</code></li>
