@@ -492,7 +492,7 @@ table td {
 <li><a href="#task-f.006-ros-api-testing">Task F.006 (ROS API Testing)</a></li>
 <li><a href="#task-f.007-rotation-in-place">Task F.007 (Rotation in Place)</a></li>
 <li><a href="#task-f.008-translation">Task F.008 (Translation)</a></li>
-<li><a href="#task-w.001-closed-loop-waypoints">Task W.001 (Closed-loop Waypoints)</a></li>
+<li><a href="#task-f.009-closed-loop-waypoints">Task F.009 (Closed-loop Waypoints)</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -513,6 +513,7 @@ table td {
 <ul>
 <li>Added Hints. Note: you are permitted to change/add to any code you want in order to implement the tasks</li>
 <li>Incorporated task E.007 into task W.001.</li>
+<li>Renamed task W.001 to F.009</li>
 </ul>
 <h1 id="overview">Overview</h1>
 <ol>
@@ -879,7 +880,7 @@ table td {
 </ul></li>
 <li>You may modify code in F.006 (such as launchfiles) to take parameters and arguments in such a way that you don't need to repeat much code</li>
 </ul>
-<h2 id="task-w.001-closed-loop-waypoints">Task W.001 (Closed-loop Waypoints)</h2>
+<h2 id="task-f.009-closed-loop-waypoints">Task F.009 (Closed-loop Waypoints)</h2>
 <ol>
 <li>Write a node called <code>real_waypoint</code> that
 <ul>
@@ -908,10 +909,13 @@ table td {
 <ul>
 <li>These commands should be sent at a fixed frequency</li>
 </ul></li>
-<li>You may use feedback from the odometry to help improve your waypoint tracking</li>
-<li>HINT: Getting this right may require tuning and experimentation with different levels/combinations of feedforward/feedback control.</li>
+<li>You may use feedback from the odometry to help improve your waypoint tracking, but ultimately the control strategy you use is up to you</li>
+<li>HINT: It may be helpful to add control gains as additional parameters in your launchfile. This way you can change/tune them without recompiling</li>
+<li>HINT: There may be a fair bit of tuning and experimentation with different control strategies needed to get this right.</li>
+<li>HINT: It is often helpful to be able to see internal controller data/state when tuning and debugging. Consider printing debugging information or even publishing a debugging message with your control data and plotting it with rqt<sub>plot</sub></li>
+<li>HINT: "Less is More" - it is often the case that simpler control laws can outperform more complicated ones in practice.</li>
+<li>HINT: Testing the turtlebot with it's motors up on blocks is very helpful here. You will be able to see where it thinks it is based on odometry which is sufficient to verify that the logic of your controller is correct.</li>
 </ul></li>
-<li>Describe your control strategy in <code>Homework2_ANSWERS.md</code></li>
 <li>Write a launchfile called <code>follow_waypoints.launch</code> that starts all the nodes necessary to make the robot follow a 5 pointed trajectory and visualize the trajectory in <code>rviz</code> from the perspective of the <code>odom</code> frame.</li>
 <li>Include a screencast of the robot following one circuit over the waypoints in <code>rviz</code> and a (link to a) video of the robot following the waypoints in the world. Place links to these in <code>Homework2_Answers.md</code></li>
 <li>After the robot completes its cycle, how far is it from the origin?</li>
