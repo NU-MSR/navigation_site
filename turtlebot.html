@@ -629,7 +629,11 @@ table td {
 <ol>
 <li>Confirm your setup:
 <ol>
-<li><code>ssh</code> into the turtlebot. you should not need to enter a password</li>
+<li><code>ssh</code> into the turtlebot. you should not need to enter a password
+<ul>
+<li>If prompted for a password your key is not being used.</li>
+<li>You may need to add the key using <code>ssh-add ~/.ssh/id_turtle</code></li>
+</ul></li>
 <li>Once ssh'd in, you should be able to ping your own computer by its <code>hostname</code></li>
 <li>Remember, you must be on <code>TURTLENET</code> for this to work</li>
 </ol></li>

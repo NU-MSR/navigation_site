@@ -478,7 +478,7 @@ table td {
 <li><a href="#task-c-c-and-rigid-transforms">Task C (C++ and Rigid Transforms)</a>
 <ul>
 <li><a href="#task-c.005-rosifying-rigid2d">Task C.005 (ROSifying rigid2d)</a></li>
-<li><a href="#task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</a></li>
+<li><a href="#task-c.007-getting-displacement">Task C.007 (Getting Displacement)</a></li>
 <li><a href="#task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</a></li>
 <li><a href="#task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</a></li>
 <li><a href="#task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</a></li>
@@ -529,7 +529,7 @@ table td {
 <h1 id="task-group-0-preliminaries">Task Group 0 (Preliminaries)</h1>
 <h2 id="task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</h2>
 <ol>
-<li>All C++ code from hereon out should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Werror</code>
+<li>All C++ code from hereon out should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code>
 <ul>
 <li>If you are asked to modify or add to code in a package that already exists, you should update the <code>CMakeLists.txt</code> file accordingly</li>
 </ul></li>
@@ -554,9 +554,9 @@ table td {
 <li>For example, for any future projects that need a definition of PI, we can use <code>rigid2d::PI</code></li>
 </ul></li>
 </ol>
-<h2 id="task-c.007-adding-a-twist2d">Task C.007 (Adding a Twist2D)</h2>
+<h2 id="task-c.007-getting-displacement">Task C.007 (Getting Displacement)</h2>
 <ol>
-<li>Add a function called <code>displacement</code> that returns the x, y, and theta values from your transform</li>
+<li>Add a function called <code>displacement</code> to Transform2D that returns the x, y, and theta values from your transform</li>
 </ol>
 <h2 id="task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</h2>
 <ol>
@@ -573,7 +573,7 @@ table td {
 </ol>
 <h2 id="task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</h2>
 <ol>
-<li>Write a function called <code>integrateTwist</code> to compute the transformation corresponding to a rigid body following a constant twist for one time unit.</li>
+<li>Write a function called <code>integrateTwist</code> to compute the transformation corresponding to a rigid body following a constant twist (in its original body frame) for one time unit.</li>
 <li>Include unit tests for this function</li>
 </ol>
 <h2 id="task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</h2>

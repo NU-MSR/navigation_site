@@ -513,7 +513,7 @@ table td {
 <p>I've created a docker container with the necessary libraries and setup for cross compilation. I explain how to use it here. To understand what it actually does (not necessary to use it) see <code>[[https://github.com/m-elwin/ros_x86_arm_docker][my github repository]]</code></p>
 <ul>
 <li>To use, install docker <code>sudo apt install docker.io</code></li>
-<li>Next, in your workspace, run <code>docker run reem17/x86_to_arm &gt; arm &amp;&amp; chmod 755 arm</code>
+<li>Next, in your workspace, run <code>docker run reem17/ros_x86_to_arm &gt; arm &amp;&amp; chmod 755 arm</code>
 <ul>
 <li>This command runs my docker container and outputs a script (<code>arm</code>) that makes it easy to use.</li>
 <li>The docker image should be downloaded automatically the first time you use this command</li>

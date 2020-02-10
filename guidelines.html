@@ -589,7 +589,15 @@ A.004
 </ol>
 <h2 id="added-on-week-2">Added on Week 2</h2>
 <ol>
-<li>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Werror</code></li>
+<li>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code>
+<ul>
+<li>To enable C++ 17 do
+<ul>
+<li><code>set(CMAKE_CXX_STANDARD 17)</code></li>
+<li><code>set(CMAKE_CXX_EXTENSIONS OFF)</code></li>
+<li><code>add_compile_options(-Wall -Wextra -pipe -Wno-psabi)</code></li>
+</ul></li>
+</ul></li>
 <li>Constructors should use initializer lists to initialize member variables</li>
 <li>Put braces after control-flow expressions even if they are one line (see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</li>
 </ol>

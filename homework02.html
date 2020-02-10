@@ -485,7 +485,7 @@ table td {
 <ul>
 <li><a href="#task-f.000-connecting-to-turtlenet">Task F.000 (Connecting to TURTLENET)</a></li>
 <li><a href="#task-f.001-a-new-workspace">Task F.001 (A new workspace)</a></li>
-<li><a href="#task-f.002-nuturtlerobot-package">Task F.002 (nuturtle<sub>robot</sub> package)</a></li>
+<li><a href="#task-f.002-nuturtle_robot-package">Task F.002 (nuturtle_robot package)</a></li>
 <li><a href="#task-f.003-working-directly-via-ssh">Task F.003 (Working directly via ssh)</a></li>
 <li><a href="#task-f.004-cross-compilation">Task F.004 (Cross-compilation)</a></li>
 <li><a href="#task-f.005-low-level-commands">Task F.005 (Low Level Commands)</a></li>
@@ -541,7 +541,7 @@ table td {
 <ul>
 <li>You can view the results of <code>ROS_INFO_STREAM</code> in <code>rqt_console</code></li>
 <li>Run your launchfile, open <code>rqt_console</code> then call the <code>start</code> service.</li>
-<li>You must re-run rqt<sub>console</sub> every time you restart <code>roscore</code>.</li>
+<li>You must re-run rqt_console every time you restart <code>roscore</code>.</li>
 </ul></li>
 </ol>
 <h1 id="task-a">Task A</h1>
@@ -580,7 +580,11 @@ table td {
 </ul>
 <ol>
 <li>Connect to the TURTLENET wifi network.</li>
-<li>Copy your ssh key to the student user of a turtlebot. <code>ssh-copy-id -oHostKeyAlgorithms='ssh-rsa' student@turtlebotX</code></li>
+<li>Copy your ssh key to the student user of a turtlebot. <code>ssh-copy-id -oHostKeyAlgorithms='ssh-rsa' -i ~/.ssh/turtle_id student@turtlebotX</code>
+<ul>
+<li>See <a href="./turtlebot.html">Turtlebot Notes</a> for how to setup the ssh key</li>
+<li>If you are using your default ssh key, you can ommit the <code>-i ~/.ssh/turtle_id</code></li>
+</ul></li>
 <li>Make sure you can <code>ssh</code> in to the turtlebot</li>
 </ol>
 <h2 id="task-f.001-a-new-workspace">Task F.001 (A new workspace)</h2>
@@ -596,7 +600,7 @@ table td {
 <li>This <code>rosinstall</code> file makes it easy for others to reproduce your workspace</li>
 </ul></li>
 </ol>
-<h2 id="task-f.002-nuturtlerobot-package">Task F.002 (nuturtle<sub>robot</sub> package)</h2>
+<h2 id="task-f.002-nuturtle_robot-package">Task F.002 (nuturtle_robot package)</h2>
 <p>The goal of this task is to get up and running on the turtlebot, and to see how to do the process manually.</p>
 <ol>
 <li>Create a new ROS package called <code>nuturtle_robot</code>.</li>
@@ -618,7 +622,7 @@ table td {
 </ul></li>
 </ul></li>
 </ul></li>
-<li>The launchfile should also load <code>serial_node.py</code> form the <a href="http://wiki.ros.org/rosserial_python">rosserial<sub>python</sub></a> package on the <code>turtlebot</code>
+<li>The launchfile should also load <code>serial_node.py</code> form the <a href="http://wiki.ros.org/rosserial_python">rosserial_python</a> package on the <code>turtlebot</code>
 <ul>
 <li>Set port to <code>/dev/ACM0</code> and a baud of <code>115200</code>.</li>
 <li>This node communications with the OpenCR board to give you low-level control through ROS</li>
@@ -684,7 +688,7 @@ table td {
 <ol>
 <li>As you saw in F.003, compiling code on the turtlebot itself is rather slow.</li>
 <li>For most of our tasks, we will use a docker container that has all the necessary tools and libraries for compiling <code>arm</code> binaries for the turtlebot on the host system.</li>
-<li>Follow the [[./cross<sub>compile</sub>.org][Cross compilation] instructions to setup docker and the cross-compiling system.
+<li>Follow the [[./cross_compile.org][Cross compilation] instructions to setup docker and the cross-compiling system.
 <ul>
 <li>We will use <code>./arm catkin_arm</code> to call <code>catkin_make</code> inside the container</li>
 <li>Use <code>./arm catkin_arm install</code> to run <code>catkin_make install</code> inside the container</li>
@@ -745,7 +749,7 @@ table td {
 <ul>
 <li>When publishing from your test case, be sure to use a latched publisher. This ensures that the subscriber will get every message you publish, even if it subscribes after the message has been published. Otherwise, your subscriber could miss a published message</li>
 <li>With a latched publisher, you should be able to publish, loop while spinningOnce, and know that eventually the subscriber will get the message, enabling you to leave the loop and test the data.</li>
-<li>When writing the <code>.test</code> file, only use <code>&lt;test&gt;</code> node tags for nodes that are implementing the <code>gtest</code> framework. Other nodes should be started with the node tag. I haven't seen this documented anywhere, but as far as I can tell, running regular (non-gtest) nodes with the <code>test</code> tag via <code>catkin_make</code> run<sub>tests</sub> causes the test system to freeze.</li>
+<li>When writing the <code>.test</code> file, only use <code>&lt;test&gt;</code> node tags for nodes that are implementing the <code>gtest</code> framework. Other nodes should be started with the node tag. I haven't seen this documented anywhere, but as far as I can tell, running regular (non-gtest) nodes with the <code>test</code> tag via <code>catkin_make</code> run_tests causes the test system to freeze.</li>
 <li>You can create a node-handle, publisher, and subscriber on a per-test basis if desired.</li>
 <li>Also, you need to run <code>catkin_make</code> followed by <code>catkin_make run_tests</code> to test your code, otherwise your non-testing nodes will not be up-to-date</li>
 <li>Using <code>output="screen"</code> in the <code>node</code> tag is helpful for viewing debugging output from the nodes under test</li>
@@ -814,7 +818,7 @@ table td {
 <li>Publish to <code>fake/odom</code> and a tf from <code>fake_odom</code> to <code>fake_base_link</code></li>
 </ul></li>
 <li>Hint: Using relative topic names in your nodes and namespaces in the launchfile can minimize the number of topics you need to remap</li>
-<li>Use a <a href="http://wiki.ros.org/tf2_ros#static_transform_publisher">static<sub>transformpublisher</sub></a> node to publish a transform between the <code>odom</code> and <code>fake_odom</code> frames
+<li>Use a <a href="http://wiki.ros.org/tf2_ros#static_transform_publisher">static_transform_publisher</a> node to publish a transform between the <code>odom</code> and <code>fake_odom</code> frames
 <ul>
 <li>The transform should be a 0 transform, thus co-locating the <code>odom</code> and <code>fake_odom</code> frames</li>
 <li>we need this transform to place <code>fake_odom and =odom</code> in the same <code>tf</code> tree.</li>
@@ -832,7 +836,7 @@ table td {
 </ul></li>
 <li><p>Hint: Don't write this launchfile all at once, start with the basics, look at the <code>rqt_graph</code> and do some manual testing with rostopic pub.</p></li>
 <li><p>Sometimes it can be easier to see what is happening by running the launchfile from ssh directly on the turtlebot.</p></li>
-<li><p>Do you know where your ROS<sub>MASTERURI</sub> is? <code>env | grep ROS</code> will be especially helpful</p></li>
+<li><p>Do you know where your ROS_MASTER_URI is? <code>env | grep ROS</code> will be especially helpful</p></li>
 </ol>
 <h3 id="physical-testing">Physical Testing</h3>
 <ol>
@@ -912,7 +916,7 @@ table td {
 <li>You may use feedback from the odometry to help improve your waypoint tracking, but ultimately the control strategy you use is up to you</li>
 <li>HINT: It may be helpful to add control gains as additional parameters in your launchfile. This way you can change/tune them without recompiling</li>
 <li>HINT: There may be a fair bit of tuning and experimentation with different control strategies needed to get this right.</li>
-<li>HINT: It is often helpful to be able to see internal controller data/state when tuning and debugging. Consider printing debugging information or even publishing a debugging message with your control data and plotting it with rqt<sub>plot</sub></li>
+<li>HINT: It is often helpful to be able to see internal controller data/state when tuning and debugging. Consider printing debugging information or even publishing a debugging message with your control data and plotting it with rqt_plot</li>
 <li>HINT: "Less is More" - it is often the case that simpler control laws can outperform more complicated ones in practice.</li>
 <li>HINT: Testing the turtlebot with it's motors up on blocks is very helpful here. You will be able to see where it thinks it is based on odometry which is sufficient to verify that the logic of your controller is correct.</li>
 </ul></li>
