@@ -510,6 +510,7 @@ table td {
 <!-- The main content of the file -->
 <h1 id="updates">Updates</h1>
 <ul>
+<li>2/22/2020 - Added more hints about the gazebo model, and explanation of what parameters there are and what can be tweaked.</li>
 <li>2/21/2020 - A proposed set of friction settings are listed. Depending on your URDF, you may need to tweak the provided values</li>
 <li>2/21/2020 - There are currently some problems with the settings I've specified with gazebo. For now, you can set <code>mu1</code> and <code>mu2</code> to 1000, and omit the <code>fdir1</code> and <code>minDepth</code> elements. Check back here for corrected settings</li>
 <li>2/20/2020 - Updated how to specify the friction. The old settings were causing the robot to drift.</li>
@@ -590,6 +591,13 @@ table td {
 </code></pre></li>
 <li><p>The <code>minDepth</code> is important to make friction work. Otherwise the wheels will keep "bouncing" out of the surface and the robot will move slightly.</p></li>
 <li><p>Hint: <a href="http://gazebosim.org/tutorials?tut=ros_urdf&amp;cat=connect_ros">URDF in Gazebo Tutorial</a></p></li>
+<li><p>If you experience the robot drifting a little bit, the following remedies are available.</p>
+<ul>
+<li>How well they work depend on the exact geometry of your URDF.</li>
+<li>Provide a small non-zero friction coefficient to the caster (<code>mu1</code> and <code>mu2</code>)</li>
+<li>Add a small <code>&lt;dampingFactor&gt;</code> term to the wheels and/or the caster. A damping factor</li>
+<li>Other factors to experiment with are here <a href="http://gazebosim.org/tutorials/?tut=ros_urdf">ROS URDF</a></li>
+</ul></li>
 </ul></li>
 <li>Write a launchfile called <code>diff_drive_gazebo.launch</code>
 <ul>
