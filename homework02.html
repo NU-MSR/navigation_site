@@ -467,6 +467,10 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
+<li><a href="#updated-212">Updated 2/12</a></li>
+<li><a href="#updated-211">Updated 2/11</a></li>
+<li><a href="#updated-29">Updated 2/9</a></li>
+<li><a href="#updated-23">Updated 2/3</a></li>
 <li><a href="#updated-21">Updated 2/1</a></li>
 <li><a href="#overview">Overview</a>
 <ul>
@@ -509,6 +513,23 @@ table td {
 </header>
 
 <!-- The main content of the file -->
+<h1 id="updated-212">Updated 2/12</h1>
+<ul>
+<li>Provide a summary of the purpose of each task prior to each task</li>
+</ul>
+<h1 id="updated-211">Updated 2/11</h1>
+<ul>
+<li>The compile flags should be <code>-Wall -Wextra -Wno-psabi</code></li>
+<li>I had accidental said to use <code>-Wall -Werror</code></li>
+</ul>
+<h1 id="updated-29">Updated 2/9</h1>
+<ul>
+<li>The wheel speeds range from -265 to 265, not -44 to 44</li>
+</ul>
+<h1 id="updated-23">Updated 2/3</h1>
+<ul>
+<li>Add <code>-Wno-psabi</code> to your compile flags to make warnings on the arm compiler go away</li>
+</ul>
 <h1 id="updated-21">Updated 2/1</h1>
 <ul>
 <li>Added Hints. Note: you are permitted to change/add to any code you want in order to implement the tasks</li>
@@ -517,6 +538,13 @@ table td {
 </ul>
 <h1 id="overview">Overview</h1>
 <ol>
+<li>The ultimate goal of this assignment is to get the turtlebot to follow waypoints based on its wheel odometry</li>
+<li>We will also be comparing positioning based on
+<ol>
+<li>Integrating encoder data (i.e., odometry)</li>
+<li>Integrating the velocity commands we send to the wheels (i.e., our forward model, fake_odometry)</li>
+<li>The actual position of the robot in the real world.</li>
+</ol></li>
 <li>Answer questions in a file called <code>Homework2_Answers.md</code> in the base directory of your repository</li>
 <li>Remember to refer to the <a href="./guidelines.html">guidelines</a> when completing this homework assignment
 <ul>
@@ -545,6 +573,10 @@ table td {
 </ul></li>
 </ol>
 <h1 id="task-a">Task A</h1>
+<ul>
+<li>Here we will update our URDF to match the actual physical parameters of the robot.</li>
+<li>We will also add parameters related to the motor and encoder properties</li>
+</ul>
 <h2 id="task-a.005-dimensions">Task A.005 (Dimensions)</h2>
 <ol>
 <li>Modify the parameters of your URDF to match the physical description of a turtlebot3</li>
@@ -564,6 +596,9 @@ table td {
 <li>Add a parameter for storing the maximum motor power (in this case, motor speeds are integers between -265 to 265)</li>
 </ol>
 <h1 id="task-e">Task E</h1>
+<ul>
+<li>We need a way to reset our pose estimate to an initial condition prior to starting a task.</li>
+</ul>
 <h2 id="task-e.006-odometry-node">Task E.006 (Odometry Node)++</h2>
 <ul>
 <li>Add a service to the <code>odometer</code> node called <code>set_pose</code>.
@@ -576,18 +611,22 @@ table td {
 <p>This task is about implementing some basic turtlebot functionality and getting familiar with the hardware.</p>
 <h2 id="task-f.000-connecting-to-turtlenet">Task F.000 (Connecting to TURTLENET)</h2>
 <ul>
+<li>All turtlebots are on a wireless network called <code>TURTLENET</code>. This task is about connecting to this network and gaining ssh access to each robot.</li>
 <li>You will need to repeat the steps below for each robot that you use:</li>
 </ul>
 <ol>
 <li>Connect to the TURTLENET wifi network.</li>
-<li>Copy your ssh key to the student user of a turtlebot. <code>ssh-copy-id -oHostKeyAlgorithms='ssh-rsa' -i ~/.ssh/turtle_id student@turtlebotX</code>
+<li>Copy your ssh key to the student user of a turtlebot. <code>ssh-copy-id -oHostKeyAlgorithms='ssh-rsa' -i ~/.ssh/id_turtle student@turtlebotX</code>
 <ul>
 <li>See <a href="./turtlebot.html">Turtlebot Notes</a> for how to setup the ssh key</li>
-<li>If you are using your default ssh key, you can ommit the <code>-i ~/.ssh/turtle_id</code></li>
+<li>If you are using your default ssh key, you can ommit the <code>-i ~/.ssh/id_turtle</code></li>
 </ul></li>
 <li>Make sure you can <code>ssh</code> in to the turtlebot</li>
 </ol>
 <h2 id="task-f.001-a-new-workspace">Task F.001 (A new workspace)</h2>
+<ul>
+<li>We need an additional package to work with the lower-level hardware on the turtlebot. This tasks helps you setup your workspace with the necessary software</li>
+</ul>
 <ol>
 <li>Create a new workspace (you can re-use your existing one, but these instructions assume you are starting fresh)</li>
 <li>Use <code>wstool</code> to clone your git repository and <code>https://github.com/ME495-Navigation/nuturtlebot.git</code> into <code>ws/src</code>
@@ -601,7 +640,11 @@ table td {
 </ul></li>
 </ol>
 <h2 id="task-f.002-nuturtle_robot-package">Task F.002 (nuturtle_robot package)</h2>
-<p>The goal of this task is to get up and running on the turtlebot, and to see how to do the process manually.</p>
+<ul>
+<li>The goal of this task is to get up and running on the turtlebot, and to see how to do the process manually.</li>
+<li>The code that is hardware-specific for the turtlebot will be kept in the <code>nuturtle_robot</code> package</li>
+<li>First, we will setup a launchfile that makes it easy to launch nodes on the turtlebot from our computer and start the low-level processes required to make the turtlebot run.</li>
+</ul>
 <ol>
 <li>Create a new ROS package called <code>nuturtle_robot</code>.</li>
 <li>Create a launchfile called <code>basic_remote.launch</code>
@@ -634,6 +677,9 @@ table td {
 </ul></li>
 </ol>
 <h2 id="task-f.003-working-directly-via-ssh">Task F.003 (Working directly via ssh)</h2>
+<ul>
+<li>It is possible to build, run and test your code directly on the turtlebot. It is a good exercise to go through once, but it will hopefully motivate you to want to not rely on the slow turtlebot processor to compile your code.</li>
+</ul>
 <ol>
 <li>In your workspace, delete the <code>build</code>, <code>devel</code>, and <code>install</code> directories (if they exist)
 <ul>
@@ -687,7 +733,10 @@ table td {
 <h2 id="task-f.004-cross-compilation">Task F.004 (Cross-compilation)</h2>
 <ol>
 <li>As you saw in F.003, compiling code on the turtlebot itself is rather slow.</li>
-<li>For most of our tasks, we will use a docker container that has all the necessary tools and libraries for compiling <code>arm</code> binaries for the turtlebot on the host system.</li>
+<li>For most of our tasks, we will use a docker container that has all the necessary tools and libraries for compiling <code>arm</code> binaries for the turtlebot on the host system.
+<ul>
+<li>This will let us compile on our own computers, which can greatly speed up the compilation process</li>
+</ul></li>
 <li>Follow the [[./cross_compile.org][Cross compilation] instructions to setup docker and the cross-compiling system.
 <ul>
 <li>We will use <code>./arm catkin_arm</code> to call <code>catkin_make</code> inside the container</li>
@@ -719,13 +768,18 @@ table td {
 </ul></li>
 </ol>
 <h2 id="task-f.005-low-level-commands">Task F.005 (Low Level Commands)</h2>
-<p>We will implement our own low-level control and odometry routines in ROS. Typically, these routines would be immplemented on a microcontroller.</p>
+<ul>
+<li>We will implement our own low-level control and odometry routines in ROS in a <code>turtle_interface</code> node</li>
+<li>Typically, these routines would be immplemented on a microcontroller.</li>
+<li>This node reads in a twist and converts it to specific wheel commands that make the turtlebot move</li>
+<li>It also reads in raw encoder data and outputs it as joint angles and velocities</li>
+</ul>
 <ol>
 <li>Write a node called <code>turtle_interface</code> that
 <ul>
 <li>Subscribes to <code>cmd_vel (geometry_msgs/Twist)</code> and publishes <code>wheel_cmd (nuturtlebot/WheelCommands)</code> that will make the turtlebot3 follow the specified twist
 <ul>
-<li>Wheel commands are integer values between -44 and 44 and are proportional to the maximum rotational velocity of the motor.</li>
+<li>Wheel commands are integer values between -256 and 256 and are proportional to the maximum rotational velocity of the motor.</li>
 <li>This node should clamp its inputs so the maximum translational and rotational velocities of the robot are not exceeded</li>
 <li>The node should saturate its output so the maximum rotational speed of the motor is not exceeded</li>
 <li>Theoretically the max translational and rotational speed of the robot should be solely determined by the maximum motor rotational speed and the geometry of the robot. However, there is an unknown load on the wheels (due to varying friction) which means that the max speed the robot can travel is actually less than the maximum no-load speed of the motors.</li>
@@ -734,6 +788,10 @@ table td {
 </ul></li>
 </ol>
 <h2 id="task-f.006-ros-api-testing">Task F.006 (ROS API Testing)</h2>
+<ul>
+<li>This task is about testing that <code>turtle_interface</code> actually works by using <code>rostest</code> to exercise its publishers and subscribers</li>
+<li>Using rostest we can test the logic of this node without needing a turtlebot</li>
+</ul>
 <ol>
 <li>Write a test node called <code>turtle_interface_test</code> that uses rostest to test <code>turtle_interface</code> ROS API
 <ul>
@@ -757,6 +815,11 @@ table td {
 </ul></li>
 </ol>
 <h2 id="task-f.007-rotation-in-place">Task F.007 (Rotation in Place)</h2>
+<h3 id="overview-1">Overview</h3>
+<ul>
+<li>Here we will write a node that causes the turtlebot to rotate</li>
+<li>We will compare pose estimates from our feedforward kinematic model, our wheel odometry, and physical measurements in the world, when the robot executes pure rotation</li>
+</ul>
 <h3 id="the-node">The Node</h3>
 <p>Write a node called <code>rotation</code> that does the following:</p>
 <ol>
@@ -876,8 +939,14 @@ table td {
 <li>Does moving slower improve the odometry? (Answer in <code>Homework2_Answers.md</code>)</li>
 </ol>
 <h2 id="task-f.008-translation">Task F.008 (Translation)</h2>
+<h3 id="overview-2">Overview</h3>
 <ul>
-<li>Repeat Task F.006 but for moving either forward OR backward for a fixed distance of <span class="math inline">\(2\)</span> meters instead of <span class="math inline">\(20\)</span> rotations.
+<li>Here we will write a node that causes the turtlebot to rotate</li>
+<li>We will compare pose estimates from our feedforward kinematic model, our wheel odometry, and physical measurements in the world, when the robot executes pure rotation</li>
+</ul>
+<h3 id="steps">Steps</h3>
+<ul>
+<li>Repeat Task F.007 but for moving either forward OR backward for a fixed distance of <span class="math inline">\(2\)</span> meters instead of <span class="math inline">\(20\)</span> rotations.
 <ul>
 <li>instead of the choice between clockwise and counter clockwise use forward/backward</li>
 <li>Pause briefly every (theoretical) <code>0.2</code> meters</li>
@@ -885,6 +954,12 @@ table td {
 <li>You may modify code in F.006 (such as launchfiles) to take parameters and arguments in such a way that you don't need to repeat much code</li>
 </ul>
 <h2 id="task-f.009-closed-loop-waypoints">Task F.009 (Closed-loop Waypoints)</h2>
+<h3 id="overview-3">Overview</h3>
+<ul>
+<li>The main goal of this assignment is to have your turtle follow waypoints</li>
+<li>After being able to turn and rotate in a controlled manner, being able to follow waypoints is a good test that everything fits together</li>
+<li>After completing this task, the turtle should move from waypoint to waypoint in the real world and you should be able to see it's pose estimate, based on wheel odometry, in =rviz</li>
+</ul>
 <ol>
 <li>Write a node called <code>real_waypoint</code> that
 <ul>
@@ -923,7 +998,7 @@ table td {
 <li>Write a launchfile called <code>follow_waypoints.launch</code> that starts all the nodes necessary to make the robot follow a 5 pointed trajectory and visualize the trajectory in <code>rviz</code> from the perspective of the <code>odom</code> frame.</li>
 <li>Include a screencast of the robot following one circuit over the waypoints in <code>rviz</code> and a (link to a) video of the robot following the waypoints in the world. Place links to these in <code>Homework2_Answers.md</code></li>
 <li>After the robot completes its cycle, how far is it from the origin?</li>
-<li>Report the total distance traveled by the robot and the distance from the origin in the spreadsheet.</li>
+<li>Report the total (nominal) distance traveled by the robot and the distance from the origin in the spreadsheet.</li>
 </ol>
 </div>
 <div class="footer">

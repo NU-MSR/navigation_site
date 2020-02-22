@@ -476,7 +476,6 @@ table td {
 <ul>
 <li><a href="#git">Git</a></li>
 <li><a href="#c">C++</a></li>
-<li><a href="#added-on-week-2">Added on Week 2</a></li>
 <li><a href="#ros">ROS</a></li>
 </ul></li>
 </ul>
@@ -540,8 +539,6 @@ A.004
 <p>The list will grow as the quarter progresses.</p>
 <h2 id="git">Git</h2>
 <ol>
-<li>If you do not tag the commit to grade, I will not know to grade it. (<strong>Automatic Zero for Whole Assignment</strong>)</li>
-<li>If a task is not listed as submitted in your README.md, I will not know to grade it. (<strong>Automatic Zero for Task</strong>)</li>
 <li>Improperly including files in git. For example
 <ul>
 <li>Generated executables, libraries, object files</li>
@@ -586,10 +583,7 @@ A.004
 <li>Better yet: include a using std::abs and the correct version will be called.</li>
 </ul></li>
 <li><p>Use <code>const</code> everywhere you can</p></li>
-</ol>
-<h2 id="added-on-week-2">Added on Week 2</h2>
-<ol>
-<li>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code>
+<li><p>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code></p>
 <ul>
 <li>To enable C++ 17 do
 <ul>
@@ -598,8 +592,19 @@ A.004
 <li><code>add_compile_options(-Wall -Wextra -pipe -Wno-psabi)</code></li>
 </ul></li>
 </ul></li>
-<li>Constructors should use initializer lists to initialize member variables</li>
-<li>Put braces after control-flow expressions even if they are one line (see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</li>
+<li><p>Constructors should use initializer lists to initialize member variables</p></li>
+<li><p>Put braces after control-flow expressions even if they are one line (see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</p></li>
+<li><p>Do not put <code>using</code> statements at file scope in header files</p>
+<ul>
+<li>These <code>using</code> statements change the behavior of all code that includes the header, including other headers that are below this one</li>
+<li>Thus, if you do do this you can introduce include-order dependencies and mess up the functioning of other people's code when they include your header</li>
+</ul></li>
+<li><p>In most cases it is preferable to explicitly do a using for each function that you need rather than polluting the namespace by doing <code>using namespace std</code></p></li>
+<li><p>Place variables in the scope closest to where they are needed</p></li>
+<li><p>If you use a global variable, make it <code>static</code> so it can't bee seen by other modules</p>
+<ul>
+<li>There are rare cases where using an <code>extern</code> global variable might make sense, but not in this class</li>
+</ul></li>
 </ol>
 <h2 id="ros">ROS</h2>
 <ol>

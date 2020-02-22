@@ -548,7 +548,7 @@ table td {
 </ul></li>
 <li><a href="#summary">Summary</a></li>
 <li><a href="#types-of-build">Types of build</a></li>
-<li><a href="#cmake-rules">CMake Rules:</a></li>
+<li><a href="#cmake-rules">CMake Rules</a></li>
 <li><a href="#build-process-as-directed-acyclic-graph">Build Process as Directed Acyclic Graph</a></li>
 <li><a href="#cross-compilation">Cross Compilation</a></li>
 <li><a href="#resources">Resources</a></li>
@@ -903,29 +903,34 @@ RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 <li><code>catkin_make</code> is faster, but <code>catkin_make_isolated</code> is less error prone (since everything is built separately)</li>
 </ul>
 <p>~ There is also a (now defunct, never quite finished but works pretty well) <code>catkin tools</code> that creates <code>isolated_builds</code> but is much faster and has a more intuitive interface.</p>
-<h1 id="cmake-rules">CMake Rules:</h1>
+<h1 id="cmake-rules">CMake Rules</h1>
 <ol>
-<li>All projects should include, at a minimum, the following compile flags:
+<li><p>All projects should include, at a minimum, the following compile flags:</p>
 <ul>
 <li><code>-Wall</code> Enable all warnings</li>
 <li><code>-Wextra</code> Enable extra warnings</li>
-<li><code>-pipe</code> Use pipes instead of temporary files for intermediate compilation steps</li>
 <li>In this class, it is easiest to add these options globally using <code>add_compile_options</code></li>
 </ul></li>
-<li>Don't directly set <code>CMAKE_CXX_FLAGS</code> or <code>CMAKE_C_FLAGS</code> (again I didn't discuss but there is a lot of bad information out there)
+<li><p>Don't directly set <code>CMAKE_CXX_FLAGS</code> or <code>CMAKE_C_FLAGS</code> (again I didn't discuss but there is a lot of bad information out there)</p>
 <ul>
 <li>This can overwrite important settings set elsewhere</li>
 <li>It globally changes the compile flags for every project</li>
 <li>If you are not careful it is not platform independent</li>
 </ul></li>
-<li>When not using <code>catkin</code> create a build directory and use <code>cmake</code> from that directory (out of source build).
+<li><p>When not using <code>catkin</code> create a build directory and use <code>cmake</code> from that directory (out of source build).</p>
 <ul>
 <li>Don't run <code>cmake</code> in a directory that contains code.</li>
 </ul></li>
-<li>Don't set the C++ standard using <code>add_compile_options</code> (as is recommended in the comments of a ROS CMakeLists.txt file)
+<li><p>Don't set the C++ standard using <code>add_compile_options</code> (as is recommended in the comments of a ROS CMakeLists.txt file)</p>
+<pre><code>set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+</code></pre></li>
+</ol>
 <ul>
 <li>Setting using <code>set(CMAKE_CXX_STANDARD 17)</code> is still globally applied but it also is compiler independent</li>
-</ul></li>
+</ul>
+<ol>
 <li>Don't use <code>GLOB</code> to find files (I didn't discuss this but you will find it on many websites).
 <ul>
 <li>Many examples out there use <code>file(GLOB *.cpp)</code> to find all source files</li>

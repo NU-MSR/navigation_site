@@ -621,7 +621,7 @@ table td {
 <span id="cb4-3"><a href="#cb4-3"></a>    <span class="kw">target_link_libraries</span>(the_rostest <span class="dv">${catkin_LIBRARIES}</span> [any other libraries])</span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 </ul></li>
-<li><p>To add launch or test launch files that should be run via <code>rostest</code> when doing a <code>make run_tests</code> use</p>
+<li><p>To add launch or test launch files that should be run via <code>rostest</code> but do not depend on <code>gtest</code> when doing a <code>make run_tests</code> use</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>   <span class="fu">add_rostest</span>(tests/my_test.test)</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="kw">endif</span>()</span></code></pre></div></li>
@@ -636,7 +636,7 @@ table td {
 <span id="cb6-7"><a href="#cb6-7"></a>    <span class="co">// When first setting up tests, I like to write one that fails,</span></span>
 <span id="cb6-8"><a href="#cb6-8"></a>    <span class="co">// to ensure it is being run at the appropriate time</span></span>
 <span id="cb6-9"><a href="#cb6-9"></a>}</span></code></pre></div></li>
-<li><p>To run the tests use <code>catkin_make run_tests</code></p></li>
+<li><p>To run the tests first run <code>catkin_make</code> to make sure your non-testing nodes are up to date, then use <code>catkin_make run_tests</code></p></li>
 </ol>
 </div>
 </div>

@@ -1,0 +1,877 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 03</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#updates">Updates</a></li>
+<li><a href="#guidelines-update">Guidelines update</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#task-a-urdf">Task A (Urdf)</a>
+<ul>
+<li><a href="#task-a.004-inertia-and-collision">Task A.004 (Inertia and Collision)</a></li>
+</ul></li>
+<li><a href="#task-g-gazebo">Task G (Gazebo)</a>
+<ul>
+<li><a href="#task-g.001-gazebo-xacro">Task G.001 (Gazebo Xacro)</a></li>
+<li><a href="#task-g.002-gazebo-plugin">Task G.002 (Gazebo Plugin)</a></li>
+<li><a href="#overview-1">Overview</a></li>
+<li><a href="#instructions">Instructions</a></li>
+<li><a href="#hints">Hints</a></li>
+<li><a href="#task-g.003-gazebo-waypoints">Task G.003 (Gazebo Waypoints)</a></li>
+<li><a href="#hint">Hint</a></li>
+<li><a href="#task-g.004">Task G.004</a></li>
+<li><a href="#task-g.005">Task G.005</a></li>
+</ul></li>
+<li><a href="#task-s-slam">Task S (SLAM)</a></li>
+<li><a href="#task-s.000-landmark-detection">Task S.000 (Landmark Detection)</a>
+<ul>
+<li><a href="#hints-1">Hints:</a></li>
+</ul></li>
+<li><a href="#task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 03</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="updates">Updates</h1>
+<ul>
+<li>2/21/2020 - A proposed set of friction settings are listed. Depending on your URDF, you may need to tweak the provided values</li>
+<li>2/21/2020 - There are currently some problems with the settings I've specified with gazebo. For now, you can set <code>mu1</code> and <code>mu2</code> to 1000, and omit the <code>fdir1</code> and <code>minDepth</code> elements. Check back here for corrected settings</li>
+<li>2/20/2020 - Updated how to specify the friction. The old settings were causing the robot to drift.</li>
+<li>Change wheel mass to 0.03 and update the total mass accordingly</li>
+<li>2/17/2020 Added Tasks G.004 and G.005</li>
+<li>Added Tasks S.001 and S.002</li>
+</ul>
+<h1 id="guidelines-update">Guidelines update</h1>
+<ul>
+<li>I erroneously wrote -Wall -Werror for the compiler flags to use.</li>
+<li>The flags should be -Wall -Wextra</li>
+</ul>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="https://nu-msr.github.io/me495_site/lecture09_gazebo.html">My Gazebo Notes</a> (and references therein)</li>
+</ul>
+<h1 id="overview">Overview</h1>
+<ul>
+<li>These tasks are designed to get you a robot model that works in gazebo</li>
+<li>When the gazebo model works, you should be able to easily run your waypoint following code using a gazebo simulation rather than a real robot, just by specifying robot:=-1 to your launchfiles</li>
+<li>Essentially, we are laying down the infrastructure required to implement SLAM</li>
+</ul>
+<h1 id="task-a-urdf">Task A (Urdf)</h1>
+<h2 id="task-a.004-inertia-and-collision">Task A.004 (Inertia and Collision)</h2>
+<ul>
+<li>To work in gazebo, your urdf model needs a few changes; mainly inertia and collision geometry</li>
+<li>Update the thickness of the body link of the robot to be 0.140 m (This is the distance from the bottom of the lower deck to the top of the upper deck. Having this height correct will enable us to eventually place the lidar on top of the robot)</li>
+<li>The wheel axle should be 2cm from the bottom of the chassis. Make this a parameter <code>wheel_axle_offset</code> and update the urdf</li>
+<li>Add inertia to the body and wheel of your urdf model of the robot
+<ul>
+<li>You do not need to add inertia to the caster but may if you like</li>
+<li>This will require adding mass parameters for the body link and wheels</li>
+<li>The turtlebot weighs 1.0kg total. Let's assume that each wheel weights 0.03 kg.</li>
+</ul></li>
+<li>Add collisions to your urdf model of the robot
+<ul>
+<li>Be sure to add a collision to the caster</li>
+</ul></li>
+<li>Add a link called <code>base_scan</code> on top of base link. This link will represent the laser scanner. It can be collision-free and inertia-free.</li>
+</ul>
+<h1 id="task-g-gazebo">Task G (Gazebo)</h1>
+<ul>
+<li>Task G is all about writing a gazebo plugin that enables you to control the robot from ROS.</li>
+<li>We need to use tools provided by <code>ros</code> to extend the <code>urdf</code> file so it can be read into gazebo and then spawn our model into gazebo</li>
+<li>To control our model we need a plugin. A plugin is a shared library written in <code>C++</code> that conforms to an interface specified by gazebo</li>
+<li>The plugin can call <code>gazebo</code> api functions as well as ROS functions</li>
+</ul>
+<h2 id="task-g.001-gazebo-xacro">Task G.001 (Gazebo Xacro)</h2>
+<ul>
+<li>Here we will create <code>xacro</code> files that contain <code>gazebo</code> specific code to add into our model of the robot.</li>
+<li>When you complete this task, running <code>roslaunch nuturtle_gazebo =diff_drive_gazebo.launch</code> and see your robot in gazebo</li>
+<li>Create an <code>nuturtle_gazebo</code> package to store your gazebo related code.
+<ul>
+<li>Be sure to update the <code>package.xml</code> with the appropriate fields.</li>
+</ul></li>
+<li>Add a <code>diff_drive.gazebo.xacro</code> file to the <code>urdf</code> folder.
+<ul>
+<li><p>This xacro file should use <code>xacro:include</code> to use <code>nuturtle_description/urdf/diff_drive.urdf.xacro</code> file</p></li>
+<li><p>It then specifies gazebo materials for each link and friction coefficients for the wheels/caster.</p>
+<ul>
+<li><p>Here is an example for the left wheel</p>
+<pre><code>&lt;mu1&gt;0.1&lt;/mu1&gt;
+&lt;mu2&gt;0.1&lt;/mu2&gt;
+&lt;minDepth&gt;0.001&lt;/minDepth&gt;
+&lt;fdir1&gt;1 0 0 &lt;/fdir1&gt;
+&lt;maxVel&gt;0.1&lt;/maxVel&gt;
+&lt;kp&gt;500000&lt;/kp&gt;
+&lt;kd&gt;10&lt;/kd&gt;
+</code></pre></li>
+</ul></li>
+<li><p>The caster should have the following options</p>
+<pre><code>&lt;mu1&gt;0.0&lt;/mu1&gt;
+&lt;mu2&gt;0.0&lt;/mu2&gt;
+&lt;minDepth&gt;0.001&lt;/minDepth&gt;
+&lt;maxVel&gt;1.0&lt;/maxVel&gt;
+&lt;kp&gt;1000000&lt;/kp&gt;
+&lt;kd&gt;100&lt;/kd&gt;
+</code></pre></li>
+<li><p>The <code>minDepth</code> is important to make friction work. Otherwise the wheels will keep "bouncing" out of the surface and the robot will move slightly.</p></li>
+<li><p>Hint: <a href="http://gazebosim.org/tutorials?tut=ros_urdf&amp;cat=connect_ros">URDF in Gazebo Tutorial</a></p></li>
+</ul></li>
+<li>Write a launchfile called <code>diff_drive_gazebo.launch</code>
+<ul>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_roslaunch">Gazebo Launchfile Tutorial</a></li>
+<li>Provide a launchfile argument that lets you specify a world for the robot. Default to <code>empty_world</code>.</li>
+<li>Make sure that when the robot is spawned it lies directly on the ground</li>
+<li>In gazebo, use <code>View-&gt;inertias</code> and verify that your inertias look correct.
+<ul>
+<li>For the body you should see a pink rectangle the same size, shape, and location of the body link</li>
+<li>For each wheel you should see a rectangular box minimally enclosing the wheel</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="task-g.002-gazebo-plugin">Task G.002 (Gazebo Plugin)</h2>
+<h2 id="overview-1">Overview</h2>
+<ul>
+<li>Here we write a plugin to interface <code>Gazebo</code> and ROS. The idea is to provide the same <code>ROS</code> api that the <code>pysserial</code> node running on the real robot provides. Thus we can substitute gazebo from the real robot.</li>
+<li>To write and use a plugin we need
+<ol>
+<li>A <code>cpp</code> file containing the plugin code</li>
+<li>a <code>package.xml</code> file that tells <code>Gazebo</code> where to find the plugin code</li>
+<li>A directive in the <code>.gazebo.xacro</code> file that tells <code>gazebo</code> how to load the plugin and provides parameters for it.</li>
+</ol></li>
+<li>A plugin <code>xml</code> element cave children elements. These children are passed to the plugin at startup, which allows you to configure options for a plugin directly in the <code>xacro</code> file that includes it.</li>
+</ul>
+<h2 id="instructions">Instructions</h2>
+<p>Write a Gazebo plugin to control the wheel velocities of the model</p>
+<ul>
+<li><p>Since the turtlebot does not have gazebo, we will not compile this gazebo package for the turtlebot</p>
+<ul>
+<li>The first time you run <code>catkin_arm</code> do <code>./arm catkin_arm -DCATKIN_BLACKLIST_PACKAGES="nuturtle_gazebo" install</code>. From then on (unless you delete the build directory) nuturtle_gazebo will not be built for arm)</li>
+</ul></li>
+<li><p>Write the plugin in <code>nuturtle_gazebo/src/turtle_drive_plugin.cpp</code> package</p></li>
+<li><p>Add the plugin to your <code>.gazebo.xacro</code> file (<a href="http://gazebosim.org/tutorials?tut=ros_gzplugins&amp;cat=connect_ros">Tutorial</a>).</p>
+<ul>
+<li>The filename will be <code>nuturtle_gazebo_plugin.so</code> and plugin name is <code>turtle_drive_plugin</code></li>
+<li>The plugin should take <code>xml</code> parameters (which are provided in the <code>xacro</code> file for the names of the wheel joints and topics
+<ul>
+<li><code>&lt;left_wheel_joint&gt;left_joint_name&lt;/left_wheel_joint&gt;</code> (and for the right)
+<ul>
+<li>If the names of these joints are not specified, print a fatal error and return from load</li>
+</ul></li>
+<li><code>&lt;sensor_frequency&gt;Hz&lt;/sensor_frequency&gt;</code> - the frequency at which to publish sensor data
+<ul>
+<li>If not specified, should default to 200 Hz</li>
+<li>You can use <code>std::stod</code> to convert a string to a double (since <code>c++11</code>)</li>
+</ul></li>
+<li>=&lt;wheel_cmd_topic&gt;name_of_wheel_cmd_topic&lt;/wheel_cmd_topic&gt;</li>
+<li>=&lt;sensor_data_topic&gt;name_of_sensor_topic&lt;/sensor_data_topic&gt;</li>
+</ul></li>
+</ul></li>
+<li><p>The plugin should subscribe to <code>&lt;wheel_cmd_topic&gt;</code> (nuturtlebot/WheelCommands)= and use that data to move the wheels.</p></li>
+<li><p>The plugin should publish an <code>&lt;sensor_topic&gt;</code> (nuturtlebot/SensorData)= at the specified rate.</p>
+<ul>
+<li>Only worry about filling in the encoder values; other values can be zero</li>
+</ul></li>
+<li><p>The plugin should read the <code>encoder_tics_per_rev</code>, <code>max_motor_rot_vel</code>, <code>max_motor_power</code>, and any other parameters needed from the parameter server to know how to convert a wheel angle into encoder ticks</p></li>
+<li><p>Add the following snippet of code to the <code>Load</code> function to make sure ROS has started</p>
+<pre><code>// see http://gazebosim.org/tutorials?tut=ros_plugins Accessed 02/09/2020
+// Make sure the ROS node for Gazebo has already been initialized                                                                                    
+if (!ros::isInitialized())
+{
+  ROS_FATAL(&quot;A ROS node for Gazebo has not been initialized.&quot;
+            &quot;Unable to load plugin. Load the Gazebo system plugin&quot;
+            &quot;&#39;libgazebo_ros_api_plugin.so&#39; in the gazebo_ros package&quot;);
+  return;
+}
+</code></pre></li>
+</ul>
+<h2 id="hints">Hints</h2>
+<h3 id="manual-urdf-conversions">Manual URDF Conversions</h3>
+<ul>
+<li>It can be helpful to manually convert your <code>xacro</code> files into <code>sdf</code> files to make sure there are no errors</li>
+<li>Manually convert your <code>.gazebo.xacro</code> file to a <code>urdf</code> by using <code>xacro /path/to/my_file.gazebo &gt; file.urdf</code></li>
+<li>Manually convert the <code>urdf</code> into an <code>sdf</code> using <code>gz sdf -p file.urdf &gt; file.sdf</code></li>
+<li>Check the sdf with <code>gz sdf -k file.sdf</code></li>
+<li>NOTE: these files are for debugging only. Do not add them to your repository</li>
+</ul>
+<h3 id="gazebo-hints">Gazebo Hints</h3>
+<ul>
+<li>The <a href="http://gazebosim.org/tutorials?tut=plugins_model&amp;cat=write_plugin">Model Plugin Code</a> here should get you started.
+<ul>
+<li>Get the example compiled and loaded into gazebo with your model prior to proceeding</li>
+<li>You can add a <code>ROS_INFO</code> statement to the <code>Load</code> function. When the plugin successfully loads, you should see the message</li>
+</ul></li>
+<li>More details on this process are <a href="http://gazebosim.org/tutorials/?tut=ros_plugins">here</a>.
+<ul>
+<li><p>To avoid a warning about boost, change the <code>cmake_minimum_requried</code> to <code>3.5.4</code></p></li>
+<li><p>Use the following code to update your <code>CMakeLists.txt</code> to compile the plugin</p>
+<pre><code># find the ros packages you need
+find_package(catkin REQUIRED COMPONENTS roscpp gazebo_ros [other requirements])
+find_package(gazebo REQUIRED)
+# make a library and link it with the gazebo libraries
+add_library(${PROJECT_NAME}_plugin SHARED src/turtle_drive_plugin.cpp)
+target_link_libraries(${PROJECT_NAME}_plugin ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+target_include_directories(${PROJECT_NAME}_plugin PUBLIC ${GAZEBO_INCLUDE_DIRS})
+add_dependencies(${PROJECT_NAME}_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+</code></pre></li>
+<li><p>Add the following between the <code>&lt;export&gt;</code> tags in your <code>package.xml:
+ =&lt;gazebo_ros plugin_path</code>"${prefix}/../../lib" gazebo_media_path="${prefix}" /&gt;=</p></li>
+</ul></li>
+<li>In your plugin, in <code>Load</code> you want to Setup a NodeHandle and any ROS publishers and subscribers that you need
+<ul>
+<li>You are able to include <code>ROS</code> header files and use <code>ROS</code> functions as you would normally</li>
+</ul></li>
+<li>Gazebo will call <code>OnUpdate()</code> on every simulation iteration.
+<ul>
+<li>From <code>OnUpdate()</code> you should publish wheel odometry and control the velocity of the wheels according to the latest received <code>cmd_vel</code> command</li>
+<li>The class has a <code>Model</code> object that can be used to manipulate the physics of the model.</li>
+<li>You can see the methods available in the <a href="http://osrf-distributions.s3.amazonaws.com/gazebo/api/9.0.0/classgazebo_1_1physics_1_1Model.html">documentation</a>
+<ul>
+<li>The model consists of links and joints, use <code>GetJoint</code> to get joints you want to control. This gives you a <code>shared_ptr</code> to a Joint</li>
+<li>The <a href="http://osrf-distributions.s3.amazonaws.com/gazebo/api/9.0.0/classgazebo_1_1physics_1_1Joint.html">Joint</a> Class lets you control the joint state</li>
+<li>See <a href="http://gazebosim.org/tutorials?tut=set_velocity&amp;cat">This tutorial</a> to set velocities. The easiest method is to use "Joint Motors". Setting velocity directly seems to have problems when interacting with Gazebo's friction model, making it difficult to drive the car. This is because when setting velocity directly the object does not feel a force.</li>
+<li>Use the <code>getPosition</code> function to get the position</li>
+</ul></li>
+<li>Use the <code>sdf::ElementPtr</code> object passed to Load to get the names of the wheel joints and topics
+<ul>
+<li>The API documentation for accessing <code>sdf</code> elements is <a href="http://osrf-distributions.s3.amazonaws.com/sdformat/api/dev/index.html">here</a></li>
+</ul></li>
+</ul></li>
+<li>You don't need to <code>spin()</code> or <code>spinOnce</code>. Your plugin is being loaded into gazebo, and gazebo handles that for you.</li>
+</ul>
+<h2 id="task-g.003-gazebo-waypoints">Task G.003 (Gazebo Waypoints)</h2>
+<ul>
+<li>Write a launchfile in <code>nuturtle_gazebo</code> called <code>gazebo_waypoints.launch</code>
+<ul>
+<li>The launchfile should launch gazebo with your turtlebot model and then launch all the nodes necessary to make the robot follow waypoints in gazebo and enable you to view the robot in its odometry frame in <code>rviz</code></li>
+<li>Essentially, the launchfile should behave like <code>nuturtle_robot/follow_waypoints.launch</code> except instead of publishing topics to a <code>rosserial_python</code> on the real robot it is publishing topics to the gazebo simulation.</li>
+</ul></li>
+</ul>
+<h2 id="hint">Hint</h2>
+<ul>
+<li>If you wish, you can enable your <code>nuturtle_robot</code> launchfiles to take a <code>robot</code> parameter of <code>-1</code>.
+<ul>
+<li>If robot = -1, then the nodes are launched on the local machine, but the rosserial_python node is not started</li>
+<li>To avoid a circular dependency, you may not reference any <code>nuturtle_gazebo</code> files/launchfiles in <code>nuturtle_robot</code></li>
+<li>If your G.006 is correct, you should be able to complete this task only with a slight modification to the launchfiles in <code>nuturtle_robot</code> and a small launchfile in <code>nuturtle_gazebo</code></li>
+</ul></li>
+</ul>
+<h2 id="task-g.004">Task G.004</h2>
+<ul>
+<li><p>This task involves adding a laser scanner to the robot</p></li>
+<li><p><a href="http://sdformat.org/spec?ver=1.6&amp;elem=sensor#ray_scan">Ray Scan Sensor</a> in Gazebo</p></li>
+<li><p>The following code snippet, taken from <code>turtlebot3_description/turtlebot3_burger.gazebo.xacro</code> should be added to your <code>.gazebo.xacro</code> file in order to add a laser scanner to the robot model</p>
+<pre><code>&lt;gazebo reference=&quot;base_scan&quot;&gt;
+  &lt;material&gt;Gazebo/FlatBlack&lt;/material&gt;
+  &lt;sensor type=&quot;ray&quot; name=&quot;lds_lfcd_sensor&quot;&gt;
+    &lt;pose&gt;0 0 0 0 0 0&lt;/pose&gt;
+    &lt;visualize&gt;true&lt;/visualize&gt;
+    &lt;update_rate&gt;5&lt;/update_rate&gt;
+    &lt;ray&gt;
+      &lt;scan&gt;
+        &lt;horizontal&gt;
+          &lt;samples&gt;360&lt;/samples&gt;
+          &lt;resolution&gt;1&lt;/resolution&gt;
+          &lt;min_angle&gt;0.0&lt;/min_angle&gt;
+          &lt;max_angle&gt;6.28319&lt;/max_angle&gt;
+        &lt;/horizontal&gt;
+      &lt;/scan&gt;
+      &lt;range&gt;
+        &lt;min&gt;0.120&lt;/min&gt;
+        &lt;max&gt;3.5&lt;/max&gt;
+        &lt;resolution&gt;0.015&lt;/resolution&gt;
+      &lt;/range&gt;
+      &lt;noise&gt;
+        &lt;type&gt;gaussian&lt;/type&gt;
+        &lt;mean&gt;0.0&lt;/mean&gt;
+        &lt;stddev&gt;0.01&lt;/stddev&gt;
+      &lt;/noise&gt;
+    &lt;/ray&gt;
+    &lt;plugin name=&quot;gazebo_ros_lds_lfcd_controller&quot; filename=&quot;libgazebo_ros_laser.so&quot;&gt;
+      &lt;topicName&gt;scan&lt;/topicName&gt;
+      &lt;frameName&gt;base_scan&lt;/frameName&gt;
+    &lt;/plugin&gt;
+  &lt;/sensor&gt;
+&lt;/gazebo&gt;
+</code></pre></li>
+</ul>
+<h2 id="task-g.005">Task G.005</h2>
+<ul>
+<li>In <code>basic_remote.launch</code> add a node to start the lidar
+<ul>
+<li>The package of the laser scanner node is called <code>hls_lfcd_lds_driver</code></li>
+<li>The type of the node is <code>hlds_laser_publisher</code></li>
+<li>The <code>hlds_laser_publisher</code> takes a private parameter <code>port</code> which is <code>/dev/ttyUSB0</code></li>
+<li>It also takes another parameter, <code>frame_id</code> which should be <code>base_scan</code></li>
+</ul></li>
+<li>Add a "LaserScan" visualization to the <code>rviz</code> window that opens when the robot is following waypoints (either on the real robot or in gazebo) and shows you the laser scan results</li>
+</ul>
+<h1 id="task-s-slam">Task S (SLAM)</h1>
+<ul>
+<li>The first tasks here are to enable you to sense landmarks that can then be used as sensor measurements for SLAM.</li>
+<li>S.000 is about landmark detection and S.001 is about testing S.000</li>
+</ul>
+<h1 id="task-s.000-landmark-detection">Task S.000 (Landmark Detection)</h1>
+<ol>
+<li>Write a node called <code>landmarks</code> to detect landmarks from <code>sensor_msgs/LaserScan</code> data</li>
+<li>The node should publish the center and radius of the landmarks it detects, using a custom <code>nuslam/TurtleMap</code> message on the <code>landmarks</code> topic
+<ul>
+<li>Design the <code>nuslam/TurtleMap</code> message as you see fit</li>
+</ul></li>
+<li>You should also write a node called <code>draw_map</code> that subscribes to <code>landmarks</code> and publishes publish markers to display the location of landmarks in <code>rviz</code>
+<ul>
+<li>You need some provision for making sure that the <code>landmarks</code> are displayed relative to the correct frame</li>
+<li>When publishing them from <code>landmark_node</code> they are relative to the <code>base_scan</code> frame</li>
+<li>When publishing them from a <code>SLAM</code> node, they will be relative to a <code>map</code> frame</li>
+<li>This node should always run on your computer because it is just for visualization</li>
+</ul></li>
+<li>Provide a launchfile called <code>landmarks.launch</code> to load the <code>landmark</code> detector
+<ol>
+<li>The launchfile takes an argument <code>robot</code>.
+<ul>
+<li>If <code>robot == -1</code> then your gazebo simulation is launched, otherwise the nodes are launched on the robot
+<ul>
+<li>The gazebo simulation should take an argument for a world file, and by default should load <code>$world_name:=(find nuturtlebot)/worlds/block.world</code></li>
+<li>You may need to update <code>nuturtlebot</code> with a <code>git pull</code></li>
+</ul></li>
+<li>All the nodes necessary for running the robot and visualizing it in <code>rviz</code> should be started
+<ul>
+<li><code>turtle_interface</code>, <code>odometry</code>, etc.</li>
+</ul></li>
+</ul></li>
+<li>Launch <code>rviz</code> and show the robot in the <code>odom</code> frame, the laser scan, and the markers for the landmarks</li>
+<li>When <code>robot != 0</code> Launch <code>turtlebot3_teleop teleop_twist_keyboard</code> on your machine to enable you to drive the robot</li>
+</ol></li>
+</ol>
+<h2 id="hints-1">Hints:</h2>
+<ol>
+<li>Writing some of the test cases in S.001 while you are coding these algorithms can help you debug and make sure you don't introduce new bugs.
+<ul>
+<li>I actually did some "test-driven-development (TDD)" and wrote the test cases for the circle detection algorithm prior to writing the algorithm itself.</li>
+</ul></li>
+<li>You can use any algorithm you want as long as it works. Below I describe algorithms that I know work.</li>
+<li>First solve an unsupervised learning problem: clustering points into groups corresponding to individual landmarks.
+<ul>
+<li>Cluster the laser scanner points based on a distance threshold.</li>
+<li>Discard any clusters with fewer than 3 points, as these will not provide good results when we fit a circle</li>
+<li>The laser scan data is ordered by increasing relative bearing angle. If two consecutive scan points are near each other they are part of the same cluster, otherwise they are in different clusters</li>
+<li>Keep in mind, that the scan wraps around, so you may be starting in the middle of a cluster</li>
+<li>To help test this step, I recommend outputting markers to help you visualize the clusters.</li>
+</ul></li>
+<li>Next, solve a supervised learning problem: circular regression.
+<ul>
+<li>To detect the circles, implement this <a href="./circle_fit.html">circle fitting algorithm</a></li>
+<li>It may help to break up each step into separate functions and test them separately.</li>
+</ul></li>
+<li>Solve a classification problem
+<ul>
+<li>Classify the clusters of points into Circle and Not Circle. This helps to avoid false positives.</li>
+<li>Algorithm below is from J. Xavier et. al., <em>Fast line, arc/circle and leg detection from laser scan data in a Player driver</em>, ICRA 2005
+<ol>
+<li>Let <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> be the endpoints of a cluster and <span class="math inline">\(P\)</span> be a point in the cluster.</li>
+<li>If the <code>cluster</code> is an arc of a circle, then the angle from <span class="math inline">\(P_1\)</span> to <span class="math inline">\(P\)</span> to <span class="math inline">\(P_2\)</span> is always the same for all <span class="math inline">\(P\)</span> (a consequence of the inscribed angle theorem)</li>
+<li>So, compute the mean and standard deviation of the angles between the endpoints and each point on the segment</li>
+<li>If standard deviation is below <code>0.15</code> radians and <code>mean</code> is between 90 and 135 degrees, then it is a circle (thresholds are from the paper, tuning them will help you).</li>
+</ol></li>
+</ul></li>
+<li>Practical and Simple Extras to aid accuracy
+<ol>
+<li>Feel free to use these ideas to increase accuracy. They will help in our specific setup but may not be as generally applicable to all situations.</li>
+<li>Eliminate circles with really large or small radii, since we know the approximate size of the landmarks (this increases the assumptions required for your algorithm to work but also is very helpful).</li>
+<li>Make the minimum cluster size larger to ensure better fits for the circle fitting algorithm</li>
+</ol></li>
+</ol>
+<h1 id="task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</h1>
+<ol>
+<li>The goal of testing is to break each of the landmark detection parts down into simpler components. We will not attempt comprehensive testing here, but writing a few simple tests is well worth our time and can even help in debugging.</li>
+<li>The circle fitting algorithm is the easiest to test because the authors of the algorithm provide test data! (from <a href="https://people.cas.uab.edu/~mosya/cl/CPPcircle.html">https://people.cas.uab.edu/~mosya/cl/CPPcircle.html</a>)
+<ul>
+<li>Write tests for the circle algorithm, here are the results you should get. (If you did not use this algorithm, you still must test the algorithm that you chose)</li>
+<li>Test 1 Inputs: <span class="math inline">\(\{(1,7), (2,6), (5,8), (7,7), (9,5), (3,7)\}\)</span>. Outputs: center (4.615482, 2.807354), radius 4.8275</li>
+<li>Test 2 Inputs: <span class="math inline">\(\{(-1,0), (-0.3, -0.06), (0.3, 0.1), (1, 0)\}\)</span>. Outputs: center (0.4908357, -22.15212) radius 22.17979</li>
+<li>You can expect to come within <span class="math inline">\(10^{-4}\)</span> of the results above.</li>
+</ul></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

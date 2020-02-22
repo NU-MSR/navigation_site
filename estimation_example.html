@@ -1,0 +1,670 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>An Estimation Example</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#problem-setup">Problem Setup</a></li>
+<li><a href="#sensor-model">Sensor Model</a></li>
+<li><a href="#posterior-distribution">Posterior distribution</a>
+<ul>
+<li><a href="#bayes-rule-for-probability-densities">Bayes Rule for Probability Densities</a></li>
+<li><a href="#what-to-actually-compute">What to Actually Compute</a></li>
+<li><a href="#computing-f_zzx">Computing <span class="math inline">\(f_Z(z|x)\)</span></a></li>
+<li><a href="#computing-f_zz">Computing <span class="math inline">\(f_z(z)\)</span></a></li>
+</ul></li>
+<li><a href="#an-example">An Example</a>
+<ul>
+<li><a href="#measurement-model">Measurement Model</a></li>
+<li><a href="#joint-distribution">Joint Distribution</a></li>
+<li><a href="#normalization-factor-probability-of-a-measurement">Normalization factor (probability of a measurement)</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">An Estimation Example</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="problem-setup">Problem Setup</h1>
+<ul>
+<li>Random Experiment: Randomly place a robot some uncertain distance from a wall and take an uncertain distance measurement.</li>
+<li>Sample space is <span class="math inline">\(S = `\mathbb{R}^2\)</span> (one real number for distance to the wall, one for the sensor measurement).</li>
+</ul>
+<h1 id="sensor-model">Sensor Model</h1>
+<ul>
+<li><p>Measurement is a function of the actual position and some noise:</p>
+<span class="math display">\[\begin{equation}
+ Z(X(\xi), W(\xi)) = g(X(\xi) + W(\xi))
+\end{equation}
+\]</span></li>
+<li><p>We will use a linear sensor model, and also drop explicit depencence on element of sample space <span class="math inline">\(\xi\)</span></p>
+<span class="math display">\[\begin{equation}
+ Z = X + W.
+\end{equation}
+\]</span></li>
+<li><p>Assume we know the joint pdf of <span class="math inline">\(X\)</span> and <span class="math inline">\(W\)</span>, <span class="math inline">\(f_{xw}(x,w)\)</span>.</p>
+<ul>
+<li>We therefore also know that
+<ol>
+<li><span class="math inline">\(f_W(w) = \int_{-\infty}^{\infty}f_{XW}(x,w)dx\)</span></li>
+<li><span class="math inline">\(f_X(x) = \int_{-\infty}^{\infty}f_{XW}(x,w)dw\)</span></li>
+</ol></li>
+</ul></li>
+</ul>
+<h1 id="posterior-distribution">Posterior distribution</h1>
+<ul>
+<li>We want to find <span class="math inline">\(f_{X}(x | Z = z)\)</span></li>
+<li>How? Bayes Rule</li>
+</ul>
+<h2 id="bayes-rule-for-probability-densities">Bayes Rule for Probability Densities</h2>
+<ul>
+<li><p>For probabilities:</p>
+<span class="math display">\[\begin{equation}
+ P(A| B) = \frac{P(B |A)P(A)}{P(B)}
+\end{equation}
+\]</span></li>
+<li><p>We relate probabilities to the cumulative distribution and then take a limit (assuming that <span class="math inline">\(f(x)\)</span> is continuous)</p>
+<span class="math display">\[\begin{align}
+ P(a \leq x \leq a + \epsilon) &amp;= F_X(a+\epsilon) - F_X(a) \\
+              &amp;= \frac{F_X(a + \epsilon) - F_X(a)}{\epsilon}
+\end{align}
+\]</span></li>
+<li><p>Taking the limit as <span class="math inline">\(\epsilon \to 0\)</span></p>
+<span class="math display">\[\begin{align}
+ \lim_{\epsilon \to 0}\frac{F_X(a + \epsilon) - F_X(a)}{\epsilon} &amp;=
+ \frac{dF_X}{dx}\epsilon \\
+ &amp;=
+ f_X(x)\epsilon.
+\end{align}
+\]</span></li>
+<li><p>Let <span class="math inline">\(B_\epsilon = \{x : a &lt; x &lt; a + \epsilon\}\)</span>. Then</p>
+<span class="math display">\[\begin{align}
+  P(X \in B_\epsilon | Z) &amp;= \frac{P(Z \in B_\epsilon| X)P(X \in B_\epsilon}{P(Z \in B_\epsilon)} \\
+  f_X(x | z)\epsilon &amp;= \frac{f_Z(z | x)\epsilon f_X(x | z)\epsilon}{f_Z(z)\epsilon}               \\
+\end{align}
+\]</span>
+<p>Therefore:</p>
+<span class="math display">\[\begin{equation}
+  f_X(x | z) = \frac{f_Z(z | x) f_X(x)}{f_Z(z)}. \text{ (1) }
+\end{equation}
+\]</span></li>
+</ul>
+<h2 id="what-to-actually-compute">What to Actually Compute</h2>
+<ul>
+<li>To compute Equation (1), we need to compute <span class="math inline">\(f_Z(z|x)\)</span> and <span class="math inline">\(f_z(z)\)</span> (we already know <span class="math inline">\(f_X(x)\)</span> as that is a parameter of the problem).</li>
+</ul>
+<h2 id="computing-f_zzx">Computing <span class="math inline">\(f_Z(z|x)\)</span></h2>
+<ul>
+<li><p>This is the sensor measurement model</p></li>
+<li><p>We can write the measurement equation as</p>
+<p><em>Z</em> = <em>x</em> + <em>W</em>. Note that <span class="math inline">\(x\)</span> is constant, since we are doing this analysis assuming that <span class="math inline">\(x\)</span> has been given.</p></li>
+<li><p>Using the notion of equivalent events, we have</p>
+<span class="math display">\[\begin{equation}
+ \{Z \leq z\} = \{W +x \leq z\} = \{W \leq z - x\}
+\end{equation}
+\]</span></li>
+<li><p>The probability corresponding to event <span class="math inline">\(\{Z \leq z\} = F_Z(z|x)\)</span></p></li>
+<li><p>The probability corresponding to the equivalent event <span class="math inline">\(\{W \leq z -x \}\)</span> is <span class="math inline">\(F_W(z -x | x)\)</span>.</p></li>
+<li><p>Thus, letting <span class="math inline">\(w = z - x\)</span>, we have (applying chain rule)</p>
+<p><span class="math display">\[\begin{aligned}
+ F_Z(z | x) &amp;= F_W(z - x | x) \\
+ \frac{dF_Z(z | x)}{z} =  \frac{d F_W}{dw}\frac{dw}{dz} \\
+ f_z(z | x) = f_w(z -x | x)
+ \end{aligned}\]</span>. (2) (note that <span class="math inline">\(\frac{dw}{dz} = 1\)</span>).</p></li>
+</ul>
+<h2 id="computing-f_zz">Computing <span class="math inline">\(f_z(z)\)</span></h2>
+<ul>
+<li><p>This is the probability distribution of the sensor measurements.</p></li>
+<li><p>We know that <span class="math inline">\(f_{ZX}(z,x) = f_z(z | x) f_x(x)\)</span> is the numerator in Bayes rule.</p></li>
+<li><p>We can then marginalize out the <span class="math inline">\(x\)</span>:</p>
+<span class="math display">\[\begin{equation}
+ \int_{-\infty}^{\infty}f_{ZX}(z,x)dx
+\end{equation}
+\]</span></li>
+</ul>
+<h1 id="an-example">An Example</h1>
+<ul>
+<li><p>Technically, the above steps enclose the complete process for determining the estimator</p>
+<ul>
+<li>We are given <span class="math inline">\(f_{XW}(x, w)\)</span>, which gives us <span class="math inline">\(f_X(x)\)</span> and <span class="math inline">\(f_X(w)\)</span></li>
+<li>The sensor model (which in this case was linear) lets us write <span class="math inline">\(f_Z(z | x)\)</span> in terms of <span class="math inline">\(f_{XW}(x, w)\)</span>.</li>
+<li>Then, we apply Bayes rules to find the probability distribution of the state given the measurements</li>
+</ul></li>
+<li><p>To go farther, we need to work with a more specific example</p></li>
+<li><p>Suppose <span class="math inline">\(X\)</span> and <span class="math inline">\(W\)</span> are independent.</p></li>
+<li><p><span class="math inline">\(X\)</span> is uniformly distributed between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>:</p>
+<span class="math display">\[\begin{equation}
+ f_X(x) = \begin{cases} \frac{1}{b-a} &amp; a \leq x \leq b\\
+                        0 &amp; \text{otherwise}
+          \end{cases}
+\end{equation}
+\]</span></li>
+<li><p><span class="math inline">\(W\)</span> is zero mean gaussian noise with variance <span class="math inline">\(\sigma_w^2\)</span>. We say that <span class="math inline">\(W \sim N(0, \sigma_w^2)\)</span>:</p>
+<span class="math display">\[\begin{equation}
+ f_W(w)=\frac{1}{\sigma_w\sqrt{2\pi}}\exp(\frac{-w^2}{2\sigma_w^2})
+\end{equation}
+\]</span></li>
+</ul>
+<h3 id="measurement-model">Measurement Model</h3>
+<ul>
+<li><p>The measurement model is therefore</p>
+<span class="math display">\[\begin{equation}
+ f_Z(z|x) = f_W(z-x | x) = f_W(z-x)  = \frac{1}{\sigma_w\sqrt{2\pi}}\exp(\frac{-(z-x)^2}{2\sigma_w^2})
+\end{equation}
+\]</span>
+<ul>
+<li>See (2). Note that <span class="math inline">\(W\)</span> and <span class="math inline">\(X\)</span> are independent which is why <span class="math inline">\(f_W(z-x | x) = f_W(z-x)\)</span>.</li>
+<li>Note that the measurement model is Gaussian with a mean at the robot location and variance of the sensor noise: <span class="math inline">\(f_Z(z|x) = N(x, \sigma_w^2)\)</span>.</li>
+<li>Since this distribution has a mean of <span class="math inline">\(x\)</span> and is Gaussian, we know that <span class="math inline">\(E[z|x] = x\)</span></li>
+<li>Therefore, if we run the experiment many times (fix <span class="math inline">\(x\)</span> and randomly generate noise), averaging the measurements will yield the true location of the robot
+<ul>
+<li>The fact that averaging the measurements yields the desired result is not general, it just happens to work here (for example, it would not be true if the sensor noise had a bias (i.e., non-zero mean)</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="joint-distribution">Joint Distribution</h3>
+<ul>
+<li><p>Next, let's find the joint distribution <span class="math inline">\(f_{ZX}(z,x) = f_Z(z|x)f_x(x)\)</span>. (Important, note that <span class="math inline">\(f_x(x)\)</span> is piecewise)</p>
+<span class="math display">\[\begin{equation}
+ f_{ZX}(z,x) = \begin{cases} \frac{1}{\sigma_w\sqrt{2\pi}}\exp(\frac{-w^2}{2\sigma_w^2}) &amp; a \leq x \leq b \\ 0 &amp; \text{otherwise}
+ \end{cases}
+\end{equation}
+\]</span></li>
+<li><p>Note: once we have computed <span class="math inline">\(F_{ZX}(z,x)\)</span> we can compute any probability involving <span class="math inline">\(z\)</span> or <span class="math inline">\(x\)</span></p></li>
+</ul>
+<h3 id="normalization-factor-probability-of-a-measurement">Normalization factor (probability of a measurement)</h3>
+<ul>
+<li><p>Finally, compute</p>
+<span class="math display">\[\begin{align}
+  f_Z(z) &amp;= \int_{-\infty}^{\infty}f_{ZX}(z,x)dx \\
+          &amp;= \frac{1}{(b-a)\sigma_w\sqrt{2\pi}}\int_{a}^{b}\exp(\frac{-(z-x)^2}{2\sigma_w^2}dx \\
+          &amp;= \frac{1}{\sqrt{\pi}}\int_{\frac{a-z}{\sigma_w\sqrt{2}}}^{\frac{b-z}{\sigma_w\sqrt{2}}}\exp(-t^2)dt \\
+\end{align}
+\]</span>
+<p>where <span class="math inline">\(t=\frac{x-z}{\sigma_f\sqrt{2}}\)</span> and therefore <span class="math inline">\(dt = \frac{1}{\sigma_w\sqrt{2}}dx\)</span>. Since <span class="math inline">\(\int_{a}^{b}\exp(-t^2)dt = \frac{\sqrt{\pi}}{2}(\mathrm{erf}(b)-\mathrm{erf}(a))\)</span> we have</p>
+<span class="math display">\[\begin{equation}
+    f_Z(z)=\frac{1}{2(b-a)}(\mathrm{erf}(\frac{b-z}{\sigma_w \sqrt{2}}) -\mathrm{erf}(\frac{b-z}{\sigma_w \sqrt{2}})))
+\end{equation}
+\]</span></li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

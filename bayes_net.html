@@ -8,13 +8,14 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Sensing, Navigation, and Machine Learing for Robotics</title>
+<title>Bayes Networks</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -466,11 +467,14 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#homework">Homework</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#ros-and-robotics">ROS and Robotics</a></li>
-<li><a href="#c">C++</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#chain-rule-of-probability">Chain Rule of Probability</a></li>
+<li><a href="#defining-the-network">Defining the Network</a>
+<ul>
+<li><a href="#basic-graph-theory">Basic Graph Theory</a></li>
+<li><a href="#defining-the-network-1">Defining the Network</a></li>
+<li><a href="#example">Example</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -482,76 +486,102 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Sensing, Navigation, and Machine Learing for Robotics</h1>
+<h1 class="title">Bayes Networks</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="homework">Homework</h1>
-<ol>
-<li><a href="./guidelines.html">Guidelines</a> (Read this first)</li>
-<li><a href="./homework00.html">Homework 00</a> (Choose A, B, or C to turn in on 1/10, the rest are due 1/14).</li>
-<li><a href="./homework01.html">Homework 01</a> (Due on 1/28)</li>
-<li><a href="./homework02.html">Homework 02</a> (Due on 2/18)</li>
-<li><a href="./homework03.html">Homework 03</a> (Not due yet, but partially posted)</li>
-</ol>
-<h1 id="notes">Notes</h1>
-<ol>
-<li><a href="./cmake_basics.html">CMake Basics</a></li>
-<li><a href="./unit_test_cpp.html">Testing With ROS and C++</a></li>
-<li><a href="./derive_kinematics.html">Deriving Kinematics</a></li>
-<li><a href="./odometry.html">Odometry</a></li>
-<li><a href="./nonlinear.html">A Taste of Nonlinear Control</a></li>
-<li><a href="./fsm.html">Finite State Machines</a> (coming soon…)</li>
-<li><a href="./cpp1.html">Some Notes on C++</a> (coming soon…)</li>
-<li><a href="./turtlebot.html">The Turtlebot3</a></li>
-<li><a href="./cross-compile.html">Cross Compiling</a></li>
-<li><a href="./probability.html">Probability</a></li>
-<li><a href="./estimation_example.html">An Estimation Example</a></li>
-<li><a href="./bayes_net.html">Bayesian Networks</a></li>
-</ol>
-<h1 id="resources">Resources</h1>
-<p>The following resources will be useful in this course.</p>
-<h1 id="ros-and-robotics">ROS and Robotics</h1>
+<h1 id="overview">Overview</h1>
 <ul>
-<li><a href="https://nu-msr.github.io/me495_site/">Notes from my other ME495</a></li>
-<li><a href="https://wiki.ros.org">ROS wiki</a></li>
-<li><a href="https://answers.ros.org">ROS Answers</a> Stack Overflow for ROS, many core ROS developers will answer questions on this website.</li>
-<li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Modern Robotics, by Kevin Lynch and Frank Park</a></li>
-<li><a href="http://planning.cs.uiuc.edu">Planning Algorithms by Steven M. LaValle</a></li>
+<li>Bayes networks are a graphical approach for representing probability distributions</li>
+<li>They help you to construct joint distributions and understand conditional probability relationships between random variables</li>
+<li><a href="./probability.html">Basic Bayes Rule and other Probability Basics</a></li>
 </ul>
-<h1 id="c">C++</h1>
+<h1 id="chain-rule-of-probability">Chain Rule of Probability</h1>
 <ul>
-<li>Professional C++ 4th Edtion by Marc Gregoire (Available online through the Northwestern Library).</li>
-<li>A Tour of C++ by Bjarne Stroustrup (Available online through the Northwestern Library)</li>
-<li>More Effective C++ by Scott Meyers (Available online through the Northwestern Library)
+<li><span class="math inline">\(P(X_n, X_{n-1}, \dots X_{1})\)</span> - The probability that event <span class="math inline">\(X_n\)</span> and <span class="math inline">\(X_{n-1}\)</span> and (dot dot dot) <span class="math inline">\(X_{1}\)</span> has occurred.</li>
+<li>Can write as <span class="math inline">\(P(X_n | X_{n-1}, \dots X_{1}) P(X_{n-1}, X_{n-2}, \dots X_{1})\)</span></li>
+<li>Notation: <span class="math inline">\(X_{n:1} = X_{n}, X_{n-1}, \dots, X_{1}\)</span></li>
+<li>Then</li>
+</ul>
+<span class="math display">\[\begin{align}
+        P(X_{n:1}) = P(X_n  | X_{n-1:1})P(X_{n-1:1}) \\
+                  &amp;= P(X_n |X_{n-1:1}) P(X_{n-1} | X_{n-2:1}) P(X_{n-2:1})
+\end{align}
+\]</span>
 <ul>
-<li>Best practices for C++, but pre c++11</li>
+<li>We can keep expanding the right-most term until there are no more variables left.</li>
+<li>Summarizing:</li>
+</ul>
+<span class="math display">\[\begin{equation}
+  P(X_{n:1}) = \prod_{k=1}^n P(X_k | X_{k-1:1})
+\end{equation}
+\]</span>
+<ul>
+<li>Technical note: When encountering <span class="math inline">\(X_{0:1}\)</span> then it is nothing</li>
+</ul>
+<h1 id="defining-the-network">Defining the Network</h1>
+<h2 id="basic-graph-theory">Basic Graph Theory</h2>
+<ul>
+<li>A Bayes Network is a Directed Acyclic Graph (DAG) of nodes (representing random variables) and directed edges (representing "causality")</li>
+<li>No directed cycles. This means you can't start at a node, follow the arrows and end up back at that same node.</li>
+<li>Parent: A is a parent of B if an edge (an arrow) goes from A to B</li>
+<li>Child: if A is a parent of B then B is a child of A (reverse the arrow)</li>
+<li>Descendant: A is a descendant of B if A can be reached from B by following the arrows.</li>
+</ul>
+<h2 id="defining-the-network-1">Defining the Network</h2>
+<ul>
+<li>Specify the probability of each random variable (i.e., each node), given its parents</li>
+<li>Each node is conditionally independent of its non-descendants given its parents</li>
+<li>Then, with all those probabilities known, you can compute the full joint distribution (and any probability/ conditional probability of the variables in the network)
+<ul>
+<li>The network creates a partial-order of the nodes:
+<ul>
+<li>Each node must come before its parents</li>
 </ul></li>
-<li>Effective Modern C++ by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>Best practices for C++11</li>
+<li>If you order the nodes according to the network, you can
+<ol>
+<li>Apply probability chain rule</li>
+<li>Apply conditional independence</li>
+<li>Then you have full distribution in terms of what has been specified</li>
+</ol></li>
 </ul></li>
-<li>Effective STL by Scott Meyers (Available online through the Northwestern Library)
+</ul>
+<h2 id="example">Example</h2>
+<figure>
+<img src="./bayesnet.svg" alt="" /><figcaption>A Bayes Network, with variables describing conditions that might make a person fall and the relationships between the variables</figcaption>
+</figure>
 <ul>
-<li>How to use the standard template library. Pre C++11</li>
-</ul></li>
-<li><a href="http://en.cppreference.com/w/">cppreference.com</a> A good reference website for C++ that is usually correct and up-to-date with the standards.
+<li><p>We must be given the conditional probabilities of each node, given its parents. <span class="math inline">\(P(C)\)</span>, <span class="math inline">\(P(P)\)</span>, <span class="math inline">\(P(S|C,P)\)</span> <span class="math inline">\(P(U)\)</span>, <span class="math inline">\(P(F|S)\)</span></p></li>
+<li><p>Next, order the nodes consistent with the graph (children before parents)</p>
 <ul>
-<li>www.cplusplus.com. This website usually comes up on google before cppreference but is not good. It is seemingly "beginner friendly" but it also contains outdated information and often reinforces bad habits.</li>
+<li>This is a partial order, so any order that meets the rule (children before parents) will work</li>
+<li>In this case <span class="math inline">\(F,S,C,P,U\)</span> works as does <span class="math inline">\(F,S,U,P,C\)</span> (and other combinations)</li>
 </ul></li>
-<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>
+<li><p>Write out the law of total probability, using the order you decided upon</p>
+<span class="math display">\[\begin{equation}
+ P(F,S,C,P,U) = P(F | S, C, P, U)P(S | C, P, U) P(C | P, U) P(P | U) P(U)
+\end{equation}
+\]</span></li>
+<li><p>Apply the conditional independence: a node is conditionally independent of its non-descendants given its parents. In our case:</p>
+<span class="math display">\[\begin{align}
+ P(F | S, C, P, U) = P(F | S, U)\\
+ P(S|C, P, U) = P(S | C, P) \\
+ P(C | P, U) = P(C) \\
+ P(P |U) = P(P)
+\end{align}
+\]</span></li>
+<li><p>Finally, we get</p>
+<span class="math display">\[\begin{equation}
+ P(F, S, C, P, U) = P(F | S, U)P(S | C, P) P(C) P(P)P(U)
+\end{equation}
+\]</span></li>
+<li><p>Note that the above equation uses exactly the conditional probabilities that were given at the beginning</p></li>
+</ul>
+<h3 id="finer-points">Finer Points</h3>
 <ul>
-<li>Formalizes best practices for C++, written by Bjarne Stroustrup (creator of C++) and Herb Sutter (very involved in C++ standards committee)</li>
-</ul></li>
-<li><a href="https://herbsutter.com/gotw/">GotW</a> Good source for C++ best practices</li>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4713.pdf">Draft of the C++17 Standard</a>
-<ul>
-<li>Hard to read but contains almost the final word about the mechanics of C++17</li>
-<li>The actual ISO standard can be purchased <a href="https://www.iso.org/standard/68564.html">here</a> for 198 Swiss Francs
-<ul>
-<li>Maybe the Northwestern Library will obtain it for you if it were actually needed.</li>
-</ul></li>
-</ul></li>
+<li>We've set up this network, assuming certain causalities</li>
+<li>You can set up the network however you want. It just means you need to know different conditional probabilities to compute the joint distribution.</li>
+<li>I'm using "distribution" and probability interchangeably here. It works for both, just as Bayes rule has the same form whether dealing with distributions or probabilities.</li>
 </ul>
 </div>
 <div class="footer">
