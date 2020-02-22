@@ -697,7 +697,7 @@ add_dependencies(${PROJECT_NAME}_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS} ${ca
 </ul></li>
 <li>Gazebo will call <code>OnUpdate()</code> on every simulation iteration.
 <ul>
-<li>From <code>OnUpdate()</code> you should publish wheel odometry and control the velocity of the wheels according to the latest received <code>cmd_vel</code> command</li>
+<li>From <code>OnUpdate()</code> you should publish wheel odometry and control the velocity of the wheels according to the latest received <code>wheel_cmd</code> command</li>
 <li>The class has a <code>Model</code> object that can be used to manipulate the physics of the model.</li>
 <li>You can see the methods available in the <a href="http://osrf-distributions.s3.amazonaws.com/gazebo/api/9.0.0/classgazebo_1_1physics_1_1Model.html">documentation</a>
 <ul>
