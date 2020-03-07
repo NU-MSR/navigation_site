@@ -8,13 +8,14 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Sensing, Navigation, and Machine Learing for Robotics</title>
+<title>Data Association for SLAM</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -466,11 +467,11 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#homework">Homework</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#ros-and-robotics">ROS and Robotics</a></li>
-<li><a href="#c">C++</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#the-simplest-data-association">The Simplest Data Association</a></li>
+<li><a href="#mahalanobis-distance">Mahalanobis Distance</a></li>
+<li><a href="#incorporating-into-slam">Incorporating into SLAM</a></li>
+<li><a href="#practical-considerations">Practical Considerations</a></li>
 </ul>
 </nav>
 
@@ -482,81 +483,115 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Sensing, Navigation, and Machine Learing for Robotics</h1>
+<h1 class="title">Data Association for SLAM</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="homework">Homework</h1>
+<h1 id="overview">Overview</h1>
 <ol>
-<li><a href="./guidelines.html">Guidelines</a> (Read this first)</li>
-<li><a href="./homework00.html">Homework 00</a> (Choose A, B, or C to turn in on 1/10, the rest are due 1/14).</li>
-<li><a href="./homework01.html">Homework 01</a> (Due on 1/28)</li>
-<li><a href="./homework02.html">Homework 02</a> (Due on 2/18)</li>
-<li><a href="./homework03.html">Homework 03</a> (Not due yet, but partially posted)</li>
+<li>To perform SLAM effectively, measurements must be associated with the proper features in the map.</li>
+<li>The correspondence is <span class="math inline">\(c_i = j\)</span>, which indicates that measurement <span class="math inline">\(i\)</span> belongs to feature <span class="math inline">\(j\)</span>.</li>
+<li>There is technically a joint distribution of the robot pose, the map, and the features, given the measurements <span class="math inline">\(p(x, m, c | z)\)</span>.
+<ul>
+<li>However, this joint distribution is difficult to compute (and it is not Gaussian).</li>
+<li>Instead we try to find the most likely data association rather than the full distribution based on a</li>
+</ul></li>
+<li>Standard EKF SLAM is rather brittle in the face of incorrect data association
+<ul>
+<li>Wrong associations throw the algorithm off</li>
+<li>There are methods to mitigate the negative effects</li>
+</ul></li>
 </ol>
-<h1 id="notes">Notes</h1>
+<h1 id="the-simplest-data-association">The Simplest Data Association</h1>
 <ol>
-<li><a href="./cmake_basics.html">CMake Basics</a></li>
-<li><a href="./unit_test_cpp.html">Testing With ROS and C++</a></li>
-<li><a href="./derive_kinematics.html">Deriving Kinematics</a></li>
-<li><a href="./odometry.html">Odometry</a></li>
-<li><a href="./nonlinear.html">A Taste of Nonlinear Control</a></li>
-<li><a href="./fsm.html">Finite State Machines</a> (coming soon…)</li>
-<li><a href="./cpp1.html">Some Notes on C++</a> (coming soon…)</li>
-<li><a href="./turtlebot.html">The Turtlebot3</a></li>
-<li><a href="./cross-compile.html">Cross Compiling</a></li>
-<li><a href="./probability.html">Probability</a></li>
-<li><a href="./estimation_example.html">An Estimation Example</a></li>
-<li><a href="./bayes_net.html">Bayesian Networks</a></li>
-<li><a href="./gaussian.html">Gaussian Distributions</a></li>
-<li><a href="./kalman_filter.html">Kalman Filter</a></li>
-<li><a href="./slam.pdf">EKF Slam</a></li>
-<li><a href="./data_assoc.html">Data Association</a></li>
+<li>Since <span class="math inline">\(z = h(x)\)</span>, if <span class="math inline">\(h\)</span> is invertible then <span class="math inline">\(x = h^{-1}(z)\)</span>.
+<ul>
+<li>The inversion of the measurement model provides a feature location</li>
+<li>Check if the estimated feature location is near an existing feature
+<ul>
+<li>If not add it to the map</li>
+</ul></li>
+</ul></li>
+<li>Advantage: Simplicity</li>
+<li>Disadvantage: Does not account for covariance</li>
 </ol>
-<h1 id="resources">Resources</h1>
-<p>The following resources will be useful in this course.</p>
-<h1 id="ros-and-robotics">ROS and Robotics</h1>
+<h1 id="mahalanobis-distance">Mahalanobis Distance</h1>
 <ul>
-<li><a href="https://nu-msr.github.io/me495_site/">Notes from my other ME495</a></li>
-<li><a href="https://wiki.ros.org">ROS wiki</a></li>
-<li><a href="https://answers.ros.org">ROS Answers</a> Stack Overflow for ROS, many core ROS developers will answer questions on this website.</li>
-<li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Modern Robotics, by Kevin Lynch and Frank Park</a></li>
-<li><a href="http://planning.cs.uiuc.edu">Planning Algorithms by Steven M. LaValle</a></li>
-</ul>
-<h1 id="c">C++</h1>
+<li>A distance metric that accounts for covariance</li>
+<li>How many standard deviations away, but for multiple dimensions</li>
+<li><span class="math inline">\((x_a - x_b)^T\Sigma^{-1}(x_a - x_b)\)</span>.
 <ul>
-<li>Professional C++ 4th Edtion by Marc Gregoire (Available online through the Northwestern Library).</li>
-<li>A Tour of C++ by Bjarne Stroustrup (Available online through the Northwestern Library)</li>
-<li>More Effective C++ by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>Best practices for C++, but pre c++11</li>
+<li><span class="math inline">\(\Sigma\)</span> is the covariance</li>
 </ul></li>
-<li>Effective Modern C++ by Scott Meyers (Available online through the Northwestern Library)
+<li>What do we take the mahalanobis distance of?
 <ul>
-<li>Best practices for C++11</li>
-</ul></li>
-<li>Effective STL by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>How to use the standard template library. Pre C++11</li>
-</ul></li>
-<li><a href="http://en.cppreference.com/w/">cppreference.com</a> A good reference website for C++ that is usually correct and up-to-date with the standards.
-<ul>
-<li>www.cplusplus.com. This website usually comes up on google before cppreference but is not good. It is seemingly "beginner friendly" but it also contains outdated information and often reinforces bad habits.</li>
-</ul></li>
-<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>
-<ul>
-<li>Formalizes best practices for C++, written by Bjarne Stroustrup (creator of C++) and Herb Sutter (very involved in C++ standards committee)</li>
-</ul></li>
-<li><a href="https://herbsutter.com/gotw/">GotW</a> Good source for C++ best practices</li>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4713.pdf">Draft of the C++17 Standard</a>
-<ul>
-<li>Hard to read but contains almost the final word about the mechanics of C++17</li>
-<li>The actual ISO standard can be purchased <a href="https://www.iso.org/standard/68564.html">here</a> for 198 Swiss Francs
-<ul>
-<li>Maybe the Northwestern Library will obtain it for you if it were actually needed.</li>
-</ul></li>
+<li>Distance between measurement resulting from current state and new measurement</li>
 </ul></li>
 </ul>
+<h1 id="incorporating-into-slam">Incorporating into SLAM</h1>
+<ol>
+<li>Basic idea:
+<ol>
+<li>Find the existing landmark that generates a measurement closest to the the current measurement</li>
+<li>If the closest existing landmark is farther than some threshold, the landmark is a new landmark</li>
+</ol></li>
+</ol>
+<p>Algorithm Overview:</p>
+<ol>
+<li>Let <span class="math inline">\(N\)</span> be the number of landmarks already seen</li>
+<li>The <span class="math inline">\(j\)</span>-th landmark is at <span class="math inline">\((\mu_{x,j}, \mu_{y,j})\)</span></li>
+<li>Let <span class="math inline">\((\mu_{x, N+1}, \mu_{y, N+1}) = h^{-1}(z_i)\)</span></li>
+<li>For each measurement <span class="math inline">\(i\)</span>
+<ol>
+<li>For each landmark <span class="math inline">\(k\)</span>
+<ol>
+<li>Compute <span class="math inline">\(H_k\)</span>, the linearized measurement model (see Kalman Filter)</li>
+<li>Compute the covariance <span class="math inline">\(\Psi_k = H_k \Sigma H_k^T + R\)</span></li>
+<li>Compute the expected measurement <span class="math inline">\(\hat{z}_k = h(\mu)\)</span></li>
+<li>Compute the mahalanobis distance <span class="math inline">\(d_k = (z_i - \hat{z}_k)^T\Psi^{-1}(z_i-\hat{z}_k)\)</span></li>
+</ol></li>
+</ol></li>
+<li>Let <span class="math inline">\(d_\ast\)</span> be the minimum mahalonbis distance and <span class="math inline">\(\ell\)</span> be the landmark index corresponding to the minimimum distance.</li>
+<li>If <span class="math inline">\(d_\ast\)</span> is more than a threshold: Add a new landmark (increment <span class="math inline">\(N\)</span>)</li>
+<li>Otherwise, <span class="math inline">\(\ell\)</span> is the landmark corresponding to <span class="math inline">\(z_i\)</span></li>
+<li>Incorporate the new measurement into your EKF estimate
+<ul>
+<li>You may wish to only incorporate the measurement if <span class="math inline">\(d_\ast\)</span> is below some threshold or the landmark is new.</li>
+</ul></li>
+</ol>
+<h1 id="practical-considerations">Practical Considerations</h1>
+<ol>
+<li>If likelihood of features is similar, an incorrect association can occur
+<ul>
+<li>Choose an environment/sensor combination such that likelihoods are vastly different for example, maintain a minimum distance between landmarks to help set a good threshold</li>
+<li>Farther apart landmarks are, less chance of incorrect association but fewer landmarks leads to worse estimate leads to incorect association.</li>
+</ul></li>
+<li>Susceptible to spurious measurements/outliers
+<ul>
+<li>Provisional landmarks: don't add a landmark right away, wait for a few citiings</li>
+<li>Provisional landmarks are not used for localization</li>
+<li>Maintain probability that landmarks exist</li>
+</ul></li>
+<li>EKF Slam only updates based on landmarks it sees not those that it does not see. We can use this to our advantage when doing data association.
+<ul>
+<li>Only add a new landmark if it is seen multiple times in the same location
+<ul>
+<li>Avoids false positives, makes the method more robots</li>
+</ul></li>
+</ul></li>
+<li>Multi-hypothesis kalman filter
+<ul>
+<li>Run several filters with different data associations</li>
+</ul></li>
+<li>While it is possible to explicitly compute <span class="math inline">\(c_i\)</span> you need not do this: For each measurement:
+<ol>
+<li>Temporarily assume that the measurement is for a previously unseen landmark</li>
+<li>Compute mahalonobis distances to each landmark</li>
+<li>Find the mimimum mahalanobis distance</li>
+<li>If the minimum is aboe a threshold add the landmark permanently Otherwise incorporate the measurement for the closest landmark.</li>
+</ol></li>
+<li>Your landmark detection scheme should work perfectly on the perfect data form a simulation</li>
+</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

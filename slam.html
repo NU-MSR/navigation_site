@@ -1,0 +1,649 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Extended Kalman Filter SLAM</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#the-odometry-model">The Odometry Model</a></li>
+<li><a href="#the-measurement-model">The Measurement Model</a></li>
+<li><a href="#extended-kalman-filter-slam-1">Extended Kalman Filter Slam</a>
+<ul>
+<li><a href="#initialization">Initialization</a></li>
+<li><a href="#prediction">Prediction</a></li>
+<li><a href="#update">Update</a></li>
+</ul></li>
+<li><a href="#practical-tips">Practical Tips</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Extended Kalman Filter SLAM</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="the-odometry-model">The Odometry Model</h1>
+<p>The state of the robot at time <span class="math inline">\(t\)</span> is</p>
+<span class="math display">\[\begin{equation}
+  q_t = \begin{bmatrix}
+    \theta_t \\
+    x_t \\
+    y_t
+    \end{bmatrix}.
+\end{equation}
+\]</span>
+<p>The state of the map is <span class="math inline">\(\begin{bmatrix}m_{x1} &amp; m_{y1} &amp; \dots &amp; m_{xn} &amp; m_{yn} \end{bmatrix}^T \in \mathbb{R}^{2n}\)</span></p>
+<p>Let <span class="math inline">\(\xi_t = \begin{bmatrix}q_t\\m_t \end{bmatrix}\)</span> be the combined state vector.</p>
+<p>The odometry model that we derived earlier in the class governs how the robot's state transitions from time <span class="math inline">\(t-1\)</span> to time <span class="math inline">\(t\)</span>, given the twist</p>
+<span class="math display">\[\begin{equation}
+    u_t = \begin{bmatrix}
+      \Delta\theta_t \\
+      \Delta x_t \\
+      0
+    \end{bmatrix}
+\end{equation}
+\]</span>
+<p>The <span class="math inline">\(\Delta y_t\)</span> component of the twist is <span class="math inline">\(0\)</span> for the diff-drive robot.</p>
+<p>The twist <span class="math inline">\(u\)</span> can be computed from encoder readings or be given as a control input. The forward kinematics of the robot convert encoder readings to a twist.</p>
+<p>Given the twist, the odometry calculations provide <span class="math inline">\(T_{wb&#39;} = T(q) = T(\theta, x, y)\)</span>, the transformation from the Integrating the twist <span class="math inline">\(u_t\)</span> the transformation <span class="math inline">\(T_{wb&#39;}\)</span> (from the world frame to the body frame after the twist is found).</p>
+<p>Generally, the state transition has the form:</p>
+<span class="math display">\[\begin{equation}
+      \begin{bmatrix}
+        q_t\\m_t
+      \end{bmatrix}
+      = g(\xi_{t-1}, u_t, w_t).
+\end{equation}
+\]</span>
+<p>There are two cases.</p>
+<p>Let <span class="math inline">\(\hat{\xi}_t = \begin{bmatrix}\hat{q}_t \\ \hat{m}_t\end{bmatrix}\)</span> be the current state estimate</p>
+<p>The Extended Kalman filter uses a state transition model linearized about the current estimate. Therefore we Taylor expand <span class="math inline">\(g(\xi_{t-1}, u_t, 0)\)</span> about our estimate <span class="math inline">\(\hat{\xi}_t\)</span>:</p>
+<span class="math display">\[\begin{equation}
+      g(\xi_{t-1},u_t) \approx g(\hat{\xi}_{t-1},u_t) + g&#39;(\hat{\xi}_{t-1}, u_t)(\xi_{t-1}-\hat{\xi}_{t-1}).
+\end{equation}
+\]</span>
+<p>The function <span class="math inline">\(g&#39;(\xi_{t-1}, u_t)\)</span> is the derivative of <span class="math inline">\(g\)</span> with respect to the state <span class="math inline">\(\xi\)</span>:</p>
+<p>There are two cases</p>
+<h1 id="the-measurement-model">The Measurement Model</h1>
+<p>Let <span class="math inline">\(r_j\)</span> be the distance to landmark <span class="math inline">\(j\)</span> (this is the range measurement). Let <span class="math inline">\(\phi_j\)</span> be the relative bearing of landmark <span class="math inline">\(j\)</span> (this is the bearing measurement).</p>
+<p>Relative cartesian <span class="math inline">\(\bar{x},\bar{y}\)</span> measurements can be transformed into range bearing measurements:</p>
+<span class="math display">\[\begin{align}
+  r_j &amp;= \sqrt{\bar{x}^2 + \bar{y}^2}\\
+  \phi_j &amp;= \arctan2(\bar{y}, \bar{x})
+\end{align}
+\]</span>
+<p>(The laser scanner gives range-bearing measurements but the landmark detection algorithm provides relative <span class="math inline">\((\bar{x}, \bar{y}\)</span> measurements).</p>
+<p>The measurement model relates the system states to the measurements. The measurement for range and bearing to landmark <span class="math inline">\(j\)</span> is:</p>
+<span class="math display">\[\begin{equation}
+    z_j(t) = h_j(\xi_t),
+\end{equation}
+\]</span>
+<p>where</p>
+<span class="math display">\[\begin{equation}
+    h_j(\xi_t)=
+\begin{bmatrix}r_j \\ \phi_j\end{bmatrix} =
+    \begin{bmatrix}
+      \sqrt{(m_{x,j}-x_t)^2 +(m_{y,j}-y_t)^2} \\
+      \arctan2(m_{y,j}-y, m_{x,j} - x) - \theta_t
+    \end{bmatrix}
+    + v_t
+\end{equation}
+\]</span>
+<p>and <span class="math inline">\(v_t \sim N(0, R)\)</span> is the sensor noise.</p>
+<p>We can approximate <span class="math inline">\(h_j(\xi_t)\)</span> using a Taylor expansion about the estimate <span class="math inline">\(\hat{\xi}_t\)</span>:</p>
+<span class="math display">\[\begin{equation}
+    h_j(\xi_t) \approx h_j(\hat{\xi}_t) + h&#39;_j(\hat{\xi}_t)(\xi_t-\hat{\xi}_t).
+\end{equation}
+\]</span>
+<p>Let the estimated relative <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> distances be given by</p>
+<span class="math display">\[\begin{align}
+    \delta_x &amp;= (\hat{x}_t - \hat{m}_{x,j}) \\
+    \delta_y   &amp;=  (\hat{y}_t - \hat{m}_{y,j}) 
+\end{align}
+\]</span>
+<p>and let <span class="math inline">\(d = \hat{\delta}_{t,j}^2 + \hat{\eta}_{t,j}^2\)</span> (this is the estimated squared distance between the robot and landmark <span class="math inline">\(j\)</span> at time <span class="math inline">\(t\)</span>).</p>
+<p>Then the derivative with respect to the state is:</p>
+<span class="math display">\[\begin{equation}
+   H_j =  h_j&#39;(\xi_t) =
+      \begin{bmatrix}
+    \begin{bmatrix}
+      0  &amp; \frac{-\delta_x}{\sqrt{d}} &amp; \frac{-\delta_y}{\sqrt{d}} \\
+      -1  &amp; \frac{\delta{y}}{d}       &amp; \frac{-\delta_x}{d}
+    \end{bmatrix}
+    &amp;
+    \begin{bmatrix}
+      0_{1\times 2 (j-1)}\\
+      0_{1\times 2 (j-1)}
+    \end{bmatrix}
+    &amp;
+    \begin{bmatrix}
+G      \frac{\delta_x}{\sqrt{d}} &amp; \frac{\delta_y}{\sqrt{d}} \\
+      -\frac{\delta_y}{d} &amp; \frac{\delta_x}{d}
+    \end{bmatrix}
+    \begin{bmatrix}
+      0_{1\times (n - 2j)}\\
+      0_{1\times (n - 2j)}
+    \end{bmatrix}
+
+    \end{bmatrix}
+\end{equation}
+\]</span>
+<h1 id="extended-kalman-filter-slam-1">Extended Kalman Filter Slam</h1>
+<p>At each timestep <span class="math inline">\(t\)</span>, Extended Kalman filter SLAM takes odometry <span class="math inline">\(u_t\)</span> and sensor measurements <span class="math inline">\(z_i\)</span> and generates an estimate of the full state vector <span class="math inline">\(\hat{\xi}_t\)</span>.</p>
+<h2 id="initialization">Initialization</h2>
+<p>We start out with some guess as to the robot state (usually <span class="math inline">\((0,0,0)\)</span>) and covariance:</p>
+<span class="math display">\[\begin{equation}
+\Sigma_0 =  \begin{bmatrix}
+    \Sigma_{0,q} &amp; 0_{2n \times 2n} \\
+    0_{2n \times 3} &amp; \Sigma_{0,m}
+    \end{bmatrix}
+\end{equation}
+\]</span>
+<p>Usually, the initial guess covariance <span class="math inline">\(\Sigma_{q,0}\)</span> is initialized to zero (indicating that we are certain that the robot is at its initial position. <span class="math inline">\(\Sigma_{0,m}\)</span> is diagonal, with infinity (or very high numbers) on its diagonal, indicating that the robot does not yet know about any landmarks.</p>
+<h2 id="prediction">Prediction</h2>
+<p>First, update the estimate using the model:</p>
+<span class="math display">\[\begin{equation}
+  \hat{\xi}_t^- = g(\hat{\xi}_{t-1}, u_t, 0)
+\end{equation}
+\]</span>
+<p>Next, we propagate the uncertainty using the linearized state transition model:</p>
+<span class="math display">\[\begin{equation}
+\hat{\Sigma}_t^- = G_t \hat{\Sigma}_{t-1}G_t^T + \bar{Q},
+\end{equation}
+\]</span>
+<p>Where</p>
+<span class="math display">\[\begin{equation}
+  \bar{Q} = 
+  \begin{bmatrix}
+    Q &amp; 0_{3\times 2n} \\
+    0_{2n\times 3} &amp; 0_{2n \times 2n}\\
+  \end{bmatrix}
+\end{equation}
+\]</span>
+<p>is the process noise for the robot motion model, expanding to fill the whole state. Notice that moving does not modify the robot's knowledge of the landmark locations.</p>
+<h2 id="update">Update</h2>
+<p>A separate sensor measurement step is completed for each landmark that has been observed.</p>
+<p>There are practical steps that must occur, beyond what happens in an ordinary EKF, prior to incorporating the measurements.</p>
+<p>Once the landmarks are initialized, we incorporate each landmark measurement one-by-one (even if we've received multiple landmark measurements in the same time-step). Since measurements improve our estimate, our linearized model depends on the estimate, and our measurement of landmark <span class="math inline">\(i\)</span> is not affected by the states of the other landmarks, it makes sense to incrementally incorporate each measurement.</p>
+<h3 id="for-each-measurement-i">For each measurement $i$}</h3>
+<p>Let <span class="math inline">\(j\)</span> be the landmark associated with measurement <span class="math inline">\(i\)</span>.</p>
+<h1 id="practical-tips">Practical Tips</h1>
+<p>Further reading:~<span class="citation" data-cites="Thrun2005"></span> \bibliography{citations} \bibliographystyle{ieeetr}</p>
+<p>\end{document} %%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:</p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
