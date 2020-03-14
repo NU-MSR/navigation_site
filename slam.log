@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.1.16)  8 MAR 2020 11:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.1.16)  14 MAR 2020 10:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -225,7 +225,7 @@ Overfull \hbox (8.97507pt too wide) detected at line 122
 
 [2] [3] [4]
 
-LaTeX Warning: Citation `Thrun2005' on page 5 undefined on input line 283.
+LaTeX Warning: Citation `Thrun2005' on page 5 undefined on input line 282.
 
 No file slam.bbl.
 [5] (html//slam.aux)
@@ -251,7 +251,7 @@ st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy5.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
 /usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on html//slam.pdf (5 pages, 136402 bytes).
+Output written on html//slam.pdf (5 pages, 136404 bytes).
 PDF statistics:
  68 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream

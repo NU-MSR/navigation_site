@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex html/slam"] 1583684415 "html/slam.aux" "html/slam.bbl" "html/slam" 1583684415
+["bibtex html/slam"] 1584198478 "html/slam.aux" "html/slam.bbl" "html/slam" 1584198479
   "/usr/share/texmf-dist/bibtex/bst/base/ieeetr.bst" 1572595918 18361 1a00e58565e7f19bf2b3e1bfb82254ae ""
   "citations.bib" 0 -1 0 ""
-  "html/slam.aux" 1583684387 914 83039f9684e27d416c18c16524c54586 "pdflatex"
+  "html/slam.aux" 1584198478 914 83039f9684e27d416c18c16524c54586 "pdflatex"
   (generated)
   "html/slam.bbl"
   "html/slam.blg"
-["pdflatex"] 1583684386 "lectures/slam/slam.tex" "html/slam.pdf" "slam" 1583684415
+["pdflatex"] 1584198478 "lectures/slam/slam.tex" "html/slam.pdf" "slam" 1584198479
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1572595918 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1572595918 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1572595918 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -63,14 +63,14 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1572595918 33301 a3134070eacafb10b1f371612ce2650d ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1579234021 4572998 f9631eebba48c3ee98e5d310044b0a09 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1579233988 8044939 b300df233dbd6b11ea916a4bc233fe0f ""
-  "html//slam.aux" 1583684387 914 83039f9684e27d416c18c16524c54586 "pdflatex"
-  "html/slam.aux" 1583684387 914 83039f9684e27d416c18c16524c54586 "pdflatex"
+  "html//slam.aux" 1584198478 914 83039f9684e27d416c18c16524c54586 "pdflatex"
+  "html/slam.aux" 1584198478 914 83039f9684e27d416c18c16524c54586 "pdflatex"
   "html/slam.bbl" 0 -1 0 "bibtex html/slam"
-  "lectures/slam/slam.tex" 1583684359 11724 2e4cd0ee93adc8ff5a7e34ac63bf70b1 ""
+  "lectures/slam/slam.tex" 1583984409 11722 ca88a5b3f72d050deaa2f66225b285a7 ""
   (generated)
   "html//slam.pdf"
-  "html//slam.log"
+  "html/slam.log"
   "html/slam.pdf"
   "html/slam.aux"
-  "html/slam.log"
+  "html//slam.log"
   "html//slam.aux"

@@ -1045,10 +1045,12 @@ add_dependencies(${PROJECT_NAME}_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS} ${ca
 </ul></li>
 </ul>
 <h1 id="task-l.003-slam-with-unknown-data-association">Task L.003 (SLAM with unknown data association)</h1>
+<p>Here, you will implement SLAM based on the laser-scanner measurements, using the landmark detection algorithms developed in Task S.</p>
 <ol>
 <li>Implement a data association scheme (either based on mahalanobis distance, euclidean distance, or anything else you can think of) to associate measurements with landmarks and incorporate it into the SLAM algorithm
 <ul>
 <li>You should feel free to add any of the additional filtering techniques to make the data association more effective</li>
+<li>You may wish to test your data assocation with <code>debug:=true</code> with the simulated relative landmark data prior to connecting it to the landmark detection algorithm.</li>
 </ul></li>
 <li>Drive the robot around a closed path and include a screenshot of the result in rviz. Use your data association scheme and simulated laser scan data.
 <ul>
@@ -1058,7 +1060,7 @@ add_dependencies(${PROJECT_NAME}_plugin ${${PROJECT_NAME}_EXPORTED_TARGETS} ${ca
 <li>It is okay if your algorithm only works while driving cautiously</li>
 <li>When you complete this task you have fully implemented EKF SLAM with unknown data association
 <ul>
-<li>It may be helpful to temporarily reduce the noise of the sensor in the gazebo model to zero (you can do this in the xacro urdf) while testing.</li>
+<li>It may be helpful to temporarily reduce the noise of the laser scanner in the gazebo model to zero (you can do this in the xacro urdf) while testing.</li>
 </ul></li>
 <li>You may arrange the gazebo world to make this task easier for you if you wish, although it can be accomplished in the world that is provided.</li>
 </ol>
