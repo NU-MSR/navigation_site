@@ -556,21 +556,22 @@ table td {
 <li>Otherwise, <span class="math inline">\(\ell\)</span> is the landmark corresponding to <span class="math inline">\(z_i\)</span></li>
 <li>Incorporate the new measurement into your EKF estimate
 <ul>
-<li>You may wish to only incorporate the measurement if <span class="math inline">\(d_\ast\)</span> is below some threshold or the landmark is new.</li>
+<li>You should only incorporate the measurement if <span class="math inline">\(d_\ast\)</span> is below some threshold or the landmark is new. This can add robustness to the data association by skipping measurements that are not clearly associated with an existing landmark and are also not clearly a new landmark.</li>
 </ul></li>
 </ol>
 <h1 id="practical-considerations">Practical Considerations</h1>
+<p>There are several practical considerations to the above algorithm to improve robustness, however, as outlined above, the algorithm should work well enough in our examples.</p>
 <ol>
 <li>If likelihood of features is similar, an incorrect association can occur
 <ul>
 <li>Choose an environment/sensor combination such that likelihoods are vastly different for example, maintain a minimum distance between landmarks to help set a good threshold</li>
 <li>Farther apart landmarks are, less chance of incorrect association but fewer landmarks leads to worse estimate leads to incorect association.</li>
 </ul></li>
-<li>Susceptible to spurious measurements/outliers
+<li>The algorithm is susceptible to spurious measurements/outliers. This can be improved by maintaining a provisional landmark list
 <ul>
-<li>Provisional landmarks: don't add a landmark right away, wait for a few citiings</li>
+<li>Provisional landmarks: don't add a landmark right away, wait for a few measurements associated with it to come in</li>
 <li>Provisional landmarks are not used for localization</li>
-<li>Maintain probability that landmarks exist</li>
+<li>An even more advanced idea is to maintain probability that landmarks exist</li>
 </ul></li>
 <li>EKF Slam only updates based on landmarks it sees not those that it does not see. We can use this to our advantage when doing data association.
 <ul>
