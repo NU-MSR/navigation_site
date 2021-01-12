@@ -67,7 +67,7 @@ namespace rigid2d
 
     /// \brief input a 2 dimensional vector
     ///   You should be able to read vectors entered as two numbers
-    ///   separated by a newline or a space, or entered as [xcomponent ycomponent]
+    ///   separated by a newline or a space, or entered as [xcomponent, ycomponent]
     /// is - stream from which to read
     /// v [out] - output vector
     /// Hint: The following may be useful:
@@ -133,7 +133,7 @@ namespace rigid2d
     /// \param lhs - the left hand operand
     /// \param rhs - the right hand operand
     /// \return the composition of the two transforms
-    /// HINT: This function can be implemented in terms of *=
+    /// HINT: This function should be implemented in terms of *=
     Transform2D operator*(Transform2D lhs, const Transform2D & rhs);
 }
 

@@ -15,7 +15,7 @@ span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -467,37 +467,37 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#changes">Changes</a>
-<ul>
-<li><a href="#section">01/23</a></li>
-</ul></li>
 <li><a href="#task-group-0-preliminaries">Task Group 0 (Preliminaries)</a>
 <ul>
-<li><a href="#task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</a></li>
+<li><a href="#task-0.000-reading-the-guidelines">Task 0.000 (Reading the Guidelines)</a></li>
+<li><a href="#task-0.001-making-a-git-repository">Task 0.001 (Making a Git Repository)</a></li>
+<li><a href="#task-0.002-making-a-readme">Task 0.002 (Making a README)</a></li>
 </ul></li>
-<li><a href="#task-c-c-and-rigid-transforms">Task C (C++ and Rigid Transforms)</a>
+<li><a href="#task-group-a-robot-description">Task Group A (Robot Description)</a>
 <ul>
-<li><a href="#task-c.005-rosifying-rigid2d">Task C.005 (ROSifying rigid2d)</a></li>
-<li><a href="#task-c.007-getting-displacement">Task C.007 (Getting Displacement)</a></li>
-<li><a href="#task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</a></li>
-<li><a href="#task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</a></li>
-<li><a href="#task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</a></li>
-<li><a href="#task-c.010-normalize-angle-it-may-be-useful">Task C.010 (Normalize angle, it may be useful)</a></li>
+<li><a href="#task-a.000-nuturtle_description-package">Task A.000 (nuturtle_description package)</a></li>
+<li><a href="#task-a.001-visualization">Task A.001 (visualization)</a></li>
+<li><a href="#task-a.002-yaml-file">Task A.002 (Yaml File)</a></li>
+<li><a href="#task-a.003-readme">Task A.003 (README)</a></li>
 </ul></li>
-<li><a href="#task-group-e-kinematics">Task Group E (Kinematics)</a>
+<li><a href="#task-group-b-c-and-2d-transforms">Task Group B (C++ and 2D Transforms)</a>
 <ul>
-<li><a href="#task-e.000-math">Task E.000 (Math)</a></li>
-<li><a href="#task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</a></li>
-<li><a href="#task-e.002-unit-test-diff_drive">Task E.002 (Unit Test diff_drive)</a></li>
-<li><a href="#task-e.003-waypoints">Task E.003 (Waypoints)</a></li>
-<li><a href="#task-e.004-odometry-node">Task E.004 (Odometry Node)</a></li>
-<li><a href="#task-e.005-fake-encoders">Task E.005 (Fake Encoders)</a></li>
+<li><a href="#task-b.000-library-implementation">Task B.000 (library implementation)</a></li>
+<li><a href="#task-b.001-main-implementation">Task B.001 (main implementation)</a></li>
+<li><a href="#task-b.002-conceptual-questions">Task B.002 (conceptual questions)</a></li>
+<li><a href="#hints">Hints</a></li>
+<li><a href="#task-b.003-adjoints-and-twists">Task B.003 (adjoints and twists)</a></li>
+<li><a href="#task-b.004-testing">Task B.004 (testing)</a></li>
+<li><a href="#task-b.005-vanilla-cmake">Task B.005 (vanilla cmake)</a></li>
 </ul></li>
-<li><a href="#task-group-b-turtle-sim">Task Group B (Turtle Sim)</a>
+<li><a href="#task-group-c-turtle-sim">Task Group C (Turtle Sim)</a>
 <ul>
-<li><a href="#task-b.005-turtle-waypoints">Task B.005 (Turtle Waypoints)</a></li>
-<li><a href="#task-b.006-turtle-odometry">Task B.006 (Turtle Odometry)</a></li>
+<li><a href="#task-c.000-trect-package">Task C.000 (trect package)</a></li>
+<li><a href="#task-c.001-turtle_rect-node">Task C.001 (turtle_rect node)</a></li>
+<li><a href="#task-c.004-trect.launch">Task C.004 (trect.launch)</a></li>
+<li><a href="#task-c.004-documentation">Task C.004 (documentation)</a></li>
 </ul></li>
+<li><a href="#useful-pages">Useful Pages</a></li>
 </ul>
 </nav>
 
@@ -513,284 +513,326 @@ table td {
 </header>
 
 <!-- The main content of the file -->
-<h1 id="changes">Changes</h1>
-<ol>
-<li>Removed two items from task C.007 that were redundant with task C.003</li>
-<li><code>fake_odom</code> was renamed to <code>fake_encoders</code>, a more descriptive name.</li>
-<li>Task E.004 specified that the node should read <code>wheel_base</code> and <code>wheel_radius</code> parameters</li>
-<li>Task B.006 hint that you can use nuturtle_description/launch/view_diff_drive.launch (with slight modification)</li>
-<li>Task E.005, the joint state names should be read from private parameters "left_wheel_joint" and "right_wheel_joint"</li>
-</ol>
-<h2 id="section">01/23</h2>
-<ol>
-<li>updateOdometry can now return void</li>
-<li>wheelVelocities - this really returns displacements, since  is assumed to be 1</li>
-</ol>
 <h1 id="task-group-0-preliminaries">Task Group 0 (Preliminaries)</h1>
-<h2 id="task-0.003-guideline-updates">Task 0.003 (Guideline Updates)</h2>
+<h2 id="task-0.000-reading-the-guidelines">Task 0.000 (Reading the Guidelines)</h2>
 <ol>
-<li>All C++ code from hereon out should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code>
+<li>Carefully read the homework submission guidelines.</li>
+<li>Be sure to follow these guidelines for every assignment.</li>
+</ol>
+<h2 id="task-0.001-making-a-git-repository">Task 0.001 (Making a Git Repository)</h2>
+<ol>
+<li>Create a git repository using the github classroom link (sent separately).</li>
+<li>All packages made for this class should be a subdirectory in this git repository</li>
+</ol>
+<h2 id="task-0.002-making-a-readme">Task 0.002 (Making a README)</h2>
+<ol>
+<li><p>Add a file called <code>README.md</code> to the repository, based on the following template:</p>
+<pre><code># ME495 Sensing, Navigation and Machine Learning For Robotics
+* &lt;First Name&gt; &lt;Last Name&gt;
+* Winter 2021
+# Package List
+This repository consists of several ROS packages
+- &lt;PACKAGE1&gt; - one sentence description
+</code></pre></li>
+<li><p>Replace the <code>&lt;ITEM&gt;</code> with the appropriate item in the template above.</p></li>
+<li><p>Commit this <code>README.md</code> to your repository.</p></li>
+<li><p>Whenever you add a new package, list it in this <code>README.md</code></p></li>
+</ol>
+<h1 id="task-group-a-robot-description">Task Group A (Robot Description)</h1>
+<p>The goal of this assignment is to adapt the model in the <code>turtlebot3_description</code> for our needs. Upon completion, you will be able to display a model of the <code>turtlebot3</code> robot in rviz.</p>
+<h2 id="task-a.000-nuturtle_description-package">Task A.000 (nuturtle_description package)</h2>
+<ol>
+<li>Create a ros package called <code>nuturtle_description</code>.
 <ul>
-<li>If you are asked to modify or add to code in a package that already exists, you should update the <code>CMakeLists.txt</code> file accordingly</li>
+<li>This should be a directory within your repository (i.e., <code>&lt;reponame&gt;/nuturtle_description</code>)</li>
+<li>The package will contain urdf files and basic debugging, testing, and visualization code for the robots you will be using in this class</li>
+<li>Update the <code>package.xml</code> as follows
+<ul>
+<li>Give it a version number other than 0.0.0.</li>
+<li>Provide a descriptive description.</li>
+<li>Fill in your name and email address as the maintainer and as an author</li>
+<li>Set the License to Apache License 2.0 (This is what turtlebot3 code is released under)</li>
+<li>The package has an <code>exec_depend</code> on <code>rviz</code>, <code>robot_state_publisher</code>, <code>joint_state_publisher</code>, and <code>xacro</code></li>
+</ul></li>
+</ul></li>
+<li>The package (like all packages you write) must pass <code>catkin_lint -W2</code> with no warnings or problems
+<ul>
+<li>You should run catkin_lint frequently because it helps you fix problems!</li>
+<li>You should run catkin_lint prior to submitting because it helps your grade!</li>
 </ul></li>
 </ol>
-<h1 id="task-c-c-and-rigid-transforms">Task C (C++ and Rigid Transforms)</h1>
-<h2 id="task-c.005-rosifying-rigid2d">Task C.005 (ROSifying rigid2d)</h2>
+<h2 id="task-a.001-visualization">Task A.001 (visualization)</h2>
 <ol>
-<li>Turn the rigid2d library into a ROS package
+<li>Write a launchfile called <code>load.launch</code> that loads the turtlebot3_burger URDF and optionally allows viewing it in rviz.
 <ul>
-<li>Move the <code>rigid2d.hpp</code> into the <code>include/rigid2d</code> subdirectory and add <code>include</code> to your include file paths in <code>CMakeLists.txt</code> so you can <code>#include"rigid2d/rigid2.hpp"</code> in files where you need to use it</li>
-<li>Move <code>rigid2d.cpp</code> into the <code>src/rigid2d</code> directory: this source file is to be a module in the library</li>
-<li>Rename <code>main.cpp</code> to <code>rigid2d_node.cpp</code> into <code>src</code> and compile this file as a regular ROS node called <code>node</code>.</li>
+<li>The argument <code>use_rviz</code> (default true) controls whether rviz and the <code>joint_state_publisher</code> is launched.</li>
+<li><code>roslaunch nuturtle_descirption load.launch --ros-args</code> should print a description of the <code>use_rviz</code> parameter.</li>
 </ul></li>
-<li>Be sure to update the compiler flags to use <code>c++17</code> and <code>-Wall</code> and <code>-Werror</code> in <code>CMakeLists.txt</code></li>
-<li>You should delete the executable you compiled (rigid2d_test), if it is still present</li>
-<li>After making this change, recompile and re-run the tests you implemented in <code>C.004</code>
+<li>Copy the minimal set of meshes and urdf files from the <code>noetic-devel</code> branch of the <code>turtlebot3_description</code> package required to accomplish the above.
 <ul>
-<li>You will now invoke the program using <code>rosrun rigid2d rigid2d_node</code></li>
+<li>Do not include any files that are not necessary.</li>
 </ul></li>
-<li>For the time being, we will be using this library as a catch-all for code that is generically useful.
-<ul>
-<li>For example, for any future projects that need a definition of PI, we can use <code>rigid2d::PI</code></li>
-</ul></li>
+<li>Users should not need to set the <code>TURTLEBOT3_MODEL</code> environment variable for this to work.</li>
+<li>No <code>turtlebot3_packages</code> should need to be installed for <code>roslaunch nuturtle_description load.launch</code> to work.</li>
 </ol>
-<h2 id="task-c.007-getting-displacement">Task C.007 (Getting Displacement)</h2>
+<h2 id="task-a.002-yaml-file">Task A.002 (Yaml File)</h2>
 <ol>
-<li>Add a function called <code>displacement</code> to Transform2D that returns the x, y, and theta values from your transform</li>
+<li>Create <code>diff_params.yaml</code> file to provide a complete parametric description of a differential drive robot.</li>
+<li>You should have the following parameters:
+<ul>
+<li><code>wheel_radius</code>: The radius of the wheels</li>
+<li><code>wheel_base</code>: The distance between the wheels</li>
+</ul></li>
+<li>Modify the turtlebot3 URDF so that it reads these parameters from <code>diff_params.yaml</code> in the appropriate locations such that
+<ul>
+<li>Changing <code>wheel_radius</code> changes the collision geometry of the wheels</li>
+<li>Changing <code>wheel_base</code> changes the distance between the wheels</li>
+</ul></li>
+<li>Update <code>load.launch</code> so that the parameters in <code>diff_params.yaml</code> are loaded into the parameter server.</li>
 </ol>
-<h2 id="task-c.006-unit-testing-rigid2d">Task C.006 (Unit Testing rigid2d)</h2>
+<h2 id="task-a.003-readme">Task A.003 (README)</h2>
 <ol>
-<li>Add unit tests to the rigid2d library
-<ul>
-<li>The tests should run when using <code>catkin_make run_tests</code></li>
-<li>There should be at least one test per public method or function method of <code>Transform2D</code>
-<ul>
-<li>This includes the public members and <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> and <code>operator*</code></li>
-<li>You may find <code>std::stringstream</code> useful when testing <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> (see <a href="https://en.cppreference.com/w/cpp/io/basic_stringstream">stringstream</a>. Note that <code>stringstream</code> is a type alias for <code>basic_stringstream&lt;char&gt;</code></li>
-</ul></li>
-<li>Tests with floating point results can use <a href="https://github.com/google/googletest/blob/master/googletest/docs/advanced.md">Floating Point Comparison</a> assertions.</li>
-</ul></li>
-</ol>
-<h2 id="task-c.008-integrate-a-twist">Task C.008 (Integrate a Twist)</h2>
-<ol>
-<li>Write a function called <code>integrateTwist</code> to compute the transformation corresponding to a rigid body following a constant twist (in its original body frame) for one time unit.</li>
-<li>Include unit tests for this function</li>
-</ol>
-<h2 id="task-c.009-making-vector2d-a-vector">Task C.009 (Making Vector2D a Vector)</h2>
-<ol>
-<li>Add the following operations to Vector2D (referring to <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">Operator Overloading Rules</a>
-<ul>
-<li>operator+= and operator+ (perform basic vector addition)</li>
-<li>operator-= and operator- (perform basic vector subtraction)</li>
-<li>operator*= and operator* (perform SCALAR multiplication)
-<ul>
-<li>Be careful with this, remember scalar multiplication is valid from the left or the right</li>
-</ul></li>
-<li>length(Vector2D) (computer the length of the vector)</li>
-<li>distance(Vector2D, Vector2D) (compute the distance between the two vectors</li>
-<li>angle(Vector2D) (compute the angle of the vector)</li>
-<li>Note: some of these changes affect what functions the compiler generates for us, therefore we need to add
-<ul>
-<li>A constructor that takes two doubles (x and y)</li>
-</ul></li>
-<li>A default constructor that creates a zero vector.</li>
-</ul></li>
-<li>Write unit tests for each of the operations you added.</li>
-</ol>
-<h2 id="task-c.010-normalize-angle-it-may-be-useful">Task C.010 (Normalize angle, it may be useful)</h2>
-<ol>
-<li>Add a function <code>constexpr double normalize_angle(double rad)</code> that turns any angle into the equivalent one between -Pi and Pi</li>
-<li>Write some static assertions to test this function</li>
-</ol>
-<h1 id="task-group-e-kinematics">Task Group E (Kinematics)</h1>
-<p>Task E is related to the Kinematics of wheeled mobile robots. You can add these files to the <code>rigid2d</code> library. You will likely not be able to complete these tasks until all of Task C is complete.</p>
-<h2 id="task-e.000-math">Task E.000 (Math)</h2>
-<ol>
-<li>This task may require you to perform some mathematical calculations. Show all your derivations in a file called <code>Kinematics.pdf</code> in the <code>doc</code> folder of the <code>rigid2d</code> package.
-<ul>
-<li>How you generate the documentation is up to you (latex, scanned hand-written notes, etc.)</li>
-<li>Refer to your notes in your code, using comments to explain the origin of the mathematical expressions you use (labeling equations with numbers helps)</li>
-</ul></li>
-</ol>
-<h2 id="task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</h2>
-<ol>
-<li><p>Create a <code>DiffDrive</code> class in <code>rigid2d</code>. The header file is called <code>diff_drive.hpp</code> and implementation file is called <code>diff_drive.cpp</code></p>
-<ul>
-<li>This class will track the state of a differential drive robot as its wheel positions are updated</li>
-<li>The class should be in the <code>rigid2d</code> namespace</li>
-</ul></li>
-<li><p>I've provided a partial pseudocode version of <code>diff_drive.hpp</code> below. You should use this as a guide to implement the required functionality (so fill in the missing pieces in the header and implement the class). Note that the code, as presented is not valid C++ code.</p>
-<pre><code>class DiffDrive
-{
-public:
-    /// \brief the default constructor creates a robot at (0,0,0), with a fixed wheel base and wheel radius
-    DiffDrive()
-
-    /// \brief create a DiffDrive model by specifying the pose, and geometry
-    ///
-    /// \param pose - the current position of the robot
-    /// \param wheel_base - the distance between the wheel centers
-    /// \param wheel_radius - the raidus of the wheels
-    DiffDrive(
-
-    /// \brief determine the wheel velocities required to make the robot
-    ///        move with the desired linear and angular velocities
-    /// \param twist - the desired twist in the body frame of the robot
-    /// \returns - the wheel velocities to use
-    /// \throws std::exception
-    WheelVelocities twistToWheels(
-
-    /// \brief determine the body twist of the robot from its wheel velocities
-    /// \param vel - the velocities of the wheels, assumed to be held constant
-    ///  for one time unit
-    /// \returns twist in the original body frame of the
-    wheelsToTwist(WheelVelocities vel
-
-    /// \brief Update the robot&#39;s odometry based on the current encoder readings
-    /// \param left - the left encoder angle (in radians)
-    /// \param right - the right encoder angle (in radians)
-    void updateOdometry
-
-    /// \brief update the odometry of the diff drive robot, assuming that
-    /// it follows the given body twist for one time  unit
-    /// \param cmd - the twist command to send to the robot
-    void feedforward(
-
-    /// \brief get the current pose of the robot
-    Twist2D pose()
-
-    /// \brief get the wheel speeds, based on the last encoder update
-    /// \returns the velocity of the wheels, which is equivalent to
-    /// displacement because \Delta T = 1
-    WheelVelocities wheelVelocities() const
-
-    /// \brief reset the robot to the given position/orientation
-    void reset(Twist2D ps);
-
-};
-
+<li><p>Write a README.md for your package based on the following template</p>
+<pre><code># Nuturtle  Description
+URDF files for Nuturtle &lt;Name Your Robot&gt;
+* `&lt;Command Here&gt;` to see the robot in rviz.
 </code></pre></li>
 </ol>
-<h2 id="task-e.002-unit-test-diff_drive">Task E.002 (Unit Test diff_drive)</h2>
+<h1 id="task-group-b-c-and-2d-transforms">Task Group B (C++ and 2D Transforms)</h1>
+<p>Here you will begin to write a library called <code>rigid2d</code> for performing 2D rigid body transformations. You are not permitted to use any libraries other than the C++ standard library to complete this assignment.</p>
+<h2 id="task-b.000-library-implementation">Task B.000 (library implementation)</h2>
 <ol>
-<li>Write unit tests for diff_drive. Be sure to verify that odometry works in the following cases
+<li>Create a new directory called <code>rigid2d</code> in your base repository.
 <ul>
-<li>twistToWheels works</li>
-<li>wheelsToTwist works</li>
-<li>feedforward and updateOdometry updated properly when moving straight</li>
-<li>feedforward and updateOdometry updated properly when turning</li>
-<li>feedforward and updateOdometry updated properly when translating and turning</li>
-<li>NOTE: When I did this problem unit testing was extremely helpful for debugging</li>
-<li>The key is to think of simple tests where you know what the answer should be</li>
+<li>For this assignment, you will compile the code as a single executable. In a subsequent homework we will turn it into a ROS package/library.</li>
+</ul></li>
+<li>Download <a href="./rigid2d.hpp">rigid2d.hpp</a> into <code>rigid2d</code>. This is a header file for the library you will implement.
+<ul>
+<li>Implement the functions specified in <code>rigid2d.hpp</code> in an implementation file called <code>rigid2d.cpp</code></li>
+<li>You may add private members to any class but do not add any public members</li>
+<li>Note that the <a href="http://www.doxygen.nl">doxygen</a> style comments in the header files do not need to be repeated in the implementation files
+<ul>
+<li>It is a matter of style whether to put these detailed comments in the <code>.cpp</code> or <code>.hpp</code> file</li>
+<li>Use doxygen style comments throughout your code for the rest of this course.</li>
+</ul></li>
 </ul></li>
 </ol>
-<h2 id="task-e.003-waypoints">Task E.003 (Waypoints)</h2>
+<h3 id="resources">Resources</h3>
 <ol>
-<li>Create a module called <code>waypoints.hpp</code> and <code>waypoints.cpp</code> in the <code>rigid2d</code> namespace
-<ul>
-<li>Make a class called <code>Waypoints</code> that helps you calculate a sequence of forward and angular velocities required for a robot to travel between the waypoints</li>
-</ul></li>
-<li>The design is up to you as long as it meets the following constraints
-<ul>
-<li>The waypoints should be provided as an <code>std::vector&lt;Vector2D&gt;</code></li>
-<li>When the robot reaches the last waypoint, it should continue toward the first one</li>
-<li>Rather than pre-computing a whole trajectory, there should be a method called <code>nextWaypoint</code> to get the next velocity.</li>
-<li>Use the <code>DiffDrive</code> class to model the robot movement</li>
-</ul></li>
-<li>Example: Suppose I am sending 1 velocity command every 0.1 seconds.
-<ul>
-<li>Every 0.1 seconds, I should call <code>nextWaypoint</code>: this is the velocity that will be used to move the robot toward the waypoint</li>
-<li>Waypoints adjusts its belief in the current position of the robot based on it following the given velocity command for 0.1 second</li>
-</ul></li>
-<li>Hint: it might make sense to adopt a turn and translate strategy:
-<ol>
-<li>turn toward the next waypoint until heading is within a threshold</li>
-<li>travel to waypoint until you reach it, then target the next waypoint</li>
-</ol></li>
+<li>For more information about the operator overloading going on in this example see <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">(a good Stack Overflow post)</a></li>
+<li>For more information about transforms, see <a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Lynch &amp; Park, "Modern Robotics", Chapter 3</a></li>
 </ol>
-<h2 id="task-e.004-odometry-node">Task E.004 (Odometry Node)</h2>
-<p>This tasks is to create a node that publishes Odometry messages in a standard ROS way. A guide to Odometry in ros can be found <a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom">here</a></p>
+<h2 id="task-b.001-main-implementation">Task B.001 (main implementation)</h2>
 <ol>
-<li>Write a node called <code>odometer</code> (in the <code>rigid2d</code> package) that subscribes to <code>sensor_msgs/JointState</code> on the <code>joint_states</code> topic</li>
-<li>The node should have private parameters:
+<li>Create a file called <code>main.cpp</code>.
 <ul>
-<li><code>odom_frame_id</code>: The name of the odometry tf frame</li>
-<li><code>body_frame_id</code>: The name of the body tf frame</li>
-<li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
-<li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
+<li>This program should prompt the user to enter two transforms: <span class="math inline">\(T_{ab}\)</span> and <span class="math inline">\(T_{bc}\)</span></li>
+<li>It should then compute and output <span class="math inline">\(T_{ab}\)</span>, <span class="math inline">\(T_{ba}\)</span>, <span class="math inline">\(T_{bc}\)</span>, <span class="math inline">\(T_{cb}\)</span>, <span class="math inline">\(T_{ac}\)</span>, and <span class="math inline">\(T_{ca}\)</span></li>
+<li>Next the program should prompt the user to enter a vector <span class="math inline">\(v\)</span> and the frame in which it is defined (either 'a', 'b', or 'c').</li>
+<li>It should then output the vector in frames 'a', 'b', and 'c'</li>
 </ul></li>
-<li>The node should also read <code>wheel_base</code> and <code>wheel_radius</code> parameters</li>
-<li>Every time the node receives a <code>JointState</code> message it should:
-<ol>
-<li>Update its internal odometry state (perhaps using DiffDrive)</li>
-<li>Publish a <a href="https://docs.ros.org/melodic/api/nav_msgs/html/msg/Odemetry.html">nav_msgs/Odometry</a> message
+<li>Compile your program using the following command:
 <ul>
-<li>You do not need to fill out any covariance information (all covariance can be set to zero)</li>
-<li>The pose should be specified in the odom_frame_id frame (this is the nav_msgs/Odometry/header/frame_id)</li>
-<li>The velocity will be specified as the body velocity of the robot in the body_frame_id (this is nav_msgs/Odometry/child_frame_id)</li>
+<li><code>g++ -Wall -Wextra -g -std=c++17 -o rigid2d main.cpp rigid2d.cpp</code>
+<ul>
+<li><code>-Wall</code> enable many warnings.</li>
+<li><code>-Wextra</code> enable extra warnings</li>
+<li><code>-g</code> include debugging symbols</li>
+<li><code>std=c++17</code> C++17 standard</li>
+<li><code>-o rigid2d</code> The executable will be called rigid2d</li>
 </ul></li>
-<li>Broadcast the transform between <code>odom_frame_id</code> and the <code>body_frame_id</code> on <code>/tf</code> (use a <code>tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a>)</li>
-</ol></li>
-</ol>
-<h2 id="task-e.005-fake-encoders">Task E.005 (Fake Encoders)</h2>
-<ol>
-<li>Write a new node called <code>fake_diff_encoders</code>
-<ul>
-<li>The node subscribes to <code>geometry_msgs/Twist</code> messages on <code>cmd_vel</code>. Assume that, once a <code>cmd_vel</code> is received, the robot follows that velocity until the next <code>cmd_vel</code> command</li>
-<li>Read the names for the left and right wheel joints from <code>left_wheel_joint</code> and <code>right_wheel_jont</code> private parameters.</li>
-<li>When a <code>cmd_vel</code> is received, publish fake joint state data on <code>joint_states</code> a differential drive robot had been moving at the previously received <code>cmd_vel</code> for the whole time period.</li>
-<li>The node should take in <code>wheel_base</code> and <code>wheel_radius</code> as parameters</li>
-<li>The node should assume the initial configuration is <span class="math inline">\((0, 0, 0)\)</span></li>
-<li>Hint: You may wish to add functionality to DiffDrive that enables you to retrieve its internal view of encoder values</li>
 </ul></li>
 </ol>
-<h1 id="task-group-b-turtle-sim">Task Group B (Turtle Sim)</h1>
-<h2 id="task-b.005-turtle-waypoints">Task B.005 (Turtle Waypoints)</h2>
+<h2 id="task-b.002-conceptual-questions">Task B.002 (conceptual questions)</h2>
+<p>Answer the questions below in <code>rigid2d/README.md</code>. Copy and paste into your own README.md and then answer the questions inline. Hints to each question are provided below.</p>
+<pre><code># Rigid 2D transformation Library
+A library for handling transformations in SE(2).
+
+# Conceptual Questions
+1. What is the difference between a class and a struct in C++?
+2. Why is Vector2D a struct and Transform2DClass (refer to at least 2 specic C++ core guidelines in your answer)?
+3. Why are some of the constructors in Transform2D explicit (refer to a specific C++ core guideline in your answer)?
+4. We need to be able to ~normalize~ Vector2D objects (i.e., find the unit vector in the direction of a given Vector2D):
+   - Propose three different designs for implementing the ~normalize~ functionality
+   - Discuss the pros and cons of each proposed method, in light of the C++ Core Guidelines.
+   - Which of the methods would you implement and why?
+5. Why is Transform2D::inv() declared const while Transform2D::operator*=() is not (Refer to C++ core guidelines in your answer)?
+   - Refer to [[https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#con-constants-and-immutability][C++ Core Guidelines (Constants and Immutability)]] in your answer
+</code></pre>
+<h2 id="hints">Hints</h2>
 <ol>
-<li>Write a new node called <code>turtle_way</code> in the tsim package that has the turtle follow a trajectory of user-specified waypoints
-<ul>
-<li>The waypoint x coordinates are specified in the <code>waypoint_x</code> parameter</li>
-<li>The waypoint y coordinates are specified in the <code>waypoint_y</code> parameter</li>
-<li>The node should also subscribe to <code>turtle/pose</code> and compute the error between its actual and expected trajectory
-<ul>
-<li>For this task, the trajectory must be computed without knowledge of the pose.</li>
-<li>The error should be published on <code>/pose_error</code></li>
-</ul></li>
-<li>As in <code>turtle_rect</code>, the turtle should pick its pen up, teleport to the first waypoint, and put its pen down and</li>
-<li>The robot can publish velocity commands at a fixed rate of <code>60Hz</code></li>
-<li>The robot has a maximum forward velocity of 0.5 m/s and rotational velocity 0.5 rad/s</li>
-</ul></li>
-<li>Write a launchfile called <code>turtle_pent.launch</code> that uses <code>turtle_way</code> to make a simulated turtle traverse a pentagonal trajectory</li>
-<li>You should also run rqt_plot to plot the error in <code>rqt_plot</code>
-<ul>
-<li>Include a screenshot of the error for a full pentagon cycle.</li>
-<li>Due to current behavior in <code>rqt_plot</code>, if the topic you specified does not exist when it is launched then it will not show that topic and you will have to manually select it.</li>
-</ul></li>
-<li>You may re-use as much code from the previous assignment as you want</li>
+<li><a href="https://en.cppreference.com/w/cpp/language/classes">Information About Classes</a></li>
+<li>The <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-class">C++ Core guidelines (Classes and Class Hierarchies)</a> section has the answers.</li>
+<li>The <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-ctor">C++ Core guidelines (Constructors, Assignments, and Destructors)</a> section has the answers.</li>
+<li>You may find guidelines in <a href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-class">The C++ Core guidelines (Classes and Class Hierarchies)</a> section helpful.</li>
+<li>The <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#con-constants-and-immutability">C++ Core Guidelines (Constants and Immutability)</a> will be helpful.</li>
 </ol>
-<h2 id="task-b.006-turtle-odometry">Task B.006 (Turtle Odometry)</h2>
+<h2 id="task-b.003-adjoints-and-twists">Task B.003 (adjoints and twists)</h2>
 <ol>
-<li>Write a launchfile called <code>turtle_odom.launch</code> that runs
+<li>Add a class or struct called <code>Twist2D</code> to <code>rigid2d</code>
 <ul>
-<li>The <code>turtle_way</code> node (via <code>turtle_pent.launch</code>),</li>
-<li><code>rviz</code>, with the fixed frame being called <code>odom</code>
+<li>This class represents a 2 dimensional twist</li>
+<li>You should also define <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> for this class</li>
+<li>Follow the convention used in Modern Robotics to place the angular component prior to the linear component</li>
+</ul></li>
+<li>Add functionality to <code>Transform2D</code> to convert a twist to a different reference frame using the adjoint
 <ul>
-<li>tf frames should be displayed, as should your <code>diff_drive.urdf.xacro</code> robot from Task A.</li>
+<li>Be sure to document everything using doxygen-style comments in a manner consistent with the rest of the file</li>
 </ul></li>
-<li><code>fake_encoders</code> should run, reading <code>cmd_vel</code> being sent to the turtle from <code>turtle_way</code> and publishing fake joint_states</li>
-<li><code>rigid2d/odometer</code> This node should read the fake odometry data and publish the appropriate odometry transforms</li>
-</ul></li>
-<li>You should see your differential drive robot moving and following a trajectory in <code>rviz</code> that mimics the turtlesim trajectory, based on the fake odometry data</li>
-<li>Note: the absolute coordinates of the robot in the <code>odom</code> frame will be different than the absolute coordinates of the turtle
+<li>Add functionality to normalize a <code>Vector2D</code></li>
+<li>Add a prompt to <code>main.cpp</code> that allows a user to enter a twist in addition to a vector
 <ul>
-<li>This error is realistic if we assume we are using odometry from an unknown starting position</li>
-<li>We will add functionality to set the initial starting position when it is needed</li>
+<li>The twist is specified in the same frame as the vector</li>
 </ul></li>
-<li>You can use <code>nuturtle_description/view_diff_drive.launch</code> to launch the visualization.
+<li>Output the twist in frames 'a', 'b', and 'c'</li>
+</ol>
+<h2 id="task-b.004-testing">Task B.004 (testing)</h2>
+<p>We will use the <code>catch2</code> framework for unit testing in this class.</p>
+<ol>
+<li>Download <a href="https://github.com/catchorg/Catch2/releases/download/v2.13.4/catch.hpp">catch.hpp</a>.</li>
+<li>Create a file called <code>tests.cpp</code> that thoroughly tests the <code>Transform2D</code> class
 <ul>
-<li>You will likely need to add an argument that enables you to specify the rviz configuration</li>
-<li>You will also want an argument to disable the joint_state_publisher, since our fake_odom node is publishing joint states</li>
+<li>To use see <a href="https://github.com/catchorg/Catch2/blob/v2.x/docs/tutorial.md#top">The Tutorial</a></li>
+<li>Be sure to use approximate comparisons: see <a href="https://github.com/catchorg/Catch2/blob/devel/docs/assertions.md">Floating Point Comparison Section</a></li>
 </ul></li>
+<li>Every method in the class, along with <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code> should have at least test. You may directly combine your tests with the work of your classmates to achieve this coverage, as long as the following conditions are met:
+<ul>
+<li><p>You personally must develop and write at least two test cases</p></li>
+<li><p>You list the contributor's names in a comment at the top of <code>tests.cpp</code></p></li>
+<li><p>Each test is annotated with the author's name as follows:</p>
+<pre><code>TEST_CASE(&quot;inverse&quot;, &quot;[transform]&quot;) // First Name, Last Name
+</code></pre></li>
+</ul></li>
+<li>Compile the tests using <code>gcc</code>.
+<ul>
+<li>Make sure they pass! You will be using rigid2d in future assignments so you want your implementation to be correct.</li>
+</ul></li>
+</ol>
+<h2 id="task-b.005-vanilla-cmake">Task B.005 (vanilla cmake)</h2>
+<p>The ROS build system uses catkin, which in turn is based on CMake, a popular build system for C++ projects. In this task we will make the rigid2d a plain cmake project.</p>
+<p>Behind the scenes, catkin is essentially just <code>CMake</code> with some custom functions added in.</p>
+<ol>
+<li><p>First, some files must be re-arranged and directories added within the base <code>rigid2d</code> package directory:</p>
+<ul>
+<li>Move <code>rigid2d.hpp</code> to <code>include/rigid2d/rigid2d.hpp</code></li>
+<li>Move <code>tests.cpp</code> to <code>tests/test.cpp</code></li>
+<li>Move the remaining <code>.cpp</code> files to <code>src/&lt;FILE&gt;.cpp</code></li>
+</ul></li>
+<li><p>Copy the <code>CMakeLists.txt</code> template below, fill in the <code>&lt;BLANKS&gt;</code> and add it to git:</p>
+<pre><code>cmake_minimum_required(VERSION 3.9)
+project(rigid2d)
+
+# create the rigid2d library and add it&#39;s include directories
+add_library(rigid2d src/&lt;BLANK&gt;.cpp)
+target_include_directories(&lt;NAME_OF_RIGID2D_LIBRARY_TARGET&gt; PUBLIC include/)
+target_compile_features(rigid2d PUBLIC cxx_std_17) # enable C++ 17
+target_compile_options(rigid2d PUBLIC -Wall -Wextra)
+
+# create the executable  and link it with the rigid2d library
+add_executable(rigid2d_main &lt;MAIN&gt;.cpp)
+target_link_libraries(rigid2d_main &lt;NAME_OF_RIGID2D_LIBRARY_TARGET&gt;)
+
+enable_testing()
+add_executable(rigid_test tests.cpp)
+add_test(NAME Test_of_Rigid2d COMMAND rigid_test)
+
+find_package(Doxygen)
+set(DOXYGEN_USE_MDFILE_AS_MAINPAGE README.md) # Use the readme in your doxygen docs
+doxygen_add_docs(doxygen src/ README.md ALL)
+</code></pre></li>
+<li><p>Build the project (and make sure the contents of the build do not end up in git!):</p>
+<pre><code>mkdir build # Create the build directory
+cd build    # Enter the build directory
+cmake ..    # Generate the build system (in this case, Makefiles)
+make        # Run make to compile the project
+</code></pre>
+<p>Alternatively</p>
+<pre><code>cmake -B build .    # Have cmake create the build directory
+cmake --build build # Have cmake run make in the build directory
+</code></pre>
+<ul>
+<li>More-or-less, <code>catkin_make_isolated</code> runs the above steps for you on each package.</li>
+</ul></li>
+<li><p>To run the tests, from the <code>build</code> directory run <code>ctest --verbose</code>.</p></li>
+<li><p>Your code is now in build/</p></li>
+<li><p>Enjoy your doxygen documentation by opening <code>build/html/index.html</code> in your web-browser.</p></li>
+</ol>
+<h1 id="task-group-c-turtle-sim">Task Group C (Turtle Sim)</h1>
+<p>The goal of this task is to make a turtle in the turtle simulator move in a rectangular trajectory. The movement will be started by calling a <code>/start</code> service.</p>
+<figure>
+<img src="./turtle.gif" alt="The Goal Of Task Group C" /><figcaption aria-hidden="true">The Goal Of Task Group C</figcaption>
+</figure>
+<h2 id="task-c.000-trect-package">Task C.000 (trect package)</h2>
+<ol>
+<li>Create a ros package called <code>trect</code>.
+<ul>
+<li>This should be a directory within your repository (i.e., <code>&lt;reponame&gt;/trect</code>)</li>
+<li>Update the <code>package.xml</code> as follows
+<ul>
+<li>Give it a version number other than 0.0.0</li>
+<li>Provide a description other than the default.</li>
+<li>Fill in your name and email address as the maintainer and as an author</li>
+<li>Choose a license other than TODO</li>
+<li>The package has a <code>depend</code> on <code>roscpp</code>.</li>
+<li>Fill out the other dependencies properly.</li>
+</ul></li>
+</ul></li>
+<li>The package must pass <code>catkin_lint -W2</code> with no warnings or problems (you will likely need to revisit point this as you add to the package).</li>
+</ol>
+<h2 id="task-c.001-turtle_rect-node">Task C.001 (turtle_rect node)</h2>
+<ol>
+<li>Write a node called <code>turtle_rect</code> in <code>turtle_rect.cpp</code> that reads the following parameters from the parameter server and logs them as <code>ROS_INFO</code> messages
+<ul>
+<li><code>max_xdot</code> - The maximum translational velocity of the robot</li>
+<li><code>max_wdot</code> - The maximum rotational velocity of the robot</li>
+<li><code>frequency</code> - The frequency of the control loop</li>
+</ul></li>
+<li>Write a publisher that publishes <code>cmd_vel</code> commands at a fixed frequency of <code>frequency</code>
+<ul>
+<li>Use a timer or <code>ros::Rate</code> to ensure a somewhat-consistent publishing frequency</li>
+</ul></li>
+<li>Subscribe to the <code>pose</code> topic to get the turtle's position</li>
+<li>In <code>turtle_rect</code>, implement a service called <code>start</code> that causes the node to
+<ul>
+<li>Clear the background of the turtle simulator</li>
+<li>Draw the desired trajectory (use the turtlesim teleportation and pen services)</li>
+<li>Causes the robot to start following the rectangle using values computed by <code>control_law</code></li>
+<li>The service request should provide the location and dimensions of the rectangle to the node</li>
+</ul></li>
+<li>Make sure that the published <code>x</code> velocity never exceeds <code>max_xdot</code>, the published angular velocity never exceeds <code>max_wdot</code>, and the published <code>y</code> velocity is always zero.</li>
+<li>Include a comment block at the top of the node describing the ROS API of your node.</li>
+</ol>
+<h2 id="task-c.004-trect.launch">Task C.004 (trect.launch)</h2>
+<ol>
+<li>Write a launchfile called <code>trect.launch</code> that runs the turtle simulator and the <code>turtle_rect</code> node and sets the parameters to have the following values: <code>max_xdot = 2.0</code>, <code>max_wdot = 1.0</code>, <code>frequency = 100</code>.</li>
+</ol>
+<h2 id="task-c.004-documentation">Task C.004 (documentation)</h2>
+<ol>
+<li><p>Write a <code>README.md</code> for your package using the following template, filling in the <code>&lt;BLANKS&gt;</code></p>
+<pre><code># Turtle Rect
+* A package that causes the turtlesim turtle to follow a rectangle.
+# Example Usage
+```
+roslaunch trect trect.launch
+rosservice call start &lt;ARGUMENTS_USED_IN_DEMO_HERE&gt;
+```
+![Demonstration](&lt;PATH_TO_GIF_ANIMATION_OF_ROBOT_COMPLETING_RECTANGLE&gt;)
+</code></pre></li>
+<li><p>You should include a gif animation of the turtle completing one cycle in the <code>README.md</code> for a rectangle with <code>x=2 y=3 width=4 height=5</code>.</p></li>
+</ol>
+<p>.</p>
+<h1 id="useful-pages">Useful Pages</h1>
+<ol>
+<li><a href="https://wiki.ros.org/roscpp">Ros C++ API</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials">ROS tutorials</a></li>
+<li><a href="https://wiki.ros.org/urdf">Urdf</a></li>
+<li><a href="https://wiki.ros.org/xacro">Xacro</a></li>
+<li><a href="https://wiki.ros.org/roslaunch">roslaunch</a></li>
+<li><a href="https://wiki.ros.org/roslaunch/XML">Launchfile XML</a></li>
+<li><a href="https://wiki.ros.org/turtlesim">turtlesim</a></li>
+<li><a href="https://docs.ros.org/melodic/api/catkin/html/index.htl">catkin</a></li>
+<li><a href="http://wiki.ros.org/roscpp/Overview/Services">Services</a></li>
+<li><a href="https://engineering.giphy.com/how-to-make-gifs-with-ffmpeg/">Make Animated Gif</a></li>
 </ol>
 </div>
 <div class="footer">
