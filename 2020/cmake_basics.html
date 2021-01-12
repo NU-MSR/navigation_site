@@ -615,62 +615,62 @@ table td {
 <ul>
 <li><p>All CMake projects have at least a <code>CMakeLists.txt</code> file that defines the project itself</p></li>
 <li><p>The files below provide a template for a basic executable</p>
-<div class="sourceCode" id="CMakeLists" data-tangle="yes"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="CMakeLists-1"><a href="#CMakeLists-1"></a><span class="co"># Lines that begin with a # are comments</span></span>
-<span id="CMakeLists-2"><a href="#CMakeLists-2"></a><span class="co"># set the minimum required version of cmake, usually the first line</span></span>
-<span id="CMakeLists-3"><a href="#CMakeLists-3"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 3.0)</span>
-<span id="CMakeLists-4"><a href="#CMakeLists-4"></a></span>
-<span id="CMakeLists-5"><a href="#CMakeLists-5"></a><span class="co"># project_name sets the name of the project and causes cmake to</span></span>
-<span id="CMakeLists-6"><a href="#CMakeLists-6"></a><span class="co"># find the c and c++ compilers</span></span>
-<span id="CMakeLists-7"><a href="#CMakeLists-7"></a><span class="kw">project</span>(project_name)</span>
-<span id="CMakeLists-8"><a href="#CMakeLists-8"></a></span>
-<span id="CMakeLists-9"><a href="#CMakeLists-9"></a><span class="co"># Find your dependencies.</span></span>
-<span id="CMakeLists-10"><a href="#CMakeLists-10"></a><span class="co"># Many libraries ship with files that allow CMake to find them</span></span>
-<span id="CMakeLists-11"><a href="#CMakeLists-11"></a><span class="co"># Then general behavior is to call &quot;find_package&quot; but the options</span></span>
-<span id="CMakeLists-12"><a href="#CMakeLists-12"></a><span class="co"># provided are package specific.  Usually there is then a CMAKE variable</span></span>
-<span id="CMakeLists-13"><a href="#CMakeLists-13"></a><span class="co"># That is defined to reference the library</span></span>
-<span id="CMakeLists-14"><a href="#CMakeLists-14"></a><span class="co"># here: we find the eigen library as per the instruction</span></span>
-<span id="CMakeLists-15"><a href="#CMakeLists-15"></a><span class="co"># https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html</span></span>
-<span id="CMakeLists-16"><a href="#CMakeLists-16"></a><span class="kw">find_package</span>(Eigen3 3.3 <span class="ot">REQUIRED</span> <span class="ot">NO_MODULE</span>)</span>
-<span id="CMakeLists-17"><a href="#CMakeLists-17"></a></span>
-<span id="CMakeLists-18"><a href="#CMakeLists-18"></a><span class="co"># Create an executable from the following source code files</span></span>
-<span id="CMakeLists-19"><a href="#CMakeLists-19"></a><span class="co"># The Name of the executable creates a cmake &quot;target&quot;</span></span>
-<span id="CMakeLists-20"><a href="#CMakeLists-20"></a><span class="kw">add_executable</span>(Name file1.cpp file2.cpp)</span>
-<span id="CMakeLists-21"><a href="#CMakeLists-21"></a></span>
-<span id="CMakeLists-22"><a href="#CMakeLists-22"></a><span class="co"># Create a library.  Can specify if it is shared or static but usually</span></span>
-<span id="CMakeLists-23"><a href="#CMakeLists-23"></a><span class="co"># you don&#39;t need or want to.</span></span>
-<span id="CMakeLists-24"><a href="#CMakeLists-24"></a><span class="co"># name is the name of the library without the extension or lib prefix</span></span>
-<span id="CMakeLists-25"><a href="#CMakeLists-25"></a><span class="co"># name creates a cmake &quot;target&quot;</span></span>
-<span id="CMakeLists-26"><a href="#CMakeLists-26"></a><span class="kw">add_library</span>(libname fileA.cpp fileB.cpp)</span>
-<span id="CMakeLists-27"><a href="#CMakeLists-27"></a></span>
-<span id="CMakeLists-28"><a href="#CMakeLists-28"></a><span class="co"># Use target_link_libraries to add dependencies to a &quot;target&quot;</span></span>
-<span id="CMakeLists-29"><a href="#CMakeLists-29"></a><span class="co"># (e.g., a library or executable)</span></span>
-<span id="CMakeLists-30"><a href="#CMakeLists-30"></a><span class="co"># This will automatically add all required library files</span></span>
-<span id="CMakeLists-31"><a href="#CMakeLists-31"></a><span class="co"># that need to be linked</span></span>
-<span id="CMakeLists-32"><a href="#CMakeLists-32"></a><span class="co"># and paths to th locations of header files</span></span>
-<span id="CMakeLists-33"><a href="#CMakeLists-33"></a><span class="kw">target_link_libraries</span>(Name Eigen3::Eigen)</span>
-<span id="CMakeLists-34"><a href="#CMakeLists-34"></a></span>
-<span id="CMakeLists-35"><a href="#CMakeLists-35"></a><span class="co"># specify additional compilation flags for a target</span></span>
-<span id="CMakeLists-36"><a href="#CMakeLists-36"></a><span class="kw">target_compile_options</span>(Name -Wall)</span>
-<span id="CMakeLists-37"><a href="#CMakeLists-37"></a></span>
-<span id="CMakeLists-38"><a href="#CMakeLists-38"></a><span class="co"># This is a line you will see in catkin cmake files to make sure that the projet depends on</span></span>
-<span id="CMakeLists-39"><a href="#CMakeLists-39"></a><span class="co"># special catkin targets (such as any messages that are generated)</span></span>
-<span id="CMakeLists-40"><a href="#CMakeLists-40"></a><span class="kw">add_dependencies</span>(<span class="dv">${PROJECT_NAME}</span>_<span class="dv">${</span>PARSED_ARGS_TARGET<span class="dv">}</span> </span>
-<span id="CMakeLists-41"><a href="#CMakeLists-41"></a>   <span class="dv">${${PROJECT_NAME}</span>_EXPORTED_TARGETS<span class="dv">}</span> <span class="dv">${</span>catkin_EXPORTED_TARGETS<span class="dv">}</span>)</span></code></pre></div></li>
+<div class="sourceCode" id="CMakeLists" data-tangle="yes"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="CMakeLists-1"><a href="#CMakeLists-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lines that begin with a # are comments</span></span>
+<span id="CMakeLists-2"><a href="#CMakeLists-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set the minimum required version of cmake, usually the first line</span></span>
+<span id="CMakeLists-3"><a href="#CMakeLists-3" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 3.0)</span>
+<span id="CMakeLists-4"><a href="#CMakeLists-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-5"><a href="#CMakeLists-5" aria-hidden="true" tabindex="-1"></a><span class="co"># project_name sets the name of the project and causes cmake to</span></span>
+<span id="CMakeLists-6"><a href="#CMakeLists-6" aria-hidden="true" tabindex="-1"></a><span class="co"># find the c and c++ compilers</span></span>
+<span id="CMakeLists-7"><a href="#CMakeLists-7" aria-hidden="true" tabindex="-1"></a><span class="kw">project</span>(project_name)</span>
+<span id="CMakeLists-8"><a href="#CMakeLists-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-9"><a href="#CMakeLists-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Find your dependencies.</span></span>
+<span id="CMakeLists-10"><a href="#CMakeLists-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Many libraries ship with files that allow CMake to find them</span></span>
+<span id="CMakeLists-11"><a href="#CMakeLists-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Then general behavior is to call &quot;find_package&quot; but the options</span></span>
+<span id="CMakeLists-12"><a href="#CMakeLists-12" aria-hidden="true" tabindex="-1"></a><span class="co"># provided are package specific.  Usually there is then a CMAKE variable</span></span>
+<span id="CMakeLists-13"><a href="#CMakeLists-13" aria-hidden="true" tabindex="-1"></a><span class="co"># That is defined to reference the library</span></span>
+<span id="CMakeLists-14"><a href="#CMakeLists-14" aria-hidden="true" tabindex="-1"></a><span class="co"># here: we find the eigen library as per the instruction</span></span>
+<span id="CMakeLists-15"><a href="#CMakeLists-15" aria-hidden="true" tabindex="-1"></a><span class="co"># https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html</span></span>
+<span id="CMakeLists-16"><a href="#CMakeLists-16" aria-hidden="true" tabindex="-1"></a><span class="kw">find_package</span>(Eigen3 3.3 <span class="ot">REQUIRED</span> <span class="ot">NO_MODULE</span>)</span>
+<span id="CMakeLists-17"><a href="#CMakeLists-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-18"><a href="#CMakeLists-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an executable from the following source code files</span></span>
+<span id="CMakeLists-19"><a href="#CMakeLists-19" aria-hidden="true" tabindex="-1"></a><span class="co"># The Name of the executable creates a cmake &quot;target&quot;</span></span>
+<span id="CMakeLists-20"><a href="#CMakeLists-20" aria-hidden="true" tabindex="-1"></a><span class="kw">add_executable</span>(Name file1.cpp file2.cpp)</span>
+<span id="CMakeLists-21"><a href="#CMakeLists-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-22"><a href="#CMakeLists-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a library.  Can specify if it is shared or static but usually</span></span>
+<span id="CMakeLists-23"><a href="#CMakeLists-23" aria-hidden="true" tabindex="-1"></a><span class="co"># you don&#39;t need or want to.</span></span>
+<span id="CMakeLists-24"><a href="#CMakeLists-24" aria-hidden="true" tabindex="-1"></a><span class="co"># name is the name of the library without the extension or lib prefix</span></span>
+<span id="CMakeLists-25"><a href="#CMakeLists-25" aria-hidden="true" tabindex="-1"></a><span class="co"># name creates a cmake &quot;target&quot;</span></span>
+<span id="CMakeLists-26"><a href="#CMakeLists-26" aria-hidden="true" tabindex="-1"></a><span class="kw">add_library</span>(libname fileA.cpp fileB.cpp)</span>
+<span id="CMakeLists-27"><a href="#CMakeLists-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-28"><a href="#CMakeLists-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Use target_link_libraries to add dependencies to a &quot;target&quot;</span></span>
+<span id="CMakeLists-29"><a href="#CMakeLists-29" aria-hidden="true" tabindex="-1"></a><span class="co"># (e.g., a library or executable)</span></span>
+<span id="CMakeLists-30"><a href="#CMakeLists-30" aria-hidden="true" tabindex="-1"></a><span class="co"># This will automatically add all required library files</span></span>
+<span id="CMakeLists-31"><a href="#CMakeLists-31" aria-hidden="true" tabindex="-1"></a><span class="co"># that need to be linked</span></span>
+<span id="CMakeLists-32"><a href="#CMakeLists-32" aria-hidden="true" tabindex="-1"></a><span class="co"># and paths to th locations of header files</span></span>
+<span id="CMakeLists-33"><a href="#CMakeLists-33" aria-hidden="true" tabindex="-1"></a><span class="kw">target_link_libraries</span>(Name <span class="bn">Eigen3::Eigen</span>)</span>
+<span id="CMakeLists-34"><a href="#CMakeLists-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-35"><a href="#CMakeLists-35" aria-hidden="true" tabindex="-1"></a><span class="co"># specify additional compilation flags for a target</span></span>
+<span id="CMakeLists-36"><a href="#CMakeLists-36" aria-hidden="true" tabindex="-1"></a><span class="kw">target_compile_options</span>(Name -Wall)</span>
+<span id="CMakeLists-37"><a href="#CMakeLists-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="CMakeLists-38"><a href="#CMakeLists-38" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a line you will see in catkin cmake files to make sure that the projet depends on</span></span>
+<span id="CMakeLists-39"><a href="#CMakeLists-39" aria-hidden="true" tabindex="-1"></a><span class="co"># special catkin targets (such as any messages that are generated)</span></span>
+<span id="CMakeLists-40"><a href="#CMakeLists-40" aria-hidden="true" tabindex="-1"></a><span class="kw">add_dependencies</span>(<span class="dv">${PROJECT_NAME}</span>_<span class="dv">${PARSED_ARGS_TARGET}</span> </span>
+<span id="CMakeLists-41"><a href="#CMakeLists-41" aria-hidden="true" tabindex="-1"></a>   <span class="dv">${${PROJECT_NAME}</span><span class="va">_EXPORTED_TARGETS</span><span class="dv">}</span> <span class="dv">${catkin_EXPORTED_TARGETS}</span>)</span></code></pre></div></li>
 <li><p>After writing a <code>CMakeLists.txt</code>, create a build directory and invoke cmake:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">mkdir</span> build</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">cd</span> build</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">cmake</span> .. make</span></code></pre></div></li>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> build</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> build</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cmake</span> .. make</span></code></pre></div></li>
 <li><p>Notice that we created a build directory outside our source directory</p>
 <ul>
 <li><p>This is known as an out-of-source build.</p></li>
 <li><p>It is recommended to do out-of-source builds to avoid scattering a bunch of files generated by CMake everywhere in your source tree (a <code>.gitignore</code> nightmare!)</p></li>
 <li><p>It is possible to invoke cmake in the same directory as the source code, which makes a mess</p></li>
 <li><p>I use the following code to prevent me from accidently doing that</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">if</span>(<span class="dv">${CMAKE_SOURCE_DIR}</span> <span class="ot">STREQUAL</span> <span class="dv">${CMAKE_BINARY_DIR}</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="kw">message</span>(<span class="ot">FATAL_ERROR</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="st">&quot;No in source builds allowed. Create a separate build directory.</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">    SOURCE_DIR=</span><span class="dv">${CMAKE_SOURCE_DIR}</span><span class="st">  BINARY_DIR=</span><span class="dv">${CMAKE_BINARY_DIR}</span><span class="st"> &quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">endif</span>()</span></code></pre></div></li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span>(<span class="dv">${CMAKE_SOURCE_DIR}</span> <span class="ot">STREQUAL</span> <span class="dv">${CMAKE_BINARY_DIR}</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">message</span>(<span class="ot">FATAL_ERROR</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;No in source builds allowed. Create a separate build directory.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">    SOURCE_DIR=</span><span class="dv">${CMAKE_SOURCE_DIR}</span><span class="st">  BINARY_DIR=</span><span class="dv">${CMAKE_BINARY_DIR}</span><span class="st"> &quot;</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 </ul></li>
 <li><p>You can set <code>cmake</code> variables when invoking cmake.</p>
 <ul>
@@ -682,11 +682,11 @@ table td {
 </ul></li>
 <li><p>If you don't specify a build type you get no additional compile flags</p></li>
 <li><p>I typically use the following code to have the build type default to Debug</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">set</span>(DEFAULT_BUILD_TYPE <span class="st">&quot;Debug&quot;</span>) <span class="co"># build type to default to</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">if</span>(<span class="ot">NOT</span> <span class="dv">CMAKE_BUILD_TYPE</span>)        <span class="co"># If no build type is set, set one</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>  <span class="kw">set</span>(<span class="dv">CMAKE_BUILD_TYPE</span> <span class="dv">${</span>DEFAULT_BUILD_TYPE<span class="dv">}</span> <span class="ot">CACHE</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>    <span class="ot">STRING</span> <span class="st">&quot;Type of build.&quot;</span> <span class="ot">FORCE</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">endif</span>()</span></code></pre></div></li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span>(DEFAULT_BUILD_TYPE <span class="st">&quot;Debug&quot;</span>) <span class="co"># build type to default to</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span>(<span class="ot">NOT</span> <span class="dv">CMAKE_BUILD_TYPE</span>)        <span class="co"># If no build type is set, set one</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">set</span>(<span class="dv">CMAKE_BUILD_TYPE</span> <span class="dv">${DEFAULT_BUILD_TYPE}</span> <span class="ot">CACHE</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="ot">STRING</span> <span class="st">&quot;Type of build.&quot;</span> <span class="ot">FORCE</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 </ul></li>
 <li><p>Since <code>cmake</code> generates Makefiles, you do not typically need to rerun <code>cmake</code>. Even if you modify CMakeLists.txt, the Makefiles will invoke CMake automatically</p></li>
 <li><p>When debugging CMake problems, it can sometimes be helpful to completely delete the contents of the build directory and regenerate everything from scratch</p></li>
@@ -800,33 +800,33 @@ make # nothing will happen since we didn&#39;t add any files
 <h2 id="a-deep-dive-into-a-catkin-cmakelists.txt">A Deep Dive into a Catkin CMakeLists.txt</h2>
 <ul>
 <li><p>Preamble, same as a normal</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 2.8.3) <span class="co"># This version is rather outdated.</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">project</span>(my_project) <span class="co"># name of your project. It must match what you wrote in package.xml</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 2.8.3) <span class="co"># This version is rather outdated.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">project</span>(my_project) <span class="co"># name of your project. It must match what you wrote in package.xml</span></span></code></pre></div></li>
 <li><p>Notice that catkin is found just like any other package would be (because a main component of catkin is a cmake code)</p></li>
 <li><p>The COMPONENTS part is because catkin sets everythign up so that ROS packages can be brought in as if they were a piece of the catkin cmake package</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">find_package</span>(catkin <span class="ot">REQUIRED</span> <span class="ot">COMPONENTS</span> roscpp)</span></code></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">find_package</span>(catkin <span class="ot">REQUIRED</span> <span class="ot">COMPONENTS</span> roscpp)</span></code></pre></div></li>
 <li><p>Next, find other packages that are non-ros, just as you would in a regular cmake file</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">find_package</span>(Boost <span class="ot">REQUIRED</span> <span class="ot">COMPONENTS</span> system)</span></code></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">find_package</span>(Boost <span class="ot">REQUIRED</span> <span class="ot">COMPONENTS</span> system)</span></code></pre></div></li>
 <li><p>For ROS messages, services, etc to work, C++/python files encapsulating those messages must be created at compile time (that is, when you run make). These functions are provided by catkin to build the messages files into python and c++ code</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">add_message_files</span>()</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">add_service_files</span>()</span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">add_action_files</span>()</span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="fu">generate_messages</span>()</span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="fu">generate_dynamic_reconfigure_options</span>()</span></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_message_files</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">add_service_files</span>()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">add_action_files</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">generate_messages</span>()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">generate_dynamic_reconfigure_options</span>()</span></code></pre></div></li>
 <li><p>catkin_package is used to let other packages know how to use your package as a dependency</p></li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">## The catkin_package macro generates cmake config files for your package</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">## Declare things to be passed to dependent projects</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">## INCLUDE_DIRS: uncomment this if your package contains header files</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">## LIBRARIES: libraries you create in this project that dependent projects also need</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co">## CATKIN_DEPENDS: catkin_packages dependent projects also need</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="co">## DEPENDS: system dependencies of this project that dependent projects also need</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="fu">catkin_package</span>(</span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#  INCLUDE_DIRS include</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#  LIBRARIES tmp</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#  CATKIN_DEPENDS other_catkin_pkg</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#  DEPENDS system_lib</span></span>
-<span id="cb11-12"><a href="#cb11-12"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">## The catkin_package macro generates cmake config files for your package</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Declare things to be passed to dependent projects</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">## INCLUDE_DIRS: uncomment this if your package contains header files</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">## LIBRARIES: libraries you create in this project that dependent projects also need</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">## CATKIN_DEPENDS: catkin_packages dependent projects also need</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">## DEPENDS: system dependencies of this project that dependent projects also need</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">catkin_package</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  INCLUDE_DIRS include</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  LIBRARIES tmp</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  CATKIN_DEPENDS other_catkin_pkg</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  DEPENDS system_lib</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <ul>
 <li>Rather than using <code>target_include_directories</code>, <code>catkin</code> sets include directories that are used by all targets in your package globally.</li>
 </ul>

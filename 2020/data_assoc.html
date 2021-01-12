@@ -8,14 +8,14 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Circle Fitting</title>
+<title>Data Association for SLAM</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -468,8 +468,10 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#the-algorithm">The Algorithm</a></li>
+<li><a href="#the-simplest-data-association">The Simplest Data Association</a></li>
+<li><a href="#mahalanobis-distance">Mahalanobis Distance</a></li>
+<li><a href="#incorporating-into-slam">Incorporating into SLAM</a></li>
+<li><a href="#practical-considerations">Practical Considerations</a></li>
 </ul>
 </nav>
 
@@ -481,118 +483,115 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Circle Fitting</h1>
+<h1 class="title">Data Association for SLAM</h1>
 </header>
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<ul>
-<li>Fitting a circle to data points is a non-trivial problem.</li>
-<li>Fitting a circle to data points is well-studied in the literature, with much progress on this problem has been made recently.
-<ul>
-<li>In particular, an important issue is getting a good fit when the data comprises only a portion of an arc of the circle (as in laser-scan data)</li>
-</ul></li>
-<li>This can be considered a machine learning problem. We have data and we are learning to make future inferences from it by fitting a circular model</li>
-</ul>
-<h1 id="resources">Resources</h1>
-<p>The material on this page is my practical summary of</p>
-<ul>
-<li><a href="https://projecteuclid.org/euclid.ejs/1251119958">A. Al-Sharadqah and N. Chernov, Error Analysis for Circle Fitting Algorithms</a>, Electronic Journal of Statistics (2009), Volume 3 p 886-911</li>
-<li>The paper explains the "why", here I explain the "how".</li>
-</ul>
-<h1 id="the-algorithm">The Algorithm</h1>
 <ol>
-<li><p>I recommend using <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> to implement this</p>
+<li>To perform SLAM effectively, measurements must be associated with the proper features in the map.</li>
+<li>The correspondence is <span class="math inline">\(c_i = j\)</span>, which indicates that measurement <span class="math inline">\(i\)</span> belongs to feature <span class="math inline">\(j\)</span>.</li>
+<li>There is technically a joint distribution of the robot pose, the map, and the features, given the measurements <span class="math inline">\(p(x, m, c | z)\)</span>.
 <ul>
-<li><a href="https://eigen.tuxfamily.org/dox/GettingStarted.html">Basic Eigen Tutorial</a>
+<li>However, this joint distribution is difficult to compute (and it is not Gaussian).</li>
+<li>Instead we try to find the most likely data association rather than the full distribution based on a</li>
+</ul></li>
+<li>Standard EKF SLAM is rather brittle in the face of incorrect data association
 <ul>
-<li>Note: You already have eigen installed if you installed <code>ros</code>.</li>
+<li>Wrong associations throw the algorithm off</li>
+<li>There are methods to mitigate the negative effects</li>
 </ul></li>
-<li><a href="https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html">Using Eigen in CMake</a></li>
-<li><a href="https://eigen.tuxfamily.org/dox/group__TutorialLinearAlgebra.html">Eigen Linear Algebra Tutorial</a></li>
-</ul></li>
-<li><p>Compute the <span class="math inline">\((x,y)\)</span> coordinates of the centroid of the <span class="math inline">\(n\)</span> data points <span class="math inline">\((\hat{x}_1, \hat{y}_1), \dots (\hat{x}_n, \hat{y}_n)\)</span> (In other words, find the mean of the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates):</p>
-<span class="math display">\[\begin{align}
-  \hat{x} &amp;= \frac{1}{n}\sum_{i=1}^N x_i \\
-  \hat{y} &amp;= \frac{1}{n}\sum_{i=1}^N x_i \\
-\end{align}
-\]</span></li>
-<li><p>Shift the coordinates so that the centroid is at the origin:</p>
-<span class="math display">\[\begin{align}
-   x_i &amp;= \hat{x}_i - \hat{x} \\
-   y_i &amp;= \hat{y}_i - \hat{y}
-\end{align}
-\]</span></li>
-<li><p>Compute <span class="math inline">\(z_i = x_i^2 + y_i^2\)</span></p></li>
-<li><p>Compute the mean of <span class="math inline">\(z\)</span></p>
-<span class="math display">\[\begin{equation}
-  \bar{z} = \frac{1}{n}\sum_{i=1}^{n} z_i.
-\end{equation}
-\]</span></li>
-<li><p>Form the data matrix from the <span class="math inline">\(n\)</span> data points</p>
-<p><span class="math display">\[Z = \begin{bmatrix}
-        x_1^2 + y_1^2 &amp; x_1 &amp; y_1 &amp; 1 \\
-        \vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
-        x_n^2 + y_n^2 &amp; x_n &amp; y_n &amp; 1 \\
-        \end{bmatrix}\]</span>.</p></li>
-<li><p>Form the <em>data matrix</em> <span class="math inline">\(M = \frac{1}{n}Z^{T} Z\)</span></p></li>
-<li><p>Form the <em>constraint matrix</em> for the "Hyperaccurate algebraic fit"</p>
-<span class="math display">\[\begin{equation}
-  H = \begin{bmatrix}
-  8 \bar{z} &amp; 0 &amp; 0 &amp; 2 \\
-  0  &amp; 1 &amp; 0 &amp; 0 \\
-  0 &amp; 0 &amp; 1 &amp; 0 \\
-  2 &amp; 0 &amp; 0 &amp; 0
-  \end{bmatrix},
-\end{equation}
-\]</span>
-<p>where <span class="math inline">\(\bar{x}\)</span> is the mean of all <span class="math inline">\(x_i\)</span> (i.e., <span class="math inline">\(\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i)\)</span>, <span class="math inline">\(\bar{y}\)</span> is the mean of all <span class="math inline">\(y_i\)</span>, and <span class="math inline">\(z_i\)</span> is the mean of all <span class="math inline">\(x_i^2+y_i^2\)</span>.</p></li>
-<li><p>Compute <span class="math inline">\(H^{-1}\)</span>:</p>
-<span class="math display">\[\begin{equation}
-  H^{-1} = \begin{bmatrix}
-  0 &amp; 0 &amp; 0 &amp; \frac{1}{2} \\
-  0 &amp; 1 &amp; 0 &amp; 0 \\
-  0 &amp; 0 &amp; 1 &amp; 0 \\
-  \frac{1}{2} &amp; 0 &amp; 0 &amp; -2 \bar{z}
-  \end{bmatrix}
-\end{equation}
-\]</span></li>
-<li><p>Compute the Singular Value Decomposition of <span class="math inline">\(Z\)</span> (<a href="https://eigen.tuxfamily.org/dox/group__SVD__Module.html">Use Eigen to do this</a>):</p>
-<span class="math display">\[\begin{equation}
-  Z = U \Sigma V^T
-\end{equation}
-\]</span></li>
-<li><p>If the smallest singular value <span class="math inline">\(\sigma_4\)</span> is less than <span class="math inline">\(10^{-12}\)</span>, then Let <span class="math inline">\(A\)</span> be the the 4th column of the <span class="math inline">\(V\)</span> matrix</p></li>
-<li><p>If <span class="math inline">\(\sigma_4 &gt; 10^{-12}\)</span> then let</p>
-<span class="math display">\[\begin{equation}
-  Y = V \Sigma V^T
-\end{equation}
-\]</span>
+</ol>
+<h1 id="the-simplest-data-association">The Simplest Data Association</h1>
+<ol>
+<li>Since <span class="math inline">\(z = h(x)\)</span>, if <span class="math inline">\(h\)</span> is invertible then <span class="math inline">\(x = h^{-1}(z)\)</span>.
 <ul>
-<li>Then find the eigenvalues and vectors of <span class="math inline">\(Q = Y H^{-1} Y\)</span>.</li>
-<li>Let <span class="math inline">\(A_\ast\)</span> be the eigenvector corresponding to the smallest positive eigenvalue of <span class="math inline">\(Q\)</span>.</li>
-<li>Solve <span class="math inline">\(Y A = A_\ast\)</span> for <span class="math inline">\(A\)</span>.</li>
-<li>Use the <code>Eigen::SelfAdjointEigenSolver</code> to find the eigen values and vectors</li>
+<li>The inversion of the measurement model provides a feature location</li>
+<li>Check if the estimated feature location is near an existing feature
+<ul>
+<li>If not add it to the map</li>
 </ul></li>
-<li><p>Once we have <span class="math inline">\(A\)</span> then the equation for the circle is</p>
-<span class="math display">\[\begin{equation}
-  (x -a)^2 + (y-b)^2 = R^2,
-\end{equation}
-\]</span>
-<p>with</p>
-<span class="math display">\[\begin{align}
-  a &amp;= \frac{-A_2}{2A_1} \\
-  b &amp;= \frac{-A_3}{2A_1} \\
-  R^2 &amp;= \frac{A_2^2+A_3^2 - 4 A_1 A_4}{4A_1^2},
-\end{align}
-\]</span>
-<p>where <span class="math inline">\(A_i\)</span> is the <span class="math inline">\(i\)</span>-th component of <span class="math inline">\(A\)</span>.</p></li>
-<li><p>We shifted the coordinate system, so the actual center is at <span class="math inline">\((a + \hat{x}, b + \hat{y})\)</span>.</p></li>
-<li><p>Optionally, compute the root-mean-square-error of the fit</p>
-<span class="math display">\[\begin{equation}
-  \sigma^2 = \sqrt{\frac{1}{n}\sum_{i=1}^{n}((x_i -a)^2 + (y_i - b)^2 - R^2)^2}
-\end{equation}
-\]</span></li>
+</ul></li>
+<li>Advantage: Simplicity</li>
+<li>Disadvantage: Does not account for covariance</li>
+</ol>
+<h1 id="mahalanobis-distance">Mahalanobis Distance</h1>
+<ul>
+<li>A distance metric that accounts for covariance</li>
+<li>How many standard deviations away, but for multiple dimensions</li>
+<li><span class="math inline">\((x_a - x_b)^T\Sigma^{-1}(x_a - x_b)\)</span>.
+<ul>
+<li><span class="math inline">\(\Sigma\)</span> is the covariance</li>
+</ul></li>
+<li>What do we take the mahalanobis distance of?
+<ul>
+<li>Distance between measurement resulting from current state and new measurement</li>
+</ul></li>
+</ul>
+<h1 id="incorporating-into-slam">Incorporating into SLAM</h1>
+<ol>
+<li>Basic idea:
+<ol>
+<li>Find the existing landmark that generates a measurement closest to the the current measurement</li>
+<li>If the closest existing landmark is farther than some threshold, the landmark is a new landmark</li>
+</ol></li>
+</ol>
+<p>Algorithm Overview:</p>
+<ol>
+<li>Let <span class="math inline">\(N\)</span> be the number of landmarks already seen</li>
+<li>The <span class="math inline">\(j\)</span>-th landmark is at <span class="math inline">\((\mu_{x,j}, \mu_{y,j})\)</span></li>
+<li>Let <span class="math inline">\((\mu_{x, N+1}, \mu_{y, N+1}) = h^{-1}(z_i)\)</span></li>
+<li>For each measurement <span class="math inline">\(i\)</span>
+<ol>
+<li>For each landmark <span class="math inline">\(k\)</span>
+<ol>
+<li>Compute <span class="math inline">\(H_k\)</span>, the linearized measurement model (see Kalman Filter)</li>
+<li>Compute the covariance <span class="math inline">\(\Psi_k = H_k \Sigma H_k^T + R\)</span></li>
+<li>Compute the expected measurement <span class="math inline">\(\hat{z}_k = h(\mu)\)</span></li>
+<li>Compute the mahalanobis distance <span class="math inline">\(d_k = (z_i - \hat{z}_k)^T\Psi^{-1}(z_i-\hat{z}_k)\)</span></li>
+</ol></li>
+</ol></li>
+<li>Let <span class="math inline">\(d_\ast\)</span> be the minimum mahalonbis distance and <span class="math inline">\(\ell\)</span> be the landmark index corresponding to the minimimum distance.</li>
+<li>If <span class="math inline">\(d_\ast\)</span> is more than a threshold: Add a new landmark (increment <span class="math inline">\(N\)</span>)</li>
+<li>Otherwise, <span class="math inline">\(\ell\)</span> is the landmark corresponding to <span class="math inline">\(z_i\)</span></li>
+<li>Incorporate the new measurement into your EKF estimate
+<ul>
+<li>You should only incorporate the measurement if <span class="math inline">\(d_\ast\)</span> is below some threshold or the landmark is new. This can add robustness to the data association by skipping measurements that are not clearly associated with an existing landmark and are also not clearly a new landmark.</li>
+</ul></li>
+</ol>
+<h1 id="practical-considerations">Practical Considerations</h1>
+<p>There are several practical considerations to the above algorithm to improve robustness, however, as outlined above, the algorithm should work well enough in our examples.</p>
+<ol>
+<li>If likelihood of features is similar, an incorrect association can occur
+<ul>
+<li>Choose an environment/sensor combination such that likelihoods are vastly different for example, maintain a minimum distance between landmarks to help set a good threshold</li>
+<li>Farther apart landmarks are, less chance of incorrect association but fewer landmarks leads to worse estimate leads to incorect association.</li>
+</ul></li>
+<li>The algorithm is susceptible to spurious measurements/outliers. This can be improved by maintaining a provisional landmark list
+<ul>
+<li>Provisional landmarks: don't add a landmark right away, wait for a few measurements associated with it to come in</li>
+<li>Provisional landmarks are not used for localization</li>
+<li>An even more advanced idea is to maintain probability that landmarks exist</li>
+</ul></li>
+<li>EKF Slam only updates based on landmarks it sees not those that it does not see. We can use this to our advantage when doing data association.
+<ul>
+<li>Only add a new landmark if it is seen multiple times in the same location
+<ul>
+<li>Avoids false positives, makes the method more robots</li>
+</ul></li>
+</ul></li>
+<li>Multi-hypothesis kalman filter
+<ul>
+<li>Run several filters with different data associations</li>
+</ul></li>
+<li>While it is possible to explicitly compute <span class="math inline">\(c_i\)</span> you need not do this: For each measurement:
+<ol>
+<li>Temporarily assume that the measurement is for a previously unseen landmark</li>
+<li>Compute mahalonobis distances to each landmark</li>
+<li>Find the mimimum mahalanobis distance</li>
+<li>If the minimum is aboe a threshold add the landmark permanently Otherwise incorporate the measurement for the closest landmark.</li>
+</ol></li>
+<li>Your landmark detection scheme should work perfectly on the perfect data form a simulation</li>
 </ol>
 </div>
 <div class="footer">

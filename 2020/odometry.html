@@ -8,14 +8,14 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Fast SLAM 1.0</title>
+<title>Odometry for Wheeled Mobile Robots</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -467,14 +467,14 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#what-is-required">What is Required</a>
+<li><a href="#what-is-odometry">What is Odometry</a>
 <ul>
-<li><a href="#the-forward-model">The Forward Model</a></li>
-<li><a href="#the-measurement-model">The Measurement Model</a></li>
-<li><a href="#the-map">The Map</a></li>
+<li><a href="#advantages-and-disadvantages-of-odometry">Advantages and Disadvantages of Odometry</a></li>
 </ul></li>
-<li><a href="#the-algorithm">The Algorithm</a></li>
+<li><a href="#odometry-howto">Odometry HOWTO</a>
+<ul>
+<li><a href="#odometry-questions">Odometry Questions</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -486,83 +486,128 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Fast SLAM 1.0</h1>
+<h1 class="title">Odometry for Wheeled Mobile Robots</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="overview">Overview</h1>
+<h1 id="what-is-odometry">What is Odometry</h1>
+<p>Odometry estimates the configuration of the robot based on information about how the wheels have moved.</p>
+<h2 id="advantages-and-disadvantages-of-odometry">Advantages and Disadvantages of Odometry</h2>
 <ul>
-<li>FastSLAM 1.0 is A SLAM method that uses particle filters and Kalman filters to efficiently localalize and map an environment</li>
-<li>This document presents a practical guide for how we will be implementing FastSLAM in the homework</li>
-<li>Montemerlo et. Al, <a href="http://robots.stanford.edu/papers/montemerlo.fastslam-tr.html">FastSLAM: A Factored Solution to the Simultaneous Localization and Mapping Problem</a> AAII National Conference on Artifical Intelligence, 2002</li>
-</ul>
-<h1 id="what-is-required">What is Required</h1>
-<h2 id="the-forward-model">The Forward Model</h2>
-<ol>
-<li>Forward robot model: <span class="math inline">\(x_t \sim f_X(x_t | x_{t-1}, u_t)\)</span></li>
-</ol>
+<li>Readily available:
 <ul>
-<li>Given previous robot state and a control, where can we expect the robot to be at the next time-step?</li>
-<li><span class="math inline">\(x_t\)</span> is the robot state, <span class="math inline">\(u_t\)</span> is the robot controls, at timestep <span class="math inline">\(t\)</span></li>
-</ul>
-<h3 id="in-our-case">In Our Case</h3>
-<ul>
-<li><p>The odometry plus noise is our forward model</p></li>
-<li><p>Odometry provides <span class="math inline">\(T_{bb&#39;}\)</span>, which is our rigid body motion since the last timestep due to the controls</p>
-<ul>
-<li>Compute using <span class="math inline">\(T_{wb}\)</span> and <span class="math inline">\(T_{wb&#39;}\)</span>.</li>
+<li>Either the motors have encoders or you estimate how far they've turned based on the commands you've provided</li>
 </ul></li>
-<li><p>There is, however, some stochastic drift, which we collectively measured</p></li>
-<li><p>A crude method of estimating the drift:</p>
+<li>Accurate over short distances</li>
+<li>Errors accumulate over time
+<ul>
+<li>Slipping and sliding of the wheels</li>
+<li>Inaccuracies in measuring rotations of wheels</li>
+</ul></li>
+<li>In ROS an odometry-like measurement is considered to be continuous but have drift, while other positioning methods are generally considered to be slow and discontinuous: See <a href="https://www.ros.org/reps/rep-0105.html">https://www.ros.org/reps/rep-0105.html</a></li>
+</ul>
+<h1 id="odometry-howto">Odometry HOWTO</h1>
 <ol>
-<li>Compute the mean and variance of the <span class="math inline">\(\theta\)</span>, <span class="math inline">\(x\)</span>, and <span class="math inline">\(y\)</span> drift across all experimental conditions</li>
-<li>Assume that the drift is Gaussian, with mean and variance given by the previous step.</li>
-</ol></li>
-<li><p>Let <span class="math inline">\(W_\theta\)</span>, <span class="math inline">\(W_x\)</span>, and <span class="math inline">\(W_y\)</span> be random variables associated with the drift.</p></li>
-<li><p>Let $T<sub>bb'</sub> = T(Δθ, Δ x, Δ y)</p></li>
-<li><p>Then the noisy model is</p>
+<li><p>Determine the distance each wheel has traveled over the last <span class="math inline">\(\Delta t\)</span> time interval.</p></li>
+<li><p>Assume that the wheels been moving with constant velocity for <span class="math inline">\(\Delta t\)</span></p></li>
+<li><p>Convert the wheel distance to a body twist using the mapping from wheel velocities to twists:</p>
 <span class="math display">\[\begin{equation}
- \bar{T}_{bb&#39;} = T(\Delta\theta(1 + W_\theta), \Delta x(1 + W_x), \Delta y(1 + W_y))
+  \begin{bmatrix}
+  \frac{\Delta\theta}{\Delta t}\\
+  \frac{\Delta x_b}{\Delta t} \\
+  \frac{\Delta y_b}{\Delta t}
+  \end{bmatrix}
+  =
+  M \begin{bmatrix}
+  \frac{\Delta u_1}{\Delta t} \\
+  \vdots\\
+  \frac{\Delta u_n}{\Delta t} 
+  \end{bmatrix}
+\end{equation}
+\]</span></li>
+<li><p><span class="math inline">\(\Delta t\)</span> does not factor into the equation as it cancels out on both sides</p>
+<ul>
+<li>However, <span class="math inline">\(\Delta t\)</span> matters: it must be fast enough such that the constant velocity assumption remains accurate (among other factors).</li>
+</ul></li>
+<li><p>Once the twist <span class="math inline">\(V_b\)</span> is determined, integrate it to find <span class="math inline">\(T_{bb&#39;}\)</span>, where <span class="math inline">\(\{b\}\)</span> is the original body frame and <span class="math inline">\(\{b&#39;\}\)</span> is the body frame after the latest movement</p>
+<ul>
+<li>Matrix exponential style: Augment twist to make it a 3D twist, then do <span class="math inline">\(e^{[V_b]}\)</span></li>
+<li>2D Geometry Style
+<ol>
+<li>If <span class="math inline">\(V_b\)</span> has no rotational component, then <span class="math inline">\(T_{bb&#39;}\)</span> is a pure translation by the amount the twist has translated.</li>
+<li>Otherwise
+<ol>
+<li><p>Find the center of rotation in a frame aligned with <span class="math inline">\(\{b\}\)</span> (this is the point on the body that undergoes a pure rotation. You can do this geometrically, or use the adjoint:</p>
+<span class="math display">\[\begin{equation}
+  \begin{bmatrix}
+  \dot{\theta}\\
+  0 \\
+  0
+  \end{bmatrix}=
+  \begin{bmatrix}
+  1 &amp; 0 &amp; 0\\
+  y_s &amp; 1 &amp; 0 \\
+  -x_s &amp; 0 &amp; 1
+  \end{bmatrix}
+  \begin{bmatrix}
+  \Delta\theta\\
+  \Delta x_b\\
+  \Delta y_b
+  \end{bmatrix}
+\end{equation}
+\]</span>
+<p>Solving for <span class="math inline">\(x_s\)</span> and <span class="math inline">\(y_s\)</span> gives you the transform <span class="math inline">\(T_{sb}\)</span>, from the body frame to the center of rotation frame.</p></li>
+</ol></li>
+</ol>
+<ol>
+<li><p>Next, perform the pure rotation in the new frame:</p>
+<span class="math display">\[\begin{equation}
+  T_{ss&#39;} = T(\Delta \theta, 0, 0)
 \end{equation}
 \]</span>
 <ul>
-<li>Note, we multiply the displacement by the drift since drift is a per-distance term.</li>
+<li>The frame <span class="math inline">\(\{s&#39;\}\)</span> is at the center of rotation, rotated by <span class="math inline">\(\Delta \theta\)</span></li>
 </ul></li>
-</ul>
-<h2 id="the-measurement-model">The Measurement Model</h2>
-<ul>
-<li>Fast SLAM assumes that we have direct measurements of landmarks
-<ul>
-<li><p>It can handle known or unknown data association (i.e., which measurements belong to which landmarks).</p></li>
-<li><p>Handling unknown data association is a strength of FastSLAM because it enables you efficiently represent outcomes across a distribution of potential data associations</p></li>
-<li><p>The measurement model, for landmark <span class="math inline">\(j\)</span> at time <span class="math inline">\(t\)</span> is written</p>
+<li><p>Next we need to translate back to the body frame location while keeping the new orientation. Note that <span class="math inline">\(T_{b&#39;s&#39;} = T_{bs}\)</span> since <span class="math inline">\(T_{bs}\)</span> is a pure translation and <span class="math inline">\(b&#39;\)</span> and <span class="math inline">\(b\)</span> are at the same location and <span class="math inline">\(s&#39;\)</span> and <span class="math inline">\(s\)</span> are as well.</p></li>
+<li><p>Putting all the transforms together:</p>
 <span class="math display">\[\begin{equation}
- z_{j,t} = h(m_j, x_t) + v_t.
+  T_{bb&#39;} = T_{bs}T_{ss&#39;}T_{s&#39;b&#39;}.
 \end{equation}
 \]</span></li>
-<li><p><span class="math inline">\(v_t\)</span> is a term representing the sensor noise</p></li>
+</ol></li>
 </ul></li>
-</ul>
-<h3 id="in-our-case-1">In Our Case</h3>
+<li><p>We have <span class="math inline">\(T_{bb&#39;}\)</span> we can compute <span class="math inline">\(T_{wb&#39;} = T_{wb}T_{bb&#39;}\)</span>.</p>
 <ul>
-<li>We are using a 2D laser scanner as our measurement device</li>
-<li>This device only gives us range and bearing measurements to points in the environment</li>
-<li>We will perform feature detection (e.g., machine learning) algorithms to turn the laser scan data into landmarks that can be used for FastSLAM 1.0</li>
-<li>The output of our feature detection then is the relative <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> coordinates of the landmarks, which can be modeled as</li>
-</ul>
-<h2 id="the-map">The Map</h2>
+<li>The resulting expression is in the form <span class="math inline">\(T_{wb&#39;} = T(\theta&#39;, x&#39;, y&#39;)\)</span>, which contains the new robot coordinates in the world frame.
 <ul>
-<li>The map is a list of landmark locations, represented by their mean <span class="math inline">\(\mu_j\)</span> and variance <span class="math inline">\(\Sigma_j\)</span>.</li>
-</ul>
-<h1 id="the-algorithm">The Algorithm</h1>
+<li>It is inefficient to actually do this math.</li>
+<li>Doing the math introduces more floating point error</li>
+<li>Are these significant concerns? Test and measure!</li>
+</ul></li>
+<li>Instead, note that <span class="math inline">\(T_{bb&#39;} = T(\Delta\theta_b,\Delta x_b, \Delta y_b)\)</span>: and therefore the displacement <span class="math inline">\(\Delta q_b\)</span> from the <span class="math inline">\(b\)</span> to <span class="math inline">\(b&#39;\)</span> frame is known.
 <ol>
-<li>The estimate consists of <span class="math inline">\(M\)</span> particles representing distributions of robot poses and landmark locations. Particles are indexed with a superscript <span class="math inline">\(k\)</span>
-<ul>
-<li><p>Thus the estimate at time <span class="math inline">\(t\)</span> is a series of <span class="math inline">\(M\)</span> particles with <span class="math inline">\(N\)</span> landmarks</p>
+<li><p>We then convert to a twist in a frame aligned with the world but located at the body to get the desired displacement in the body frame:</p>
 <span class="math display">\[\begin{equation}
- Y_t^{[k]} = \langle x_{t}^{[k]}, (\mu_{1,t}^{[k]}, \Sigma_{1,t}^{[k]}), \dots, (\mu_{N,t}^{[k]}, \Sigma_{N,t}^{[k]})\rangle
+  \Delta q = A(\theta, 0, 0)\Delta q_b,
 \end{equation}
-\]</span></li>
+\]</span>
+<p>where <span class="math inline">\(A(\theta, 0, 0)\)</span> is the adjoint.</p>
+<ul>
+<li>There are fewer operations here since we are only doing a rotation, not a translation.</li>
+</ul></li>
+</ol></li>
+</ul></li>
+</ol>
+<h2 id="odometry-questions">Odometry Questions</h2>
+<ol>
+<li>Should odometry be treated as a sensor reading or as part of the robot model (i.e., the control signal)?
+<ul>
+<li>It can be either, but usually it is treated as part of the robot model, despite the fact that sensors can be involved
+<ul>
+<li>It measures the effect of the control</li>
+</ul></li>
+<li>If the robot does not have encoders, than "odometry" is just using your forward model of the robot to determine position.</li>
+<li>Thus, encoders are, in a sense, a way of gathering better information about what your controls are doing.</li>
 </ul></li>
 </ol>
 </div>

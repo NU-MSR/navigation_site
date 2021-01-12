@@ -587,10 +587,10 @@ table td {
 <li><p>Write <code>.cpp</code> files in the <code>tests</code> directory using <code>gtest</code></p></li>
 <li><p>Add a <code>&lt;test_depend&gt;</code> on <code>rosunit</code> to the <code>package.xml</code></p></li>
 <li><p>Add the tests to CMakeLists.txt</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>    <span class="fu">catkin_add_gtest</span>(<span class="dv">${PROJECT_NAME}</span>_your_testname tests/test.cpp)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    <span class="kw">target_link_libraries</span>(your_testname <span class="dv">${</span>catkin_Libraries<span class="dv">}</span> gtest_main)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">endif</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">catkin_add_gtest</span>(<span class="dv">${PROJECT_NAME}</span><span class="va">_your_testname</span> tests/test.cpp)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">target_link_libraries</span>(your_testname <span class="dv">${catkin_Libraries}</span> gtest_main)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">endif</span>()</span></code></pre></div>
 <p>Note that by linking with <code>gtest_main</code> you are using the default google test main() function, which is suitable when you are testing a library and not trying to test a node</p></li>
 </ul></li>
 </ol>
@@ -612,30 +612,30 @@ table td {
 </ul>
 <ul>
 <li><p>In your <code>CMakeLists.txt</code>, after the initial <code>find_package(catkin ...)</code> add</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>   <span class="kw">find_package</span>(rostest <span class="ot">REQUIRED</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">endif</span>()</span></code></pre></div></li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">find_package</span>(rostest <span class="ot">REQUIRED</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 <li><p>You then want to compile your node and have it run from a test launchfile</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    <span class="fu">add_rostest_gtest</span>(the_rostest tests/the_test_launchfile.test test/unit_test.cpp)</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="kw">target_link_libraries</span>(the_rostest <span class="dv">${catkin_LIBRARIES}</span> [any other libraries])</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">endif</span>()</span></code></pre></div></li>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_rostest_gtest</span>(the_rostest tests/the_test_launchfile.test test/unit_test.cpp)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">target_link_libraries</span>(the_rostest <span class="dv">${catkin_LIBRARIES}</span> [any other libraries])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 </ul></li>
 <li><p>To add launch or test launch files that should be run via <code>rostest</code> but do not depend on <code>gtest</code> when doing a <code>make run_tests</code> use</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>   <span class="fu">add_rostest</span>(tests/my_test.test)</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">endif</span>()</span></code></pre></div></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> (CATKIN_ENABLE_TESTING)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">add_rostest</span>(tests/my_test.test)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">endif</span>()</span></code></pre></div></li>
 <li><p>Regular launchfiles can also contain <code>&lt;test&gt;</code> nodes that are only run when invoked via <code>rostest</code>. This is a good way of keeping integration tests close to how the actual system is being run</p></li>
 <li><p>To actually write the tests see <a href="https://github.com/google/googletest/blob/master/googletest/docs/primer.md">Google Test Primer</a></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1"></a><span class="pp">#include</span><span class="im">&lt;gtest/gtest.h&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>TEST(TestSuite1, testCase1)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>{</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    ASSERT_EQ(<span class="dv">2</span>, <span class="dv">3</span>);</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="co">// There are many other ASSERT (fatal) and EXPECT (non-fatal, tests continue)</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="co">// macros in google test</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="co">// When first setting up tests, I like to write one that fails,</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>    <span class="co">// to ensure it is being run at the appropriate time</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>}</span></code></pre></div></li>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include</span><span class="im">&lt;gtest/gtest.h&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>TEST(TestSuite1, testCase1)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    ASSERT_EQ(<span class="dv">2</span>, <span class="dv">3</span>);</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// There are many other ASSERT (fatal) and EXPECT (non-fatal, tests continue)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// macros in google test</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// When first setting up tests, I like to write one that fails,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// to ensure it is being run at the appropriate time</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div></li>
 <li><p>To run the tests first run <code>catkin_make</code> to make sure your non-testing nodes are up to date, then use <code>catkin_make run_tests</code></p></li>
 </ol>
 </div>

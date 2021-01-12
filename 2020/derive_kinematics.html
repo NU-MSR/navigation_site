@@ -15,7 +15,7 @@ span.smallcaps{font-variant: small-caps;}
 span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
 <![endif]-->
@@ -565,7 +565,7 @@ x\cos\theta+y\sin\theta &amp; -\sin\theta &amp; \cos\theta
 \]</span>
 <h2 id="example-four-wheel-car">Example: Four Wheel Car</h2>
 <figure>
-<img src="./four_wheel_car.svg" alt="" /><figcaption>A Car With Four Wheels</figcaption>
+<img src="./four_wheel_car.svg" alt="A Car With Four Wheels" /><figcaption aria-hidden="true">A Car With Four Wheels</figcaption>
 </figure>
 <p>The Transformation matrices are:</p>
 <span class="math display">\[\begin{align}
@@ -799,7 +799,7 @@ r \dot{\phi}_i \\
 <h2 id="mecanum-and-omni-wheels">Mecanum and Omni Wheels</h2>
 <p>A mecanum wheel is driven via rotation along its y axis and it slides along a vector offset from its y axis by some angle <span class="math inline">\(\gamma\)</span> (see figure below)</p>
 <figure>
-<img src="./mecanum.svg" alt="" /><figcaption>Mecanum/Omni Wheel (it is omni when <span class="math inline">\(\gamma = 0\)</span>).</figcaption>
+<img src="./mecanum.svg" alt="Mecanum/Omni Wheel (it is omni when \gamma = 0)." /><figcaption aria-hidden="true">Mecanum/Omni Wheel (it is omni when <span class="math inline">\(\gamma = 0\)</span>).</figcaption>
 </figure>
 <p>The angle <span class="math inline">\(\gamma\)</span> determines which direction the wheel is free to slide in: when <span class="math inline">\(\gamma = 0\)</span> the wheel is called an omni wheel. Mecanum wheels typically have angles of <span class="math inline">\(\gamma = 45^{\circ}\)</span> (See Lynch, Park 2017).</p>
 <p>Let <span class="math inline">\(\dot{\phi}_i\)</span> be the rotational speed of the wheel and <span class="math inline">\(v_{si}\)</span> be the speed in the sliding direction. The velocity of the wheel is related to its sliding and rotational velocities by</p>
