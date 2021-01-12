@@ -467,20 +467,20 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#task-group-0-preliminaries">Task Group 0 (Preliminaries)</a>
+<li><a href="#task-0-preliminaries">Task 0 (Preliminaries)</a>
 <ul>
 <li><a href="#task-0.000-reading-the-guidelines">Task 0.000 (Reading the Guidelines)</a></li>
 <li><a href="#task-0.001-making-a-git-repository">Task 0.001 (Making a Git Repository)</a></li>
 <li><a href="#task-0.002-making-a-readme">Task 0.002 (Making a README)</a></li>
 </ul></li>
-<li><a href="#task-group-a-robot-description">Task Group A (Robot Description)</a>
+<li><a href="#task-a-robot-description">Task A (Robot Description)</a>
 <ul>
 <li><a href="#task-a.000-nuturtle_description-package">Task A.000 (nuturtle_description package)</a></li>
 <li><a href="#task-a.001-visualization">Task A.001 (visualization)</a></li>
 <li><a href="#task-a.002-yaml-file">Task A.002 (Yaml File)</a></li>
 <li><a href="#task-a.003-readme">Task A.003 (README)</a></li>
 </ul></li>
-<li><a href="#task-group-b-c-and-2d-transforms">Task Group B (C++ and 2D Transforms)</a>
+<li><a href="#task-b-c-and-2d-transforms">Task B (C++ and 2D Transforms)</a>
 <ul>
 <li><a href="#task-b.000-library-implementation">Task B.000 (library implementation)</a></li>
 <li><a href="#task-b.001-main-implementation">Task B.001 (main implementation)</a></li>
@@ -490,12 +490,12 @@ table td {
 <li><a href="#task-b.004-testing">Task B.004 (testing)</a></li>
 <li><a href="#task-b.005-vanilla-cmake">Task B.005 (vanilla cmake)</a></li>
 </ul></li>
-<li><a href="#task-group-c-turtle-sim">Task Group C (Turtle Sim)</a>
+<li><a href="#task-c-turtle-sim">Task C (Turtle Sim)</a>
 <ul>
 <li><a href="#task-c.000-trect-package">Task C.000 (trect package)</a></li>
 <li><a href="#task-c.001-turtle_rect-node">Task C.001 (turtle_rect node)</a></li>
-<li><a href="#task-c.004-trect.launch">Task C.004 (trect.launch)</a></li>
-<li><a href="#task-c.004-documentation">Task C.004 (documentation)</a></li>
+<li><a href="#task-c.002-trect.launch">Task C.002 (trect.launch)</a></li>
+<li><a href="#task-c.003-documentation">Task C.003 (documentation)</a></li>
 </ul></li>
 <li><a href="#useful-pages">Useful Pages</a></li>
 </ul>
@@ -513,7 +513,7 @@ table td {
 </header>
 
 <!-- The main content of the file -->
-<h1 id="task-group-0-preliminaries">Task Group 0 (Preliminaries)</h1>
+<h1 id="task-0-preliminaries">Task 0 (Preliminaries)</h1>
 <h2 id="task-0.000-reading-the-guidelines">Task 0.000 (Reading the Guidelines)</h2>
 <ol>
 <li>Carefully read the homework submission guidelines.</li>
@@ -538,7 +538,7 @@ This repository consists of several ROS packages
 <li><p>Commit this <code>README.md</code> to your repository.</p></li>
 <li><p>Whenever you add a new package, list it in this <code>README.md</code></p></li>
 </ol>
-<h1 id="task-group-a-robot-description">Task Group A (Robot Description)</h1>
+<h1 id="task-a-robot-description">Task A (Robot Description)</h1>
 <p>The goal of this assignment is to adapt the model in the <code>turtlebot3_description</code> for our needs. Upon completion, you will be able to display a model of the <code>turtlebot3</code> robot in rviz.</p>
 <h2 id="task-a.000-nuturtle_description-package">Task A.000 (nuturtle_description package)</h2>
 <ol>
@@ -598,7 +598,7 @@ URDF files for Nuturtle &lt;Name Your Robot&gt;
 * `&lt;Command Here&gt;` to see the robot in rviz.
 </code></pre></li>
 </ol>
-<h1 id="task-group-b-c-and-2d-transforms">Task Group B (C++ and 2D Transforms)</h1>
+<h1 id="task-b-c-and-2d-transforms">Task B (C++ and 2D Transforms)</h1>
 <p>Here you will begin to write a library called <code>rigid2d</code> for performing 2D rigid body transformations. You are not permitted to use any libraries other than the C++ standard library to complete this assignment.</p>
 <h2 id="task-b.000-library-implementation">Task B.000 (library implementation)</h2>
 <ol>
@@ -757,7 +757,7 @@ cmake --build build # Have cmake run make in the build directory
 <li><p>Your code is now in build/</p></li>
 <li><p>Enjoy your doxygen documentation by opening <code>build/html/index.html</code> in your web-browser.</p></li>
 </ol>
-<h1 id="task-group-c-turtle-sim">Task Group C (Turtle Sim)</h1>
+<h1 id="task-c-turtle-sim">Task C (Turtle Sim)</h1>
 <p>The goal of this task is to make a turtle in the turtle simulator move in a rectangular trajectory. The movement will be started by calling a <code>/start</code> service.</p>
 <figure>
 <img src="./turtle.gif" alt="The Goal Of Task Group C" /><figcaption aria-hidden="true">The Goal Of Task Group C</figcaption>
@@ -802,11 +802,11 @@ cmake --build build # Have cmake run make in the build directory
 <li>Make sure that the published <code>x</code> velocity never exceeds <code>max_xdot</code>, the published angular velocity never exceeds <code>max_wdot</code>, and the published <code>y</code> velocity is always zero.</li>
 <li>Include a comment block at the top of the node describing the ROS API of your node.</li>
 </ol>
-<h2 id="task-c.004-trect.launch">Task C.004 (trect.launch)</h2>
+<h2 id="task-c.002-trect.launch">Task C.002 (trect.launch)</h2>
 <ol>
 <li>Write a launchfile called <code>trect.launch</code> that runs the turtle simulator and the <code>turtle_rect</code> node and sets the parameters to have the following values: <code>max_xdot = 2.0</code>, <code>max_wdot = 1.0</code>, <code>frequency = 100</code>.</li>
 </ol>
-<h2 id="task-c.004-documentation">Task C.004 (documentation)</h2>
+<h2 id="task-c.003-documentation">Task C.003 (documentation)</h2>
 <ol>
 <li><p>Write a <code>README.md</code> for your package using the following template, filling in the <code>&lt;BLANKS&gt;</code></p>
 <pre><code># Turtle Rect

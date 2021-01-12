@@ -1,0 +1,630 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework Guidelines</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#important-notice">Important Notice</a></li>
+</ul></li>
+<li><a href="#homework-layout">Homework Layout</a></li>
+<li><a href="#submission-instructions">Submission Instructions</a></li>
+<li><a href="#coding-standards">Coding Standards</a>
+<ul>
+<li><a href="#git">Git</a></li>
+<li><a href="#c">C++</a></li>
+<li><a href="#ros">ROS</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework Guidelines</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>These guidelines apply to all homework assignments in ME495 Sensing, Navigation, and Machine Learing for Robotics. It is also serves central location for collecting coding standards for the course. This document will be updated regularly throughout the quarter.</p>
+<h2 id="important-notice">Important Notice</h2>
+<ol>
+<li>Failure to adhere to certain guidelines may result in receiving no credit, even for a working solution.</li>
+<li>These guidelines apply to every homework assignment but may be overridden by instructions in an individual assignment.</li>
+<li>If you are unsure about how these guidelines apply or any assignment instructions please ask.</li>
+</ol>
+<h1 id="homework-layout">Homework Layout</h1>
+<ol>
+<li>Each assignment consists of a list of tasks.</li>
+<li>Each task is given an identifier: <code>X.YYY</code>, where <code>X</code> is the group id. All tasks with the same group id are related and it makes sense to read over all the tasks in a group prior to attempting to complete any of them.</li>
+<li>Tasks within a group are not necessarily meant to be done in the order they are presented.
+<ul>
+<li>It will often make debugging easier to implement simpler versions of several of the tasks simultaneously and slowly build up functionality</li>
+<li>You are encouraged to look over all the tasks before starting</li>
+</ul></li>
+<li>Some assignments are cumulative. Thus, there may be tasks with the same group id that are related/interdependent that span multiple homework assignments</li>
+</ol>
+<h1 id="submission-instructions">Submission Instructions</h1>
+<ol>
+<li>All homework will be completed in a single git repository
+<ul>
+<li>I will send everyone an individual link for creating this repository</li>
+</ul></li>
+<li>I will grade whatever commit is at the <code>HEAD</code> of default branch when I clone your repository.</li>
+<li>You should do your work on a separate branch and merge code into the primary branch when you are read for me to see it.</li>
+<li>You may push to the primary branch as many times as you would like.
+<ul>
+<li>It is possible to complete part of an assignment, push to ensure you get partial credit, then push again later when you finish</li>
+</ul></li>
+</ol>
+<h1 id="coding-standards">Coding Standards</h1>
+<p>The following list contains the standards that our code should strive to adhere to. Some violations will be strictly penalized, as indicated in <strong>bold</strong>.</p>
+<p>The list may grow as the quarter progresses.</p>
+<h2 id="git">Git</h2>
+<ol>
+<li>Improperly including files in git. For example
+<ul>
+<li>Generated executables, libraries, object files of any kind</li>
+<li>URDF files generated from <code>xacro</code> (<strong>Automatic Zero</strong>)</li>
+<li>Files generated by the <code>catkin</code> build system</li>
+<li>The <code>build</code>, <code>devel</code>, or <code>install</code> space (or their <code>*isolated</code> counterparts) (<strong>Automatic Zero</strong>)</li>
+</ul></li>
+<li>Your name/email address not being set properly in git</li>
+<li>Each homework assignment should consist of many small git commits.
+<ul>
+<li>You should include a meaningful commit message with each commit</li>
+<li>It is okay to commit code with compiler errors to your own development branch</li>
+</ul></li>
+</ol>
+<h2 id="c">C++</h2>
+<ol>
+<li><p>Compiler error (<strong>Automatic Zero</strong>)</p></li>
+<li><p>Compiler warning</p></li>
+<li><p>Segfault</p></li>
+<li><p>No include guard in header file</p></li>
+<li><p>All <code>.cpp</code> files that are ROS nodes should start with the following comment block: (<strong>Automatic Zero</strong>)</p>
+<pre><code>/// \file
+/// \brief A brief description of what the file does
+///
+/// PARAMETERS:
+///     parameter_name (parameter_type): description of the parameter
+/// PUBLISHES:
+///     topic_name (topic_type): description of topic
+/// SUBSCRIBES:
+///     topic_name (topic_type): description of the topic
+/// SERVICES:
+///     service_name (service_type): description of the service
+</code></pre></li>
+<li><p>All functions/methods should be commented using <code>doxygen</code> style comments</p>
+<pre><code>/// \brief Computes the factorial
+///
+/// \tparam T - An integral type
+/// \param F - the factorial to compute
+/// \returns F! (F Factorial)
+/// &lt;template typename T&gt;
+/// T factorial (T F);
+</code></pre></li>
+<li><p>Classes should have a <code>doxygen</code> comment block describing what the class does. You should also provide comments for private members, where appropriate</p></li>
+<li><p>Be careful with abs: fabs() takes double and float, abs takes and returns int:</p>
+<ul>
+<li>Since c++17 std::abs() works for floating point as well</li>
+<li>Better yet: include a <code>using std::abs</code> and the correct version will be called.</li>
+</ul></li>
+<li><p>Use <code>const</code> everywhere you can</p></li>
+<li><p>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code></p></li>
+<li><p>Constructors should use initializer lists to initialize member variables</p></li>
+<li><p>Member variables should be initialized in the constructor initailizer list in the same order in which they are declared</p></li>
+<li><p>Put braces after control-flow expressions even if they are one line</p>
+<ul>
+<li>(see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</li>
+</ul></li>
+<li><p>Do not put <code>using</code> statements at file scope in header files</p>
+<ul>
+<li>These <code>using</code> statements change the behavior of all code that includes the header, including other headers that are below this one</li>
+<li>Thus, if you do do this you can introduce include-order dependencies and mess up the functioning of other people's code when they include your header</li>
+</ul></li>
+<li><p>In most cases it is preferable to explicitly do a using for each function that you need rather than polluting the namespace by doing <code>using namespace std</code></p></li>
+<li><p>Place variables in the scope closest to where they are needed</p></li>
+<li><p>If you use a global variable, make it <code>static</code> or put it in an anonymous namespace so it can't bee seen by other modules</p>
+<ul>
+<li>There are rare cases where using an <code>extern</code> global variable might make sense, but not in this class, so don't use <code>extern</code></li>
+</ul></li>
+<li><p>Usually single-argument constructors should be declared <code>explicit</code></p></li>
+</ol>
+<h2 id="ros">ROS</h2>
+<ol>
+<li>Your code should pass <code>catkin_lint -W2</code> warning/error/problem (<strong>Automatic Zero for Errors or Warnings here</strong>)</li>
+<li>Layout your code as <code>git_repository/package</code></li>
+<li>Within a package: (note: if you have no files that fit in a given category, do not include the corresponding directory)
+<ul>
+<li><code>config/</code> Contains <code>.yaml</code> and <code>.rviz</code> files</li>
+<li><code>launch/</code> Contains <code>.launch</code> files</li>
+<li><code>urdf/</code> Contains <code>.xacro</code>, <code>.urdf</code>, and <code>.gazebo</code> files (but not if they are generated at runtime).</li>
+<li><code>src/</code> Contains the source code for your ROS nodes and libraries</li>
+<li><code>msg/</code> Contains message files</li>
+<li><code>srv/</code> Contains service files</li>
+<li><code>include/pkgname</code> Public headers, if you are treating your package as a library</li>
+<li><code>tests/</code> Unit tests and test scripts</li>
+</ul></li>
+<li>Launchfile should not result in errors due to code in one of your packages.</li>
+<li>Launchfile should not results in warnings due to code in one of your packages.</li>
+<li>Launchfile arguments should have a <code>doc</code> attribute to explain their use (<strong>Automatic Zero for Task</strong>)</li>
+<li>Any <code>package.xml</code> files should be kept up-to-date with the proper dependencies, a description, and author information</li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
