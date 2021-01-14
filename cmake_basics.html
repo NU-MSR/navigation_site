@@ -650,7 +650,7 @@ table td {
 <span id="CMakeLists-33"><a href="#CMakeLists-33" aria-hidden="true" tabindex="-1"></a><span class="kw">target_link_libraries</span>(Name <span class="bn">Eigen3::Eigen</span>)</span>
 <span id="CMakeLists-34"><a href="#CMakeLists-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="CMakeLists-35"><a href="#CMakeLists-35" aria-hidden="true" tabindex="-1"></a><span class="co"># specify additional compilation flags for a target</span></span>
-<span id="CMakeLists-36"><a href="#CMakeLists-36" aria-hidden="true" tabindex="-1"></a><span class="kw">target_compile_options</span>(Name -Wall)</span>
+<span id="CMakeLists-36"><a href="#CMakeLists-36" aria-hidden="true" tabindex="-1"></a><span class="kw">target_compile_options</span>(Name <span class="ot">PUBLIC</span> -Wall)</span>
 <span id="CMakeLists-37"><a href="#CMakeLists-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="CMakeLists-38"><a href="#CMakeLists-38" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a line you will see in catkin cmake files to make sure that the projet depends on</span></span>
 <span id="CMakeLists-39"><a href="#CMakeLists-39" aria-hidden="true" tabindex="-1"></a><span class="co"># special catkin targets (such as any messages that are generated)</span></span>
@@ -800,7 +800,7 @@ make # nothing will happen since we didn&#39;t add any files
 <h2 id="a-deep-dive-into-a-catkin-cmakelists.txt">A Deep Dive into a Catkin CMakeLists.txt</h2>
 <ul>
 <li><p>Preamble, same as a normal</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 2.8.3) <span class="co"># This version is rather outdated.</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 3.9) <span class="co"># This version is rather outdated.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">project</span>(my_project) <span class="co"># name of your project. It must match what you wrote in package.xml</span></span></code></pre></div></li>
 <li><p>Notice that catkin is found just like any other package would be (because a main component of catkin is a cmake code)</p></li>
 <li><p>The COMPONENTS part is because catkin sets everythign up so that ROS packages can be brought in as if they were a piece of the catkin cmake package</p>
