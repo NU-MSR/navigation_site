@@ -468,7 +468,14 @@ table td {
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#robot-vacuum-cleaner-example">Robot Vacuum Cleaner Example</a></li>
-<li><a href="#ros-implementation">ROS Implementation</a></li>
+<li><a href="#c-implementation">C++ Implementation</a>
+<ul>
+<li><a href="#switch-statement">Switch Statement</a></li>
+<li><a href="#state-table">State-Table</a></li>
+<li><a href="#class-hierarchies">Class Hierarchies</a></li>
+</ul></li>
+<li><a href="#conclusions">Conclusions</a></li>
+<li><a href="#resources">Resources</a></li>
 </ul>
 </nav>
 
@@ -526,7 +533,33 @@ table td {
 <figure>
 <img src="./fsm.svg" alt="Example of Robot Vacuum Cleaner FSM" /><figcaption aria-hidden="true">Example of Robot Vacuum Cleaner FSM</figcaption>
 </figure>
-<h1 id="ros-implementation">ROS Implementation</h1>
+<h1 id="c-implementation">C++ Implementation</h1>
+<p>There are severla ways of implementing FSMs in C++</p>
+<h2 id="switch-statement">Switch Statement</h2>
+<ul>
+<li>Each state is a member of an <code>enum</code> or <code>enum class</code></li>
+<li>Each state is one case of a <code>switch-case</code> statement.</li>
+<li>State transitions occur based on custom logic within each state</li>
+<li>If you use events, these can be a <code>switch</code> statement within each case</li>
+</ul>
+<h2 id="state-table">State-Table</h2>
+<ul>
+<li>Use table indexed by <code>state</code> and <code>event</code></li>
+<li>Each entry contains an action to perform at the given state and the next state</li>
+</ul>
+<h2 id="class-hierarchies">Class Hierarchies</h2>
+<ul>
+<li>You can also create class hierarchies of various levels of abstraction</li>
+</ul>
+<h1 id="conclusions">Conclusions</h1>
+<ul>
+<li>Overall, some of these advanced patterns (detailed in the Resources section) can help systemize the implementation of a state machine and remove boiler-plate code. The trade-off is you then have setup a more complicated system that can be less straightforward to follow versus the switch statement approach.</li>
+<li>I've found it is usually better to keep your state machines simple, and that is typically all that is needed in a ROS node,</li>
+</ul>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="http://www.cs.fsu.edu/~lacher/courses/COP5385/lectures/QP3/script.html">FSM Implementations</a></li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
