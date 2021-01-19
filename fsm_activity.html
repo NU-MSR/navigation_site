@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Sensing, Navigation, and Machine Learing for Robotics</title>
+<title>FSM Activity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -463,19 +463,6 @@ table td {
 <body>
 
 <!-- Sidebar for table of contents -->
-<nav id="TOC" role="doc-toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#homework">Homework</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#resources">Resources</a>
-<ul>
-<li><a href="#ros-and-robotics">ROS and Robotics</a></li>
-<li><a href="#c">C++</a></li>
-</ul></li>
-</ul>
-</nav>
 
 <nav class="home_up">
   <a href="index.html">Home</a>
@@ -485,69 +472,30 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Sensing, Navigation, and Machine Learing for Robotics</h1>
+<h1 class="title">FSM Activity</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="homework">Homework</h1>
+<p>You are designing a finite state machine for a robotic vacuum cleaner that must vacuum itself and return to its charging station when it is low on batteries. The robot starts at its charging station with a full charge. When a user presses a button, the robot will start cleaning, if the robot is more than 75% charged. If the robot is less than 25% charged, it will return to the charging station.</p>
 <ol>
-<li><a href="./guidelines.html">Guidelines</a> (Read this first)</li>
-<li><a href="./homework01.html">Homework 1</a></li>
+<li>What states does the robot have?</li>
+<li>What are the events?</li>
+<li>Draw a state-transition diagram for the robot</li>
+<li>Implement a ROS node that models the robot:
+<ul>
+<li>When the robot is charging, it prints "Charging" and the power level</li>
+<li>When the robot is vacuuming it prints "Vacuuming" and the power level</li>
+<li>When the robot is returning to charge it prints "Returning" and the power level</li>
+<li>Messages are printed once every 1 second</li>
+<li>The battery charges at a rate of 10% per second</li>
+<li>The battery discharges at a rate of 10% per second when vacuuming and 5% when returning</li>
+<li>The robot always makes it back to the charging station when the battery is at 10% remaining</li>
+<li>The user calls a "start" service to cause the robot to start vacuuming, if it has enough charge
+<ul>
+<li>The service can be a <code>std_srvs::Empty</code></li>
+</ul></li>
+</ul></li>
 </ol>
-<h1 id="notes">Notes</h1>
-<ol>
-<li><a href="./cmake_basics.html">CMake Basics</a></li>
-<li><a href="./node_structure.html">Node Structure</a></li>
-</ol>
-<h1 id="activities">Activities</h1>
-<ol>
-<li><a href="http://wiki.ros.org/roscpp/Tutorials">The ROS C++ Tutorials</a></li>
-<li><a href="./fsm_activity.html">Finite State Machine Activity</a></li>
-</ol>
-<h1 id="resources">Resources</h1>
-<p>The following resources will be useful in this course.</p>
-<h2 id="ros-and-robotics">ROS and Robotics</h2>
-<ul>
-<li><a href="https://nu-msr.github.io/me495_site/">Notes from ME495 Embedded Systems in Robotics (Intro to ROS)</a></li>
-<li><a href="https://wiki.ros.org">ROS wiki</a></li>
-<li><a href="https://answers.ros.org">ROS Answers</a> Stack Overflow for ROS, many core ROS developers will answer questions on this website.</li>
-<li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Modern Robotics, by Kevin Lynch and Frank Park</a></li>
-<li><a href="http://planning.cs.uiuc.edu">Planning Algorithms by Steven M. LaValle</a></li>
-</ul>
-<h2 id="c">C++</h2>
-<ul>
-<li>Professional C++ 4th Edtion by Marc Gregoire (Available online through the Northwestern Library).</li>
-<li>A Tour of C++ by Bjarne Stroustrup (Available online through the Northwestern Library)</li>
-<li>More Effective C++ by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>Best practices for C++, but pre c++11</li>
-</ul></li>
-<li>Effective Modern C++ by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>Best practices for C++11</li>
-</ul></li>
-<li>Effective STL by Scott Meyers (Available online through the Northwestern Library)
-<ul>
-<li>How to use the standard template library. Pre C++11</li>
-</ul></li>
-<li><a href="http://en.cppreference.com/w/">cppreference.com</a> A good reference website for C++ that is usually correct and up-to-date with the standards.
-<ul>
-<li>www.cplusplus.com. This website usually comes up on google before cppreference but is not good. It is seemingly "beginner friendly" but it also contains outdated information and often reinforces bad habits.</li>
-</ul></li>
-<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>
-<ul>
-<li>Formalizes best practices for C++, written by Bjarne Stroustrup (creator of C++) and Herb Sutter (very involved in C++ standards committee)</li>
-</ul></li>
-<li><a href="https://herbsutter.com/gotw/">GotW</a> Good source for C++ best practices</li>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4713.pdf">Draft of the C++17 Standard</a>
-<ul>
-<li>Hard to read but contains almost the final word about the mechanics of C++17</li>
-<li>The actual ISO standard can be purchased <a href="https://www.iso.org/standard/68564.html">here</a> for 198 Swiss Francs
-<ul>
-<li>Maybe the Northwestern Library will obtain it for you if it were actually needed.</li>
-</ul></li>
-</ul></li>
-</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

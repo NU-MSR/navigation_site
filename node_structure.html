@@ -548,6 +548,7 @@ table td {
 <li><a href="#disadvantages-1">Disadvantages</a></li>
 </ul></li>
 <li><a href="#lambda-ros-node">Lambda ROS Node</a></li>
+<li><a href="#resources">Resources</a></li>
 </ul>
 </nav>
 
@@ -813,6 +814,15 @@ table td {
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            });</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// the rest of the program</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<ul>
+<li>Similarly you can use a "functor object", that is an object that defines <code>operator()</code>, which is the callback</li>
+<li>A <code>lambda</code> function is essentially creates such an object behind the scenese</li>
+</ul>
+<h1 id="resources">Resources</h1>
+<ul>
+<li>See <a href="http://wiki.ros.org/roscpp/Overview/Publishers%20and%20Subscribers">Publishers and Subscribers</a> for C++ specific details of publishers and subscribers</li>
+<li>See <a href="http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning">Callbacks And Spinning</a> for more details about the thread model</li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
