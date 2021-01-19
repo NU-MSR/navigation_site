@@ -19,6 +19,7 @@ div.column{display: inline-block; vertical-align: top; width: 50%;}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -617,7 +618,7 @@ table td {
 <li><p>The files below provide a template for a basic executable</p>
 <div class="sourceCode" id="CMakeLists" data-tangle="yes"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="CMakeLists-1"><a href="#CMakeLists-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lines that begin with a # are comments</span></span>
 <span id="CMakeLists-2"><a href="#CMakeLists-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set the minimum required version of cmake, usually the first line</span></span>
-<span id="CMakeLists-3"><a href="#CMakeLists-3" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 3.9)</span>
+<span id="CMakeLists-3"><a href="#CMakeLists-3" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> <span class="dt">3.9</span>)</span>
 <span id="CMakeLists-4"><a href="#CMakeLists-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="CMakeLists-5"><a href="#CMakeLists-5" aria-hidden="true" tabindex="-1"></a><span class="co"># project_name sets the name of the project and causes cmake to</span></span>
 <span id="CMakeLists-6"><a href="#CMakeLists-6" aria-hidden="true" tabindex="-1"></a><span class="co"># find the c and c++ compilers</span></span>
@@ -630,7 +631,7 @@ table td {
 <span id="CMakeLists-13"><a href="#CMakeLists-13" aria-hidden="true" tabindex="-1"></a><span class="co"># That is defined to reference the library</span></span>
 <span id="CMakeLists-14"><a href="#CMakeLists-14" aria-hidden="true" tabindex="-1"></a><span class="co"># here: we find the eigen library as per the instruction</span></span>
 <span id="CMakeLists-15"><a href="#CMakeLists-15" aria-hidden="true" tabindex="-1"></a><span class="co"># https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html</span></span>
-<span id="CMakeLists-16"><a href="#CMakeLists-16" aria-hidden="true" tabindex="-1"></a><span class="kw">find_package</span>(Eigen3 3.3 <span class="ot">REQUIRED</span> <span class="ot">NO_MODULE</span>)</span>
+<span id="CMakeLists-16"><a href="#CMakeLists-16" aria-hidden="true" tabindex="-1"></a><span class="kw">find_package</span>(Eigen3 <span class="dt">3.3</span> <span class="ot">REQUIRED</span> <span class="ot">NO_MODULE</span>)</span>
 <span id="CMakeLists-17"><a href="#CMakeLists-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="CMakeLists-18"><a href="#CMakeLists-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an executable from the following source code files</span></span>
 <span id="CMakeLists-19"><a href="#CMakeLists-19" aria-hidden="true" tabindex="-1"></a><span class="co"># The Name of the executable creates a cmake &quot;target&quot;</span></span>
@@ -800,7 +801,7 @@ make # nothing will happen since we didn&#39;t add any files
 <h2 id="a-deep-dive-into-a-catkin-cmakelists.txt">A Deep Dive into a Catkin CMakeLists.txt</h2>
 <ul>
 <li><p>Preamble, same as a normal</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> 3.9) <span class="co"># This version is rather outdated.</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cmake"><code class="sourceCode cmake"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">cmake_minimum_required</span>(<span class="ot">VERSION</span> <span class="dt">3.9</span>) <span class="co"># This version is rather outdated.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">project</span>(my_project) <span class="co"># name of your project. It must match what you wrote in package.xml</span></span></code></pre></div></li>
 <li><p>Notice that catkin is found just like any other package would be (because a main component of catkin is a cmake code)</p></li>
 <li><p>The COMPONENTS part is because catkin sets everythign up so that ROS packages can be brought in as if they were a piece of the catkin cmake package</p>
@@ -969,7 +970,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 <ul>
 <li>To specify a cross-compiler, use <code>cmake -DCMAKE_TOOLCHAIN_FILE=&lt;toolchain&gt;</code>, where <code>&lt;toolchain&gt;</code> is a special cmake file that is used to tell <code>cmake</code> about an alternative compiler</li>
 <li>Since a <code>toolchain</code> file creates settings that are created really early in the <code>cmake</code> invocation, it must be set when calling <code>cmake</code>: it will not have the desired effect if set from within your <code>CMakeLists.txt</code></li>
-<li>I have provided a <code>cmake</code> <em>./raspi-toolchain.cmake</em> to allow you to cross-compile for the raspberry pi.</li>
+<li>I have provided a <code>cmake</code> <span class="spurious-link" target="toolchain file"><em>./raspi-toolchain.cmake</em></span> to allow you to cross-compile for the raspberry pi.</li>
 </ul>
 <h1 id="resources">Resources</h1>
 <ul>
