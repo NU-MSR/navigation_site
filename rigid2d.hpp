@@ -109,9 +109,22 @@ namespace rigid2d
         /// \returns a reference to the newly transformed operator
         Transform2D & operator*=(const Transform2D & rhs);
 
+        /// \brief get the x displacement of the  transformation
+        /// \return the x displacement
+        double x() const;
+        
+        /// \brief get the y displacement of the  transformation
+        /// \return the y displacement
+        double y() const;
+
+        /// \brief get the angular displacement of the transform
+        /// \return the angular displacement
+        double theta() const;
+
         /// \brief \see operator<<(...) (declared outside this class)
         /// for a description
         friend std::ostream & operator<<(std::ostream & os, const Transform2D & tf);
+
     };
 
 
