@@ -1,0 +1,686 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<title>Rigid Body Transformations in 2D</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#coordinate-frames">Coordinate Frames</a></li>
+<li><a href="#rotation-matrix">Rotation Matrix</a></li>
+<li><a href="#transformation-matrix">Transformation Matrix</a></li>
+<li><a href="#twist">Twist</a></li>
+<li><a href="#adjoint">Adjoint</a></li>
+<li><a href="#thought-experiments">Thought Experiments</a>
+<ul>
+<li><a href="#homogeneous-coordinates-and-transformations">Homogeneous Coordinates and Transformations</a></li>
+<li><a href="#velocities-and-twist">Velocities and Twist</a></li>
+<li><a href="#everything-is-rotation">Everything is Rotation</a></li>
+<li><a href="#body-twist-vs-velocity">Body Twist vs Velocity</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Rigid Body Transformations in 2D</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>Provides a brief review of 2D rigid body transformations, from the perspective of a programmer who just wnats to use them. See (Lynch, Park <em>Modern Robotics</em>) for more details.</p>
+<h1 id="coordinate-frames">Coordinate Frames</h1>
+<p>A 2D coordinate frame consists of 2 orthogonal unit vectors located somewhere in space</p>
+<ul>
+<li>Whenever I discuss frames in these notes, they are stationary. The body frame of a moving robot is assumed to be instantaneously fixed to the location of the robot at any given time.</li>
+</ul>
+<h1 id="rotation-matrix">Rotation Matrix</h1>
+<p>A rotation matrix describes the rotation between two coordinate frames. If there is a pure rotation (i.e., no translation) between frames <span class="math inline">\(\{a\}\)</span> (with coordinate vectors <span class="math inline">\(\hat{x}_a\)</span> and <span class="math inline">\(\hat{y}_a\)</span>) and <span class="math inline">\(\{b}\\)</span> (with coordinate vectors <span class="math inline">\(\hat{x}_b\)</span> and <span class="math inline">\(\hat{y}_b\)</span>) the rotation matrix <span class="math inline">\(R_{ab}\)</span> lets you find the coordinates of a point <span class="math inline">\(p\)</span> in frame <span class="math inline">\(a\)</span> given coordinates in frame <span class="math inline">\(b\)</span> using the equation</p>
+<span class="math display">\[\begin{equation}
+p_a = R_{ab} p_a
+\end{equation}
+\]</span>
+<span class="math display">\[\begin{equation}
+R_{ab} = \begin{bmatrix}
+\cos\theta &amp; -\sin\theta  \\
+\sin\theta &amp; \cos\theta  
+\end{bmatrix}
+\end{equation}
+\]</span>
+<ul>
+<li>Rotations can be composed: <span class="math inline">\(R_{ac} = R_{ab}R_{bc}\)</span>.</li>
+<li>Rotations can always be inverted and this reverses the rotation:</li>
+</ul>
+<span class="math display">\[\begin{equation}
+R_{ba} = R_{ab}^{-1} = 
+\begin{bmatrix}
+\cos\theta &amp; \sin\theta  \\
+-\sin\theta &amp; \cos\theta  
+\end{bmatrix}
+\end{equation}
+\]</span>
+<h1 id="transformation-matrix">Transformation Matrix</h1>
+<p>If the origin of frame <span class="math inline">\(\{j\}\)</span> is displaced from frame <span class="math inline">\(\{i\}\)</span> by <span class="math inline">\(x \hat{x}_i + y \hat{y}_i\)</span> and the angle between the frames is <span class="math inline">\(\theta\)</span>, then to convert a point <span class="math inline">\(p_j\)</span> in frame <span class="math inline">\(j\)</span> to frame <span class="math inline">\(i\)</span> coordinates:</p>
+<span class="math display">\[\begin{equation}
+p_i = T_{ij}p_j,
+\end{equation}
+\]</span>
+<p>where</p>
+<span class="math display">\[\begin{equation}
+T_{ij} = 
+\begin{bmatrix}
+\cos\theta &amp; -\sin\theta &amp; x \\
+\sin\theta &amp; \cos\theta &amp; y \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}
+\]</span>
+<h1 id="twist">Twist</h1>
+<p>A 2D twist consists of an angular velocity and two translational velocities:</p>
+<span class="math display">\[\begin{equation}
+V = \begin{bmatrix} \dot{\theta} \\ \dot{x} \\ \dot{y} \end{bmatrix}
+\end{equation}
+\]</span>
+<h1 id="adjoint">Adjoint</h1>
+<p>The 2D adjoint converts a twist in one frame to a twist in another frame.</p>
+<ul>
+<li>These are just different coordinate representations for what is the same rigid body motion.</li>
+</ul>
+<p>The 2D Adjoint is</p>
+<span class="math display">\[\begin{equation}
+\mathrm{Ad}_{ij} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+y &amp; \cos\theta &amp; -\sin\theta \\
+-x &amp; \sin\theta &amp; \cos\theta
+\end{bmatrix}.
+\end{equation}
+\]</span>
+<p>To convert a twist from one frame to another</p>
+<span class="math display">\[\begin{equation}
+V_i = \mathrm{AD}_{ij} V_j
+\end{equation}
+\]</span>
+<h1 id="thought-experiments">Thought Experiments</h1>
+<ul>
+<li>These are some thought exercises designed to help build intuition about frames</li>
+<li>They are designed as a guide for thinking about these concepts</li>
+<li>Use interactively: read a line, then try to visualize. It may help to close your eyes</li>
+<li>This section is experimental: everyone thinks differently and I tried to put in words how I think about these concepts. I'm not sure how helpful it will be to others: let me know!</li>
+</ul>
+<h2 id="homogeneous-coordinates-and-transformations">Homogeneous Coordinates and Transformations</h2>
+<h3 id="homogeneous-coordinates-2d-version">Homogeneous coordinates (2D version)</h3>
+<ul>
+<li>Write 2D points in three dimensional space:
+<ul>
+<li><span class="math inline">\((x/w, y/w) &lt;-&gt; (x, y, w)\)</span></li>
+<li>For rigid transforms, usually use <span class="math inline">\(k = 1\)</span></li>
+<li>Imagine a plane at <span class="math inline">\(w = 1\)</span>.</li>
+<li>Draw a point at <span class="math inline">\((x, y)\)</span> in the <span class="math inline">\(z = 1\)</span> plane: this is the point in <span class="math inline">\(\mathbb{Reals}^2\)</span></li>
+<li>Now, if you write a point <span class="math inline">\((x, y, w)\)</span> in the projective space
+<ul>
+<li>Draw a line from (0, 0, 0) to that point. Where it intersects the z = 1 plane we have our point in <span class="math inline">\(\mathbb{Reals}^2\)</span>.</li>
+<li>Actually, the line in the 3D space represents a point in the 2D Euclidean space</li>
+</ul></li>
+<li>Note, all points of the form <span class="math inline">\((kx, ky, k)\)</span> map to <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span> (equivalence of points)</li>
+<li>What if <span class="math inline">\(w = 0\)</span>? This is a point at infinity
+<ul>
+<li>This is infinity in <span class="math inline">\(\mathbb{R}^2\)</span>.</li>
+<li>Take any point <span class="math inline">\((x, y)\)</span> in <span class="math inline">\(w = 1\)</span> plane. Start lowering it below the plane, as it gets to zero, the line intersects the <span class="math inline">\(w = 1\)</span> plane farther and farther out</li>
+<li>Note, that a whole line of points in the <span class="math inline">\(w=1\)</span> plane ends at infinity (trace out the intersection with the plane as you keep making <span class="math inline">\(w\)</span> smaller)</li>
+</ul></li>
+</ul></li>
+</ul>
+<h3 id="transformation-matrix-1">Transformation Matrix</h3>
+<ul>
+<li>A Shear operation on homegeneous points</li>
+<li>Amount a point is moved is based on the w distance
+<ul>
+<li>In our transformation matrices w distance is always 1 so that ends up translating.</li>
+</ul></li>
+<li>Since we always use 1 as the w coordinate, it just results in translation</li>
+<li>Lets us translate and rotate points in R<sup>2</sup> with a single matrix</li>
+<li>Rotation matrix part: this is writing the coordinate access vectors of the <span class="math inline">\(b\)</span> frame in frame <span class="math inline">\(s\)</span> and the translation is the location of the <span class="math inline">\(b\)</span> frame origin in frame <span class="math inline">\(s\)</span></li>
+</ul>
+<h2 id="velocities-and-twist">Velocities and Twist</h2>
+<ol>
+<li><p>A twist combines angular and translational velocity and describes how a reference frame is moving: <span class="math inline">\((\omega, \dot{x}, \dot{y})\)</span></p></li>
+<li><p>Imagine that you are holding onto an infinitely large object by a handle.</p>
+<ul>
+<li>You are holding on at reference frame <span class="math inline">\(b\)</span></li>
+<li>You rotate the handle at a speed of <span class="math inline">\(\omega\)</span> and start moving it forward by <span class="math inline">\(\dot{x}\)</span> and <span class="math inline">\(\dot{y}\)</span></li>
+<li>The body, in frame <span class="math inline">\(b\)</span> is now moving with a twist of <span class="math inline">\((\omega, v_x, v_y)\)</span></li>
+</ul></li>
+<li><p>How is the body moving at the location of frame <span class="math inline">\(s\)</span>?</p>
+<ul>
+<li>Suppose <span class="math inline">\(T_{sb}\)</span> is a rotation by <span class="math inline">\(\theta\)</span> and translation by <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span></li>
+<li>The point at the origin of <span class="math inline">\(s\)</span> is moving due to both translation and rotation at <span class="math inline">\(b\)</span></li>
+</ul></li>
+<li><p>How is it rotating?</p>
+<ul>
+<li>Grab two pieces of paper</li>
+<li>Draw a few lines on one page and trace them on another</li>
+<li>Each page represents an infinite body
+<ul>
+<li>One page is where the body is before rotation</li>
+<li>One page is where the body is after rotation</li>
+</ul></li>
+<li>Put one page on top of the other, then rotate about one point</li>
+<li>How did the corresponding lines move?</li>
+</ul></li>
+<li><p>If</p>
+<p><span class="math display">\[T_{ab} = \begin{bmatrix} \cos\theta &amp; -\sin\theta &amp; x \\
+  \sin\theta &amp; \cos\theta &amp; y \\
+  0 &amp; 0 &amp; 1
+  \end{bmatrix}\]</span></p></li>
+</ol>
+<p>The adjoint <span class="math inline">\(\mathrm{Ad}_{ab}\)</span> which maps a twist at b to a twist in a is</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+1 &amp; 0 &amp; 0\\
+y &amp; \cos\theta &amp; -\sin\theta \\
+-x &amp; \sin\theta &amp; \cos\theta
+\end{bmatrix}
+\end{equation}
+\]</span>
+<ul>
+<li>Note: a rotational velocity in 2D is the same everywhere</li>
+<li>Translational velocity is found by
+<ol>
+<li>A rotational component due to the rotational velocity at b</li>
+<li>A translational component, that gets rotated into the <span class="math inline">\({a}\)</span> frame.</li>
+</ol></li>
+</ul>
+<h2 id="everything-is-rotation">Everything is Rotation</h2>
+<ol>
+<li>Center of Rotation - a point in space where the twist has only an angular component</li>
+<li>For pure translation, this point is at infinity.</li>
+<li>Think of each frame as being a body that is infinitely large
+<ul>
+<li>The twist in frame <span class="math inline">\(b\)</span> describes how every point on that body moves</li>
+<li>The twist is different, depending on where it is measured</li>
+<li>There is a point where the twist is a pure rotation</li>
+</ul></li>
+</ol>
+<h2 id="body-twist-vs-velocity">Body Twist vs Velocity</h2>
+<ol>
+<li>Note: the velocity <span class="math inline">\(\dot{q}\)</span> is NOT the body twist in the world frame
+<ul>
+<li>It is the body twist in a frame aligned with the world frame but coincident with the body</li>
+<li>The body twist in the world frame is the twist at the world frame, which depends on the distance between body frame and robot!</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
