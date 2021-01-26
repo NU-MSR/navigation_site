@@ -1,0 +1,1322 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>How To Derive Kinematics for Wheeled Mobile Robots</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#transforms-and-adjoints-between-frames">Transforms and Adjoints Between Frames</a>
+<ul>
+<li><a href="#review-of-transforms-and-adjoints-in-2d">Review of Transforms and Adjoints in 2D</a></li>
+<li><a href="#example-four-wheel-car">Example: Four Wheel Car</a></li>
+</ul></li>
+<li><a href="#write-body-frame-twists-in-each-wheel-frame">Write Body Frame Twists in Each Wheel Frame</a>
+<ul>
+<li><a href="#example-four-wheel-car-1">Example: Four Wheel Car</a></li>
+</ul></li>
+<li><a href="#wheels">Wheels</a>
+<ul>
+<li><a href="#conventional-wheel">Conventional Wheel</a></li>
+<li><a href="#mecanum-and-omni-wheels">Mecanum and Omni Wheels</a></li>
+<li><a href="#steered-wheel">Steered Wheel</a></li>
+<li><a href="#additional-constraints">Additional Constraints</a></li>
+<li><a href="#example-car-with-four-mecanum-wheels">Example: Car with Four Mecanum Wheels</a></li>
+<li><a href="#example-car-with-four-conventional-wheels">Example: Car with Four Conventional Wheels</a></li>
+</ul></li>
+<li><a href="#control-to-twist-relationship">Control to Twist Relationship</a>
+<ul>
+<li><a href="#example-four-omni-directional-wheels">Example: Four Omni-Directional Wheels</a></li>
+</ul></li>
+<li><a href="#incorporating-dotq">Incorporating <span class="math inline">\(\dot{q}\)</span></a>
+<ul>
+<li><a href="#example-four-wheel-robot">Example: Four wheel Robot</a></li>
+</ul></li>
+<li><a href="#the-unicycle-robot">The Unicycle Robot</a></li>
+<li><a href="#references">References:</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">How To Derive Kinematics for Wheeled Mobile Robots</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>A practical approach to deriving kinematics for wheeled robots.</p>
+<h1 id="transforms-and-adjoints-between-frames">Transforms and Adjoints Between Frames</h1>
+<p>Label the body frame and each wheel frame. Find the transformation matrices and adjoints from wheel frame to the body frame</p>
+<ol>
+<li>Write the transforms from each wheel frame to the body frame</li>
+<li>Write the adjoints from each wheel frame to the body frame</li>
+<li>Write the inverse of the adjoints</li>
+</ol>
+<h2 id="review-of-transforms-and-adjoints-in-2d">Review of Transforms and Adjoints in 2D</h2>
+<p>A 2D transformation matrix, which can perform rotations and translations</p>
+<span class="math display">\[\begin{equation}
+T(\theta, x, y) = 
+\begin{bmatrix}
+\cos\theta &amp; -\sin\theta &amp; x \\
+\sin\theta &amp; \cos\theta &amp; y \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}.
+\end{equation}
+\]</span>
+<p>The inverse transformation matrix is</p>
+<span class="math display">\[\begin{align}
+T^{-1}(\theta,x,y)&amp;=
+\begin{bmatrix}
+\cos\theta &amp; \sin\theta &amp; -x\cos\theta - y\sin\theta \\
+-\sin\theta &amp; \cos\theta &amp; -y\cos\theta+x\sin\theta \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\\
+&amp;= T(-\theta, -x\cos\theta - y\sin\theta, -y\cos\theta + x\sin\theta)
+\end{align}
+\]</span>
+<p>We write <span class="math inline">\(T_{ij} = T(\theta, x, y)\)</span> to indicate the transform from frame <span class="math inline">\(\{j\}\)</span> coordinates to frame <span class="math inline">\(\{i\}\)</span> coordinates.</p>
+<p>The 2D Adjoint, which converts twists in one frame to another frame is</p>
+<span class="math display">\[\begin{equation}
+A(\theta, x, y) =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+y &amp; \cos\theta &amp; -\sin\theta \\
+-x &amp; \sin\theta &amp; \cos\theta
+\end{bmatrix}.
+\end{equation}
+\]</span>
+<p>The inverse of the 2D adjoint is found by directly applying the Adjoint equation above to the inverse transformation</p>
+<span class="math display">\[\begin{align}
+A^{-1}(\theta,x,y) &amp;= A(-\theta, -x\cos\theta - y\sin\theta, -y\cos\theta + x\sin\theta) \\
+&amp;=\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-y\cos\theta + x\sin\theta &amp; \cos\theta &amp;\sin\theta \\
+x\cos\theta+y\sin\theta &amp; -\sin\theta &amp; \cos\theta
+\end{bmatrix}
+\end{align}
+\]</span>
+<h2 id="example-four-wheel-car">Example: Four Wheel Car</h2>
+<figure>
+<img src="./four_wheel_car.svg" alt="A Car With Four Wheels" /><figcaption aria-hidden="true">A Car With Four Wheels</figcaption>
+</figure>
+<p>The Transformation matrices are:</p>
+<span class="math display">\[\begin{align}
+\begin{matrix}
+T_{b1}(0, L, D) &amp;  T_{b2}(0,L, -D) \\
+T_{b3}(0, -L, -D) &amp; T_{b4}(0,-L, D)
+\end{matrix}
+\end{align}
+\]</span>
+<p>The Adjoints are</p>
+<span class="math display">\[\begin{align}
+A_{b1} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+D &amp; 1 &amp; 0\\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{align}
+\]</span>
+<span class="math display">\[\begin{align}
+A_{b2} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-D &amp; 1 &amp; 0\\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{align}
+\]</span>
+<span class="math display">\[\begin{align}
+A_{b3} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-D &amp; 1 &amp; 0\\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{align}
+\]</span>
+<span class="math display">\[\begin{align}
+A_{b4} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+D &amp; 1 &amp; 0\\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>The inverse adjoints are</p>
+<span class="math display">\[\begin{equation}
+A_{1b}=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-D &amp; 1 &amp; 0  \\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}
+\]</span>
+<span class="math display">\[\begin{equation}
+A_{2b}=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+D &amp; 1 &amp; 0 \\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}
+\]</span>
+<span class="math display">\[\begin{equation}
+A_{3b}=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+D &amp; 1 &amp; 0 \\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}
+\]</span>
+<span class="math display">\[\begin{equation}
+A_{4b}=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-D &amp; 1 &amp; 0 \\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\end{equation}
+\]</span>
+<h1 id="write-body-frame-twists-in-each-wheel-frame">Write Body Frame Twists in Each Wheel Frame</h1>
+<p>Let <span class="math inline">\(V_b = \begin{bmatrix}\dot{\theta} \\ v_x \\ v_y \end{bmatrix}\)</span> and <span class="math inline">\(V_i = \begin{bmatrix}\dot{\theta} \\ v_{xi} \\ v_{yi}\end{bmatrix}\)</span></p>
+<p>Then <span class="math inline">\(V_i = A_{ib}V_b\)</span></p>
+<p>These equations map the body twist to the velocities at each wheel, and thus tell you how the wheels must move in order to achieve a desired body twist.</p>
+<h2 id="example-four-wheel-car-1">Example: Four Wheel Car</h2>
+<h3 id="wheel-1">Wheel 1</h3>
+<span class="math display">\[\begin{align}
+V_1 &amp;= A_{1b}V_b \\
+\begin{bmatrix}
+\dot{\theta} \\
+v_{x1}\\
+v_{y1}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-D &amp; 1 &amp; 0 \\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{\theta} \\
+-D\dot{\theta} + v_x\\
+L\dot{\theta} + v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="wheel-2">Wheel 2</h3>
+<span class="math display">\[\begin{align}
+V_2 &amp;= A_{2b}V_b \\
+\begin{bmatrix}
+\dot{\theta} \\
+v_{x2}\\
+v_{y2}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+D &amp; 1 &amp; 0 \\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{\theta} \\
+D\dot{\theta}+v_x\\
+L\dot{\theta}+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="wheel-3">Wheel 3</h3>
+<span class="math display">\[\begin{align}
+V_3 &amp;= A_{3b}V_b \\
+\begin{bmatrix}
+\dot{\theta} \\
+v_{x3}\\
+v_{y3}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+D &amp; 1 &amp; 0 \\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{\theta} \\
+D\dot{\theta}+v_x\\
+-L\dot{\theta}+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="wheel-4">Wheel 4</h3>
+<span class="math display">\[\begin{align}
+V_4 &amp;= A_{4b}V_b \\
+\begin{bmatrix}
+\dot{\theta} \\
+v_{x4}\\
+v_{y4}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+-D &amp; 1 &amp; 0 \\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{\theta} \\
+-D\dot{\theta} + v_x \\
+-L\dot{\theta} + v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h1 id="wheels">Wheels</h1>
+<p>Each wheel type has controls and constraints. The controls The constraints also depend on assumptions made (such as no-slip). These wheel models determine how each wheel can move. By substituting the wheel constraints into the wheel-body-twist equations and solving for the wheel variables we determine</p>
+<ol>
+<li>What controls are needed to achieve a given twist</li>
+<li>What twists are achievable and what are unobtainable</li>
+</ol>
+<h2 id="conventional-wheel">Conventional Wheel</h2>
+<p>Assumptions:</p>
+<ul>
+<li>No slip</li>
+<li>No slide</li>
+</ul>
+<p>Wheel Frame:</p>
+<ul>
+<li>Rotates around y axis</li>
+<li>positive rotation yields positive x translation</li>
+<li>The rotational velocity of the wheel is <span class="math inline">\(\dot{\phi}_i\)</span></li>
+</ul>
+<p>The twist in the wheel frame is related to the control by the following equation:</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+v_{xi} \\
+v_{yi}
+\end{bmatrix}
+=
+\begin{bmatrix}
+r \dot{\phi}_i \\
+0
+\end{bmatrix}
+\end{equation}
+\]</span>
+<ul>
+<li>If the wheel's rotational velocity is actuated, we set <span class="math inline">\(\dot{\phi}_i = u_i\)</span></li>
+</ul>
+<h2 id="mecanum-and-omni-wheels">Mecanum and Omni Wheels</h2>
+<p>A mecanum wheel is driven via rotation along its y axis and it slides along a vector offset from its y axis by some angle <span class="math inline">\(\gamma\)</span> (see figure below)</p>
+<figure>
+<img src="./mecanum.svg" alt="Mecanum/Omni Wheel (it is omni when \gamma = 0)." /><figcaption aria-hidden="true">Mecanum/Omni Wheel (it is omni when <span class="math inline">\(\gamma = 0\)</span>).</figcaption>
+</figure>
+<p>The angle <span class="math inline">\(\gamma\)</span> determines which direction the wheel is free to slide in: when <span class="math inline">\(\gamma = 0\)</span> the wheel is called an omni wheel. Mecanum wheels typically have angles of <span class="math inline">\(\gamma = 45^{\circ}\)</span> (See Lynch, Park 2017).</p>
+<p>Let <span class="math inline">\(\dot{\phi}_i\)</span> be the rotational speed of the wheel and <span class="math inline">\(v_{si}\)</span> be the speed in the sliding direction. The velocity of the wheel is related to its sliding and rotational velocities by</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+v_{xi}\\
+v_{yi}
+\end{bmatrix}
+=
+\begin{bmatrix}
+r\dot{\phi}_i - v_{si}\sin\gamma \\
+v_{si}\cos\gamma
+\end{bmatrix}.
+\end{equation}
+\]</span>
+<ul>
+<li>If the wheel's rotational velocity is actuated, we set <span class="math inline">\(\dot{\phi}_i = u_i\)</span></li>
+<li>Typically, the wheel's velocity in the sliding direction is not actuated</li>
+</ul>
+<h2 id="steered-wheel">Steered Wheel</h2>
+<p>A steered wheel is a conventional wheel whose angle relative to the chassis is variable <span class="math inline">\(\psi_i\)</span>. The wheel rolls without slipping along a vector in the <span class="math inline">\(\psi_i\)</span> direction.</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+v_{xi}\\
+v_{yi}
+\end{bmatrix}
+=
+\begin{bmatrix}
+r \dot{\phi}_i \cos\psi_i\\
+r \dot{\phi}_i \sin\psi_i
+\end{bmatrix}
+\end{equation}
+\]</span>
+<p>Often an additional constraint will be placed on <span class="math inline">\(\psi\)</span>. For example, in a car with two front wheels being steered, the angle of the left and right wheels is related by a constraint (often implemented as a mechanical linkage).</p>
+<h2 id="additional-constraints">Additional Constraints</h2>
+<ul>
+<li>Additional constraints can be added, for example we can necessitate that two wheels have some relationship to each other</li>
+</ul>
+<h2 id="example-car-with-four-mecanum-wheels">Example: Car with Four Mecanum Wheels</h2>
+<p>Assume the car has four actuated mecanum wheels. Substitute the mecanum wheel equations into the equations for the twist and solve for <span class="math inline">\(u_i\)</span> and <span class="math inline">\(v_{si}\)</span></p>
+<h3 id="wheel-1-1">Wheel 1</h3>
+<p>This wheel has a roller angle of <span class="math inline">\(\gamma = -\frac{\pi}{4}\)</span></p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta} \\
+r \dot{\phi}_1 - v_{s1}\sin\frac{-\pi}{4}\\
+v_{s1}\cos\frac{-\pi}{4}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+\dot{\theta} \\
+-D\dot{\theta} + v_x\\
+L\dot{\theta} + v_y
+\end{bmatrix}\\
+
+\begin{bmatrix}
+\dot{\phi}_1 \\
+v_{s1}
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+-L - D &amp; 1 &amp; -1 \\
+r L\sqrt{2} &amp; 0 &amp; r \sqrt{2}
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="wheel-2-1">Wheel 2</h3>
+<p>This wheel has a roller angle of <span class="math inline">\(\gamma = \frac{\pi}{4}\)</span></p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta} \\
+r \dot{\phi}_2 - v_{s2}\sin\frac{\pi}{4}\\
+v_{s2}\cos\frac{\pi}{4}
+\end{bmatrix}
+&amp;=
+
+\begin{bmatrix}
+\dot{\theta} \\
+D\dot{\theta}+v_x\\
+L\dot{\theta}+v_y
+\end{bmatrix}\\
+\begin{bmatrix}
+\dot{\phi}_2 \\
+v_{s2}
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+L+D &amp; 1 &amp; 1\\
+r L \sqrt{2} &amp; 0 &amp; r\sqrt{2}
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="wheel-3-1">Wheel 3</h3>
+<p>This wheel has a roller angle of <span class="math inline">\(\gamma = \frac{-\pi}{4}\)</span></p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta} \\
+r \dot{\phi}_3 - v_{s3}\sin\frac{-\pi}{4}\\
+v_{s3}\cos\frac{-\pi}{4}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+\dot{\theta} \\
+D\dot{\theta}+v_x\\
+-L\dot{\theta}+v_y
+\end{bmatrix}\\
+\begin{bmatrix}
+\dot{\phi}_3 \\
+v_{s3}
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+L+D &amp; 1 &amp; -1\\
+-r L\sqrt{2} &amp; 0  &amp; r\sqrt{2}
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="wheel-4-1">Wheel 4</h3>
+<p>This wheel has a roller angle of <span class="math inline">\(\gamma = \frac{\pi}{4}\)</span></p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta} \\
+r \dot{\phi}_4 - v_{s4}\sin\frac{\pi}{4}\\
+v_{s4}\cos\frac{\pi}{4}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+\dot{\theta} \\
+-D\dot{\theta} + v_x \\
+-L\dot{\theta} + v_y
+\end{bmatrix}\\
+\begin{bmatrix}
+\dot{\phi}_4 \\
+v_{s4}
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+-L-D &amp; 1 &amp; 1 \\
+-r L \sqrt{2} &amp; 0 &amp; r\sqrt{2}
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<h3 id="gather-everything-into-a-single-motion-equation">Gather everything into a single motion equation</h3>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\phi}_1\\\dot{\phi}_2\\\dot{\phi}_3\\\dot{\phi}_4
+\\v_{s1}\\v_{s2}\\v_{s3}\\v_{s4}
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+-L-D &amp; 1 &amp; -1 \\
+L + D &amp; 1 &amp; 1 \\
+L + D &amp; 1 &amp; -1 \\
+-L - D &amp; 1 &amp; 1\\
+ L\sqrt{2} &amp; 0 &amp; \sqrt{2}\\
+ L\sqrt{2} &amp; 0 &amp; \sqrt{2}\\
+- L\sqrt{2} &amp; 0  &amp; \sqrt{2}\\
+- L\sqrt{2}  &amp; 0 &amp; \sqrt{2}\\
+\end{bmatrix} 
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>The equation above tells us how the wheels will rotate and slide, given a twist applied to the body of the robot.</p>
+<h3 id="controls">Controls</h3>
+<p>Assume we control the rotation but not the sliding of each wheel, letting <span class="math inline">\(\dot{\phi}_i = u_i\)</span>. We can then partition the motion equation into two parts, one for control the other for sliding:</p>
+<span class="math display">\[\begin{align}
+u &amp;= H V_b\\
+\begin{bmatrix}
+u_1\\u_2\\u_3\\u_4
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+-L-D &amp; 1 &amp; -1 \\
+L + D &amp; 1 &amp; 1 \\
+L + D &amp; 1 &amp; -1 \\
+-L - D &amp; 1 &amp; 1\\
+\end{bmatrix} 
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}\\
+v_s &amp;= R V_b \\
+\begin{bmatrix}
+v_{s1}\\v_{s2}\\v_{s3}\\v_{s4}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+ L\sqrt{2} &amp; 0 &amp; \sqrt{2}\\
+ L\sqrt{2} &amp; 0 &amp; \sqrt{2}\\
+- L\sqrt{2} &amp; 0  &amp; \sqrt{2}\\
+- L\sqrt{2}  &amp; 0 &amp; \sqrt{2}\\
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>Notice that in this example, <span class="math inline">\(H\)</span> has full column rank (a rank of 3 in this case). Therefore the dimension of the Null Space of H is 0, implying that only the 0 twist results in the 0 control vector and that every body twist maps to a unique control vector (and therefore wheel speed). Since every body twist maps to a unique control vector, there exists a control vector for every body twist and therefore the robot can move in any body twist direction, hence it is omnidirectional.</p>
+<p>If the null space of <span class="math inline">\(H\)</span> were not empty, there would exist multiple non-zero twists that would map to a control vector of zero: these twists (other than the zero twist) would involve pure slipping and we have no way of actuating the slipping, thus they would be unachievable by controlling the wheel velocities.</p>
+<p>Notice that <span class="math inline">\(R\)</span>, in this case is rank(2), and it's null space is <span class="math inline">\(\begin{bmatrix}0 \\ v_x \\ 0\end{bmatrix}\)</span>. This means that a body twist with velocity only in the <span class="math inline">\(x\)</span> direction results in no slipping of the wheels.</p>
+<h2 id="example-car-with-four-conventional-wheels">Example: Car with Four Conventional Wheels</h2>
+<p>Wheel one is:</p>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta} \\
+r \dot{\phi}_1 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot{\theta} \\
+-D\dot{\theta} + v_x\\
+L\dot{\theta} + v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>Therefore:</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+\dot{\phi}_1 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{-D}{r} &amp; \frac{1}{r} &amp; 0\\
+L &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{equation}
+\]</span>
+<p>The other wheels are similar, leading to the following sets of equations</p>
+<span class="math display">\[\begin{align}
+\dot{\phi} &amp;= H V_b \\
+\begin{bmatrix}
+\dot{\phi}_1\\
+\dot{\phi}_2\\
+\dot{\phi}_3\\
+\dot{\phi}_4\\
+\end{bmatrix}
+&amp;=
+\frac{1}{r}
+\begin{bmatrix}
+-D &amp; 1 &amp; 0\\
+D &amp; 1 &amp; 0\\
+D &amp; 1 &amp; 0\\
+-D &amp; 1 &amp; 0\\
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>and</p>
+<span class="math display">\[\begin{align}
+0 &amp;= QV_b\\
+\begin{bmatrix}
+0\\0\\0\\0
+\end{bmatrix}
+ &amp;=
+\begin{bmatrix}
+L &amp; 0 &amp; 1 \\
+L &amp; 0 &amp; 1 \\
+-L &amp; 0 &amp; 1 \\
+-L &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}\\
+v_x \\
+v_y
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>To satisfy the constraints, <span class="math inline">\(V_b\)</span> must be in the Null space of <span class="math inline">\(Q\)</span> which is <span class="math inline">\(\begin{bmatrix}0\\1\\0\end{bmatrix}\)</span>, thus only translating in the <span class="math inline">\(x\)</span> direction is permitted.</p>
+<h1 id="control-to-twist-relationship">Control to Twist Relationship</h1>
+<p>The control to twist relationship is found by solving <span class="math inline">\(u = H V_b\)</span> for <span class="math inline">\(V_b\)</span>.</p>
+<ul>
+<li>If <span class="math inline">\(u\)</span> is in the column space of <span class="math inline">\(H\)</span> then <span class="math inline">\(V_b = H^{\dagger}u\)</span>, where <span class="math inline">\(H^{\dagger}\)</span> is the Moore-Penrose Pseudoinverse.</li>
+</ul>
+<h2 id="example-four-omni-directional-wheels">Example: Four Omni-Directional Wheels</h2>
+<span class="math display">\[\begin{align}
+V_b = H^{\dagger}u &amp;=
+\frac{1}{4}
+\begin{bmatrix}
+-\frac{1}{D+L} &amp; \frac{1}{D+L} &amp; \frac{1}{D+L} &amp; -\frac{1}{D+L} \\
+1 &amp; 1 &amp; 1 &amp; 1\\
+-1 &amp; 1 &amp; -1 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+u_1 \\ u_2 \\ u_3 \\ u_4
+\end{bmatrix}
+\end{align}
+\]</span>
+<p>The rank of <span class="math inline">\(H^{\dagger}\)</span> is 3, which means its its Null space dimension is 1. <span class="math inline">\(\mathrm{Null}(H^{\dagger})\)</span> is spanned by <span class="math inline">\(\begin{bmatrix}-1 \\ -1 \\ 1 \\1\end{bmatrix}\)</span> Which corresponds to both front wheels spinning in the opposite direction from the rear wheels. This motion, intuitively, would put the chassis under compression or tension along the x axis and result in 0 net motion. If <span class="math inline">\(u\)</span> is in the null space of <span class="math inline">\(H^{\dagger}\)</span> it is also in the null space of <span class="math inline">\(H^T\)</span>, which means it is orthogonal to every vector in the column space of <span class="math inline">\(H\)</span>, and therefore, there is no solution to <span class="math inline">\(u = H V_b\)</span> in this case. In other words, there is no body twist that can be applied to the robot that makes the front wheels spin in the opposite direction of the rear wheels.</p>
+<p>To see how the controls affect slipping, we write <span class="math inline">\(v_s = RH^{\dagger}u\)</span>: If you perform this operation, you will find that <span class="math inline">\(Q=RH^{\dagger}\)</span> is a <span class="math inline">\(4\times4\)</span> matrix with rank 2. Its nullspace is spanned by <span class="math inline">\(\begin{bmatrix}0\\0\\1\\1\end{bmatrix}\)</span> and <span class="math inline">\(\begin{bmatrix}1\\1\\0\\0\end{bmatrix}\)</span>. Thus there is no sideways sliding whenever the front wheels are moving at the same speed and the rear wheels are moving at the same speed.</p>
+<h1 id="incorporating-dotq">Incorporating <span class="math inline">\(\dot{q}\)</span></h1>
+<p>Since <span class="math inline">\(\dot{q}\)</span> is the twist corresponding to a frame located at the body frame but oriented to the world frame, we can use the relationship <span class="math inline">\(\dot{q} = A(\theta, 0, 0)V_b\)</span> to relate the equations above to this velocity.</p>
+<h2 id="example-four-wheel-robot">Example: Four wheel Robot</h2>
+<span class="math display">\[\begin{align}
+\begin{bmatrix}
+\dot{\theta}\\
+\dot{x}\\
+\dot{y}
+\end{bmatrix}
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; \cos\theta &amp; -\sin\theta \\
+0 &amp; \sin\theta &amp; \cos\theta
+\end{bmatrix}
+\begin{bmatrix}
+-\frac{1}{D+L} &amp; \frac{1}{D+L} &amp; \frac{1}{D+L} &amp; -\frac{1}{D+L} \\
+1 &amp; 1 &amp; 1 &amp; 1\\
+-1 &amp; 1 &amp; -1 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+u_1\\u_2\\u_3\\u_4
+\end{bmatrix}\\
+&amp;=
+\frac{r}{4}
+\begin{bmatrix}
+-\frac{1}{D+L} &amp; \frac{1}{D+L} &amp; \frac{1}{D+L} &amp; -\frac{1}{D+L}\\
+\cos\theta + \sin\theta &amp; \cos\theta-\sin\theta &amp; \cos\theta + \sin\theta &amp; \cos\theta-\sin\theta \\
+\sin\theta - \cos\theta &amp; \cos\theta+\sin\theta &amp; \sin\theta - \cos\theta &amp; \cos\theta+\sin\theta \\
+\end{bmatrix}
+\begin{bmatrix}
+u_1\\u_2\\u_3\\u_4
+\end{bmatrix}
+\end{align}
+\]</span>
+<h1 id="the-unicycle-robot">The Unicycle Robot</h1>
+<ul>
+<li>A simple model for a mobile robot is a single wheel, rolling on the plane</li>
+<li>Its steering angle and rotational velocity can be controlled.</li>
+<li>It rolls without slipping</li>
+</ul>
+<p>The method above is likely more complicated than needed to derive the kinematics for this system, but here goes:</p>
+<ol>
+<li><p>There is only one wheel, its reference frame is coincident with the body frame, so all transforms/adjoints are the identity matrix.</p></li>
+<li><p>We will let <span class="math inline">\(\psi_1 = 0\)</span>, since the whole chassis of the robot is the wheel, hence the wheel cannot have an angle independent of the chassis angle.</p></li>
+<li><p>The body frame twist in the wheel frame</p>
+<span class="math display">\[\begin{equation}
+  \begin{bmatrix}
+  \dot{\theta}\\
+  v_{x1}\\
+  v_{y1}
+  \end{bmatrix} =
+  \begin{bmatrix}
+  \dot{\theta}\\
+  v_x\\
+  v_y
+  \end{bmatrix}
+\end{equation}
+\]</span></li>
+<li><p>Substituting in the wheel constraints, with <span class="math inline">\(\psi_1 = 0\)</span> yields</p>
+<span class="math display">\[\begin{equation}
+  \begin{bmatrix}
+  \dot{\theta}\\
+  \dot{\phi}_1\\
+  0
+  \end{bmatrix}=
+  \begin{bmatrix}
+  \dot{\theta}\\
+  \frac{1}{r}v_x\\
+  v_y
+  \end{bmatrix}
+\end{equation}
+\]</span></li>
+<li><p>If our controls are <span class="math inline">\(u_1 = \dot{\theta}\)</span> and <span class="math inline">\(u_2 = \dot{\phi_1}\)</span> we then have the control equation</p>
+<span class="math display">\[\begin{equation}
+  \begin{bmatrix}
+  u_1\\
+  u_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  1 &amp; 0 &amp; 0\\
+  0 &amp; \frac{1}{r} &amp; 0\\
+  \end{bmatrix}
+  \begin{bmatrix}
+  \dot{\theta}\\
+  v_x \\
+  v_y
+  \end{bmatrix}
+\end{equation}
+\]</span>
+<p>and the constraint equation <span class="math inline">\(0 = v_y\)</span>.</p></li>
+<li><p>The constraints indicate that the <span class="math inline">\(v_y\)</span> velocity is always 0, hence we can never accomplish a <span class="math inline">\(y\)</span> velocity in a body twist and therefore the robot is not omni-directional.</p></li>
+<li><p>Taking the pseudo-inverse of the control matrix yields</p>
+<p><span class="math display">\[\begin{bmatrix}
+  \dot{\theta}\\
+  v_x \\
+  v_y
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  1 &amp; 0\\
+  0 &amp; r \\
+  0 &amp; 0
+  \end{bmatrix}
+  \begin{bmatrix}
+  u_1\\
+  u_2
+  \end{bmatrix}\]</span>, from which we can see that no control can every give us a <span class="math inline">\(v_y\)</span> that is non-zero.</p></li>
+<li><p>Finally, we should convert the body twist into <span class="math inline">\(\dot{q}\)</span>:</p>
+<span class="math display">\[\begin{align}
+  \begin{bmatrix}
+  \dot{q}\\
+  \dot{x}\\
+  \dot{y}
+  \end{bmatrix}
+  &amp;=
+  \begin{bmatrix}
+  1 &amp; 0 &amp; 0 \\
+  0 &amp; \cos\theta &amp; -\sin\theta \\
+  0 &amp; \sin\theta &amp; \cos\theta
+  \end{bmatrix}
+  \begin{bmatrix}
+  \dot{\theta}\\
+  v_x\\
+  v_y
+  \end{bmatrix}\\
+  &amp;= \begin{bmatrix}
+  1 &amp; 0 &amp; 0 \\
+  0 &amp; \cos\theta &amp; -\sin\theta \\
+  0 &amp; \sin\theta &amp; \cos\theta
+  \end{bmatrix}
+  \begin{bmatrix}
+  1 &amp; 0\\
+  0 &amp; r \\
+  0 &amp; 0
+  \end{bmatrix}
+  \begin{bmatrix}
+  u_1\\
+  u_2
+  \end{bmatrix}\\
+  &amp;=\begin{bmatrix}
+   1 &amp; 0 \\
+   0 &amp; r \cos\theta \\
+   0 &amp; r \sin\theta
+   \end{bmatrix}
+  \begin{bmatrix}
+  u_1\\
+  u_2
+  \end{bmatrix}
+\end{align}
+\]</span></li>
+</ol>
+<p>Note that in the derivation above, we derived <span class="math inline">\(\dot{q}\)</span> in two steps: first (see 7) we mapped control inputs to body twists. Then (see step 8) we mapped body twists to <span class="math inline">\(\dot{q}\)</span>.</p>
+<ul>
+<li><p>When we map the control inputs to the body twists, we see that we actually only can specify <span class="math inline">\(\dot{\theta}\)</span> and <span class="math inline">\(v_x\)</span>, whereas <span class="math inline">\(v_y = 0\)</span>.</p></li>
+<li><p>There are many robots whose mappings to the body twist also have this property, even though the exact mapping from control inputs to body twist is different</p></li>
+<li><p>Thus, we can create a generalized car model simply by using the first part of step 8, (also note, we will drop <span class="math inline">\(v_y\)</span> and its associated column, since it is 0</p>
+<p><span class="math display">\[\begin{bmatrix}
+  \dot{q}\\
+  \dot{x}\\
+  \dot{y}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  1 &amp; 0  \\
+  0 &amp; \cos\theta  \\
+  0 &amp; \sin\theta 
+  \end{bmatrix}
+  \begin{bmatrix}
+  w \\
+  v
+  \end{bmatrix}\\
+\]</span>, where the canonical control inputs <span class="math inline">\(w = \dot{\theta}\)</span> and <span class="math inline">\(v = v_x\)</span> are used</p></li>
+<li><p>Although many types of wheel configurations lead to this model, wheel configuration matters when the original inputs have constraints (such as a maximum velocity constraint). Then the different mappings from original control inputs to canonical inputs leads to different minimum and maximum values for <span class="math inline">\(w\)</span> and <span class="math inline">\(v\)</span>.</p></li>
+</ul>
+<h1 id="references">References:</h1>
+<p><em>Modern Robotics: Mechanics, Planning and Control</em>, Kevin Lynch and Frank Park, Cambridge University Press, 2017</p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
