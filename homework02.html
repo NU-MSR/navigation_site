@@ -480,9 +480,9 @@ table td {
 <li><a href="#task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</a></li>
 <li><a href="#task-e.003-odometry-node">Task E.003 (Odometry Node)</a></li>
 <li><a href="#task-e.004-fake-turtle">Task E.004 (Fake Turtle)</a></li>
+<li><a href="#task-e.005-launch-files">Task E.005 (Launch Files)</a></li>
 </ul></li>
-<li><a href="#task-e.005">Task E.005</a></li>
-<li><a href="#task-group-f">Task Group F</a>
+<li><a href="#task-group-f-the-real-robot">Task Group F (The Real Robot)</a>
 <ul>
 <li><a href="#task-f.000-turtlebot-setup">Task F.000 (Turtlebot Setup)</a></li>
 <li><a href="#task-f.001-a-new-workspace">Task F.001 (A new workspace)</a></li>
@@ -510,6 +510,10 @@ table td {
 </header>
 
 <!-- The main content of the file -->
+<p>You should look over all the tasks in the homework. They generally outline what you need to do, but do not necessarily correlate with the easiest order in which to complete them.</p>
+<ul>
+<li>For example, the last task I write is "write a launchfile to", but it can usually be easier to start the launchfile as you begin making your nodes.</li>
+</ul>
 <h1 id="task-b-c-and-rigid-transforms">Task B (C++ and Rigid Transforms)</h1>
 <h2 id="task-b.006-rosifying-rigid2d">Task B.006 (ROSifying rigid2d)</h2>
 <ol>
@@ -539,9 +543,10 @@ table td {
 <li>A default constructor that creates a zero vector.</li>
 </ul></li>
 </ul></li>
-<li>Write unit tests for each of the operations you added.
+<li>Unit tests are optional for these operations, but you may find them helpful
 <ul>
-<li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
+<li>You can combine efforts with your classmates as long as you cite them as in Homework 1</li>
+<li>It is very helpful to write-up a quick test as you are debugging and find an error</li>
 </ul></li>
 </ol>
 <h2 id="task-b.007-integrate-a-twist">Task B.007 (Integrate a Twist)</h2>
@@ -550,17 +555,20 @@ table td {
 <ul>
 <li>It should compute the transformation corresponding to a rigid body following a constant twist (in its original body frame) for one time unit.</li>
 </ul></li>
-<li>Include unit tests for this function
-<ul>
-<li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
-</ul></li>
+<li>Include 3 unit tests for this function
+<ol>
+<li>One test should test pure translation</li>
+<li>One test should test pure rotation</li>
+<li>One test should test simultaneous translation and rotation</li>
+</ol></li>
 </ol>
 <h2 id="task-b.009-normalize-angle">Task B.009 (Normalize angle)</h2>
 <ol>
 <li>Add a function <code>double normalize_angle(double rad)</code> to rigid2d that turns any angle into the equivalent one between <span class="math inline">\(-\pi\)</span> and <span class="math inline">\(\pi\)</span></li>
-<li>Unit test this function.
+<li>Unit test is optional here
 <ul>
 <li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
+<li>It is to your benefit to test this one: if you get it wrong it will be very hard to debug later.</li>
 </ul></li>
 </ol>
 <h1 id="task-group-e-kinematics">Task Group E (Kinematics)</h1>
@@ -652,7 +660,7 @@ table td {
 <li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
 </ul></li>
 </ol>
-<h1 id="task-e.005">Task E.005</h1>
+<h2 id="task-e.005-launch-files">Task E.005 (Launch Files)</h2>
 <ul>
 <li>Write a launchfile called <code>fake_turtle_odom.launch</code> that starts the <code>turtlebot3_teleop_keyboard</code> and allows you to drive the <code>fake_turtle</code> node with it.</li>
 <li>The launchfile should use the <code>odometer</code> node to compute the odometry for the simulated turtle</li>
@@ -661,7 +669,7 @@ table td {
 <li>You should also visualize the odometry in <code>rviz</code> using the <a href="http://wiki.ros.org/rviz/DisplayTypes/Odometry">Odometry display type</a></li>
 </ul></li>
 </ul>
-<h1 id="task-group-f">Task Group F</h1>
+<h1 id="task-group-f-the-real-robot">Task Group F (The Real Robot)</h1>
 <p>This task is about implementing some basic turtlebot functionality and getting familiar with the hardware.</p>
 <h2 id="task-f.000-turtlebot-setup">Task F.000 (Turtlebot Setup)</h2>
 <ul>
@@ -862,21 +870,24 @@ table td {
 <li>Launches <code>rviz</code> on your computer, in a mode that lets you visualize the position of the robot in the odometry frame</li>
 </ol>
 <h2 id="task-f.008-physical-testing">Task F.008 (Physical Testing)</h2>
-<p>If you run these tests in <em>turtleland</em> the course is marked out for you. However, you may run these tests at home as well. The precise distances are not important.</p>
+<p>If you run these tests in <em>turtleland</em>, the course is marked out for you. However, you may run these tests at home as well. The precise distances are not important.</p>
 <ol>
 <li><p>Take a video and screencast of each of the experiments and include a <code>gif</code> version in your <code>README.md</code>.</p></li>
 <li><p>The experiments also ask questions that you should answer in the <code>README.md</code></p></li>
-<li><p>Drive the robot back and forth on a straight line several times, stopping when the turtlebot is on its initial location.</p>
+<li><p>Drive the robot forward and backward in a straight line several times, and then stopping when the turtlebot is in its initial configuration.</p>
 <ul>
-<li>Record the location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+<li>Don't rotate the turtlebot at all, even if it means you cannot perfectly line up with the initial configuration</li>
+<li>Record the final location of the turtlebot according to odometry in the <code>README.md</code> (in an ideal world it would be <span class="math inline">\((0,0,0)\)</span>, but don't expect perfection!).</li>
 </ul></li>
-<li><p>Rotate the robot clockwise and counter clockwise several times, stopping when the turtlebot is its initial location.</p>
+<li><p>Rotate the robot clockwise and counter clockwise several times, stopping when the turtlebot is in its initial configuration.</p>
 <ul>
-<li>Record the location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+<li>Don't translate the turtlebot at all, even if it means you cannot perfectly line up with the initial configuration</li>
+<li>Record the final location of the turtlebot according to odometry in the <code>README.md</code>.</li>
 </ul></li>
-<li><p>Drive the robot in a circle, clockwise and counter clockwise several times, stopping when the turtlebot is its initial location.</p>
+<li><p>Drive the robot in a circle, clockwise and counter clockwise several times, stopping when the turtlebot is its initial configuration.</p>
 <ul>
-<li>Record the location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+<li>When you get close to stopping, you can use the <code>teleop_keyboard</code> to try to get the robot as close to its initial configuration as you can.</li>
+<li>Record the final location of the turtlebot according to odometry in the <code>README.md</code>.</li>
 </ul></li>
 <li><p>Try one of the previous experiments again, but try to get either a significantly better or significantly worse result.</p>
 <ul>
