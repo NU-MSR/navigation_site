@@ -1,0 +1,894 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 02</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#task-b-c-and-rigid-transforms">Task B (C++ and Rigid Transforms)</a>
+<ul>
+<li><a href="#task-b.006-rosifying-rigid2d">Task B.006 (ROSifying rigid2d)</a></li>
+<li><a href="#task-b.008-making-vector2d-a-vector">Task B.008 (Making Vector2D a Vector)</a></li>
+<li><a href="#task-b.007-integrate-a-twist">Task B.007 (Integrate a Twist)</a></li>
+<li><a href="#task-b.009-normalize-angle">Task B.009 (Normalize angle)</a></li>
+</ul></li>
+<li><a href="#task-group-e-kinematics">Task Group E (Kinematics)</a>
+<ul>
+<li><a href="#task-e.000-math">Task E.000 (Math)</a></li>
+<li><a href="#task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</a></li>
+<li><a href="#task-e.003-odometry-node">Task E.003 (Odometry Node)</a></li>
+<li><a href="#task-e.004-fake-turtle">Task E.004 (Fake Turtle)</a></li>
+</ul></li>
+<li><a href="#task-e.005">Task E.005</a></li>
+<li><a href="#task-group-f">Task Group F</a>
+<ul>
+<li><a href="#task-f.000-turtlebot-setup">Task F.000 (Turtlebot Setup)</a></li>
+<li><a href="#task-f.001-a-new-workspace">Task F.001 (A new workspace)</a></li>
+<li><a href="#task-f.002-nuturtle_robot-package">Task F.002 (nuturtle_robot package)</a></li>
+<li><a href="#task-f.003-working-directly-via-ssh">Task F.003 (Working directly via ssh)</a></li>
+<li><a href="#task-f.004-cross-compilation">Task F.004 (Cross-compilation)</a></li>
+<li><a href="#task-f.005-low-level-commands">Task F.005 (Low Level Commands)</a></li>
+<li><a href="#task-f.006-ros-api-testing">Task F.006 (ROS API Testing)</a></li>
+<li><a href="#task-f.007-teleoperation">Task F.007 (Teleoperation)</a></li>
+<li><a href="#task-f.007-odometry-teleop-launch">Task F.007 (Odometry Teleop Launch)</a></li>
+<li><a href="#task-f.008-physical-testing">Task F.008 (Physical Testing)</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 02</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="task-b-c-and-rigid-transforms">Task B (C++ and Rigid Transforms)</h1>
+<h2 id="task-b.006-rosifying-rigid2d">Task B.006 (ROSifying rigid2d)</h2>
+<ol>
+<li>Turn the rigid2d library into a ROS package that can be compiled with <code>catkin</code></li>
+<li>Use <a href="https://github.com/AIS-Bonn/catch_ros">catch_ros</a> to integrate your unit tests with ROS
+<ul>
+<li><code>catch_ros</code> is released for noetic and can be installed with <code>apt</code></li>
+<li>Your tests should include <code>catch_ros/catch.hpp</code> and not define main anymore. You can then delete <code>catch.hpp</code> from your repository</li>
+</ul></li>
+<li>You may wish to use <code>catkin_create_pkg</code> to generate the <code>package.xml</code> and <code>CMakeLists.txt</code> as a starting point</li>
+</ol>
+<h2 id="task-b.008-making-vector2d-a-vector">Task B.008 (Making Vector2D a Vector)</h2>
+<ol>
+<li>Add the following operations to Vector2D (referring to <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">Operator Overloading Rules</a>)
+<ul>
+<li>operator+= and operator+ (perform basic vector addition)</li>
+<li>operator-= and operator- (perform basic vector subtraction)</li>
+<li>operator*= and operator* (perform SCALAR multiplication)
+<ul>
+<li>Be careful with this, remember scalar multiplication is valid from the left or the right</li>
+</ul></li>
+<li>magnitude(Vector2D) (computer the magnitude of the vector)</li>
+<li>angle(Vector2D) (compute the angle of the vector)</li>
+<li>Some of these changes affect what functions the compiler generates for us, therefore we need to add
+<ul>
+<li>A constructor that takes two doubles (x and y)</li>
+<li>A default constructor that creates a zero vector.</li>
+</ul></li>
+</ul></li>
+<li>Write unit tests for each of the operations you added.
+<ul>
+<li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
+</ul></li>
+</ol>
+<h2 id="task-b.007-integrate-a-twist">Task B.007 (Integrate a Twist)</h2>
+<ol>
+<li>Add a function called <code>integrateTwist</code> to rigid2d.
+<ul>
+<li>It should compute the transformation corresponding to a rigid body following a constant twist (in its original body frame) for one time unit.</li>
+</ul></li>
+<li>Include unit tests for this function
+<ul>
+<li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
+</ul></li>
+</ol>
+<h2 id="task-b.009-normalize-angle">Task B.009 (Normalize angle)</h2>
+<ol>
+<li>Add a function <code>double normalize_angle(double rad)</code> to rigid2d that turns any angle into the equivalent one between <span class="math inline">\(-\pi\)</span> and <span class="math inline">\(\pi\)</span></li>
+<li>Unit test this function.
+<ul>
+<li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
+</ul></li>
+</ol>
+<h1 id="task-group-e-kinematics">Task Group E (Kinematics)</h1>
+<p>Task E is related to the Kinematics of wheeled mobile robots. You can add these files to the <code>rigid2d</code> library (but in a separate <code>.hpp/.cpp</code> module). You will likely not be able to complete these tasks until all of Task C is complete.</p>
+<h2 id="task-e.000-math">Task E.000 (Math)</h2>
+<ol>
+<li>This task may require you to perform some mathematical calculations. Show all your derivations in a file called <code>Kinematics.pdf</code> in the <code>doc</code> folder of the <code>rigid2d</code> package.
+<ul>
+<li>How you generate the documentation is up to you (latex, scanned hand-written notes, etc.)</li>
+<li>Refer to your notes in your code, using comments to explain the origin of the mathematical expressions you use (labeling equations with numbers helps)</li>
+</ul></li>
+</ol>
+<h2 id="task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</h2>
+<ol>
+<li>Create a <code>DiffDrive</code> class in <code>rigid2d</code>. The header file is called <code>diff_drive.hpp</code> and implementation file is called <code>diff_drive.cpp</code>
+<ul>
+<li>I refer to this class in other instructions for this task. You may wish to read through those to get a better sense of what this class should be doing</li>
+</ul></li>
+<li>This class models the kinematics of a differential drive robot with a given wheel base and wheel radius.
+<ul>
+<li>The purpose of the class is to handle all of the mathematical calculations for the robot kinematics without tying that in to a specific robot or control scheme</li>
+<li>This separation of concerns makes testing this class easier and also allows for its re-use in different contexts</li>
+<li>You do, however, have a lot of leeway in how you implement this class</li>
+</ul></li>
+<li>The class should
+<ol>
+<li>Track the configuration <span class="math inline">\((x, y, \theta)\)</span> of a differential-drive robot</li>
+<li>Convert a desired twist to the equivalent wheel velocities required to achieve that twist</li>
+<li>Update the configuration of the robot, given updated wheel angles (assuming constant wheel velocity in-between updates)</li>
+</ol></li>
+<li>The class should not
+<ul>
+<li>Use any ROS publishers, services, clients, subscribers or parameters</li>
+</ul></li>
+<li>Write unit tests for diff_drive, as appropriate
+<ul>
+<li>Think of simple scenarios where you know what the answer should be.</li>
+</ul></li>
+</ol>
+<h2 id="task-e.003-odometry-node">Task E.003 (Odometry Node)</h2>
+<p>This task uses the <code>DiffDrive</code> class to create a node that publishes <a href="https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html">Odometry</a> messages in a standard ROS way. A guide to Odometry in ros can be found <a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom">here</a></p>
+<ol>
+<li>Write a node called <code>odometer</code> (in the <code>rigid2d</code> package) that subscribes to <code>sensor_msgs/JointState</code> on the <code>joint_states</code> topic</li>
+<li>The node should have private parameters:
+<ul>
+<li><code>odom_frame_id</code>: The name of the odometry tf frame</li>
+<li><code>body_frame_id</code>: The name of the body tf frame</li>
+<li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
+<li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
+</ul></li>
+<li>The node should also read <code>wheel_base</code> and <code>wheel_radius</code> parameters</li>
+<li>Every time the node receives a <code>JointState</code> message it should:
+<ol>
+<li>Update its internal odometry state (using the <code>DiffDrive</code> class to keep track it)</li>
+<li>Publish a <a href="https://docs.ros.org/melodic/api/nav_msgs/html/msg/Odemetry.html">nav_msgs/Odometry</a> message on the <code>odom</code> topic
+<ul>
+<li>You do not need to fill out any covariance information (all covariance can be set to zero)</li>
+<li>The pose should be specified in the odom_frame_id frame (this is the nav_msgs/Odometry/header/frame_id)</li>
+<li>The velocity will be specified as the body velocity of the robot in the body_frame_id (this is nav_msgs/Odometry/child_frame_id)</li>
+</ul></li>
+<li>Broadcast the transform between <code>odom_frame_id</code> and the <code>body_frame_id</code> on <code>/tf</code> using a <code>tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a></li>
+</ol></li>
+</ol>
+<ul>
+<li>The <code>odometer</code> node should offer a service called <code>set_pose</code>.
+<ul>
+<li>The service request provides the configuration of the robot.</li>
+<li>The location of the odometry is reset so that the robot thinks it is at the requested configuration</li>
+</ul></li>
+</ul>
+<h2 id="task-e.004-fake-turtle">Task E.004 (Fake Turtle)</h2>
+<p>In this task you will create a kinematic simulation of a differential drive robot using the <code>DiffDrive</code> class.</p>
+<ol>
+<li>The simulation is implemented in a node called <code>fake_turtle</code>.</li>
+<li>The node should subscribe to <code>geometry_msgs/Twist</code> messages on the <code>cmd_vel</code> topic
+<ul>
+<li>Each time a <code>cmd_vel</code> message is received the "wheels" of the fake_turtle start moving with a rotational velocity that achieves the desired twist.</li>
+</ul></li>
+<li>The node should publish <code>sensor_msgs/JointState</code> messages on the joint <code>joint_states</code> topic at a fixed frequency
+<ul>
+<li>These messages should reflect the current joint angles of each wheel</li>
+</ul></li>
+<li>Use the <code>DiffDrive</code> class to track the state of the simulated robot.</li>
+<li>The node should read from the following private parameters:
+<ul>
+<li><code>wheel_base</code> The distance between the wheels (this is private to allow there to be a difference between the simulated and actual measurement).</li>
+<li><code>wheel_radius</code>: The radius of the wheels (this is private to allow there to be a difference between the simulated and actual measurement).</li>
+<li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
+<li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
+</ul></li>
+</ol>
+<h1 id="task-e.005">Task E.005</h1>
+<ul>
+<li>Write a launchfile called <code>fake_turtle_odom.launch</code> that starts the <code>turtlebot3_teleop_keyboard</code> and allows you to drive the <code>fake_turtle</code> node with it.</li>
+<li>The launchfile should use the <code>odometer</code> node to compute the odometry for the simulated turtle</li>
+<li>The launchfile should start <code>rviz</code> and show the <code>turtlebot3</code> model moving in the <code>odom</code> frame according to the <code>odometer</code> node.
+<ul>
+<li>You should also visualize the odometry in <code>rviz</code> using the <a href="http://wiki.ros.org/rviz/DisplayTypes/Odometry">Odometry display type</a></li>
+</ul></li>
+</ul>
+<h1 id="task-group-f">Task Group F</h1>
+<p>This task is about implementing some basic turtlebot functionality and getting familiar with the hardware.</p>
+<h2 id="task-f.000-turtlebot-setup">Task F.000 (Turtlebot Setup)</h2>
+<ul>
+<li>Follow the <a href="https://nu-msr.github.io/me495_site/turtlebot3.html">Turtlebot3 Setup</a> instructions to get the turtlebot setup.</li>
+<li>You must follow these instructions even if you have previously setup your turtlebot. The configuration is different in this class.</li>
+</ul>
+<h2 id="task-f.001-a-new-workspace">Task F.001 (A new workspace)</h2>
+<ul>
+<li>We need an additional package to work with the lower-level hardware on the turtlebot. This tasks helps you setup your workspace with the necessary software.</li>
+<li>Your workspace directory is <code>ws</code>.</li>
+<li>The build space is <code>ws/build</code>.</li>
+<li>The devel space is <code>ws/devel</code>.</li>
+<li>The source space is <code>ws/src</code>.</li>
+<li>Your repository is in <code>ws/src/repository</code></li>
+<li>Clone <a href="https://github.com/ME495-Navigation/nuturtlebot.git">https://github.com/ME495-Navigation/nuturtlebot.git</a> into your source space <code>ws/src</code>
+<ul>
+<li>This code resides in the <code>ws/src/nuturtlebot</code> directory.</li>
+</ul></li>
+<li>Rebuild with <code>catkin</code>.</li>
+<li>Use <a href="https://github.com/dirk-thomas/vcstool">vcstool</a> (install via apt as <code>python3-vcstool</code>) to export a <code>.repos</code> file.
+<ul>
+<li><code>vcs export &gt; turtle.repos</code>. Then store <code>turtle.repos</code> in the base directory of your git repository.</li>
+<li>Other people can then download the <code>turtle.repos</code> and use it to duplicate the contents of your <code>ws/src</code> directory.</li>
+</ul></li>
+</ul>
+<h2 id="task-f.002-nuturtle_robot-package">Task F.002 (nuturtle_robot package)</h2>
+<p>The goal of this task is to write a launchfile that lets you run nodes on the turtlebot from your computer.</p>
+<ol>
+<li>Create a package called <code>nuturtle_robot</code> to store the code that interacts with the turtlebot hardware.</li>
+<li>Create a launchfile called <code>basic_remote.launch</code>
+<ul>
+<li>This launchfile should have a <code>&lt;machine&gt;</code> tag describing a turtlebot.</li>
+<li>The <code>machine</code> tag lets you run nodes on one computer from another computer</li>
+<li>The name of the machine is <code>turtlebot</code></li>
+<li>The launchfile takes an argument called <code>robot</code>
+<ul>
+<li>If <code>robot</code> is 0, then it is assumed that the launchfile is being run directly on a turtlebot and the address of the remote machine should be <code>localhost</code></li>
+<li>Otherwise, the remote machine address is <code>turtlebotX</code> (where X == robot).
+<ul>
+<li>The <code>user</code> should be <code>ubuntu</code>. Do not use a password, instead your <code>ssh</code> keys should be setup properly</li>
+<li>The machine should use <code>/home/ubuntu/loader.sh</code> as the environment loader script.
+<ul>
+<li>Essentially this script is what roslaunch uses to "source" the setup.bash on the remote computer</li>
+<li>It also sets up <code>ROS_MASTER_URI</code>.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>The launchfile should also load <code>serial_node.py</code> from the <a href="http://wiki.ros.org/rosserial_python">rosserial_python</a> package on the <code>turtlebot</code> machine
+<ul>
+<li>Set port to <code>/dev/ACM0</code> and a baud of <code>115200</code> (these are the private parameters <code>port</code> and <code>baud</code>).</li>
+<li>This node communications with the OpenCR board to give you low-level control through ROS</li>
+<li>The firmware on that board is custom, so much of the turtlebot3 software manual does not apply to us (however information about hardware is correct).</li>
+</ul></li>
+<li>Include a <code>README.md</code> in this package that briefly explains its launch files.</li>
+</ol>
+<h2 id="task-f.003-working-directly-via-ssh">Task F.003 (Working directly via ssh)</h2>
+<ul>
+<li>It is possible to build, run and test your code directly on the turtlebot. It is a good exercise to go through once, but it will hopefully motivate you to want to not rely on the slow turtlebot processor to compile your code.</li>
+</ul>
+<ol>
+<li>In your workspace, delete the <code>build</code>, <code>devel</code>, and <code>install</code> directories (if they exist)
+<ul>
+<li>This step is only needed specifically for task <code>F.003</code>, but not ever again</li>
+</ul></li>
+<li>Copy your source space to the turtlebot:
+<ul>
+<li><code>cd &lt;your_workspace_dir&gt;</code></li>
+<li><code>rsync -av --delete . ubuntu@turtlebot:/home/ubuntu/ws</code>
+<ul>
+<li>Note, the presence/absence of a trailing slash after directory names is significant to rsync, so use the above command precisely</li>
+<li>The command makes <code>turtlebot:/home/ubuntu/ws</code> match <code>yourcomputer:/path/to/workspace/</code></li>
+<li>The <code>a</code> flag copies all directories and permissions</li>
+<li>The <code>v</code> flag increases verbosity (you can get more or less by adding/removing more v's)</li>
+<li><code>--delete</code> deletes files in the destination that are not present in the source</li>
+<li><code>rsync</code> is great for syncing directories between machines because it will only copy files that have changed.</li>
+</ul></li>
+</ul></li>
+<li><code>ssh ubuntu@turtlebot</code> and <code>cd</code> into <code>ws</code></li>
+<li>On the turtlebot build the workspace and run your launchfile
+<ul>
+<li><code>turtlebot$ catkin_make -j1</code> to compile your workspace
+<ul>
+<li>This may take a few minutes (it takes me about 3).</li>
+<li>The <code>-j1</code> option causes <code>make</code> to only use 1 thread. In my experience, letting it use the full number of threads can cause the raspberry pi to run out of RAM, slowing compilation to a crawl.</li>
+</ul></li>
+<li><code>turtlebot$ source devel/setup.bash</code></li>
+<li><code>turtlebot$ roslaunch nuturtle_robot basic_remote.launch robot:=0</code></li>
+</ul></li>
+<li>Play a sound on the turtlebot: <code>turtlebot$ rostopic pub /sound turtlebot3_msgs/Sound "value: 0"</code>
+<ul>
+<li>it will only play one sound even though it keeps publishing</li>
+</ul></li>
+<li>The next steps occur on your comuter
+<ol>
+<li>Make sure you have <code>ros-noetic-turtlebot3</code> installed (via <code>apt</code>).
+<ul>
+<li>If you needed to install it re-source the <code>/opt/ros/noetic/setup.bash</code> file before continuing.</li>
+<li>We are mainly using this package for the definition of <code>turtlebot3_msgs/Sound</code>.</li>
+</ul></li>
+<li><code>rostopic pub /sound turtlebot3_msgs/Sound "value: 0"</code>. You should hear the sound. Keep the publisher open</li>
+<li>Use <code>rqt_graph</code> to save an image <code>nuturtle_robot/images/F003.svg</code> of the graph (There is a button to save as svg in the upper right corner)
+<ul>
+<li>Make sure Dead sinks and leaf topics are not hidden. You should see a <code>/serial</code> node subscribing to <code>/sound</code> and <code>/wheel_cmd</code> and publishing <code>/diagnostics</code> and <code>/sensor_data</code></li>
+<li>You should have Nodes/Topics (all) displayed</li>
+</ul></li>
+</ol></li>
+</ol>
+<h2 id="task-f.004-cross-compilation">Task F.004 (Cross-compilation)</h2>
+<ol>
+<li>As you saw in F.003, compiling code on the turtlebot itself is rather slow.</li>
+<li>For most of our tasks, we will use a docker container that has all the necessary tools and libraries for compiling <code>arm</code> binaries for the turtlebot on the host system.
+<ul>
+<li>This will let us compile on our own computers, which can greatly speed up the compilation process</li>
+</ul></li>
+<li>Follow the <a href="./cross-compile.html">Cross compilation</a> instructions to setup docker and the cross-compiling system.
+<ul>
+<li>We will use <code>./arm catkin_arm</code> to call <code>catkin_make</code> inside the container</li>
+<li>Use <code>./arm catkin_arm install</code> to run <code>catkin_make install</code> inside the container</li>
+</ul></li>
+<li>Copy the install space the robot: <code>rsync -av --delete arm_install/ ubuntu@turtlebot:/home/ubuntu/install</code>
+<ul>
+<li>It is crucial that install all your nodes and any other files you need on the robot so they are present in the install space.</li>
+<li>You should install your launchfiles and config files in addition to your nodes, this way you can run your code directly from the turtlebot, which is a useful debugging step.</li>
+<li>To install all launchfiles in <code>launch/</code>, for example: <code>install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch</code></li>
+<li>Pay close attention to the trailing <code>/</code> in the above command.</li>
+</ul></li>
+<li>Running your code, from your computer
+<ul>
+<li>From your computer: <code>roslaunch nuturtle_robot basic_remote.launch robot:=x</code> should start the serial node on the robot</li>
+<li>After you complete this run rostopic list to see the topics that are available</li>
+<li>run <code>rosnode machine turtlebot</code> to see the nodes running on turtlebot1 run <code>rosnode machine &lt;yourhostname.local&gt;</code> to see the nodes running on your machine</li>
+</ul></li>
+<li>Use <code>rqt_plot</code> to show a graph of <code>/sensor_data/battery_voltage</code> and <code>/sensor_data/accelZ</code>. <strong>Carefully</strong> pick the turtlebot up and tilt it to the side.
+<ul>
+<li>Save the figure to <code>nuturtle_robot/images/accbat.svg</code></li>
+</ul></li>
+</ol>
+<h2 id="task-f.005-low-level-commands">Task F.005 (Low Level Commands)</h2>
+<ul>
+<li>We will implement our own low-level control and odometry routines in ROS in a <code>turtle_interface</code> node.</li>
+<li>You should use the <code>DiffDrive</code> class to perform the computations</li>
+<li>This node reads in a twist and converts it to specific wheel commands that make the turtlebot move</li>
+<li>It also reads in raw encoder data and outputs it as joint angles and velocities</li>
+</ul>
+<ol>
+<li>Write a node called <code>turtle_interface</code> that
+<ul>
+<li>Subscribes to <code>cmd_vel (geometry_msgs/Twist)</code> and publishes <code>wheel_cmd (nuturtlebot/WheelCommands)</code> that will make the turtlebot3 follow the specified twist
+<ul>
+<li>Wheel commands are integer values between -256 and 256 and are proportional to the maximum rotational velocity of the motor (see <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/features/#specifications">Specifications</a>).</li>
+</ul></li>
+<li>Subscribes to <code>sensor_data (nuturtlebot/SensorData)</code> and publishes <code>joint_states (sensor_msgs/JointState)</code> to provide the angle (in radians) and velocity (in rad/sec) of the wheels, based on encoder data.
+<ul>
+<li>The node should saturate its output so the maximum rotational speed of the motor is not exceeded</li>
+<li>Theoretically the max translational and rotational speed of the robot should be solely determined by the maximum motor rotational speed and the geometry of the robot. However, there is an unknown load on the wheels (due to varying friction) which means that the max speed the robot can travel is actually less than the maximum no-load speed of the motors.</li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="task-f.006-ros-api-testing">Task F.006 (ROS API Testing)</h2>
+<ul>
+<li>This task is about testing that <code>turtle_interface</code> actually works by using <code>rostest</code> to exercise its publishers and subscribers</li>
+<li>Using rostest we can test the logic of this node without needing a turtlebot</li>
+</ul>
+<ol>
+<li>Write a test node called <code>turtle_interface_test</code> that uses rostest to test <code>turtle_interface</code> ROS API
+<ul>
+<li>Write a test that verifies that <code>cmd_vel</code> commands with pure translation result in the appropriate <code>wheel_cmd</code></li>
+<li>Write a test that verifies that <code>cmd_vel</code> commands with pure rotation in the appropriate <code>wheel_cmd</code></li>
+<li>Write a test case that verifies that encoder data on <code>sensors</code> is converted to <code>joint_states</code> properly</li>
+<li>Write a <code>rostest</code> file called <code>turtle_interface.test</code> that runs <code>turtle_interface_test</code> and <code>turtle_interface</code>
+<ul>
+<li>Register these tests in <code>CMakeLists.txt</code> such that this node is tested when you run <code>catkin_make run_tests</code></li>
+</ul></li>
+<li>Hints:
+<ul>
+<li>It is sometimes helpful to run the <code>rostest</code> file separately from <code>catkin_make run_tests</code>, especially when debugging.</li>
+<li>By default, <code>rostest</code> uses a different <code>roscore</code> than the regular one, making debugging difficult. However, you can force <code>rostest</code> to use your regular <code>rosmaster</code> (see <code>rostest --help</code>).</li>
+<li>When testing subscribers, use a latched publisher. This way, the subscriber will get the last message published by your test case even if it actually subscribes AFTER the message was published.</li>
+<li>When writing the <code>.test</code> file, only use <code>&lt;test&gt;</code> node tags for nodes that are implementing the unit tests. Other nodes should be started with the node tag. I haven't seen this documented anywhere, but as far as I can tell, running regular (non-gtest) nodes with the <code>test</code> tag via <code>catkin_make</code> run_tests causes the test system to freeze.</li>
+<li>You can create a node-handle, publisher, and subscriber on a per-test basis if desired.</li>
+<li>Also, you need to run <code>catkin_make</code> followed by <code>catkin_make run_tests</code> to test your code</li>
+<li>Using <code>output="screen"</code> in the <code>node</code> tag is helpful for viewing debugging output from the nodes under test</li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="task-f.007-teleoperation">Task F.007 (Teleoperation)</h2>
+<p>Write a node called <code>follow_circle</code> that publishes commands that let the robot drive in a circle of a specified radius at a specified speed</p>
+<ol>
+<li>The node should use private parameters to determine the speed and the radius of the circle</li>
+<li>The node should offer a <code>/control</code> service that causes the robot to travel either clockwise, counter clockwise, or stop.</li>
+</ol>
+<h2 id="task-f.007-odometry-teleop-launch">Task F.007 (Odometry Teleop Launch)</h2>
+<p>Write a launchfile called <code>odom_teleop.launch</code> that</p>
+<ol>
+<li>Launches either the <code>follow_circle</code> or <code>turtlebot3_teleop_key</code> nodes, depending on if the <code>circle</code> argument is true or false</li>
+<li>Launches the <code>odometer</code> node remotely on the <code>turtlebot3</code></li>
+<li>Launches <code>rviz</code> on your computer, in a mode that lets you visualize the position of the robot in the odometry frame</li>
+</ol>
+<h2 id="task-f.008-physical-testing">Task F.008 (Physical Testing)</h2>
+<p>If you run these tests in <em>turtleland</em> the course is marked out for you. However, you may run these tests at home as well. The precise distances are not important.</p>
+<ol>
+<li><p>Take a video and screencast of each of the experiments and include a <code>gif</code> version in your <code>README.md</code>.</p></li>
+<li><p>The experiments also ask questions that you should answer in the <code>README.md</code></p></li>
+<li><p>Drive the robot back and forth on a straight line several times, stopping when the turtlebot is on its initial location.</p>
+<ul>
+<li>Record the location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+</ul></li>
+<li><p>Rotate the robot clockwise and counter clockwise several times, stopping when the turtlebot is its initial location.</p>
+<ul>
+<li>Record the location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+</ul></li>
+<li><p>Drive the robot in a circle, clockwise and counter clockwise several times, stopping when the turtlebot is its initial location.</p>
+<ul>
+<li>Record the location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+</ul></li>
+<li><p>Try one of the previous experiments again, but try to get either a significantly better or significantly worse result.</p>
+<ul>
+<li>Was your driving able to make a difference? What did you change with your driving to accomplish this?. Answer in the <code>README.md</code></li>
+</ul></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
