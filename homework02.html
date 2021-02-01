@@ -612,7 +612,7 @@ table td {
 <p>This task uses the <code>DiffDrive</code> class to create a node that publishes <a href="https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html">Odometry</a> messages in a standard ROS way. A guide to Odometry in ros can be found <a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom">here</a></p>
 <ol>
 <li>Write a node called <code>odometer</code> (in the <code>rigid2d</code> package) that subscribes to <code>sensor_msgs/JointState</code> on the <code>joint_states</code> topic</li>
-<li>The node should have private parameters:
+<li>The node should read from the following parameters:
 <ul>
 <li><code>odom_frame_id</code>: The name of the odometry tf frame</li>
 <li><code>body_frame_id</code>: The name of the body tf frame</li>
@@ -652,10 +652,10 @@ table td {
 <li>These messages should reflect the current joint angles of each wheel</li>
 </ul></li>
 <li>Use the <code>DiffDrive</code> class to track the state of the simulated robot.</li>
-<li>The node should read from the following private parameters:
+<li>The node should read from the following parameters:
 <ul>
-<li><code>wheel_base</code> The distance between the wheels (this is private to allow there to be a difference between the simulated and actual measurement).</li>
-<li><code>wheel_radius</code>: The radius of the wheels (this is private to allow there to be a difference between the simulated and actual measurement).</li>
+<li><code>wheel_base</code> The distance between the wheels</li>
+<li><code>wheel_radius</code>: The radius of the wheels</li>
 <li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
 <li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
 </ul></li>
