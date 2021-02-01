@@ -704,17 +704,14 @@ table td {
 <li>This launchfile should have a <code>&lt;machine&gt;</code> tag describing a turtlebot.</li>
 <li>The <code>machine</code> tag lets you run nodes on one computer from another computer</li>
 <li>The name of the machine is <code>turtlebot</code></li>
-<li>The launchfile takes an argument called <code>robot</code>
+<li>The launchfile takes an argument called <code>robot</code>, which allows the user to specify the <code>hostname</code> of the turtlebot.
 <ul>
-<li>If <code>robot</code> is 0, then it is assumed that the launchfile is being run directly on a turtlebot and the address of the remote machine should be <code>localhost</code></li>
-<li>Otherwise, the remote machine address is <code>turtlebotX</code> (where X == robot).
-<ul>
+<li>It should default to <code>localhost</code> meaning that the node will run on the local machine</li>
 <li>The <code>user</code> should be <code>ubuntu</code>. Do not use a password, instead your <code>ssh</code> keys should be setup properly</li>
 <li>The machine should use <code>/home/ubuntu/loader.sh</code> as the environment loader script.
 <ul>
 <li>Essentially this script is what roslaunch uses to "source" the setup.bash on the remote computer</li>
 <li>It also sets up <code>ROS_MASTER_URI</code>.</li>
-</ul></li>
 </ul></li>
 </ul></li>
 </ul></li>
