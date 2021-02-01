@@ -735,7 +735,7 @@ table td {
 <li>Copy your source space to the turtlebot:
 <ul>
 <li><code>cd &lt;your_workspace_dir&gt;</code></li>
-<li><code>rsync -av --delete . ubuntu@turtlebot:/home/ubuntu/ws</code>
+<li><code>rsync -av --delete . ubuntu@turtlebot.local:/home/ubuntu/ws</code>
 <ul>
 <li>Note, the presence/absence of a trailing slash after directory names is significant to rsync, so use the above command precisely</li>
 <li>The command makes <code>turtlebot:/home/ubuntu/ws</code> match <code>yourcomputer:/path/to/workspace/</code></li>
@@ -745,7 +745,7 @@ table td {
 <li><code>rsync</code> is great for syncing directories between machines because it will only copy files that have changed.</li>
 </ul></li>
 </ul></li>
-<li><code>ssh ubuntu@turtlebot</code> and <code>cd</code> into <code>ws</code></li>
+<li><code>ssh ubuntu@turtlebot.local</code> and <code>cd</code> into <code>ws</code></li>
 <li>On the turtlebot build the workspace and run your launchfile
 <ul>
 <li><code>turtlebot$ catkin_make -j1</code> to compile your workspace
@@ -754,13 +754,13 @@ table td {
 <li>The <code>-j1</code> option causes <code>make</code> to only use 1 thread. In my experience, letting it use the full number of threads can cause the raspberry pi to run out of RAM, slowing compilation to a crawl.</li>
 </ul></li>
 <li><code>turtlebot$ source devel/setup.bash</code></li>
-<li><code>turtlebot$ roslaunch nuturtle_robot basic_remote.launch robot:=0</code></li>
+<li><code>turtlebot$ roslaunch nuturtle_robot basic_remote.launch robot:=localhost</code></li>
 </ul></li>
 <li>Play a sound on the turtlebot: <code>turtlebot$ rostopic pub /sound turtlebot3_msgs/Sound "value: 0"</code>
 <ul>
 <li>it will only play one sound even though it keeps publishing</li>
 </ul></li>
-<li>The next steps occur on your comuter
+<li>The next steps occur on your computer
 <ol>
 <li>Make sure you have <code>ros-noetic-turtlebot3</code> installed (via <code>apt</code>).
 <ul>
