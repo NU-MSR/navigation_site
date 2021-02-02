@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Cross-Compilation</title>
+<title>Remote Nodes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -467,11 +467,14 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#cross-compilation-1">Cross Compilation</a>
+<li><a href="#the-network">The Network</a></li>
+<li><a href="#environment-variables">Environment variables</a></li>
+<li><a href="#networking-setup">Networking setup</a></li>
+<li><a href="#remote-nodes-1">Remote Nodes</a>
 <ul>
-<li><a href="#cross-compiler-docker-container">Cross-Compiler Docker Container</a></li>
+<li><a href="#launchfiles">Launchfiles</a></li>
+<li><a href="#time-synchronization">Time Synchronization</a></li>
 </ul></li>
-<li><a href="#remote-debugging">Remote Debugging</a></li>
 </ul>
 </nav>
 
@@ -483,74 +486,101 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Cross-Compilation</h1>
+<h1 class="title">Remote Nodes</h1>
 </header>
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>This document describes how to cross-compile for <code>Ubuntu 20.04 LTS</code> running on a raspberry pi 3.</p>
-<h1 id="cross-compilation-1">Cross Compilation</h1>
+<p>Nodes in ROS communicate (via topics and services) over a network. Thus ROS nodes need not run on the same computer.</p>
+<p>When using ROS to control a mobile robot, there are often at least two comptuers involved: the robot's onboard computer, and the development computer.</p>
+<p>The robot's computer typically runs the autonomous systems and the development computer typically runs visualization and diagnostics.</p>
+<h1 id="the-network">The Network</h1>
 <ul>
-<li>The act of using a compiler on one system to generate code for another system.
+<li>Computers running ROS nodes must be able to communicate with each other over a network</li>
+<li>Typically, all computers are on a single local area network (LAN)</li>
+<li>Each computer has a unique IP address, a 4 byte number identifying that computer (e.g., 192.168.0.1).</li>
+<li>Each computer also has a <code>hostname</code> which is a human-readable name that corresponds to that computer's ip address
 <ul>
-<li>In our case, <code>x86-x64</code> to <code>armhf</code></li>
-<li>Not only must our own code be compiled for armhf, but also any libraries that we use
-<ul>
-<li>Libraries greatly complicates our code, as our host systems usually only have libraries for our own architecture</li>
-<li><code>Ubuntu</code> supports <code>multi-arch</code>, that is having libraries installed for multiple architectures
-<ul>
-<li>However, getting all the libraries installed and configured is a difficult task.</li>
+<li>name lookup, converts a <code>name</code> to an ip address which is then used to connect to the remote computer</li>
 </ul></li>
-</ul></li>
-<li>The alternative is to use a native compiler on the raspberry pi on the turtlebot
+<li>The <code>rosmaster</code> process runs on one computer in the network and coordinates ROS nodes
 <ul>
-<li>Compiling on the raspberry pi 3 is slow, our laptops are much faster than a raspberry pi</li>
-<li>I actually ran out of RAM when trying to compile the homework on the <code>raspberry pi</code> unless I disabled parallel builds</li>
-</ul></li>
+<li>Nodes contact the <code>rosmaster</code> to register their publishers and subscribers</li>
+<li>Nodes are then directly connected to each other as needed.</li>
 </ul></li>
 </ul>
-<h2 id="cross-compiler-docker-container">Cross-Compiler Docker Container</h2>
-<p>I've created a docker container with the necessary libraries and setup for cross compilation. I explain how to use it here. To understand what it actually does (not necessary to use it) see <a href="https://github.com/m-elwin/ros_x86_arm_docker">my github repository</a></p>
+<h1 id="environment-variables">Environment variables</h1>
 <ul>
-<li>To use, install docker <code>sudo apt install docker.io</code></li>
-<li>Next, in your workspace, run <code>docker run reem17/ros_x86_to_arm:noetic &gt; arm &amp;&amp; chmod 755 arm</code>
+<li>The <code>ROS_MASTER_URI</code> environment variable tells a node where to find the <code>rosmaster</code>
 <ul>
-<li>This command runs my docker container and outputs a script (<code>arm</code>) that makes it easy to use.</li>
-<li>The docker image should be downloaded automatically the first time you use this command</li>
-</ul></li>
-<li>In your workspace run <code>./arm catkin_arm install</code> to run <code>catkin_make install</code> inside the docker container on your workspace
+<li>All nodes in the network, when launched, should have the same <code>ROS_MASTER_URI</code> in order to communicate on the same ROS network</li>
+<li>We will run <code>rosmaster</code> on our development computers
 <ul>
-<li>The build, devel, and install spaces are all called <code>arm_build</code>, <code>arm_devel</code> and <code>arm_install</code></li>
-<li><code>./arm</code> essentially just calls a command inside the docker container. Use <code>./arm bash</code> to get a bash prompt, for example
-<ul>
-<li><code>catkin_arm</code> is a script that runs <code>catkin_make</code> but prefixes the <code>build,devel,install</code> spaces with <code>arm_</code></li>
+<li>Our development computer is always on, so we don't need to change the <code>ROS_MASTER_URI</code> when we, for example, turn of the robot (like the turtlebot)</li>
+<li>If we wanted the <code>turtlebot</code> to be completely independent of the development computer, we would run <code>rosmaster</code> on the <code>turtlebot</code></li>
 </ul></li>
 </ul></li>
+<li>The <code>ROS_HOSTNAME</code> environment variable contains the address of the node.
+<ul>
+<li>When <code>node A</code> connects to <code>rosmaster</code> it provides <code>rosmaster</code> with the value of <code>ROS_HOSTNAME</code>. <code>rosmaster</code> uses this address to tell other nodes how to contact <code>node A</code>.</li>
+<li>If no <code>ROS_HOSTNAME</code> is provided, the <code>hostname</code> of the computer on which the node is running will be used.</li>
+</ul></li>
+<li>The <code>ROS_IP</code> variable is like <code>ROS_HOSTNAME</code> but contains the ip address of the node. Do not set this if using <code>ROS_HOSTNAME</code>.</li>
 </ul>
-<h3 id="deployment">Deployment</h3>
+<h1 id="networking-setup">Networking setup</h1>
 <ul>
-<li>Use <code>rsync</code> to copy the <code>install</code> space to the turtlebot: <code>rsync -av --delete arm_install/ ubuntu@turtlebot:/home/ubuntu/install</code>
+<li>ROS networking is easiest if each computer in the network can connect to the other computers via <code>hostname</code> resolution.
 <ul>
-<li>This command makes <code>turtlebot:/home/ubuntu/install</code> contain the same exact files as <code>yourcomputer:/path/to/ros/ws/arm_install</code></li>
+<li>This means that every computer in the network can <code>ping</code> every other computer by <code>hostname</code></li>
 </ul></li>
-<li>The deployment process depends upon your <code>ROS</code> nodes being installed properly. You cannot just copy the devel space because of the symlinks it uses.
+<li>The easiest way to get <code>hostname</code> resolution working on your network is to use a <code>router</code> that sets up name resolution for you automatically
 <ul>
-<li>Thus, you must make sure that your nodes are installed properly.</li>
-<li>Anything that is not installed, will not be in the <code>arm_install</code> space and will not be present or available on the <code>raspberry pi</code></li>
+<li>Every computer just connects to the router. You then set <code>ROS_MASTER_URI</code> to the <code>hostname</code> of the comptuer running <code>rosmaster</code></li>
+<li>In my experience, <a href="https://openwrt.org/">openWRT</a>, a Linux distribution for routers sets up <code>hostname</code> resolution automatically</li>
+<li>When buying routers for use with robotics, I make sure to buy one that <code>OpenWRT</code> supports. Most consumer-level routers that I know of do not support <code>hostname</code> resolution</li>
+<li>I use this setup on the <code>TURTLENET</code> network in the lab</li>
+<li>You can also assign <code>static ip addresses</code> to each computer, and do everything by <code>ip</code> address or by <code>hostnames</code> written to <code>/etc/hosts</code></li>
 </ul></li>
+<li>The second easiest way is to use <code>mdns</code> or multi-cast DNS
+<ul>
+<li>This feature is setup automatically on <code>ubuntu</code>. It can be used via the <code>avahi-daemon</code> or it is also built-in to <code>NetworkManager/systemd-resolvd</code>.</li>
+<li><code>mDNS</code> (by default) automatically lets computers find each other via the address <code>hostname.local</code>.</li>
+<li>To use this with <code>ROS</code> you must set each computer's <code>ROS_HOSTNAME</code> to <code>&lt;hostname&gt;.local</code> where <code>&lt;hostname&gt;</code> is the hostname of that computer</li>
+<li>I use this setup with the <code>turtlebot</code> that I give you. This works well when <code>mdns</code> is working.</li>
+</ul></li>
+<li>It is also necessary for the remote machine to have <code>ssh</code> enabled, and you must be able to login to the remote machine using an <code>ssh</code> key.</li>
 </ul>
-<h1 id="remote-debugging">Remote Debugging</h1>
-<p>Because we are only copying the install space to the <code>raspberry pi</code> and because the <code>raspberry pi</code> is so slow, it makes sense, for debugging, to run the debugger on our host computer. To do this, the following commands work (after installing <code>gdb-multiarch</code> on your host machine)</p>
+<h1 id="remote-nodes-1">Remote Nodes</h1>
 <ol>
-<li>Mount the <code>raspberry pi</code>'s disk image to <code>/mnt/raspberrypi/</code>
+<li>To run a remote node, that node and all its runtime dependencies must be on the computer it runs on</li>
+<li>Therefore, you need to copy your nodes to the remote machine before you can run them</li>
+<li>It is easiest to do a <code>catkin_make install</code> to create the <code>install</code> directory
 <ul>
-<li>Calculate offset to start of image <code>sudo fdisk -lu turtle.img</code></li>
-<li>The second sector starts at 526336. Offset is 526336*512=269484032</li>
-<li>Add to <code>/etc/fstab</code>. Can now mount raspberry pi image to /mnt/raspberrypi <code>/home/user/turtle.img /mnt/raspberrypi ext4 loop,offset=269484032,users,noauto 0 0</code></li>
+<li><code>install</code> directories in ROS are self-contained</li>
+<li>You then copy the contents of <code>install</code> to the remote comptuer using <code>rsync</code></li>
 </ul></li>
-<li>On raspberry pi <code>gdbserver host:2345 executable</code></li>
-<li>On your pc: <code>gdb-multiarch file</code> <code>set debug-file-directory /mnt/raspberrypi/usr/lib/debug</code> <code>set sysroot=/mnt/raspberrypi</code> <code>target extended-remote turtlebotX:2345</code> To kill the remote server: <code>monitor exit</code></li>
 </ol>
+<h2 id="launchfiles">Launchfiles</h2>
+<ol>
+<li>Launchfiles can be used to run nodes on remote machine=</li>
+<li>The <code>&lt;node&gt;</code> tag in a launchfile has a <code>machine</code> attribute that lets you specify a <code>&lt;machine&gt;</code> on which to run the node</li>
+<li>The <code>&lt;machine&gt;</code> tag in a launchfile lets you specify the address of a remote machine
+<ul>
+<li>One important attribute is the <code>env-loader</code> script. This is a script on the remote machine that sets up the <code>ros</code> environment</li>
+<li><code>loader.sh</code> is what we use on the turtlebot
+<ul>
+<li>It essentially <code>sources</code> some workspaces and sets up <code>ROS_MASTER_URI</code> and <code>ROS_HOSTNAME</code></li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="time-synchronization">Time Synchronization</h2>
+<ul>
+<li>Many ROS packages rely on timestamps indexed to the actual wall-clock time</li>
+<li>Thus, computers on the network must have their clocks synchronized</li>
+<li>If all computers are connected to the internet they will synchronize with <code>ntp</code> servers and you will not have problems</li>
+<li>If however, a computer does not have internet access, for reliability you will have to run an <code>ntp</code> server on your local network to synchronize everything</li>
+<li>For the <code>turtlebot</code> I have you install an ntp server on your computer. You then configure the <code>turtlebot</code> to connect to this ntp server, thus synchronizing the times.</li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

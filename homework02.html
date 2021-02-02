@@ -796,9 +796,10 @@ table td {
 </ul></li>
 <li>Running your code, from your computer
 <ul>
-<li>From your computer: <code>roslaunch nuturtle_robot basic_remote.launch robot:=x</code> should start the serial node on the robot</li>
+<li>From your computer: <code>roslaunch nuturtle_robot basic_remote.launch robot:=turtlebot.local</code> should start the serial node on the robot</li>
 <li>After you complete this run rostopic list to see the topics that are available</li>
-<li>run <code>rosnode machine turtlebot</code> to see the nodes running on turtlebot1 run <code>rosnode machine &lt;yourhostname.local&gt;</code> to see the nodes running on your machine</li>
+<li>run <code>rosnode machine turtlebot.local</code> to see the nodes running on turtlebot.local run <code>rosnode machine &lt;yourhostname.local&gt;</code> to see the nodes running on your machine</li>
+<li>Make sure that on your computer you have <code>ROS_MASTER_URI</code> set to <code>http://&lt;your_hostname&gt;.local:11311</code> and <code>ROS_HOSTNAME</code> set to <code>&lt;your_hostname&gt;.local</code></li>
 </ul></li>
 <li>Use <code>rqt_plot</code> to show a graph of <code>/sensor_data/battery_voltage</code> and <code>/sensor_data/accelZ</code>. <strong>Carefully</strong> pick the turtlebot up and tilt it to the side.
 <ul>
