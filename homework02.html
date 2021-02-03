@@ -808,10 +808,11 @@ table td {
 </ol>
 <h2 id="task-f.005-low-level-commands">Task F.005 (Low Level Commands)</h2>
 <ul>
-<li>We will implement our own low-level control and odometry routines in ROS in a <code>turtle_interface</code> node.</li>
+<li>We will implement our own low-level control and sensor routines in ROS in a <code>turtle_interface</code> node.</li>
 <li>You should use the <code>DiffDrive</code> class to perform the computations</li>
 <li>This node reads in a twist and converts it to specific wheel commands that make the turtlebot move</li>
 <li>It also reads in raw encoder data and outputs it as joint angles and velocities</li>
+<li>The <code>odometer</code> node reads the joint angles and outputs the odometry</li>
 </ul>
 <ol>
 <li>Write a node called <code>turtle_interface</code> that
@@ -864,7 +865,7 @@ table td {
 <p>Write a launchfile called <code>odom_teleop.launch</code> that</p>
 <ol>
 <li>Launches either the <code>follow_circle</code> or <code>turtlebot3_teleop_key</code> nodes, depending on if the <code>circle</code> argument is true or false</li>
-<li>Launches the <code>odometer</code> node remotely on the <code>turtlebot3</code></li>
+<li>Launches the <code>odometer</code> and <code>turtle_interface</code> nodes remotely on the <code>turtlebot3</code></li>
 <li>Launches <code>rviz</code> on your computer, in a mode that lets you visualize the position of the robot in the odometry frame</li>
 </ol>
 <h2 id="task-f.008-physical-testing">Task F.008 (Physical Testing)</h2>
