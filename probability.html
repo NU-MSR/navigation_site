@@ -1,0 +1,1141 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Probability Basics for Robotics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#why-probability">Why Probability?</a></li>
+<li><a href="#random-experiments">Random Experiments</a>
+<ul>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#defining-random-experiments">Defining Random Experiments</a></li>
+</ul></li>
+<li><a href="#statistical-regularity">Statistical Regularity</a>
+<ul>
+<li><a href="#some-properties-of-statistical-regularity">Some Properties of statistical regularity</a></li>
+<li><a href="#discrete-and-continuous-sample-spaces">Discrete and Continuous Sample Spaces</a></li>
+<li><a href="#events">Events:</a></li>
+</ul></li>
+<li><a href="#probability-axioms">Probability Axioms</a></li>
+<li><a href="#venn-diagrams">Venn Diagrams</a>
+<ul>
+<li><a href="#important-corollaries">Important Corollaries:</a></li>
+</ul></li>
+<li><a href="#conditional-probability">Conditional Probability</a>
+<ul>
+<li><a href="#example">Example:</a></li>
+</ul></li>
+<li><a href="#theorem-on-total-probability">Theorem on total probability</a></li>
+<li><a href="#bayes-rule">Bayes Rule</a>
+<ul>
+<li><a href="#terminology">Terminology:</a></li>
+<li><a href="#graphical-approach">Graphical Approach:</a></li>
+</ul></li>
+<li><a href="#independence">Independence</a></li>
+<li><a href="#random-variable">Random Variable</a>
+<ul>
+<li><a href="#example-1">Example:</a></li>
+<li><a href="#discrete-random-variables">Discrete Random Variables</a></li>
+</ul></li>
+<li><a href="#example-2">Example</a>
+<ul>
+<li><a href="#continuous-random-variables">Continuous Random Variables</a></li>
+</ul></li>
+<li><a href="#expected-value">Expected Value</a>
+<ul>
+<li><a href="#discrete">Discrete</a></li>
+<li><a href="#continuous">Continuous</a></li>
+<li><a href="#two-important-continuous-random-variables">Two important Continuous Random Variables:</a></li>
+</ul></li>
+<li><a href="#functions-of-random-variables">Functions of Random Variables:</a></li>
+<li><a href="#joint-distributions">Joint Distributions</a>
+<ul>
+<li><a href="#joint-momentsexpected-value">Joint Moments/expected value</a></li>
+</ul></li>
+<li><a href="#more-conditional-probability">More conditional probability</a></li>
+<li><a href="#more-linear-transformations">More linear transformations:</a></li>
+<li><a href="#conditional-independence">Conditional Independence</a>
+<ul>
+<li><a href="#bayes-network">Bayes Network</a></li>
+<li><a href="#example-3">Example:</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Probability Basics for Robotics</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="why-probability">Why Probability?</h1>
+<ul>
+<li>Until now, we have discussed deterministic models
+<ul>
+<li>These models are wrong (just wait until you see how poorly our forward kinematics predicts the robot movement)
+<ul>
+<li>We could improve the models, such as by adding mass/inertia/dynamics</li>
+</ul></li>
+<li>Ultimately, we will reach the limit of our ability to model everything precisely
+<ul>
+<li>Maybe a perfect model is possible if only we knew more, but probably not. (Does randomness really exist?)</li>
+<li>We are definitely uncertain about some quantities (listed in roughly decreasing order of importance)
+<ul>
+<li>Friction</li>
+<li>Manufacturing tolerances</li>
+<li>Air Resistance</li>
+<li>Radio waves</li>
+<li>The earth is spinning and rotating around the sun</li>
+<li>Gravity is different in different places</li>
+</ul></li>
+<li>Sometimes we can engineer products to reduce uncertainty (such as not relying on the gain of a transistor in a circuit)</li>
+<li>Sometimes we engineer products with sensors that enable to work despite not having perfect models (this is feedback control)</li>
+</ul>
+<ul>
+<li>Probability theory enables us and the robots we program to reason about uncertain and random situations.
+<ul>
+<li>Applications in Sensor Fusion, Localization, Mapping, and Machine Learning</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="random-experiments">Random Experiments</h1>
+<ul>
+<li>A procedure that has an unpredictable outcome despite being repeated under the same conditions.
+<ul>
+<li>Obtaining conditions for an exactly repeatable experiment is quite difficult or impossible.</li>
+<li>How do we know the conditions are the same?
+<ul>
+<li>Conditions are the same up until the best of our ability to measure</li>
+</ul></li>
+</ul></li>
+<li>Sample Space: Set containing all of the potential outcomes of a random experiment
+<ul>
+<li>The sample space is where the underlying randomness happens</li>
+<li>Randomness is modeled as "run the experiment, which sample space element did we get?"</li>
+<li>Items in the sample space can be anything</li>
+</ul></li>
+</ul>
+<h2 id="examples">Examples</h2>
+<ul>
+<li>Rolling a single die
+<ul>
+<li>Possible outcomes, a number 1 - 6: these are the outcomes and they form the sample space</li>
+<li>The sample space could also consist of (literally) the face of the die that is showing.</li>
+<li>For this example the sample space is finite</li>
+</ul></li>
+<li>Breaking a stick in half at a random location
+<ul>
+<li>Could define the sample space as a set of pairs of stick halves</li>
+<li>Sample space could be set of all possible distances from the left end where the break occurred</li>
+<li>For this example, the sample space is uncountably infinite (i.e., a real number)
+<ul>
+<li>(Aside: Is it really though? The stick is made up of a finite number of atoms.)</li>
+</ul></li>
+</ul></li>
+<li>At the end of the day, no matter how complicated the system is, there is always
+<ol>
+<li>A random experiment</li>
+<li>A sample space</li>
+</ol></li>
+</ul>
+<h2 id="defining-random-experiments">Defining Random Experiments</h2>
+<ul>
+<li>Specify a random experiment by defining
+<ol>
+<li>A procedure of what happens:
+<ul>
+<li>Roll a die one time</li>
+<li>Command diff-drive robot to drive forward with speed of 0.5 m/s for 2 seconds</li>
+</ul></li>
+<li>At least one observation
+<ul>
+<li>Note the position of the robot relative to the world coordinate frame)</li>
+<li>Observe if the number showing at the top of the die is a 1</li>
+<li>Observe if the number showing at the top of the die is even or odd</li>
+<li>Observe the distance the robot has traveled from its initial to final position</li>
+<li>Observe the (theta, x, y) pose of the robot in a world coordinate frame</li>
+</ul></li>
+</ol></li>
+<li>Define the sample space as the set of possible outcomes (i.e., possible things you have observed)</li>
+<li>Thus all outcomes in the sample space are mutually exclusive (no two outcomes occur at the same time)
+<ol>
+<li>For a die, it is <span class="math inline">\({1,2,3,4,5,6}\)</span></li>
+<li>For the robot driving forward when we measure distance it is the set of positive real numbers (since distance is positive)
+<ul>
+<li>You can also define the sample space as all real numbers, with some outcomes being impossible</li>
+</ul></li>
+<li>For the robot driving forward and measuring the pose it is multimensional cartesian product of intervals: (-Pi, Pi) x R x R.</li>
+</ol></li>
+<li>Sample space depends not just on the experiment but also on the observation:
+<ul>
+<li>Toss a coin twice, and note the sequence: S = {HH, HT, TH, TT}</li>
+<li>Toss a coin twice, and count the number of heads: S ={0, 1, 2}</li>
+</ul></li>
+</ul>
+<h1 id="statistical-regularity">Statistical Regularity</h1>
+<ul>
+<li>Why do we care about probability at all?</li>
+<li>After many repetitions, average outcome of a random experiment should be the same</li>
+<li>Relative frequency: the number of times an outcome occurs divided by number of experiments that were run</li>
+<li>Statistical regularity is important for connecting theoretical notions of probability to real-world outcomes</li>
+</ul>
+<h3 id="example-roll-a-die-n-times">Example: roll a die <span class="math inline">\(n\)</span> times</h3>
+<ul>
+<li>Relative frequency: number of times a 1 appears divided by <span class="math inline">\(n\)</span> times</li>
+<li>As <span class="math inline">\(n\)</span> goes to infinity, relative frequency of the die goes to <span class="math inline">\(1/6\)</span>, just as 1 out of 6 elements in the sample space is a 1</li>
+<li>This is the probability of rolling a 1.</li>
+</ul>
+<ul>
+<li>If you can use a computer to repeat an experiment many times, you can sometimes brute-force an estimate for probability.</li>
+<li>In the real world, it is (technically) impossible to repeat the same exact experiment more than once, but we rely on controlling as many of the initial conditions as possible.</li>
+</ul>
+<h2 id="some-properties-of-statistical-regularity">Some Properties of statistical regularity</h2>
+<ol>
+<li>Each outcome has relative frequency between 0 and 1
+<ul>
+<li>You can't get an outcome more than the number of times you run the experiment</li>
+</ul></li>
+<li>The sum of the number of number of occurrences across possible outcomes is <span class="math inline">\(n\)</span> (and thus the sum of relative frequencies is 1)
+<ul>
+<li>Every experiment yields an outcome</li>
+</ul></li>
+<li>The frequency of an event is the sum of the individual frequencies of individual outcomes
+<ul>
+<li>relative frequency of odd dice rolls = relative frequency of rolling a 1 + rolling a 3 + rolling a 5</li>
+</ul></li>
+</ol>
+<h2 id="discrete-and-continuous-sample-spaces">Discrete and Continuous Sample Spaces</h2>
+<ul>
+<li>Discrete: Sample space is a finite or countably infinite
+<ul>
+<li>Countably infinite sample space example: Flip a coin until it is heads. Observe the numbers of tails</li>
+<li>{0, 1, 2, 3, …}</li>
+</ul></li>
+<li>Continuous: Sample space is uncountable
+<ul>
+<li>Spin a wheel, observe the angle</li>
+<li>Throw a dart on a board, note its x and y coordinates</li>
+</ul></li>
+</ul>
+<h2 id="events">Events:</h2>
+<ul>
+<li>Informally: anything that can happen as a result of an experiment that we might want to know the probability of.</li>
+<li>An event is a subset of the sample space.
+<ul>
+<li>The event occurs if any outcome in the event set occurs</li>
+</ul></li>
+<li>The certain event: the full sample space, it occurs if any of the outcomes</li>
+<li>The impossible event - never occurs, the empty set.</li>
+<li>Event Class:
+<ul>
+<li>Contains the events of interest, which are assigned probabilities</li>
+<li>Compliments, countable unions and countable intersections of events are also in the event class</li>
+</ul></li>
+<li>For discrete sample spaces: this is (usually) the set of all subsets of <span class="math inline">\(S\)</span> (this does not hold for continuous sample spaces)</li>
+<li>For continuous sample spaces: complements, countable unions and countable intersections of intervals of the real line <span class="math inline">\((a, b] \mathrm{ or } (-\infty, b]\)</span>
+<ul>
+<li>Not set of all subsets (for technical reasons).</li>
+</ul></li>
+</ul>
+<h1 id="probability-axioms">Probability Axioms</h1>
+<ul>
+<li>The Assumptions:
+<ul>
+<li>We have defined a random experiment, whose possible outcomes are in the set <span class="math inline">\(S\)</span></li>
+<li>An event class <span class="math inline">\(F\)</span> consisting of subsets of <span class="math inline">\(S\)</span> have been defined.</li>
+<li>Each event <span class="math inline">\(A\)</span> in <span class="math inline">\(F\)</span> has been assigned a number <span class="math inline">\(P[A]\)</span></li>
+</ul></li>
+<li>The axioms:
+<ol>
+<li><span class="math inline">\(0 \leq P[A]\)</span></li>
+<li><span class="math inline">\(P[S] = 1\)</span> (that is, probability of something in the sample space occuring is 1).</li>
+<li>Probability of an infinite union of mutually exclusive events is the sum of the individual probabilities:
+<ul>
+<li>If <span class="math inline">\(A \cap B = \emptyset\)</span>, then <span class="math inline">\(P[ A \cup B] = P[A] + P[B]\)</span> (good enough for finite sample spaces)</li>
+<li>If <span class="math inline">\(A_1, A_2, \dots\)</span> is a sequence such that <span class="math inline">\(A_i \cap A_j = \emptyset\)</span> for all <span class="math inline">\(i \neq j\)</span> then <span class="math inline">\(P[\bigcup_{k=1}^{\infty}A_k] = \sum_{k=1}^{\infty}P[A_k]\)</span> (more general)</li>
+</ul></li>
+</ol></li>
+</ul>
+<h1 id="venn-diagrams">Venn Diagrams</h1>
+<ul>
+<li>We can use Venn diagrams to visualize probability</li>
+</ul>
+<h2 id="important-corollaries">Important Corollaries:</h2>
+<ol>
+<li><span class="math inline">\(P[A^c] = 1 - P[A]\)</span> (because <span class="math inline">\(S = A \cup A^c\)</span>, <span class="math inline">\(P[S] = 1\)</span>, and <span class="math inline">\(P[A \cup A^c] = P[A] + P[A^c]\)</span></li>
+<li><span class="math inline">\(P[A] &lt;= 1\)</span>: (from 1, and the fact that P[A<sup>c</sup>] &gt;= 0.</li>
+<li><span class="math inline">\(P[\emptyset] = 0\)</span> (Let <span class="math inline">\(A = S\)</span> then <span class="math inline">\(A^c = \emptyset\)</span>, result follows from 1.)</li>
+<li><span class="math inline">\(P[A \cup B] = P[A] + P[B] - P[A \cap B]\)</span></li>
+</ol>
+<h1 id="conditional-probability">Conditional Probability</h1>
+<p>How does knowledge about event <span class="math inline">\(B\)</span> occurring change the probability of event <span class="math inline">\(A\)</span>?</p>
+<ul>
+<li><span class="math inline">\(P[A | B] = \frac{P[A \cap B]}{P[B]}, P[B] &gt; 0\)</span>.</li>
+<li>If B has occurred then A can only occur if A and B has occurred</li>
+<li>Thus the sample space has been reduced to B.</li>
+<li>For fixed B, P[A | B] is itself a probability over this reduced sample space</li>
+</ul>
+<h2 id="example">Example:</h2>
+<p>Random Experiment: Flip two coins, count the number of Heads</p>
+<ul>
+<li><p>Sample space <span class="math inline">\(\{0, 1, 2\}\)</span></p></li>
+<li><p>Event Space is <span class="math inline">\(\{\emptyset, \{0\}, \{1\}, \{2\}, \{0, 1\}, \{0, 2\}, \{1, 2\}, \{0, 1, 2\}\}\)</span></p></li>
+<li><p>Probability: P[0] = 1/4, P[1] = 1/2, P[2]= 1/4</p></li>
+<li><p>Question What is the probability of there having been 1 head given that either 1 or two heads were obtained:</p>
+<span class="math display">\[\begin{align}
+ P[\{1\} | \{1, 2\}] &amp;= \frac{P[\{1\} \cap \{1, 2\}]}{P[\{1, 2\}]}\\
+                     &amp;= \frac{P[\{1\}]}{P[\{1\}\cup\{2\}]}\\
+                     &amp;= \frac{P[{1}]}{P[{1}] + P[{2}]}\\
+                     &amp;= \frac{1}{2}/\frac{3}{4}\\
+                     &amp;= 2/3
+\end{align}
+\]</span></li>
+<li><p>Note: the probability is higher then the probability of <span class="math inline">\(\{1\}\)</span> on its own, which makes sense because we've eliminated the possibility of 0 heads.</p></li>
+<li><p>We can also write <span class="math inline">\(P[A \cap B] = P[A | B]P[B] = P[B | A] P[A]\)</span></p></li>
+</ul>
+<h1 id="theorem-on-total-probability">Theorem on total probability</h1>
+<ul>
+<li>A practical way of computing probabilities when only conditionals are known.</li>
+<li><span class="math inline">\(B_1, \dots B_n\)</span> are mutally exclusive events whose union is the entire sample space <span class="math inline">\(P[A] = P[A | B_1]P[B_1] + P[A | B_2]P[B_2] + \dots + P[A | B_n]P[B_n]\)</span></li>
+</ul>
+<h1 id="bayes-rule">Bayes Rule</h1>
+<ul>
+<li>The problem: what is the probability that a hypthesis <span class="math inline">\(H\)</span> is correct given evidence <span class="math inline">\(E\)</span></li>
+<li>So, there is a random experiment, we observe event <span class="math inline">\(E\)</span>, how likely is event <span class="math inline">\(H\)</span>?</li>
+<li>We just did this: <span class="math inline">\(P[H | E] = \frac{P[H \cap E]}{P[E]}\)</span>. However,
+<ul>
+<li>What if we don't know P[H ∩ E]? Or <span class="math inline">\(P[E]\)</span></li>
+<li>This is a common situation, for example (all numbers made up): What is the probability that there is a fire in Tech, given that the fire alarm on?
+<ul>
+<li>This question is asking P[Fire in tech | alarm] (so H = fire in tech, E = alarm).</li>
+<li>But, I don't know what the probability is of there being a fire in tech and the alarm going off. -Why not? What about all the times the alarm goes off and there is no fire.</li>
+<li>I do know however, that fire alarms are very accurate. Given that there is a fire, the probability of a fire alarm going off is 0.90. Thus <span class="math inline">\(P[E | H] = 0.90\)</span></li>
+<li>I also know that the fire alarm does not go on that often there is no fire. Thus <span class="math inline">\(P[E | H^c] = 0.2\)</span></li>
+<li>I also know that fires are rare <span class="math inline">\(P[H] = 0.001\)</span></li>
+</ul></li>
+</ul></li>
+<li>From our conditional probability formulas: <span class="math inline">\(P[H | E]P[E] = P[E | H] P[H]\)</span>,
+<ul>
+<li>This is bayes rule:</li>
+</ul>
+<span class="math display">\[\begin{equation}
+ P[H | E] = \frac{P[E | H] P[H]}{P[E]}.
+\end{equation}
+\]</span>
+<ul>
+<li>Often we use law of total probability to compute <span class="math inline">\(P[E]\)</span>
+<ul>
+<li><span class="math inline">\(P[E] = P[E | H]P[H] + P[E | H^c]P[H^c]\)</span></li>
+</ul></li>
+</ul></li>
+<li>Therefore, using the numbers I just stated: probability of fire, given fire alarm is <span class="math inline">\(0.9*0.001/(0.9*0.001 + 0.2*0.999) = 0.004\)</span></li>
+</ul>
+<h2 id="terminology">Terminology:</h2>
+<ul>
+<li>Hypothesis: <span class="math inline">\(H\)</span> (There is a fire in Tech)</li>
+<li>Evidence: <span class="math inline">\(E\)</span> (The fire alarm is going off)</li>
+<li><span class="math inline">\(P[H]\)</span> is the <em>prior</em> This is the probability of the hypothesis is true in the absence of any evidence. (Probability of a fire in Tech)
+<ul>
+<li>We are assumed to have some prior understanding of the world</li>
+</ul></li>
+<li><span class="math inline">\(P[E | H]\)</span> is the likelihood. How likely would the evidence be were our hypothesis correct. (Probability of fire alarm going off given that there is a fire).</li>
+<li><span class="math inline">\(P[H | E]\)</span> is the posterior - How likely is our hypothesis, now that we've seen the evidence (this is what we are computing</li>
+<li><span class="math inline">\(P[E]\)</span> - A "normalization factor". By seeing the evidence we are restricting the size of the sample space to only those samples consistent with the Evidence event having occurred.</li>
+</ul>
+<h2 id="graphical-approach">Graphical Approach:</h2>
+<ul>
+<li><p>Linus is a computer programmer. He likes writing bash scripts and is a git guru. What is the probability that Linus uses Linux?</p>
+<ul>
+<li>H - Linus uses Linux</li>
+<li>Not H - Linus uses Windows (or something else)</li>
+<li>E - Linus is a computer programmer who likes writing bash scripts and is a git guru.</li>
+</ul>
+<p><img src="./bayes.svg" /></p>
+<ul>
+<li>Bayes rules tells us that, even though that there is a high probability that Linux users fit the evidence (they program, like writing bash scripts and are masters at using git), that is P(E | H) is large, and Windows/other users likely don't fit the evidence (that is P(E | not H) is small), the prior probability that a user is a Linux user P(H) is so low that there is actually a greater chance of Linus using Windows/Other rather than Linux.</li>
+</ul></li>
+</ul>
+<h1 id="independence">Independence</h1>
+<p>Knowledge that event B occurs does not affect the chance of A occuring: <span class="math inline">\(P[A \cap B] = P[A] P[B]\)</span>, which implies that <span class="math inline">\(P[A|B] = P[A]\)</span> and <span class="math inline">\(P[B|A] = P[B]\)</span> (because of the law on conditional probability)</p>
+<p>Example:</p>
+<ol>
+<li>Random Experiment: We flip a quarter and a nickel and observe whether they are heads or tails.
+<ul>
+<li>The sample space is <span class="math inline">\(S = \{(Q_H, N_H), (Q_H, N_T), (Q_T, N_H), (Q_T, N_T)\}\)</span></li>
+<li>Event <span class="math inline">\(A = \{(Q_H, N_H), (Q_H, N_T)\)</span> "The quarter is heads"</li>
+<li>Event <span class="math inline">\(B = \{(Q_H, N_T), (Q_T, N_T)\)</span> "The nickle is tails"</li>
+<li>Event <span class="math inline">\(C = \{(Q_H, N_H)\}\)</span> "All heads"</li>
+<li><span class="math inline">\(P[A] = 1/2\)</span>, <span class="math inline">\(P[B] = 1/2\)</span>, <span class="math inline">\(P[C]=1/4\)</span></li>
+<li><span class="math inline">\(P[A \cap B] = P[\{Q_H, N_T\}] = 1/4 = P[A] P[B]\)</span>, therefore <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent.</li>
+<li>Also, note that <span class="math inline">\(P[A | B] = P[A] =  1/2\)</span> (if event B has occurred, then 1 out of the two outcomes in event <span class="math inline">\(B\)</span> would lead to event <span class="math inline">\(A\)</span> also occuring.</li>
+<li><span class="math inline">\(P[A \cap C] = P[\{(Q_H, N_H)\}] = 1/4 \neq P[A]P[C]\)</span> so <span class="math inline">\(A\)</span> and <span class="math inline">\(C\)</span> are not independent</li>
+</ul></li>
+</ol>
+<ul>
+<li>Mutually exclusive events with non-zero probability can never be independent.
+<ul>
+<li>Mutually exclusive means that "if A occurs than B cannot occur and vice versa"</li>
+<li>Thus, knowing about the occurence or non-occurance of A gives you information about B</li>
+<li>P[A and B] = 0 for mutally exclusive events, which means P[A] or P[B] = 0.</li>
+</ul></li>
+<li>For multiple events, independence requires: For k = 2 .. n: P[A<sub>i1</sub> ∩ … A<sub>ik</sub>] = P[A<sub>i1</sub>]…P[A<sub>ik</sub>]</li>
+</ul>
+<h1 id="random-variable">Random Variable</h1>
+<ul>
+<li>Informally: A function that assigns a real number to each outcome in the sample space.</li>
+<li>Not a Variable
+<ul>
+<li>Actually a function from the sample space to real numbers</li>
+</ul></li>
+<li>Not Random
+<ul>
+<li>Actually a deterministic mapping. The randomness is from which outcome in the sample space occurs after performing the experiment</li>
+</ul></li>
+<li>Why Random Variables?
+<ul>
+<li>Allow us to look at different aspects of the same random experiment</li>
+<li>Provide an easier way to assign probabilities to elements of our sample space</li>
+</ul></li>
+</ul>
+<h2 id="example-1">Example:</h2>
+<ul>
+<li><p>Flip two coins. <span class="math inline">\(\xi \in S\)</span>. <span class="math inline">\(X(\xi)\)</span> is a random variable counting the number of heads. <span class="math inline">\(Y(X(\xi))\)</span> is a random variable that is twice the number of heads</p>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(\xi\)</span></th>
+<th>HH</th>
+<th>HT</th>
+<th>TH</th>
+<th>TT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>X(ξ)</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Y(ξ)</td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>Function of a random variable is a random variable</p></li>
+<li><p>If the sample space is already numerical, the random variable is just <span class="math inline">\(X(\xi) = \xi\)</span></p></li>
+<li><p>So <span class="math inline">\(X : S \to S_x\)</span>, <span class="math inline">\(S_x \subset \mathbb{R}\)</span>, thus <span class="math inline">\(S\)</span> is the domain and <span class="math inline">\(S_X\)</span> is the range of the random variable.</p></li>
+</ul>
+<h2 id="discrete-random-variables">Discrete Random Variables</h2>
+<ul>
+<li>The random variable maps items in the sample space to a finite set of values</li>
+<li>Probability for events <span class="math inline">\(A_k = \{\xi: X(\xi) = x_k\}\)</span></li>
+<li>Probability mass function (pmf) <span class="math inline">\(p_x(x) = P[X = x] = P[\{\xi : X(\xi) = x\}]\)</span>, where <span class="math inline">\(x\)</span> is a real number.</li>
+<li>The event <span class="math inline">\(A_k = \{\xi : X(\xi) = x_k\}\)</span> is the equivalent event to <span class="math inline">\(X(\xi) = x_k\)</span></li>
+</ul>
+<ul>
+<li><p>Properties of pmf (note that the events <span class="math inline">\(A_k\)</span> partition <span class="math inline">\(S\)</span>, which each partition mapping to a value of the random variable.</p>
+<ol>
+<li><span class="math inline">\(p_x(x) &gt;= 0\)</span></li>
+<li><span class="math inline">\(\sum_{x \in S_x} p_X(x) = \sum_{k}p_X(x_k) = \sum_{k}P[A_k] = 1\)</span> (This is because the <span class="math inline">\(A_k\)</span> partition <span class="math inline">\(S\)</span>)</li>
+<li><span class="math inline">\(P[X \in B] = \sum_{x\in B}p_X(x),\text{ where }B \subset S_x\)</span> - This is because the events in <span class="math inline">\(B\)</span> are a union of elementary events.</li>
+</ol></li>
+<li><p>pmf provides probabilities for all events from the range of the random variable.</p></li>
+<li><p>Conditional pmf <span class="math inline">\(p_x(x|C) = P[X = x | C] = \frac{P[{X=x}\cap C]}{P[C]}\)</span></p></li>
+</ul>
+<h1 id="example-2">Example</h1>
+<figure>
+<img src="./binomial_pmf.svg" alt="A probability mass function for a binomial distribution." /><figcaption aria-hidden="true">A probability mass function for a binomial distribution.</figcaption>
+</figure>
+<h2 id="continuous-random-variables">Continuous Random Variables</h2>
+<ul>
+<li><p><span class="math inline">\(X(\xi)\)</span> is a function from <span class="math inline">\(S\)</span> to <span class="math inline">\(\mathbb{R}\)</span> such that <span class="math inline">\(A_b = \{\xi : X(\xi) \leq b\}\)</span> is in the event class for every <span class="math inline">\(b\)</span> in <span class="math inline">\(\mathbb{R}\)</span>.</p>
+<ul>
+<li>Basically, there is an event consisting of all the sample space outcomes that <span class="math inline">\(X\)</span> maps to a value <span class="math inline">\(\leq\)</span> b, for any b</li>
+</ul></li>
+<li><p>Cumulative Distribution Function (cdf) for random variable X is the probability of the event that <span class="math inline">\(x \leq X\)</span>.</p>
+<span class="math display">\[\begin{equation}
+ F_X(x) = P[X \leq x], -\infty &lt; x &lt; \infty.
+\end{equation}
+\]</span></li>
+<li><p><span class="math inline">\(P[a &lt; X \leq b] = F_X(b) - F_X(a)\)</span></p></li>
+<li><p>For continuous random variables <span class="math inline">\(P[X = x] = 0\)</span>.</p></li>
+</ul>
+<ul>
+<li>All types of random variables (continuous, discrete, and mixed) can be described in terms of a cdf.</li>
+<li>We'll use the pmf for discrete random variables and not worry about its cdf (its a staircase function)</li>
+<li>For continuous random variables, we are more used to dealing with a probability density function:</li>
+<li><span class="math inline">\(F_x(x) = \int_{-\infty}^x f(t)dt\)</span></li>
+</ul>
+<p>Probability Density function</p>
+<ul>
+<li><p>When it exists <span class="math inline">\(f_x(x) = \frac{dF_X(x)}{dx}\)</span></p></li>
+<li><p><span class="math inline">\(f_x(x) &gt;= 0\)</span></p></li>
+<li><p><span class="math inline">\(P[a \leq X \leq b] = \int_{a}^{b}f_X(x)dx\)</span></p></li>
+<li><p>pdf completely specifies behavior of continuous random variables</p></li>
+<li><p>Conditional cdf</p></li>
+</ul>
+<p><span class="math inline">\(F_x(x | C) = \frac{P[{X \leq x} \cap C]}{P[C]}, \text{ if } P[C]&gt;0\)</span></p>
+<ul>
+<li><p>Conditional pdf is derivative of conditional cdf with respect to x:</p>
+<span class="math display">\[\begin{equation}
+ f_X(x|C) = \frac{d F_x(x | C)}{dx}
+\end{equation}
+\]</span></li>
+</ul>
+<h1 id="expected-value">Expected Value</h1>
+<h2 id="discrete">Discrete</h2>
+<p>Let <span class="math inline">\(S_x\)</span> be the range of the random variable <span class="math inline">\(X\)</span>. Then</p>
+<span class="math display">\[\begin{equation}
+m_x = E[X(\xi)] = \sum_{x \in S_x}xp_x(x) = \sum_{k}x_kp_x(x_k)
+\end{equation}
+\]</span>
+<ul>
+<li>The "average of X" after observing X after many experiments.
+<ul>
+<li>Based on the relative frequency interpretation</li>
+<li><span class="math inline">\(p_x(x) = N(x)/n, n \to \infty\)</span>, then <span class="math inline">\(m_x = \sum_k x N(x_k)/n = \frac{1}{n}\sum_k x_k N(x_k)\)</span></li>
+</ul></li>
+<li>Thus, run the experiment many times, take the average over each run, it should converge to E[X]</li>
+<li>It does NOT mean the value you could expect from any given experiment: For example, flip a coin, <span class="math inline">\(X(H) = 0\)</span>, <span class="math inline">\(X(T) = 1\)</span>, assuming a fair coin <span class="math inline">\(E[X] = 1/2\)</span>.</li>
+</ul>
+<h3 id="applications">Applications</h3>
+<ol>
+<li>How much money should I bet in a game?
+<ul>
+<li>Experiment: flip coin 2 times. Random variable is the payout.</li>
+<li><span class="math inline">\(X(HH) = 2\)</span>, <span class="math inline">\(X(TT) = -1\)</span>, <span class="math inline">\(X(TH) = 0\)</span>, <span class="math inline">\(X(HT) = 0\)</span></li>
+<li><span class="math inline">\(p_X(2) = 1/4\)</span>, <span class="math inline">\(p_X(-1) = 1/4\)</span>, <span class="math inline">\(p_X(0) = 1/2\)</span>.</li>
+<li><span class="math inline">\(E[X] = (2)1/4 - (1)1/4 + (0)1/2) = 3/4\)</span>
+<ul>
+<li>This means if you play the game many times you can expect end up with 3/4 times the number of times you played</li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="continuous">Continuous</h2>
+<p>Expected value of <span class="math inline">\(Y = g(X)\)</span> <span class="math inline">\(E[Y]= \int_{-\infty}^{\infty}g(x)f_x(x)dx\)</span></p>
+<ul>
+<li>This is expected value of X when <span class="math inline">\(Y = X\)</span> and corresponds to the "center of mass" of the pdf</li>
+<li>Variance: <span class="math inline">\(g(X) = (X - E[X])^2\)</span> - corresponds to the spread about the "center of mass" of the pdf</li>
+</ul>
+<h2 id="two-important-continuous-random-variables">Two important Continuous Random Variables:</h2>
+<h3 id="uniform-random-variable-any-value-is-equally-likely">Uniform Random variable: any value is equally likely</h3>
+<p><span class="math inline">\(f_U(x)= \begin{cases}\frac{1}{b-a} &amp; a \leq x \leq b \\ 0\end{cases}\)</span></p>
+<h3 id="gaussian-random-variable">Gaussian Random Variable</h3>
+<ol>
+<li>Lots of special properties: it often can model the sum of large numbers of independent random variables (Central Limit Theorem)</li>
+<li>Completely determined by two parameters: mean and covariance</li>
+</ol>
+<span class="math display">\[\begin{equation}
+f_x(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{\frac{-(x-m)^2}{2\sigma^2}}
+\end{equation}
+\]</span>
+<ol>
+<li>What is the cdf of a gaussian? It involves the error function.</li>
+</ol>
+<h1 id="functions-of-random-variables">Functions of Random Variables:</h1>
+<p>If <span class="math inline">\(Y = g(X)\)</span> then, given a pdf or cdf of X, what is the equivalent pdf or cdf of g? Let <span class="math inline">\(C\)</span> be an event.</p>
+<span class="math display">\[\begin{equation}
+P[Y \in C] = P[g(X) \in C] = P[X \in \{e : g(X) \in C\}]
+\end{equation}
+\]</span>
+<p>For example: <span class="math inline">\(Y = a X + b\)</span> Then</p>
+<span class="math display">\[\begin{align}
+P[Y \leq y] &amp;= P[a X + b \leq y]\\ 
+&amp;= \begin{cases}P[X \leq \frac{y - b}{a}] &amp; a &gt; 0 \\ P[X \geq \frac{y-b}{a}] &amp; a &lt; 0\end{cases}.
+\end{align}
+\]</span>
+<p>From a CDF perspective, we write</p>
+<span class="math display">\[\begin{equation}
+F_Y(y) = \begin{cases} F_X(\frac{y-b}{a}) &amp; a &gt; 0 \\ 1 - F_X(\frac{y-b}{a}) &amp; a &lt; 0\end{cases}.
+\end{equation}
+\]</span>
+<p>To get equivalent PDF: <span class="math inline">\(\frac{d F}{dy} = \frac{dF}{du}\frac{du}{dy}\)</span>, where <span class="math inline">\(u\)</span> is the argument to <span class="math inline">\(F_X\)</span></p>
+<p>After doing the math for both cases, the result is <span class="math inline">\(f_Y(y) = \frac{1}{|a|}f_X(\frac{y-b}{a})\)</span></p>
+<ul>
+<li>Exercise: prove that a linear function of a Gaussian is also a Gaussian.
+<ul>
+<li>Substitute PDF for a gaussian into the equation above, rearrange to show that it is also in the form of a Gaussian</li>
+</ul></li>
+</ul>
+<h1 id="joint-distributions">Joint Distributions</h1>
+<ul>
+<li><p>What happens when we have more than one random variable at a time?</p></li>
+<li><p>These vector random variables map the sample space to a vector in <span class="math inline">\(R^n\)</span></p></li>
+<li><p>For two random variables, the events can be viewed as regions in the plane</p></li>
+<li><p>Probability is assigned via equivalent events:</p>
+<ul>
+<li>B is a region in <span class="math inline">\(R^n\)</span></li>
+<li>A is an event in the event class such that <span class="math inline">\(A = X^{-1}(B) = \{\xi : (X_1(\xi), X_2(\xi), ...) \in B\}\)</span></li>
+</ul></li>
+<li><p>Thus <span class="math inline">\(P[X \in B] = P[A]\)</span>.</p></li>
+<li><p>The concepts of pmf, cdf, and pdf are all extended from a single dimension</p></li>
+<li><p>pmf: <span class="math inline">\(p_{X_1, ..., X_N}(x_1,\dots x_n) = P[\{X_1 = x_1\} \cap \{X_2 = x_2\} \cap \dots \{ X_n = x_n\}]\)</span></p>
+<ul>
+<li><p>Marginal pmf - Find the probability of a single variable, regardless of the other variables:</p></li>
+<li><p>This is found by summing over all possibilities for the other values</p>
+<span class="math display">\[\begin{align}
+ p_{X_j}(x_j) &amp;= P[X = x_j \text { and } X_1, \dots X_{j-1}, X{j+1}, \dots, X_n
+            &amp;= \sum_{x_1} \dots \sum_{x_{j-1}}\sum_{x_{j+1}}\dots\sum_{x_n}p_{X_1,\dots X_n}(x_1, \dots x_n)
+\end{align}
+\]</span></li>
+</ul></li>
+<li><p>cdf: <span class="math inline">\(F_{XY}(X \leq x \text{ and } Y \leq y)\)</span></p></li>
+<li><p>pdf: <span class="math inline">\(f_{x,y}(x,y) = \frac{\partial F_{XY}(x,y)}{\partial x \partial y}\)</span>.</p>
+<ul>
+<li>Also, <span class="math inline">\(F_{X,Y}(x,y) = \int_{-\infty}^x\int_{-\infty}^yf_{XY}(u,v)dudv\)</span></li>
+</ul></li>
+<li><p>Marginal pdf: <span class="math inline">\(f_y(y) = \int_{-\infty}^{\infty}f_{XY}(u,y)du\)</span></p></li>
+<li><p>The joint pdf OR cdf OR pmf is sufficient for finding all other probabilities (marginal and conditional).</p></li>
+<li><p>Generally, the joint pdf cannot be found from the marginal pdfs alone</p></li>
+<li><p>Two random variables are independent if and only if <span class="math inline">\(p_{xy}(x_j, y_k) = p_{x}(x_j)p_y(y_j)\)</span>.</p></li>
+</ul>
+<h2 id="joint-momentsexpected-value">Joint Moments/expected value</h2>
+<p>Let Z = g(X<sub>1</sub>, … X<sub>n</sub>).</p>
+<ul>
+<li>for continuous Then <span class="math inline">\(E[Z] = \int_{-\infty}^{\infty} \dots \int_{-\infty}^{\infty}g(X_1, ... X_n)f_{X_1...X_n}(x_1, ..., x_n) dx_1 \dots dx_n\)</span></li>
+<li>for discrete, replace integral with sum.</li>
+<li>Joint moment of X and Y: <span class="math inline">\(E[X^j Y^k] = \int{-\infty}^{\infty} \int{-\infty}^{\infty}x^j y^k f_{XY}(x,y) dx dy\)</span></li>
+<li>When <span class="math inline">\(j = 0\)</span> or <span class="math inline">\(k = 0\)</span> we get the mean</li>
+<li>When <span class="math inline">\(j = k = 1\)</span> we get the correlation. If two variables are not correlated, they are "orthogonal"
+<ul>
+<li>Subtracting out the mean yields the covariance <span class="math inline">\(E[(X - E[X])(Y-E[Y])]\)</span>.</li>
+</ul></li>
+<li>Covariance measures deviation from the mean.</li>
+<li>Variables are uncorrelated if covariance is zero</li>
+<li>Independence implies uncorrelated but not the opposite (unless jointly gaussian).</li>
+</ul>
+<h1 id="more-conditional-probability">More conditional probability</h1>
+<ul>
+<li>Conditional pmf: <span class="math inline">\(p_y(y | x) = \frac{p_{xy}(x,y)}{p_x(x)}\)</span></li>
+<li>Conditional pdf: <span class="math inline">\(f_{Y}(y | x) =  \frac{f_{xy}(x,y)}{f_X(x)}\)</span></li>
+<li>Conditional expectation: <span class="math inline">\(E[Y | x] = \int_{-\infty}^{\infty}y f_Y(y | x) dy\)</span>
+<ul>
+<li>This is a function of <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(E[Y | X]\)</span> is a random variable
+<ul>
+<li>perform random experiment, get a value <span class="math inline">\(X = x_0\)</span>, which gives <span class="math inline">\(E[Y | x_0]\)</span>. Note <span class="math inline">\(E[Y] = E[E[Y|X]]\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<h1 id="more-linear-transformations">More linear transformations:</h1>
+<p>If <span class="math inline">\(Z = A X\)</span> then f<sub>z</sub>(z) = f<sub>x</sub>(A<sup>-1</sup>z)/det(A)$</p>
+<p>Jointly Gaussian Random Variables:</p>
+<ul>
+<li>Jointly gaussian random variables have a pdf of a specific form:</li>
+</ul>
+<span class="math display">\[\begin{equation}
+f_x(x) = \frac{e^{-\frac{1}{2}(x-m)^TK^{-1}(x-m)}}{(2\pi)^{n/2}|K|^{\frac{1}{2}}}
+\end{equation}
+\]</span>
+<ul>
+<li>pdf is completely specified by mean and covariance</li>
+<li>Margin distributions are guassian</li>
+<li>Conditional pdf are gaussian</li>
+</ul>
+<h1 id="conditional-independence">Conditional Independence</h1>
+<p><span class="math inline">\(P(A \cap B | C) = P(A | C)P(B |C)\)</span> Also: <span class="math inline">\(P(A | B, C) = P(A |C)\)</span> and <span class="math inline">\(P(B | A, C) = P(B |C)\)</span>.</p>
+<p>Not equivalent to independence.</p>
+<h2 id="bayes-network">Bayes Network</h2>
+<ul>
+<li>Method of representing a joint probability distribution, encoding conditional independence</li>
+<li>Each node is a random variable</li>
+<li>A directed edge from A to B, A is a parent of B. There are no cycles so the graph is a directed acyclic graph</li>
+<li>Each node has probability distribution f(X<sub>i</sub> | Parents(X<sub>i</sub>))
+<ul>
+<li>Intuitively, an arrow means influences</li>
+</ul></li>
+<li>Specify probability distribution of each node given parents, then can compute anything</li>
+<li>For discrete variables, we can specify this in terms of tables
+<ul>
+<li>Each row is probability of the event happening given a combination of parent events <span class="math inline">\(\prod_{i=1}^{n}p(x_i | parents(X_i))\)</span></li>
+<li>Exhaustively list out parent events</li>
+<li>A node is conditionally independent of it's non-descendants given its parents</li>
+</ul></li>
+</ul>
+<h2 id="example-3">Example:</h2>
+<p>See scanned image:</p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
