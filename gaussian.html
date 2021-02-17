@@ -470,6 +470,10 @@ table td {
 <li><a href="#overview">Overview</a></li>
 <li><a href="#linear-transform">Linear Transform</a></li>
 <li><a href="#conditional-distribution">Conditional Distribution</a></li>
+<li><a href="#random-number-generation-in-c">Random Number Generation in C++</a>
+<ul>
+<li><a href="#multivariate-gaussian">Multivariate Gaussian</a></li>
+</ul></li>
 <li><a href="#plotting-contours">Plotting Contours</a>
 <ul>
 <li><a href="#derivation">Derivation</a></li>
@@ -525,6 +529,43 @@ table td {
    Y \sim \mathcal{N}(\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(a - \mu_2), \Sigma_{11}- \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})
 \end{equation}
 \]</span></li>
+</ul>
+<h1 id="random-number-generation-in-c">Random Number Generation in C++</h1>
+<ul>
+<li><p>If you intend to use the <code>C++</code> standard library for generating random numbers, you can use the following <code>singleton</code> pattern to ensure that you are only seeding the random number generator once in your process.</p>
+<pre><code>#include&lt;random&gt;
+ std::mt19937 &amp; get_random()
+ {
+     // static variables inside a function are created once and persist for the remainder of the program
+     static std::random_device rd{}; 
+     static std::mt19937 mt{rd()};
+     // we return a reference to the pseudo-random number genrator object. This is always the
+     // same object every time get_random is called
+     return mt;
+ }
+
+ // To generate a gaussian variable:
+ std::normal_distribution&lt;&gt; d(mean, variance);
+ d(get_random());
+
+</code></pre></li>
+<li><p>Armadillo also has random number generation functions</p>
+<ul>
+<li>See, for example, <a href="http://arma.sourceforge.net/docs.html#randu_randn_standalone">http://arma.sourceforge.net/docs.html#randu_randn_standalone</a></li>
+<li>These random number generators are different then the built-in C++ method</li>
+</ul></li>
+</ul>
+<h2 id="multivariate-gaussian">Multivariate Gaussian</h2>
+<ul>
+<li>An algorithm for generating multivariate Gaussian noise, given mean <span class="math inline">\(m \in \mathbb{R}^n\)</span> and variance <span class="math inline">\(Q \in \mathbb{R}^{n \times n}\)</span> is as follows:
+<ol>
+<li>Let <span class="math inline">\(L\)</span> be the (lower) Cholesky decomposition of <span class="math inline">\(Q\)</span> (that is <span class="math inline">\(L\)</span> is lower triangular such that <span class="math inline">\(L L^T = Q\)</span>.
+<ul>
+<li>Use the <code>chol()</code> function from armadillo or the <code>llt()</code> function from eigen</li>
+</ul></li>
+<li>Let <span class="math inline">\(u \in \mathbb{R}^n\)</span> be generated such that each entry is independently drawn from a Gaussian distribution with mean 0 and variance 1.</li>
+<li>Then, <span class="math inline">\(v = m + Lu\)</span> will have the desired distribution</li>
+</ol></li>
 </ul>
 <h1 id="plotting-contours">Plotting Contours</h1>
 <ul>

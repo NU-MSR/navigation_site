@@ -1,0 +1,711 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#task-g-simulation">Task G (Simulation)</a>
+<ul>
+<li><a href="#task-g.000-setup">Task G.000 (Setup)</a></li>
+<li><a href="#task-g.001-robot-position">Task G.001 (Robot Position)</a></li>
+<li><a href="#task-g.002-simulation-world">Task G.002 (Simulation World)</a></li>
+<li><a href="#task-g.003-simulation-launch">Task G.003 (Simulation Launch)</a></li>
+<li><a href="#task-g.004-collision-detection">Task G.004 (Collision Detection)</a></li>
+</ul></li>
+<li><a href="#task-f.111-laser-scanner">Task F.111 (Laser Scanner)</a></li>
+<li><a href="#task-l-slam">Task L (SLAM)</a></li>
+<li><a href="#task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</a></li>
+<li><a href="#task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</a>
+<ul>
+<li><a href="#suggested-structure">Suggested Structure</a></li>
+<li><a href="#slam">SLAM</a></li>
+<li><a href="#debugging-tips">Debugging Tips</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 3</h1>
+</header>
+
+<!-- The main content of the file -->
+<p>Remember to follow the <a href="./guidelines.html">Homework Guidelines</a></p>
+<h1 id="task-g-simulation">Task G (Simulation)</h1>
+<ol>
+<li>We will be writing our own simulator for the turtlebot and SLAM</li>
+<li>The simulator will be in a package named <code>nurtlesim</code></li>
+<li>The simulator will simulate the robot kinematics and a sensor that detects the relative x, y positions of landmarks and a landmark id</li>
+</ol>
+<h2 id="task-g.000-setup">Task G.000 (Setup)</h2>
+<ol>
+<li>Create the <code>nurtlesim</code> package</li>
+<li>Copy the <code>fake_odometry.cpp</code> node from <code>rigid2d</code> into <code>nurtlesim</code> and name it to <code>tube_world.cpp</code>
+<ul>
+<li>This file will be the starting point for creating the simulation environment</li>
+</ul></li>
+<li>Copy the <code>fake_turtle_odom.launch</code> file from <code>rigid2d</code> into <code>nurtlesim</code> and name it to <code>tube_world.launch</code>
+<ul>
+<li>This file will be the starting point for launching the simulation world</li>
+</ul></li>
+<li>Make sure everything compiles and runs as expected</li>
+</ol>
+<h2 id="task-g.001-robot-position">Task G.001 (Robot Position)</h2>
+<ol>
+<li>In addition to tracking/publishing wheel angles, the <code>tube_world</code> node should track the ground truth location of the robot.</li>
+<li>The following steps should occur whenever you update the wheel positions (to simulate errors in control and odometry)
+<ol>
+<li>Add some Gaussian noise to the commanded twist (both <span class="math inline">\(v_x\)</span> and <span class="math inline">\(\dot{\theta}\)</span>).</li>
+<li>The robot follows the noise-corrupted twist (rather than the commanded twist) to move to its actual location.</li>
+<li>The wheel angles move to updated positions, assuming no slipping. Then wheel slip noise is added
+<ul>
+<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <span class="math inline">\(0\)</span> and <code>slip_max</code> and $ω= is the wheel speed.</li>
+<li>This method simulates wheels turning more than the robot actually travels, and more slipping happens when driving faster</li>
+</ul></li>
+</ol></li>
+<li>All noise values should be controllable by setting parameters for the node.
+<ul>
+<li>It is often useful to be able to set noise to zero, or set the magnitude of one noise source or another differently for testing purposes. Too bad we can't adjust noise or turn it off in the real world!</li>
+</ul></li>
+</ol>
+<h2 id="task-g.002-simulation-world">Task G.002 (Simulation World)</h2>
+<ol>
+<li>The <code>tube_world</code> must also maintain the positions of obstacles in the world. The obstacles are all cardboard tubes with a 0.0762m radius</li>
+<li>Read the following as parameters:
+<ol>
+<li>The coordinates of the tubes</li>
+<li>The radius of the tube</li>
+<li>Covariance matrix for relative x-y sensor</li>
+<li>Maximum distance beyond which tubes are not visible</li>
+</ol></li>
+<li>When the node starts, it should publish, (using a latched publisher) a MarkerArray with cylindrical markers corresponding to the locations of the tubes in the environment. This message provides the "ground truth" and allows <code>rviz</code> to display the location of the markers
+<ul>
+<li>Set the namespace (<code>ns</code>) field of the markers to <code>real</code></li>
+</ul></li>
+<li>The node consistently publishes a transform between the <em>world</em> frame and the <em>turtle</em> frame to indicate the location of the robot
+<ul>
+<li>If you want, you can also publish a markers or do other things to visually depict the actual robot location</li>
+<li>We are not displaying a <code>RobotModel</code> here because the <code>RobotModel</code> will be used to depict our estimated robot location.</li>
+</ul></li>
+<li>The node should publish a <code>nav_msgs/Path</code> on the <code>/real_path</code> topic. Rviz can use this message to show the actual robot trajectory</li>
+<li>At a frequency of 10 Hz, publish a MarkerArray on the <code>/fake_sensor</code> topic. It contains the measured positions of the tubes relative to the robot.
+<ul>
+<li>Set the namespace (<code>ns</code>) field for the markers</li>
+<li>These positions should have noise added to them based on <code>tube_var</code>.</li>
+<li>If a marker is not within <code>max_range</code>, the action for it should be set to <code>DELETE</code> To make it non-visible</li>
+<li>You can subscribe to the markers to get these "measurements", and the measurements can also be easily drawn in rviz.</li>
+<li>If you want to be fancy you can scale the marker so that it represents a level-set of the Gaussian distribution caused by the sensor noise</li>
+</ul></li>
+</ol>
+<h2 id="task-g.003-simulation-launch">Task G.003 (Simulation Launch)</h2>
+<ol>
+<li>Write a launchfile called <code>start_sim.launch</code>
+<ul>
+<li>It should start the simulation nodes</li>
+<li>It should start rviz and display the simulation state (markers, sensed markers, the <code>world</code> and <code>turtle</code> frames, the path)</li>
+<li>It should start the <code>turtlebot3_teleop_key</code> node to let you drive the robot. Driving the robot corresponds to changing the location of the <code>turtle</code> frame relative to the <code>world</code> frame
+<ul>
+<li>You should see the <code>turtle</code> frame move as you drive the robot</li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="task-g.004-collision-detection">Task G.004 (Collision Detection)</h2>
+<ol>
+<li>Implement collision detection between the simulated robot and the obstacles
+<ul>
+<li>Represent the robot as a circle with a given radius</li>
+<li>If after updating the robot's position, the robot intersects a tube
+<ul>
+<li>Compute the line between the robot center and the obstacle center</li>
+<li>Move the robot's center along this line so that the collision centers are tangent</li>
+</ul></li>
+</ul></li>
+<li>Check for collision each time you update the position of the robot actual
+<ul>
+<li>Even if there is a collision, the wheels should continue to spin</li>
+</ul></li>
+<li>You may assume that obstacles are spaced far enough apart that all collisions involve exactly one tube and the robot.</li>
+</ol>
+<h1 id="task-f.111-laser-scanner">Task F.111 (Laser Scanner)</h1>
+<ul>
+<li>In <code>nuturtle_robot</code> <code>basic_remote.launch</code> launch the <code>hlds_laser_publisher</code> node from the <code>hls_lfcd_lds_driver</code> on the <code>turtlebot</code> machine.</li>
+<li>When you run <code>nuturtle_robot</code> <code>odom_teleop</code>, in the <code>rviz</code> display, add the laser scan and make sure it shows up
+<ul>
+<li>If <code>rviz</code> crashes, you are encountering a bug that has recently been fixed. Launch <code>rviz</code> with <code>--opengl 210</code> as an argument to work around the bug.</li>
+</ul></li>
+</ul>
+<h1 id="task-l-slam">Task L (SLAM)</h1>
+<ul>
+<li>This task is about implementing Feature-Based Kalman Filter SLAM.</li>
+<li>You will do this task in a new package called <code>nuslam</code></li>
+<li>Task L.001 - outlines the main results for the task.</li>
+<li>Task L.002 - This is a subset of L.001 (implementing SLAM in a controlled environment). Once you implement this, you have completed the core algorithm.</li>
+<li>I am not mandating specific nodes or parameters or a structure for you to use. The design is up to you
+<ul>
+<li>However, following the pattern we've been using in this course of keeping calculations separate from the mechanics of the nodes may prove helpful</li>
+</ul></li>
+</ul>
+<h1 id="task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</h1>
+<ul>
+<li>This task is about the main interface for running and visualizing your algorithms.</li>
+<li>You can write whatever nodes you want, as long as you can run a <code>slam.launch</code> file as specified below and, where appropriate view the necessary visualizations.</li>
+<li>You may also need to modify some nodes to let them publish appropriate visualization topics</li>
+</ul>
+<ol>
+<li>Write a launchfile, <code>slam.launch robot:=X</code> that runs your SLAM algorithm and all other necessary nodes
+<ul>
+<li>if <code>robot == localhost</code> The robot is simulated by your simulator. Slam will use relative x, y positions and landmark ids as sensor information</li>
+<li>Later you will <code>robot == yourturtlebot.local</code> to run the code on the turtlebot.</li>
+<li>It should also start a method to control the robot
+<ul>
+<li>I find it convenient to use the turtlebot3<sub>teleop</sub> package to drive the robot during testing</li>
+</ul></li>
+</ul></li>
+<li>Visualization
+<ol>
+<li>If running in simulation: The simulation visualization</li>
+<li>A <code>nav_msgs/Path</code> showing the trajectory of the robot according only to wheel odometry</li>
+<li>A <code>nav_msgs/Path</code> showing the trajectory of the robot according to the SLAM algorithm</li>
+<li>The locations of the landmarks, according to SLAM (i.e., the map)</li>
+<li>The robot model itself should be displayed at the pose determined by the SLAM algorithm (using frames published by <code>robot_state_publisher</code>).</li>
+<li>You may find it helpful to add additional visualizations as you test and debug.</li>
+</ol></li>
+</ol>
+<h1 id="task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</h1>
+<ul>
+<li>In this task, you will test your extended Kalman Filter SLAM algorithm in the simulation environment you developed</li>
+<li>This environment will enable you to verify the correctness of the algorithm without worrying about data-association or noise</li>
+<li>You should be able to run the code for this task by specifying <code>robot:=localhost</code> with your launchfile.</li>
+<li>In the next assignment, you will be using machine learning to find landmarks from laser-scanner data.
+<ul>
+<li>The data from the simulator, however, has identifiers specifying which landmark is which whereas the laser-scanner data will not have this information</li>
+</ul></li>
+<li>The algorithm should compute the pose of the robots and the pose of the landmarks relative to a map frame.</li>
+<li>You should publish a transform from <code>map</code> to <code>odom</code> such that <code>map</code> to <code>base_footprint</code> reflects the pose of the robot in the <code>map</code> frame.
+<ul>
+<li>See <a href="https://www.ros.org/reps/rep-0105.html">ROS REP 105</a></li>
+</ul></li>
+</ul>
+<ol>
+<li>Implement extended Kalman Filter Slam, assuming a known data association. (That is you know which measurement goes with which landmark)</li>
+<li>Drive the robot along closed path in a <code>tube_world</code> with several landmarks and take a screenshot of <code>rviz</code> at the end of your run.
+<ul>
+<li>The screenshot should clearly show the actual robot position, the estimated position, the map frame, and the odom frame</li>
+<li>You should have noise enabled and a limited detection radius for this test (the radius should be small enough such that you do not see all the landmarks all the time)</li>
+<li>The robot should follow a path such that it sees all the landmarks on its journey</li>
+</ul></li>
+<li>If you set to the simulator to generate no sensor noise and have a large detection radius, the SLAM path and actual path should line-up almost exactly and the landmark positions should be correct, even if the odometry noise is still present.
+<ul>
+<li>A good way to test your algorithm (in simulation!) is to drive your robot into a landmark (to make the odometry be very wrong) and watch the map estimate remain good.</li>
+</ul></li>
+</ol>
+<h2 id="suggested-structure">Suggested Structure</h2>
+<p>The below ideas are my suggestions for how to accomplish this task; however, you may choose to ignore them.</p>
+<h2 id="slam">SLAM</h2>
+<ol>
+<li>Start with the <code>odometer.cpp</code> node from a previous homework. Copy it to the <code>nuslam</code> package and call it <code>slam.cpp</code>
+<ul>
+<li>In this guide, we will implement all SLAM functionality in a single node.</li>
+<li>This node will also implement the odometry functionality</li>
+<li>This decision makes it easier to keep everything in sync.
+<ul>
+<li>You need to be careful about synchronization. Since <code>tf</code> must be a tree we can't broadcast the <code>map</code> to <code>base_footprint</code> transform directly: instead, we must publish a <code>map</code> to <code>odom</code> transform such that the <code>map</code> to <code>base_footprint</code> transform is the desired value. Having all these quantities in the same node makes this process easier</li>
+<li>However, you lose flexibility: odometry and SLAM are now coupled: for this project the trade-off between flexibility and complication seems worth it.</li>
+</ul></li>
+</ul></li>
+<li>Prior to implementing the algorithm, make sure the visualizations are working
+<ul>
+<li>To start out, the SLAM algorithm can pretend the odometry value is also its position estimate.</li>
+<li>The inverted measurement model can provide a crude map estimate at each timestep.</li>
+<li>By taking these shortcuts you have data to visualize prior to implementing the algorithm</li>
+</ul></li>
+<li>It may be helpful to create several simulated worlds with different geometry and landmarks.</li>
+<li>As an intermediate step, you can first try to implement a linear Kalman filter for 1 Dimensional SLAM and then expand upon that.</li>
+</ol>
+<h2 id="debugging-tips">Debugging Tips</h2>
+<ul>
+<li>If your node crashes, run it in gdb as follows: <code>rosrun --prefix 'gdb --args ' packagename nodetype [...]</code></li>
+<li>You can also run a node in gdb from a launchfile using the <code>launch-prefix</code> attribute of the <code>node</code> tag, although I find this less useful since it is often quicker to debug a single node by recompiling and running that individual node rather than restarting the whole system</li>
+<li>Once in <code>gdb</code> use the command <code>r</code> to run the program. When it crashes, use <code>bt</code> to see the stack trace or use <code>up</code> and <code>down</code> to navigate stack frames.
+<ul>
+<li>If a crash is in armadillo, for example, you can repeatedly run <code>up</code> until you get to the point in your code that called the function in <code>armadillo</code> that caused the crash.</li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
