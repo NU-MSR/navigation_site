@@ -476,6 +476,7 @@ table td {
 <li><a href="#task-g.004-collision-detection">Task G.004 (Collision Detection)</a></li>
 </ul></li>
 <li><a href="#task-f.111-laser-scanner">Task F.111 (Laser Scanner)</a></li>
+<li><a href="#task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</a></li>
 <li><a href="#task-l-slam">Task L (SLAM)</a></li>
 <li><a href="#task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</a></li>
 <li><a href="#task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</a>
@@ -603,6 +604,18 @@ table td {
 <li>If <code>rviz</code> crashes, you are encountering a bug that has recently been fixed. Launch <code>rviz</code> with <code>--opengl 210</code> as an argument to work around the bug.</li>
 </ul></li>
 </ul>
+<h1 id="task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</h1>
+<ol>
+<li><p>Download this tarball <a href="https://drive.google.com/file/d/1ww0N9QpqkrkI1J578jvHYvKZMStWMRJL/view?usp=sharing">armadillo.tar.gz</a></p></li>
+<li><p>Copy it to the turtlebot: <code>scp armadillo.tar.gz ubuntu@turtlebot:/tmp</code></p></li>
+<li><p>ssh into the turtlebot and run the following commands</p>
+<pre><code>cd /tmp
+tar xf armadillo.tar.gz
+cd armadillo
+sudo dpkg -i *.deb
+</code></pre></li>
+<li><p>This installs the armadillo library, a matrix library for C++ on the turtlebot.</p></li>
+</ol>
 <h1 id="task-l-slam">Task L (SLAM)</h1>
 <ul>
 <li>This task is about implementing Feature-Based Kalman Filter SLAM.</li>
