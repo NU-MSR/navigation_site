@@ -468,7 +468,7 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#setup">Setup</a></li>
-<li><a href="#the-derivation">The Derivation</a>
+<li><a href="#the-results">The Results</a>
 <ul>
 <li><a href="#initialize">Initialize</a></li>
 <li><a href="#predict">Predict</a></li>
@@ -500,30 +500,41 @@ table td {
 <li>Linear state space system:</li>
 </ol>
 <span class="math display">\[\begin{align}
-x(k) &amp;= Ax(k-1) + Bu(k-1) + w(k-1) \\
-z(k) &amp;= Hx(k) + v(k)
+x_k &amp;= Ax_{k-1} + Bu_{k-1} + w_{k-1} \tag{1} \\
+z_k &amp;= Hx_k + v_k \tag{2}
 \end{align}
 \]</span>
 <ol>
-<li>Gaussian process noise <span class="math inline">\(w(k) \sim \mathcal{N}(0, Q)\)</span></li>
-<li>Guassian sensor noise <span class="math inline">\(v(k) \sim \mathcal{N}(0, R)\)</span></li>
-<li>Noise is independent of state.</li>
+<li>The state at time <span class="math inline">\(k\)</span> is <span class="math inline">\(x_k\)</span> and the measurement at that time is <span class="math inline">\(z_k\)</span></li>
+<li>The inputs are known.</li>
+<li>Initial state <span class="math inline">\(x_0 \sim \mathcal{N}(q_0, \Sigma_0)\)</span></li>
+<li>Gaussian process noise <span class="math inline">\(w_k \sim \mathcal{N}(0, Q)\)</span>
+<ul>
+<li>Noise at each step is independent (independent, identicially distributed or iid).</li>
+</ul></li>
+<li>Gaussian sensor noise <span class="math inline">\(v_k \sim \mathcal{N}(0, R)\)</span>
+<ul>
+<li>(i.i.d noise)</li>
+</ul></li>
+<li>Noise is independent of state.
+<ul>
+<li>Can also be just a known correlation, but we simplify here</li>
+</ul></li>
 </ol>
-<h1 id="the-derivation">The Derivation</h1>
-<p>After deriving the filter, the estimator is a two-step predictor-corrector process: (see chalkboard for now)</p>
+<h1 id="the-results">The Results</h1>
 <h2 id="initialize">Initialize</h2>
 <p>An initial Gaussian distribution representing your knowledge of the initial state. The Gaussian is <span class="math inline">\(\mathcal{N}(\hat{x}_0, \Sigma_0)\)</span>.</p>
 <h2 id="predict">Predict</h2>
 <p>Propagate the state and uncertainty forward:</p>
 <span class="math display">\[\begin{align}
-\hat{x}_k^- &amp;= A\hat{x}_{k-1} + Bu(k-1) \\
+\hat{x}_k^- &amp;= A\hat{x}_{k-1} + Bu_{k-1} \\
 \Sigma_k^- &amp;= A\Sigma_{k-1}A^T + Q
 \end{align}
 \]</span>
 <h2 id="correct">Correct</h2>
 <p>Update the estimate based on the sensor measurement. The Kalman gain <span class="math inline">\(K\)</span> controls the relative importance of the estimate from the model and from the measurement</p>
 <span class="math display">\[\begin{align}
-K_k &amp;= \Sigma_k^{-}H^T(H K_k H^T + R)^{-1}\\
+K_k &amp;= \Sigma_k^{-}H^T(H \Sigma_k^{-} H^T + R)^{-1}\\
 \hat{x}_k &amp;= \hat{x}_k^- + K_k(z(k) - H\hat{x}_k^-)\\
 \Sigma_k &amp;= (I - K_kH)\Sigma_k^-
 \end{align}
@@ -544,7 +555,7 @@ z(k) &amp;= h(x(k), v(k))
 \]</span>
 <p>To approximate the state, set the noise to zero and propagate the previous state forward to the next timestep:</p>
 <span class="math display">\[\begin{equation}
-\tilde{x}(k)  = g(\hat{x}(k-1), u(k-1), 0) 
+\tilde{x}(k)  = g(\hat{x}_{k-1}, u_{k-1}, 0) 
 \end{equation}
 \]</span>
 <p>To approximate the measurement that could be expected from a given state use the previous state estimate and set noise to zero:</p>
@@ -557,7 +568,7 @@ z(k) &amp;= h(x(k), v(k))
 </ol>
 <span class="math display">\[\begin{align}
 x(k) &amp;\approx g(\hat{x}_{k-1}, u_k, 0) + A_k (x_{k-1} - \hat{x}_{k-1}) +  W_k w_{k-1}\\
-z(k) &amp;\approx h(\hat{x}_k) + H_k (x_{k} - \tilde{x}_{k}) + V_k  v_k
+z(k) &amp;\approx h(\hat{x}_k, 0) + H_k (x_{k} - \tilde{x}_{k}) + V_k  v_k
 \end{align}
 \]</span>
 <p>with</p>
@@ -568,7 +579,7 @@ H_k &amp;= \frac{d h}{dx}\Bigr\rvert_{\tilde{x}_k-1, u_{k-1},0} \\
 V_k &amp;= \frac{d h}{dv}\Bigr\rvert_{\tilde{x}_{k-1}, u_{k-1},0}
 \end{align}
 \]</span>
-<p>Let the random variable <span class="math inline">\(\tilde{w} = W_k w_k\)</span> be distributed as a Gaussian with <span class="math inline">\(\mathcal{N}(0, W_kQW_k^T)\)</span> and <span class="math inline">\(\tilde{v} = V_k v_k \sim \mathcal{N}(0 V_kR_vk^T)\)</span></p>
+<p>Let the random variable <span class="math inline">\(\tilde{w} = W_k w_k\)</span> be distributed as a Gaussian with <span class="math inline">\(\mathcal{N}(0, W_kQW_k^T)\)</span> and <span class="math inline">\(\tilde{v} = V_k v_k \sim \mathcal{N}(0, V_kR_vk^T)\)</span></p>
 <ol>
 <li>Approximate linear system. We next show that the dynamics of the estimation error can be modeled as a linear system. Thus, a Kalman filter can be used to estimate the estimation error!</li>
 </ol>
@@ -581,10 +592,10 @@ V_k &amp;= \frac{d h}{dv}\Bigr\rvert_{\tilde{x}_{k-1}, u_{k-1},0}
 <p>Using the above equations in the 1st order approximation of the system (from the Taylor expansion) yields the approximate error dynamics</p>
 <span class="math display">\[\begin{align}
 \tilde{e}_{x_k} &amp;\approx A_k(x_{k-1} - \hat{x}_{k-1}) + \tilde{w}_{k-1} \\
-\tilde{e}_{z_k} &amp; \approx H_k(z_{k} - \tilde{z}_{k}) + \tilde{v}_k
+\tilde{e}_{z_k} &amp; \approx H_k(x_{k} - \tilde{x}_{k}) + \tilde{v}_k
 \end{align}
 \]</span>
-<p>If we let the estimate <span class="math inline">\(\hat{x}_{k}\)</span> be <span class="math inline">\(\tilde{x}_{k-1}\)</span>, the equations above become state equations in <span class="math inline">\(\tilde{e}_{x_k}\)</span></p>
+<p>If we let the estimate <span class="math inline">\(\hat{x}_{k-1}\)</span> be <span class="math inline">\(\tilde{x}_{k-1}\)</span>, the equations above become state equations in <span class="math inline">\(\tilde{e}_{x_k}\)</span></p>
 <span class="math display">\[\begin{align}
 \tilde{e}_{x_k} &amp;\approx A_k\tilde{e}_{x_{k-1}} + \tilde{w}_{k-1} \\
 \tilde{e}_{z_k} &amp; \approx H_k\tilde{e}_{x_k} + \tilde{v}_k,
@@ -606,21 +617,21 @@ V_k &amp;= \frac{d h}{dv}\Bigr\rvert_{\tilde{x}_{k-1}, u_{k-1},0}
 \]</span>
 <p>From the error equation, we substitute <span class="math inline">\(\hat{x}_k\)</span> for <span class="math inline">\(x\)</span> and <span class="math inline">\(\hat{e}_k\)</span> for <span class="math inline">\(\tilde{e}_{x_k}\)</span></p>
 <span class="math display">\[\begin{align}
-\hat{x}_k &amp;= \hat{e}_k + x_k \\
-          &amp;= \tilde{x}_k + K\tilde{E}_{z_k} \\
+\hat{x}_k &amp;= \hat{e}_k + \tilde{x}_k \\
+          &amp;= \tilde{x}_k + K\tilde{e}_{z_k} \\
           &amp;= \tilde{x}_k + K(z_k - \tilde{z}_k)
 \end{align}
 \]</span>
 <p>What the above shows is that finding the mean of the error for the linear error system is the same as finding the mean of the state for that same system, just shifted by the prediction <span class="math inline">\(\tilde{x}_k\)</span>. What about the covariance? (exercise)</p>
-<p>Thus, we use the linearized system for computing the Kalman gain and the measurement update. However, the prediction <span class="math inline">\(\tilde{x}_k\)</span> is approximated with <span class="math inline">\(g(\hat{x}_{k-1},u_{k-1},0\)</span> and the predicted measurement <span class="math inline">\(\tilde{z}_k\)</span> is approximated with <span class="math inline">\(h(\tilde{x}_k, 0)\)</span>. Uncertainty is propagated using the linearized model.</p>
+<p>Thus, we use the linearized system for computing the Kalman gain and the measurement update. However, the prediction <span class="math inline">\(\tilde{x}_k\)</span> is approximated with <span class="math inline">\(g(\hat{x}_{k-1},u_{k-1},0)\)</span> and the predicted measurement <span class="math inline">\(\tilde{z}_k\)</span> is approximated with <span class="math inline">\(h(\tilde{x}_k, 0)\)</span>. Uncertainty is propagated using the linearized model.</p>
 <h2 id="ekf-filtering-equations">EKF Filtering Equations</h2>
 <ul>
 <li>I am using <span class="math inline">\(A_k\)</span>, <span class="math inline">\(H_k\)</span>, <span class="math inline">\(W_k\)</span> and <span class="math inline">\(V_k\)</span> as the linearized matrices.</li>
 </ul>
 <p>Prediction:</p>
 <span class="math display">\[\begin{align}
-\tilde{x}_k = g(\hat{x}_{k-1}, u_{k-1}, 0)
-\Sigma_k^- = A_k\Sigma_{k-1}A_k^T+W_k Q_{k-1} W_k^T
+\tilde{x}_k &amp;= g(\hat{x}_{k-1}, u_{k-1}, 0)\\
+\Sigma_k^- &amp;= A_k\Sigma_{k-1}A_k^T+W_k Q_{k-1} W_k^T
 \end{align}
 \]</span>
 <p>Correction</p>
@@ -630,9 +641,8 @@ K &amp;=\Sigma_k^-H_k^T(H_k\Sigma_k^-H_k^T + V_k R_k V_k^T)^{-1}\\
 \Sigma_k &amp;= (I - K H_k)\Sigma_k^-
 \end{align}
 \]</span>
-<p>Next, we need to estimate <span class="math inline">\(\tilde{e}_{x_k}\)</span> (which can't be computed because <span class="math inline">\(x_k\)</span> is unknown.</p>
 <h1 id="further-reading">Further Reading</h1>
-<p><a href="https://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf">An Introduction to the Kalman Filter (Welch, Bishop 2005, UNC<sub>Chapel</sub> Hill TR 95-041)</a></p>
+<p><a href="https://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf">An Introduction to the Kalman Filter (Welch, Bishop 2005, UNC_Chapel Hill TR 95-041)</a></p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

@@ -7,8 +7,7 @@ Modified by Matthew Elwin.
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<meta name="author" content="Matthew Elwin" />
-<title>ME495 Sensing, Navigation, and Machine Learing for Robotics</title>
+<title>slam</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,14 +465,9 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#homework">Homework</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#resources">Resources</a>
-<ul>
-<li><a href="#ros-and-robotics">ROS and Robotics</a></li>
-<li><a href="#c">C++</a></li>
-</ul></li>
+<li><a href="#three-rings-of-robot-motion">Three Rings of Robot Motion</a></li>
+<li><a href="#history-of-slam">History of SLAM</a></li>
+<li><a href="#ros-considerations">ROS Considerations</a></li>
 </ul>
 </nav>
 
@@ -483,86 +477,47 @@ table td {
 <div class="content">
   <div class="inner">
     <div class="no-foot">
-<!-- Put the header to the right of the table of contents -->
-<header id="title-block-header">
-<h1 class="title">ME495 Sensing, Navigation, and Machine Learing for Robotics</h1>
-</header>
 
 <!-- The main content of the file -->
-<h1 id="homework">Homework</h1>
-<ol>
-<li><a href="./guidelines.html">Guidelines</a> (Read this first)</li>
-<li><a href="./homework01.html">Homework 1</a></li>
-<li><a href="./homework02.html">Homework 2</a></li>
-<li><a href="./homework03.html">Homework 3</a></li>
-</ol>
-<h1 id="notes">Notes</h1>
-<ol>
-<li><a href="./cmake_basics.html">CMake Basics</a></li>
-<li><a href="./node_structure.html">Node Structure</a></li>
-<li><a href="./rigid2d.html">2D Transforms Review</a></li>
-<li><a href="./derive_kinematics.html">Derive Kinematics</a></li>
-<li><a href="./odometry.html">Odometry</a></li>
-<li><a href="./unit_test_cpp.html">Unit Testing</a></li>
-<li><a href="./cross-compile.html">Cross Compiling</a></li>
-<li><a href="./remote_nodes.html">Remote Nodes</a></li>
-<li><a href="./probability.html">Probability Review</a></li>
-<li><a href="./estimation_example.html">Estimation Example</a></li>
-<li><a href="./gaussian.html">Gaussian Random Variables</a></li>
-<li><a href="./kalman_filter.html">Kalman Filter</a></li>
-</ol>
-<h1 id="activities">Activities</h1>
-<ol>
-<li><a href="http://wiki.ros.org/roscpp/Tutorials">The ROS C++ Tutorials</a></li>
-<li><a href="./fsm_activity.html">Finite State Machine Activity</a></li>
-</ol>
-<h1 id="resources">Resources</h1>
-<p>The following resources will be useful in this course.</p>
-<h2 id="ros-and-robotics">ROS and Robotics</h2>
+<h1 id="three-rings-of-robot-motion">Three Rings of Robot Motion</h1>
 <ul>
-<li><a href="https://nu-msr.github.io/me495_site/">Notes from ME495 Embedded Systems in Robotics (Intro to ROS)</a></li>
-<li><a href="https://wiki.ros.org">ROS wiki</a></li>
-<li><a href="https://answers.ros.org">ROS Answers</a> Stack Overflow for ROS, many core ROS developers will answer questions on this website.</li>
-<li><a href="http://hades.mech.northwestern.edu/index.php/Modern_Robotics">Modern Robotics, by Kevin Lynch and Frank Park</a></li>
-<li><a href="http://planning.cs.uiuc.edu">Planning Algorithms by Steven M. LaValle</a></li>
+<li>Localization</li>
+<li>Mapping</li>
+<li>Navigation</li>
 </ul>
-<h2 id="c">C++</h2>
+<h1 id="history-of-slam">History of SLAM</h1>
 <ul>
-<li>Professional C++ 4th Edtion by Marc Gregoire (Available online through the Northwestern Library).</li>
-<li>A Tour of C++ by Bjarne Stroustrup (Available online through the Northwestern Library)</li>
-<li>More Effective C++ by Scott Meyers (Available online through the Northwestern Library)
+<li>Minotaur (Theseus using string to navigate)</li>
+<li>Hansel and Gretl - breadcrumbs to navigate</li>
+<li>The stone the vikings used</li>
+<li>Sextant</li>
+<li>Astrolabe</li>
+<li>Trilateration</li>
+<li>Accurate clocks for longitude</li>
+<li>beacons (VFR, LORAN, GPS)</li>
+<li>Polynesian wave people</li>
+</ul>
+<h1 id="ros-considerations">ROS Considerations</h1>
 <ul>
-<li>Best practices for C++, but pre c++11</li>
+<li>Frequency at which laser scan data comes in and odometry comes in is different
+<ul>
+<li>typically laser scan is much slower then odometry</li>
 </ul></li>
-<li>Effective Modern C++ by Scott Meyers (Available online through the Northwestern Library)
+<li>We can handle this with map and odom frames.</li>
+<li>Parent relationship is map -&gt; odom -&gt; base<sub>link</sub></li>
+<li>the slam node updates only the map frame</li>
+<li>the odometry node updates only the odometry frame
 <ul>
-<li>Best practices for C++11</li>
+<li>So every time odometry comes in, the robot's estimate relative to odom changes, but map-&gt;odom is the same, therefore, it is automatically like "we have this map frame, now we are moving where we are in it at a small scale due to odometry</li>
 </ul></li>
-<li>Effective STL by Scott Meyers (Available online through the Northwestern Library)
+<li>odometry is an uncertainty increasing move:</li>
+<li>WHen the laster data comes in, slam updates the map
 <ul>
-<li>How to use the standard template library. Pre C++11</li>
+<li>map update accounts for the odometry having changed, so immediately after map is updated, robot's position relative to the map frame is where slam says it should be</li>
 </ul></li>
-<li><a href="http://en.cppreference.com/w/">cppreference.com</a> A good reference website for C++ that is usually correct and up-to-date with the standards.
-<ul>
-<li>www.cplusplus.com. This website usually comes up on google before cppreference but is not good. It is seemingly "beginner friendly" but it also contains outdated information and often reinforces bad habits.</li>
-</ul></li>
-<li><a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">C++ Core Guidelines</a>
-<ul>
-<li>Formalizes best practices for C++, written by Bjarne Stroustrup (creator of C++) and Herb Sutter (very involved in C++ standards committee)</li>
-</ul></li>
-<li><a href="https://herbsutter.com/gotw/">GotW</a> Good source for C++ best practices</li>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/n4713.pdf">Draft of the C++17 Standard</a>
-<ul>
-<li>Hard to read but contains almost the final word about the mechanics of C++17</li>
-<li>The actual ISO standard can be purchased <a href="https://www.iso.org/standard/68564.html">here</a> for 198 Swiss Francs
-<ul>
-<li>Maybe the Northwestern Library will obtain it for you if it were actually needed.</li>
-</ul></li>
-</ul></li>
+<li>This keeps odom frame always smooth but drifting, but map is always corrected for this drift</li>
 </ul>
 </div>
-<div class="footer">
-Author: Matthew Elwin.
 </div>
 </div>
 </div>
