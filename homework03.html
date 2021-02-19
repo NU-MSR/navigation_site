@@ -475,12 +475,6 @@ table td {
 <li><a href="#task-g.003-simulation-launch">Task G.003 (Simulation Launch)</a></li>
 <li><a href="#task-g.004-collision-detection">Task G.004 (Collision Detection)</a></li>
 </ul></li>
-<li><a href="#task-f">Task F</a>
-<ul>
-<li><a href="#task-f.101-functionality">Task F.101 (Functionality)</a></li>
-<li><a href="#task-f.111-laser-scanner">Task F.111 (Laser Scanner)</a></li>
-<li><a href="#task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</a></li>
-</ul></li>
 <li><a href="#task-l-slam">Task L (SLAM)</a></li>
 <li><a href="#task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</a></li>
 <li><a href="#task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</a>
@@ -488,6 +482,12 @@ table td {
 <li><a href="#suggested-structure">Suggested Structure</a></li>
 <li><a href="#slam">SLAM</a></li>
 <li><a href="#debugging-tips">Debugging Tips</a></li>
+</ul></li>
+<li><a href="#task-f">Task F</a>
+<ul>
+<li><a href="#task-f.101-functionality">Task F.101 (Functionality)</a></li>
+<li><a href="#task-f.111-laser-scanner">Task F.111 (Laser Scanner)</a></li>
+<li><a href="#task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -600,38 +600,6 @@ table td {
 </ul></li>
 <li>You may assume that obstacles are spaced far enough apart that all collisions involve exactly one tube and the robot.</li>
 </ol>
-<h1 id="task-f">Task F</h1>
-<p>Where we take a fresh look at the previous homework.</p>
-<h2 id="task-f.101-functionality">Task F.101 (Functionality)</h2>
-<ul>
-<li>Having the ability to run odometry on the turtlebot and control its motion will be crucial</li>
-<li>Take this opportunity to complete Task F from the previous assignment, if you have not already done so.</li>
-<li>The crucial components are
-<ul>
-<li>F.000, F.001, F.002, F.003, F.004, F.005, F.007 (Odometry Teleop Launch)</li>
-<li>You should drive your robot and make sure the odometry makes sense</li>
-</ul></li>
-</ul>
-<h2 id="task-f.111-laser-scanner">Task F.111 (Laser Scanner)</h2>
-<ul>
-<li>In <code>nuturtle_robot</code> <code>basic_remote.launch</code> launch the <code>hlds_laser_publisher</code> node from the <code>hls_lfcd_lds_driver</code> on the <code>turtlebot</code> machine.</li>
-<li>When you run <code>nuturtle_robot</code> <code>odom_teleop</code>, in the <code>rviz</code> display, add the laser scan and make sure it shows up
-<ul>
-<li>If <code>rviz</code> crashes, you are encountering a bug that has recently been fixed. Launch <code>rviz</code> with <code>--opengl 210</code> as an argument to work around the bug.</li>
-</ul></li>
-</ul>
-<h2 id="task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</h2>
-<ol>
-<li><p>Download this tarball <a href="https://drive.google.com/file/d/1ww0N9QpqkrkI1J578jvHYvKZMStWMRJL/view?usp=sharing">armadillo.tar.gz</a></p></li>
-<li><p>Copy it to the turtlebot: <code>scp armadillo.tar.gz ubuntu@turtlebot:/tmp</code></p></li>
-<li><p>ssh into the turtlebot and run the following commands</p>
-<pre><code>cd /tmp
-tar xf armadillo.tar.gz
-cd armadillo
-sudo dpkg -i *.deb
-</code></pre></li>
-<li><p>This installs the armadillo library, a matrix library for C++ on the turtlebot.</p></li>
-</ol>
 <h1 id="task-l-slam">Task L (SLAM)</h1>
 <ul>
 <li>This task is about implementing Feature-Based Kalman Filter SLAM.</li>
@@ -729,6 +697,39 @@ sudo dpkg -i *.deb
 <li>If a crash is in armadillo, for example, you can repeatedly run <code>up</code> until you get to the point in your code that called the function in <code>armadillo</code> that caused the crash.</li>
 </ul></li>
 </ul>
+<h1 id="task-f">Task F</h1>
+<p>Where we take a fresh look at the previous homework.</p>
+<h2 id="task-f.101-functionality">Task F.101 (Functionality)</h2>
+<ul>
+<li>Having the ability to run odometry on the turtlebot and control its motion will be crucial</li>
+<li>Take this opportunity to complete Task F from the previous assignment, if you have not already done so.</li>
+<li>Otherwise, your turtle will be trapped in a simulation.</li>
+<li>The crucial components are
+<ul>
+<li>F.000, F.001, F.002, F.003, F.004, F.005, F.007 (Odometry Teleop Launch)</li>
+<li>You should drive your robot and make sure the odometry makes sense</li>
+</ul></li>
+</ul>
+<h2 id="task-f.111-laser-scanner">Task F.111 (Laser Scanner)</h2>
+<ul>
+<li>In <code>nuturtle_robot</code> <code>basic_remote.launch</code> launch the <code>hlds_laser_publisher</code> node from the <code>hls_lfcd_lds_driver</code> on the <code>turtlebot</code> machine.</li>
+<li>When you run <code>nuturtle_robot</code> <code>odom_teleop</code>, in the <code>rviz</code> display, add the laser scan and make sure it shows up
+<ul>
+<li>If <code>rviz</code> crashes, you are encountering a bug that has recently been fixed. Launch <code>rviz</code> with <code>--opengl 210</code> as an argument to work around the bug.</li>
+</ul></li>
+</ul>
+<h2 id="task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</h2>
+<ol>
+<li><p>Download this tarball <a href="https://drive.google.com/file/d/1ww0N9QpqkrkI1J578jvHYvKZMStWMRJL/view?usp=sharing">armadillo.tar.gz</a></p></li>
+<li><p>Copy it to the turtlebot: <code>scp armadillo.tar.gz ubuntu@turtlebot:/tmp</code></p></li>
+<li><p>ssh into the turtlebot and run the following commands</p>
+<pre><code>cd /tmp
+tar xf armadillo.tar.gz
+cd armadillo
+sudo dpkg -i *.deb
+</code></pre></li>
+<li><p>This installs the armadillo library, a matrix library for C++ on the turtlebot.</p></li>
+</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
