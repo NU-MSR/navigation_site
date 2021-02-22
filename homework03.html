@@ -475,10 +475,10 @@ table td {
 <li><a href="#task-g.003-simulation-launch">Task G.003 (Simulation Launch)</a></li>
 <li><a href="#task-g.004-collision-detection">Task G.004 (Collision Detection)</a></li>
 </ul></li>
-<li><a href="#task-l-slam">Task L (SLAM)</a></li>
-<li><a href="#task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</a></li>
-<li><a href="#task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</a>
+<li><a href="#task-l-slam">Task L (SLAM)</a>
 <ul>
+<li><a href="#task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</a></li>
+<li><a href="#task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</a></li>
 <li><a href="#suggested-structure">Suggested Structure</a></li>
 <li><a href="#slam">SLAM</a></li>
 <li><a href="#debugging-tips">Debugging Tips</a></li>
@@ -533,8 +533,8 @@ table td {
 <li>The robot follows the noise-corrupted twist (rather than the commanded twist) to move to its actual location.</li>
 <li>The wheel angles move to updated positions, assuming no slipping. Then wheel slip noise is added
 <ul>
-<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <span class="math inline">\(0\)</span> and <code>slip_max</code> and <span class="math inline">\(\omega\)</span> is the wheel speed.</li>
-<li>This method simulates wheels turning more than the robot actually travels, and more slipping happens when driving faster</li>
+<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <code>slip_min</code> and <code>slip_max</code> and <span class="math inline">\(\omega\)</span> is the wheel speed.</li>
+<li>This method simulates wheels turning more or less than the robot actually travels, and more slipping happens when driving faster</li>
 </ul></li>
 </ol></li>
 <li>All noise values should be controllable by setting parameters for the node.
@@ -611,7 +611,7 @@ table td {
 <li>However, following the pattern we've been using in this course of keeping calculations separate from the mechanics of the nodes may prove helpful</li>
 </ul></li>
 </ul>
-<h1 id="task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</h1>
+<h2 id="task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</h2>
 <ul>
 <li>This task is about the main interface for running and visualizing your algorithms.</li>
 <li>You can write whatever nodes you want, as long as you can run a <code>slam.launch</code> file as specified below and, where appropriate view the necessary visualizations.</li>
@@ -637,7 +637,7 @@ table td {
 <li>You may find it helpful to add additional visualizations as you test and debug.</li>
 </ol></li>
 </ol>
-<h1 id="task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</h1>
+<h2 id="task-l.002-slam-in-controlled-environment">Task L.002 (SLAM in controlled environment)</h2>
 <ul>
 <li>In this task, you will test your extended Kalman Filter SLAM algorithm in the simulation environment you developed</li>
 <li>This environment will enable you to verify the correctness of the algorithm without worrying about data-association or noise</li>
