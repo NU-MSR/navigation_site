@@ -533,7 +533,7 @@ table td {
 <li>The robot follows the noise-corrupted twist (rather than the commanded twist) to move to its actual location.</li>
 <li>The wheel angles move to updated positions, assuming no slipping. Then wheel slip noise is added
 <ul>
-<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <span class="math inline">\(0\)</span> and <code>slip_max</code> and $ω= is the wheel speed.</li>
+<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <span class="math inline">\(0\)</span> and <code>slip_max</code> and <span class="math inline">\(\omega\)</span> is the wheel speed.</li>
 <li>This method simulates wheels turning more than the robot actually travels, and more slipping happens when driving faster</li>
 </ul></li>
 </ol></li>
