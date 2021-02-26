@@ -573,7 +573,7 @@ table td {
 <li>Plotting the ellipsoid of a Gaussian is an excellent method of visualizing it (at least in 2 or 3 dimensions).</li>
 </ul>
 <ol>
-<li>Diagonalize <span class="math inline">\(\Sigma\)</span>, so that <span class="math inline">\(\Sigma = P \Lambda P^T\)</span>, where the columns of <span class="math inline">\(P\)</span> are eigenvectors of <span class="math inline">\(Sigma\)</span> and <span class="math inline">\(\Lambda\)</span> is a diagonal matrix of eigenvalues, where <span class="math inline">\(P\)</span> are orthogonal matrices <span class="math inline">\(PP^T = P^TP = I\)</span> (we can do this since covariance is positive definite).</li>
+<li>Diagonalize <span class="math inline">\(\Sigma\)</span>, so that <span class="math inline">\(\Sigma = P \Lambda P^T\)</span>, where the columns of <span class="math inline">\(P\)</span> are eigenvectors of <span class="math inline">\(\Sigma\)</span> and <span class="math inline">\(\Lambda\)</span> is a diagonal matrix of eigenvalues, where <span class="math inline">\(P\)</span> are orthogonal matrices <span class="math inline">\(PP^T = P^TP = I\)</span> (we can do this since covariance is positive definite).</li>
 </ol>
 <ul>
 <li>The lengths of the major axes of the ellipse correspond to the inverse eigenvalues of Σ.</li>
@@ -583,7 +583,7 @@ table td {
 <span class="math display">\[\begin{align}
   c &amp;= (2\pi)^{-\frac{k}{2}}\det{\Sigma}^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)} \\
   c&#39; &amp;= e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)} \\
-  c&#39;&#39; &amp;= (x - \mu)^T\Sigma{-1}(x-\mu) \\
+  c&#39;&#39; &amp;= (x - \mu)^T\Sigma^{-1}(x-\mu) \\
   c&#39;&#39; &amp;= (x - \mu)^T(P\Lambda P^T)^{-1}(x-\mu) \\
   c&#39;&#39; &amp;= (x-\mu)^TP\Lambda^{-1}P^T(x-\mu) \\
   c&#39;&#39; &amp;= y^T \Lambda^{-1} y,
