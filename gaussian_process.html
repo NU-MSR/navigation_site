@@ -1,0 +1,755 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Gaussian Processes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#supervised-learning">Supervised Learning</a>
+<ul>
+<li><a href="#applications">Applications</a></li>
+</ul></li>
+<li><a href="#linear-regression-gaussian-noise">Linear Regression, Gaussian Noise</a>
+<ul>
+<li><a href="#the-model">The Model</a></li>
+<li><a href="#finding-the-weights">Finding the Weights</a></li>
+</ul></li>
+<li><a href="#non-linear-functions">Non-linear functions:</a>
+<ul>
+<li><a href="#some-manipulations">Some Manipulations</a></li>
+</ul></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#random-process">Random Process</a>
+<ul>
+<li><a href="#another-look-at-linear-regression">Another look at linear regression</a></li>
+</ul></li>
+<li><a href="#model-selection-and-hyperparameters">Model Selection and Hyperparameters</a></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Gaussian Processes</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="supervised-learning">Supervised Learning</h1>
+<p>Training set of <span class="math inline">\(n\)</span> observations: <span class="math inline">\(\mathcal{D} = \{(x_1, y_1) \dots (x_n, y_n)\}\)</span>.</p>
+<p>The input vectors are <span class="math inline">\(x_i \in \mathbb{R}^D\)</span> and the output (dependent variable) is <span class="math inline">\(y_i \in \mathbb{R}\)</span>.</p>
+<p>Let <span class="math inline">\(X \in \mathbb{R}^{D \times n}\)</span> be the design matrix: column <span class="math inline">\(i\)</span> of <span class="math inline">\(X\)</span> corresponds to the input vector <span class="math inline">\(x_i\)</span>:</p>
+<span class="math display">\[\begin{equation}
+ X = \begin{bmatrix} x_1 &amp; \dots &amp; x_n \end{bmatrix} \in \mathbb{R}^{D \times n}
+\end{equation}
+\]</span>
+<p>and let <span class="math inline">\(y \in \mathbb{R}^n\)</span> be a vector where each element is the output:</p>
+<span class="math display">\[\begin{equation}
+y = \begin{bmatrix} y_1 \\ \vdots \\ y_n \end{bmatrix}.
+\end{equation}
+\]</span>
+<p>Given a previously unseen input <span class="math inline">\(x_\ast\)</span> can we predict the output <span class="math inline">\(y_\ast\)</span>?</p>
+<ul>
+<li>Given <span class="math inline">\(\mathcal{D}\)</span> find <span class="math inline">\(y = f(x)\)</span></li>
+</ul>
+<h2 id="applications">Applications</h2>
+<ul>
+<li>Depth data from monocular images</li>
+<li>Mapping terrain</li>
+<li>Mapping an environmental quantity (such as temperature)</li>
+<li>Classification</li>
+</ul>
+<h1 id="linear-regression-gaussian-noise">Linear Regression, Gaussian Noise</h1>
+<h2 id="the-model">The Model</h2>
+<ol>
+<li>The model: <span class="math inline">\(y_i = f(x_i) + \epsilon_i\)</span>, where <span class="math inline">\(f(x) = x^T w\)</span> and <span class="math inline">\(\epsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span>.
+<ul>
+<li><p>Noise is independent of the function value and other noise values: that is</p>
+<span class="math display">\[\begin{equation}
+ \epsilon = \begin{bmatrix}\epsilon_1 \\ \vdots \\ \epsilon_n\end{bmatrix} \sim \mathcal{N}(0, \sigma^2 I_{n \times n})
+\end{equation}
+\]</span></li>
+<li><p>The goal of the regression is to find <span class="math inline">\(f(x)\)</span>, which in this case consists of finding the weights <span class="math inline">\(w \in \mathbb{R}^D\)</span></p></li>
+<li><p>Without seeing any data, the weights are randomly distributed:</p>
+<span class="math display">\[\begin{equation}
+  w \sim \mathcal{N}(0, \Sigma)
+\end{equation}
+\]</span></li>
+</ul></li>
+</ol>
+<h2 id="finding-the-weights">Finding the Weights</h2>
+<ol>
+<li><p>Write the posterior distribution of the weights using Bayes rule:</p>
+<span class="math display">\[\begin{equation}
+    p(w | y, X) = \frac{p(y | X, w) p(w)}{p(y | X)}
+\end{equation}
+\]</span>
+<ul>
+<li>We can apply Bayes rule directly, because we know <span class="math inline">\(p(w)\)</span> and can compute <span class="math inline">\(p(y | X, w)\)</span> from the formula for the model.</li>
+</ul></li>
+<li><p>The likelihood is <span class="math inline">\(p(y | X, w) = \mathcal{N}(X^T w, \sigma^2 I_{n \times n})\)</span>.</p>
+<ul>
+<li><p>This formula follows from the independence of each <span class="math inline">\(\epsilon_i\)</span> and because <span class="math inline">\(y_i\)</span> is a linear transform of a Gaussian random variable (<span class="math inline">\(\epsilon\)</span>):</p>
+<span class="math display">\[\begin{align}
+ \begin{bmatrix}
+ y_1 \\
+ \vdots \\
+ y_n
+ \end{bmatrix}
+ &amp;= \begin{bmatrix}
+ x_1^T \\
+ \vdots \\
+ x_n^T
+ \end{bmatrix}
+ w
+ + 
+ \begin{bmatrix}
+ \epsilon_1 \\
+ \vdots \\
+ \epsilon_n
+ \end{bmatrix}\\
+ y &amp;= X^T w + \epsilon
+\end{align}
+\]</span></li>
+</ul></li>
+<li><p>The normalization constant (marginal likelihood) can be computed as</p>
+<span class="math display">\[\begin{align}
+    p(y | X) &amp;= \int_{-\infty}^{\infty}p(y, w | x)dw  \\
+    &amp; = \int_{-\infty}^{\infty}p(y | x, w)p(w)dw
+\end{align}
+\]</span></li>
+<li><p>After substituting the distributions into Bayes rule, we find</p>
+<span class="math display">\[\begin{equation}
+  p(w | y, X) \sim \mathcal{N}(\bar{w}, A^{-1}),
+\end{equation}
+\]</span>
+<p>with</p>
+<span class="math display">\[\begin{equation}
+  A = \frac{1}{\sigma^2}X X^T + \Sigma^{-1}
+\end{equation}
+\]</span>
+<p>and</p>
+<span class="math display">\[\begin{equation}
+  \bar{w}= \frac{1}{\sigma^2}A^{-1} X y.
+\end{equation}
+\]</span></li>
+<li><p>To make predictions from the model–that is, what is <span class="math inline">\(y_\ast = f(x_\ast)\)</span> given <span class="math inline">\(x_\ast\)</span>– use the probability distribution</p>
+<span class="math display">\[\begin{align}
+  p(y_\ast | x_\ast, X, y) &amp;= 
+   \int_{-\infty}^{\infty}p(y_\ast, w | x_\ast, X, y) dw \\
+   &amp;=\int_{-\infty}^{\infty}p(y_\ast | x_\ast, w)p(w | X, y) dw\\
+    &amp;= \mathcal{N}(\frac{1}{\sigma^2}x_\ast^T A^{-1} X y, x_\ast^T A^{-1}x_\ast)\\
+    &amp;= \mathcal{N}(x_\ast^T \bar{w}, x_\ast^T A^{-1}x_\ast)
+\end{align}
+\]</span>
+<ul>
+<li>The mean of the prediction is just the weighted sum of elements in the input vector, where the weights are the most probable weights</li>
+<li>Variance grows with magnitude of input</li>
+</ul></li>
+</ol>
+<h1 id="non-linear-functions">Non-linear functions:</h1>
+<ul>
+<li><p>Instead of using <span class="math inline">\(x_i\)</span>, for each input data point, map to an <span class="math inline">\(N\)</span> dimensional feature space <span class="math inline">\(\phi(x_i)\)</span>. Since <span class="math inline">\(\phi(x_i)\)</span> does not depend on weights, we can just replace <span class="math inline">\(x_i\)</span> with <span class="math inline">\(\phi(x_i)\)</span> in the previous expression (and let <span class="math inline">\(\Phi(X)\)</span> be <span class="math inline">\(\phi\)</span> applied to the columns of <span class="math inline">\(x\)</span>).</p></li>
+<li><p>Thus, for non-linear basis functions, we get</p>
+<p><span class="math display">\[p(f_\ast | x_\ast, X, y) = \mathcal{N}(\frac{1}{\sigma^2}\phi(x_\ast)^T A^{-1}\Phi y, \phi_(x_\ast)^T A^{-1} \phi(x_\ast)).\]</span>.</p></li>
+<li><p>Here <span class="math inline">\(A = \frac{1}{\sigma^2}\Phi \Phi^T + \Sigma^{-1}\)</span>.</p></li>
+</ul>
+<h2 id="some-manipulations">Some Manipulations</h2>
+<ul>
+<li><p>In its original form, <span class="math inline">\(p(f_\ast | x_\ast, X, y)\)</span> requires inverting an <span class="math inline">\(N \times N\)</span> matrix</p>
+<ul>
+<li>With some manipulation we can make it so that we only need to invert an <span class="math inline">\(n \times n\)</span> matrix.</li>
+</ul></li>
+<li><p><span class="math inline">\(A \in \mathbb{R}^{N \times N}\)</span>, that is its dimensions scale with the number of features</p></li>
+<li><p>Let <span class="math inline">\(K = \Phi^T \Sigma \Phi\)</span>. Then note that</p>
+<span class="math display">\[\begin{equation}
+ A^{-1} \Phi = \Sigma \Phi (K + \sigma^2 I)^{-1}
+\end{equation}
+\]</span>
+<p>and (from the Matrix Inversion Lemma a.k.a Woodbury Matrix Identity)</p>
+<span class="math display">\[\begin{equation}
+ \phi_\ast^T A^{-1} \phi_\ast = \phi_\ast^T \Sigma \phi - \phi_\ast \Sigma \Phi(K + \sigma^2 I)^{-1}\Phi^T \Sigma \phi_\ast,
+\end{equation}
+\]</span></li>
+<li><p>After applying these transformations, the estimate becomes</p>
+<span class="math display">\[\begin{equation}
+ \mathcal{N}(\phi_\ast^T\Sigma\Phi(K + \sigma^2+I)^{-1}y,
+ \phi_\ast^T\Sigma\phi_\ast - \phi_\ast^T\Sigma\Phi(K + \sigma^2)^{-1}\Phi^T\Sigma\phi_\ast
+\end{equation}
+\]</span></li>
+<li><p>Hand-wave thought about dimensionality:</p>
+<ul>
+<li>We have an infinite number of basis functions <span class="math inline">\(N \to \infty\)</span> with a finite number of inputs <span class="math inline">\(n\)</span>.</li>
+</ul></li>
+<li><p>The covariance kernel <span class="math inline">\(k(x, x&#39;) = \phi(x)^T \Sigma \phi(x&#39;)\)</span>.</p></li>
+<li><p>Note that <span class="math inline">\(k(x, x&#39;)\)</span> is an inner product since <span class="math inline">\(\Sigma &gt; 0\)</span>.</p></li>
+<li><p>The kernel trick:</p>
+<ul>
+<li>A computational trick</li>
+<li>If we know <span class="math inline">\(k(x, x&#39;)\)</span>, we can replace all these feature vector evaluations directly by using the kernel function on the original inputs.</li>
+</ul></li>
+</ul>
+<h1 id="summary">Summary</h1>
+<ul>
+<li>Given labeled training data</li>
+<li>Map inputs into a feature space</li>
+<li>Given a prior on the weights and some noise statistics, we can predict the distribution of the output given a new input</li>
+<li>Using the kernel trick avoids needing to explicitly evaluate the features.</li>
+</ul>
+<h1 id="random-process">Random Process</h1>
+<ol>
+<li>A random vector is a vector of random variables with a joint distribution
+<ul>
+<li>For example, Jointly Gaussian random vector</li>
+</ul></li>
+<li>(Loosely) when the length of a random vector grows to infinity it becomes a random process</li>
+<li>A random process is an infinite collection of random variables (indexed by elements of some set) on the same probability space
+<ul>
+<li>Any finite collection of these random variables has a joint distribution.</li>
+</ul></li>
+<li>A Gaussian Random process, the joint distribution of any finite subset of the collection has a jointly Gaussian Distribution
+<ul>
+<li>can be indexed by elements in <span class="math inline">\(R^n\)</span> (for example, time, spatial dimensions, etc).</li>
+<li>Defined by a mean function <span class="math inline">\(m(x)\)</span> and covariance function <span class="math inline">\(k(x, x&#39;)\)</span>.
+<ul>
+<li>The mean function provides the mean at the given index and the covariance function computes the covariance between two indices.</li>
+<li>Since the joint distribution between any two indices is Gaussian, these functions fully specify the distribution</li>
+</ul></li>
+</ul></li>
+<li>In Gaussian process regression, the function we are attempting to learn is assumed to be described by a Gaussian process
+<ul>
+<li>This is less restrictive then it seems
+<ul>
+<li>We saw how the linear regression model could be expressed in terms of the covariance function <span class="math inline">\(k(x, x&#39;)\)</span> via the "kernel trick"</li>
+<li>Thus, the inner product and the linear basis functions defines a "kernel"</li>
+<li>It turns out that we can choose a kernel and that kernel defines some set of basis functions</li>
+<li>Some kernels correspond an infinite number of basis functions, thus the kernel enables us to express functions that have an infinite-dimensional basis in a finite manner.</li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="another-look-at-linear-regression">Another look at linear regression</h2>
+<p>Given the mean and covariance of a Gaussian process (and we'll assume mean 0 here), we can write a distribution for the process, partitioning into points we have measured and points at which we want a prediction</p>
+<span class="math display">\[\begin{equation}
+\begin{bmatrix}
+f_\ast
+y \\
+\end{bmatrix}
+\sim
+\mathcal{N}(0, \begin{bmatrix}
+K(X_\ast, X_\ast) &amp; K(X_\ast, X) \\
+K(X, X_\ast) &amp; K(X, X)
+\end{bmatrix}),
+\end{equation}
+\]</span>
+<p>where <span class="math inline">\(K(X, X_\ast)\)</span> is the <span class="math inline">\(n \times n_\ast\)</span> covariance matrix formed by <span class="math inline">\(k(x, x_\ast)\)</span> at all training and test point combinations.</p>
+<p>The above is just a jointly Gaussian distribution, with the prediction points and input points given. Thus, we can simply apply the formula for a conditional Gaussian to predict everything at <span class="math inline">\(f_\ast\)</span>.</p>
+<span class="math display">\[\begin{equation}
+\mathcal{N}(K(X_\ast, X)(K(X, X) + \sigma^2 I)^{-1}y, K(X_\ast, X_\ast) - K(X_\ast, X)(K(X, X) + \sigma^2 I)^{-1}K(X, X_\ast))
+\end{equation}
+\]</span>
+<h1 id="model-selection-and-hyperparameters">Model Selection and Hyperparameters</h1>
+<ul>
+<li><p>The data can be used to select the covariance model and hyperparameters</p></li>
+<li><p>There is a hierarchy of parameters</p>
+<ol>
+<li>The actual regression itself (the weights)</li>
+<li>The hyperparameters: These are parameters that form part of the covariance function</li>
+<li>The model structure itself.</li>
+</ol></li>
+<li><p>Apply Bayes rule each time:</p>
+<span class="math display">\[\begin{equation}
+ p(w | y, X, \theta, H_i) = \frac{p(y | X, W, H_i)p(w|\theta, H_i)}{p(y | X, \theta, H_i)}
+\end{equation}
+\]</span>
+<span class="math display">\[\begin{equation}
+ p(\theta | y, X, H_i) = \frac{p(y | X, H_i, \theta)p(\theta |H_i)}{p(y | X, H_i)}
+\end{equation}
+\]</span></li>
+</ul>
+<p>Prior of models <span class="math inline">\(p(H_i)\)</span> (often flat to not bias the model).</p>
+<span class="math display">\[\begin{equation}
+  p(H_i | y, X) = \frac{p(y | X, H_i)p(H_i)}{p(y | X)}
+\end{equation}
+\]</span>
+<span class="math display">\[\begin{equation}
+p(y | X) = \sum_i p(y | X, H_i) p(H_i)
+\end{equation}
+\]</span>
+<h1 id="resources">Resources</h1>
+<p>Much of these notes are derived from <em>Gaussian Processes for Machine Learning</em>, Carl Edward Rasmussen and Chris Williams, The MIT Press, 2006 Avaiable at <a href="http://gaussianprocess.org/">http://gaussianprocess.org/</a></p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
