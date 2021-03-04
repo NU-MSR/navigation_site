@@ -472,6 +472,7 @@ table td {
 <li><a href="#mahalanobis-distance">Mahalanobis Distance</a></li>
 <li><a href="#incorporating-into-slam">Incorporating into SLAM</a></li>
 <li><a href="#practical-considerations">Practical Considerations</a></li>
+<li><a href="#resources">Resources</a></li>
 </ul>
 </nav>
 
@@ -540,10 +541,13 @@ table td {
 <ol>
 <li>Let <span class="math inline">\(N\)</span> be the number of landmarks already seen</li>
 <li>The <span class="math inline">\(j\)</span>-th landmark is at <span class="math inline">\((\mu_{x,j}, \mu_{y,j})\)</span></li>
-<li>Let <span class="math inline">\((\mu_{x, N+1}, \mu_{y, N+1}) = h^{-1}(z_i)\)</span></li>
+<li>Let <span class="math inline">\((\mu_{x, N+1}, \mu_{y, N+1}) = h^{-1}(z_i)\)</span>.
+<ul>
+<li>We are temporarily adding a landmark corresponding to the latest observation. This is landmark <span class="math inline">\(N+1\)</span></li>
+</ul></li>
 <li>For each measurement <span class="math inline">\(i\)</span>
 <ol>
-<li>For each landmark <span class="math inline">\(k\)</span>
+<li>For each landmark <span class="math inline">\(k\)</span> (including the temporarily added landmark)
 <ol>
 <li>Compute <span class="math inline">\(H_k\)</span>, the linearized measurement model (see Kalman Filter)</li>
 <li>Compute the covariance <span class="math inline">\(\Psi_k = H_k \Sigma H_k^T + R\)</span></li>
@@ -551,12 +555,15 @@ table td {
 <li>Compute the mahalanobis distance <span class="math inline">\(d_k = (z_i - \hat{z}_k)^T\Psi^{-1}(z_i-\hat{z}_k)\)</span></li>
 </ol></li>
 </ol></li>
+<li>Set the mahalanobis distance for landmark <span class="math inline">\(N+1\)</span> (the temporary landmark) to be a the distance threshold.
+<ul>
+<li>If all the landmarks are farther away than this threshold, then the landmark is new.</li>
+</ul></li>
 <li>Let <span class="math inline">\(d_\ast\)</span> be the minimum mahalonbis distance and <span class="math inline">\(\ell\)</span> be the landmark index corresponding to the minimimum distance.</li>
-<li>If <span class="math inline">\(d_\ast\)</span> is more than a threshold: Add a new landmark (increment <span class="math inline">\(N\)</span>)</li>
-<li>Otherwise, <span class="math inline">\(\ell\)</span> is the landmark corresponding to <span class="math inline">\(z_i\)</span></li>
+<li><span class="math inline">\(\ell\)</span> is the landmark corresponding to <span class="math inline">\(z_i\)</span>. If <span class="math inline">\(\ell = N+1\)</span> then we have a new landmark so increment <span class="math inline">\(N\)</span>.</li>
 <li>Incorporate the new measurement into your EKF estimate
 <ul>
-<li>You should only incorporate the measurement if <span class="math inline">\(d_\ast\)</span> is below some threshold or the landmark is new. This can add robustness to the data association by skipping measurements that are not clearly associated with an existing landmark and are also not clearly a new landmark.</li>
+<li>If getting many false associations you can choose to only incorporate the measurement if it is new or if <span class="math inline">\(d_\ast\)</span> is less than some threshold value</li>
 </ul></li>
 </ol>
 <h1 id="practical-considerations">Practical Considerations</h1>
@@ -593,6 +600,8 @@ table td {
 </ol></li>
 <li>Your landmark detection scheme should work perfectly on the perfect data form a simulation</li>
 </ol>
+<h1 id="resources">Resources</h1>
+<p><a href="https://mitpress.mit.edu/books/probabilistic-robotics">Probabilistic Robotics</a> (page 322).</p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
