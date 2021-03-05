@@ -1,0 +1,653 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 4</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#task-g-simulator">Task G (Simulator)</a>
+<ul>
+<li><a href="#task-g.005-lidar">Task G.005 (Lidar)</a></li>
+</ul></li>
+<li><a href="#task-s-feature-detection">Task S (Feature Detection)</a></li>
+<li><a href="#task-s.000-landmark-detection">Task S.000 (Landmark Detection)</a>
+<ul>
+<li><a href="#hints">Hints:</a></li>
+</ul></li>
+<li><a href="#task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</a></li>
+<li><a href="#task-l-slam">Task L (SLAM)</a>
+<ul>
+<li><a href="#task-l.003-slam-with-unknown-data-association">Task L.003 (SLAM with unknown data association)</a></li>
+<li><a href="#task-l.004-slam-in-the-real-world">Task L.004 (SLAM in the Real World)</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 4</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="task-g-simulator">Task G (Simulator)</h1>
+<h2 id="task-g.005-lidar">Task G.005 (Lidar)</h2>
+<p>The goal of this task is to simulate the turtlebot's lidar.</p>
+<ol>
+<li>Your simulation node should publish a <code>sensor_msgs/LaserScan</code> message with simulated lidar data at 5Hz
+<ul>
+<li>You only need to fill in the fields that you will actually be using.</li>
+</ul></li>
+<li>Launchfiles and visualizations should be updated to display the scan message
+<ul>
+<li>Note: there is currently a bug in rviz on some computers that require you to launch it with the <code>--opengl 210</code> option to see laser scans.</li>
+</ul></li>
+<li>The laser scanner will have gaussian noise.</li>
+<li>Values for the following constants should be settable with ROS parameters
+<ol>
+<li>Minimum/maximum range</li>
+<li>Angle increment and number of samples</li>
+<li>Resolution</li>
+<li>Noise level</li>
+</ol></li>
+<li>See <code>turtlebot3_burger.gazebo.xacro</code> for default parameter values and other information about the laser scanner that you may find useful.
+<ul>
+<li>This information can also be obtained experimentally if you would like.</li>
+</ul></li>
+<li>In addition to the obstacles, the simulator should contain a rectangular border wall that can be seen by the laser scanner.
+<ul>
+<li>Dimensions of this boarder wall should be configurable</li>
+<li>The boarder wall should be visible in rviz</li>
+</ul></li>
+</ol>
+<h3 id="hint">Hint</h3>
+<ol>
+<li>There are many ways of implementing this sensor, but this article on Circle-Line intersection may help <a href="https://mathworld.wolfram.com/Circle-LineIntersection.html">https://mathworld.wolfram.com/Circle-LineIntersection.html</a></li>
+</ol>
+<h1 id="task-s-feature-detection">Task S (Feature Detection)</h1>
+<ul>
+<li>The first tasks here are to enable you to sense landmarks that can then be used as sensor measurements for SLAM.</li>
+<li>S.000 is about landmark detection and S.001 is about testing S.000</li>
+</ul>
+<h1 id="task-s.000-landmark-detection">Task S.000 (Landmark Detection)</h1>
+<ol>
+<li>Write a node called <code>landmarks</code> in the <code>nuslam</code> package to detect landmarks and publish their relative locations
+<ul>
+<li>You should have a way to display the detected landmark locations in <code>rviz</code></li>
+</ul></li>
+<li>Write a <code>landmark_detect.launchfile</code> that takes a <code>simulate</code> argument
+<ul>
+<li>If the <code>simulate</code> is true, it should launch your simulator and the <code>landmarks</code> node and display everything in <code>rviz</code></li>
+<li>If the <code>simulate</code> is false, it should launch the landmark detection node on the turtlebot and display everything in <code>rviz</code></li>
+</ul></li>
+</ol>
+<h2 id="hints">Hints:</h2>
+<ol>
+<li>Writing some of the test cases in S.001 while you are coding these algorithms can help you debug and make sure you don't introduce new bugs.
+<ul>
+<li>I actually did some "test-driven-development (TDD)" and wrote the test cases for the circle detection algorithm prior to writing the algorithm itself.</li>
+</ul></li>
+<li>You can use any algorithm you want as long as it works. Below I describe algorithms that I know work.</li>
+<li>First solve an unsupervised learning problem: clustering points into groups corresponding to individual landmarks.
+<ul>
+<li>Cluster the laser scanner points based on a distance threshold.</li>
+<li>Discard any clusters with fewer than 3 points, as these will not provide good results when we fit a circle</li>
+<li>The laser scan data is ordered by increasing relative bearing angle. If two consecutive scan points are near each other they are part of the same cluster, otherwise they are in different clusters</li>
+<li>Keep in mind, that the scan wraps around, so you may be starting in the middle of a cluster</li>
+<li>To help test this step, I recommend outputting markers to help you visualize the clusters.</li>
+</ul></li>
+<li>Next, solve a supervised learning problem: circular regression.
+<ul>
+<li>To detect the circles, implement this <a href="./circle_fit.html">circle fitting algorithm</a></li>
+<li>It may help to break up each step into separate functions and test them separately.</li>
+</ul></li>
+<li>Solve a classification problem
+<ul>
+<li>Classify the clusters of points into Circle and Not Circle. This helps to avoid false positives.</li>
+<li>Algorithm below is from J. Xavier et. al., <em>Fast line, arc/circle and leg detection from laser scan data in a Player driver</em>, ICRA 2005
+<ol>
+<li>Let <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> be the endpoints of a cluster and <span class="math inline">\(P\)</span> be a point in the cluster.</li>
+<li>If the <code>cluster</code> is an arc of a circle, then the angle from <span class="math inline">\(P_1\)</span> to <span class="math inline">\(P\)</span> to <span class="math inline">\(P_2\)</span> is always the same for all <span class="math inline">\(P\)</span> (a consequence of the inscribed angle theorem)</li>
+<li>So, compute the mean and standard deviation of the angles between the endpoints and each point on the segment</li>
+<li>If standard deviation is below <code>0.15</code> radians and <code>mean</code> is between 90 and 135 degrees, then it is a circle (thresholds are from the paper, tuning them will help you).</li>
+</ol></li>
+</ul></li>
+<li>Practical and Simple Extras to aid accuracy
+<ol>
+<li>Feel free to use these ideas to increase accuracy. They will help in our specific setup but may not be as generally applicable to all situations.</li>
+<li>Eliminate circles with really large or small radii, since we know the approximate size of the landmarks (this increases the assumptions required for your algorithm to work but also is very helpful).</li>
+<li>Make the minimum cluster size larger to ensure better fits for the circle fitting algorithm</li>
+</ol></li>
+</ol>
+<h1 id="task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</h1>
+<ol>
+<li>Add some tests for circle detection in a file called <code>circle_tests.cpp</code> in the <code>nuslam</code> package.</li>
+<li>The goal of testing is to break each of the landmark detection parts down into simpler components.
+<ul>
+<li>We will not attempt comprehensive testing here, but writing a few simple tests is well worth our time and can even help in debugging.</li>
+</ul></li>
+<li>The circle fitting algorithm is the easiest to test because the authors of the algorithm provide test data! (from <a href="https://people.cas.uab.edu/~mosya/cl/CPPcircle.html">https://people.cas.uab.edu/~mosya/cl/CPPcircle.html</a>)
+<ul>
+<li>Write tests for the circle algorithm, here are the results you should get. (If you did not use this algorithm, you still must test the algorithm that you chose)</li>
+<li>Test 1 Inputs: <span class="math inline">\(\{(1,7), (2,6), (5,8), (7,7), (9,5), (3,7)\}\)</span>. Outputs: center (4.615482, 2.807354), radius 4.8275</li>
+<li>Test 2 Inputs: <span class="math inline">\(\{(-1,0), (-0.3, -0.06), (0.3, 0.1), (1, 0)\}\)</span>. Outputs: center (0.4908357, -22.15212) radius 22.17979</li>
+<li>You can expect to come within <span class="math inline">\(10^{-4}\)</span> of the results above.</li>
+</ul></li>
+</ol>
+<h1 id="task-l-slam">Task L (SLAM)</h1>
+<h2 id="task-l.003-slam-with-unknown-data-association">Task L.003 (SLAM with unknown data association)</h2>
+<p>Here, you will implement SLAM based on the laser-scanner measurements, using the landmark detection algorithms developed in Task S.</p>
+<ol>
+<li>Implement a data association scheme (either based on mahalanobis distance, euclidean distance, or anything else you can think of) to associate measurements with landmarks and incorporate it into the SLAM algorithm
+<ul>
+<li>You should feel free to add any of the additional filtering techniques to make the data association more effective</li>
+<li>See <a href="./data_assoc.html">Data Association</a> for a description of the basic algorithm</li>
+</ul></li>
+<li>Drive the robot around a closed path and include a screencast of the result in rviz. Use your data association scheme and simulated laser scan data.
+<ul>
+<li>Try to drive the robot back to its initial starting position</li>
+<li>Report the final pose error between the actual robot position and odometry in <code>nuslam/README.md</code></li>
+<li>Report the final pose error between the actual robot position and the SLAM estimate in <code>nuslam/README.md</code></li>
+<li>The screencast should show the actual and estimated marker positions, and the actual, estimated and odometry path.</li>
+</ul></li>
+<li>It is okay if your algorithm only works while driving cautiously</li>
+<li>When you complete this task you have fully implemented EKF SLAM with unknown data association!
+<ul>
+<li>It may be helpful to temporarily reduce the noise of the laser scanner in the simulation to zero (you can do this in the xacro urdf) while testing.</li>
+</ul></li>
+<li>You should be able to launch this demo by running <code>roslaunch nuslam unknown_data_assoc.launch</code></li>
+</ol>
+<h2 id="task-l.004-slam-in-the-real-world">Task L.004 (SLAM in the Real World)</h2>
+<ol>
+<li>I have provided some cylindrical obstacles for you to use</li>
+<li>Run your code on the turtlebot and drive it around in the real world
+<ul>
+<li>Complete a circuit of the environment and drive the robot back to its initial position</li>
+</ul></li>
+<li>Include a screenshot from RVIZ at the end of a run and a video of the turtlebot moving.
+<ul>
+<li>The video may be a gif or may be hosted externally if it is large</li>
+</ul></li>
+<li>Report the final pose <span class="math inline">\((x, y, \theta)\)</span> as determined by the SLAM algorithm and as determined by the odometry in <code>nuslam/README.md</code>.
+<ul>
+<li>Did your SLAM implementation outperform the odometry? (If not, it may have a bug, require more tuning, or you did not drive the robot far enough)</li>
+<li>You may have to drive slowly to achieve good results.</li>
+</ul></li>
+<li>You should be able to run this demo with <code>roslaunch nuslam unknown_data_assoc.launch robot=&lt;hostname_of_robot&gt;</code></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
