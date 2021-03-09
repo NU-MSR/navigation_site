@@ -471,12 +471,12 @@ table td {
 <ul>
 <li><a href="#task-g.005-lidar">Task G.005 (Lidar)</a></li>
 </ul></li>
-<li><a href="#task-s-feature-detection">Task S (Feature Detection)</a></li>
-<li><a href="#task-s.000-landmark-detection">Task S.000 (Landmark Detection)</a>
+<li><a href="#task-s-feature-detection">Task S (Feature Detection)</a>
 <ul>
+<li><a href="#task-s.000-landmark-detection">Task S.000 (Landmark Detection)</a></li>
 <li><a href="#hints">Hints:</a></li>
-</ul></li>
 <li><a href="#task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</a></li>
+</ul></li>
 <li><a href="#task-l-slam">Task L (SLAM)</a>
 <ul>
 <li><a href="#task-l.003-slam-with-unknown-data-association">Task L.003 (SLAM with unknown data association)</a></li>
@@ -536,7 +536,7 @@ table td {
 <li>The first tasks here are to enable you to sense landmarks that can then be used as sensor measurements for SLAM.</li>
 <li>S.000 is about landmark detection and S.001 is about testing S.000</li>
 </ul>
-<h1 id="task-s.000-landmark-detection">Task S.000 (Landmark Detection)</h1>
+<h2 id="task-s.000-landmark-detection">Task S.000 (Landmark Detection)</h2>
 <ol>
 <li>Write a node called <code>landmarks</code> in the <code>nuslam</code> package to detect landmarks and publish their relative locations
 <ul>
@@ -586,7 +586,7 @@ table td {
 <li>Make the minimum cluster size larger to ensure better fits for the circle fitting algorithm</li>
 </ol></li>
 </ol>
-<h1 id="task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</h1>
+<h2 id="task-s.001-testing-landmark-detection">Task S.001 (Testing Landmark Detection)</h2>
 <ol>
 <li>Add some tests for circle detection in a file called <code>circle_tests.cpp</code> in the <code>nuslam</code> package.</li>
 <li>The goal of testing is to break each of the landmark detection parts down into simpler components.
