@@ -520,7 +520,7 @@ table td {
 <li>Turn the rigid2d library into a ROS package that can be compiled with <code>catkin</code></li>
 <li>Use <a href="https://github.com/AIS-Bonn/catch_ros">catch_ros</a> to integrate your unit tests with ROS
 <ul>
-<li><code>catch_ros</code> is released for noetic and can be installed with <code>apt</code></li>
+<li><code class="verbatim">catch_ros</code> is released for noetic and can be installed with <code class="verbatim">apt</code></li>
 <li>Your tests should include <code>catch_ros/catch.hpp</code> and not define main anymore. You can then delete <code>catch.hpp</code> from your repository</li>
 </ul></li>
 <li>You may wish to use <code>catkin_create_pkg</code> to generate the <code>package.xml</code> and <code>CMakeLists.txt</code> as a starting point</li>
@@ -551,7 +551,7 @@ table td {
 </ol>
 <h2 id="task-b.007-integrate-a-twist">Task B.007 (Integrate a Twist)</h2>
 <ol>
-<li>Add a function called <code>integrateTwist</code> to rigid2d.
+<li>Add a function called <code class="verbatim">integrateTwist</code> to rigid2d.
 <ul>
 <li>It should compute the transformation corresponding to a rigid body following a constant twist (in its original body frame) for one time unit.</li>
 </ul></li>
@@ -564,7 +564,7 @@ table td {
 </ol>
 <h2 id="task-b.009-normalize-angle">Task B.009 (Normalize angle)</h2>
 <ol>
-<li>Add a function <code>double normalize_angle(double rad)</code> to rigid2d that turns any angle into the equivalent one between <span class="math inline">\(-\pi\)</span> and <span class="math inline">\(\pi\)</span></li>
+<li>Add a function <code class="verbatim">double normalize_angle(double rad)</code> to rigid2d that turns any angle into the equivalent one between <span class="math inline">\(-\pi\)</span> and <span class="math inline">\(\pi\)</span></li>
 <li>Unit test is optional here
 <ul>
 <li>You may combine your efforts with others in the class, as long as you cite the source as in Homework 1.</li>
@@ -572,10 +572,10 @@ table td {
 </ul></li>
 </ol>
 <h1 id="task-group-e-kinematics">Task Group E (Kinematics)</h1>
-<p>Task E is related to the Kinematics of wheeled mobile robots. You can add these files to the <code>rigid2d</code> library (but in a separate <code>.hpp/.cpp</code> module). You will likely not be able to complete these tasks until all of Task C is complete.</p>
+<p>Task E is related to the Kinematics of wheeled mobile robots. You can add these files to the <code class="verbatim">rigid2d</code> library (but in a separate <code class="verbatim">.hpp/.cpp</code> module). You will likely not be able to complete these tasks until all of Task C is complete.</p>
 <h2 id="task-e.000-math">Task E.000 (Math)</h2>
 <ol>
-<li>This task may require you to perform some mathematical calculations. Show all your derivations in a file called <code>Kinematics.pdf</code> in the <code>doc</code> folder of the <code>rigid2d</code> package.
+<li>This task may require you to perform some mathematical calculations. Show all your derivations in a file called <code class="verbatim">Kinematics.pdf</code> in the <code class="verbatim">doc</code> folder of the <code class="verbatim">rigid2d</code> package.
 <ul>
 <li>How you generate the documentation is up to you (latex, scanned hand-written notes, etc.)</li>
 <li>Refer to your notes in your code, using comments to explain the origin of the mathematical expressions you use (labeling equations with numbers helps)</li>
@@ -583,7 +583,7 @@ table td {
 </ol>
 <h2 id="task-e.001-diffdrive-class">Task E.001 (DiffDrive class)</h2>
 <ol>
-<li>Create a <code>DiffDrive</code> class in <code>rigid2d</code>. The header file is called <code>diff_drive.hpp</code> and implementation file is called <code>diff_drive.cpp</code>
+<li>Create a <code class="verbatim">DiffDrive</code> class in <code class="verbatim">rigid2d</code>. The header file is called <code class="verbatim">diff_drive.hpp</code> and implementation file is called <code class="verbatim">diff_drive.cpp</code>
 <ul>
 <li>I refer to this class in other instructions for this task. You may wish to read through those to get a better sense of what this class should be doing</li>
 </ul></li>
@@ -609,64 +609,64 @@ table td {
 </ul></li>
 </ol>
 <h2 id="task-e.003-odometry-node">Task E.003 (Odometry Node)</h2>
-<p>This task uses the <code>DiffDrive</code> class to create a node that publishes <a href="https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html">Odometry</a> messages in a standard ROS way. A guide to Odometry in ros can be found <a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom">here</a></p>
+<p>This task uses the <code class="verbatim">DiffDrive</code> class to create a node that publishes <a href="https://docs.ros.org/en/noetic/api/nav_msgs/html/msg/Odometry.html">Odometry</a> messages in a standard ROS way. A guide to Odometry in ros can be found <a href="http://wiki.ros.org/navigation/Tutorials/RobotSetup/Odom">here</a></p>
 <ol>
-<li>Write a node called <code>odometer</code> (in the <code>rigid2d</code> package) that subscribes to <code>sensor_msgs/JointState</code> on the <code>joint_states</code> topic</li>
+<li>Write a node called <code class="verbatim">odometer</code> (in the <code class="verbatim">rigid2d</code> package) that subscribes to <code class="verbatim">sensor_msgs/JointState</code> on the <code class="verbatim">joint_states</code> topic</li>
 <li>The node should read from the following parameters:
 <ul>
-<li><code>odom_frame_id</code>: The name of the odometry tf frame</li>
-<li><code>body_frame_id</code>: The name of the body tf frame</li>
-<li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
-<li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
+<li><code class="verbatim">odom_frame_id</code>: The name of the odometry tf frame</li>
+<li><code class="verbatim">body_frame_id</code>: The name of the body tf frame</li>
+<li><code class="verbatim">left_wheel_joint</code>: The name of the left wheel joint</li>
+<li><code class="verbatim">right_wheel_joint</code>: The name of the right wheel joint</li>
 </ul></li>
-<li>The node should also read <code>wheel_base</code> and <code>wheel_radius</code> parameters</li>
-<li>Every time the node receives a <code>JointState</code> message it should:
+<li>The node should also read <code class="verbatim">wheel_base</code> and <code class="verbatim">wheel_radius</code> parameters</li>
+<li>Every time the node receives a <code class="verbatim">JointState</code> message it should:
 <ol>
-<li>Update its internal odometry state (using the <code>DiffDrive</code> class to keep track it)</li>
-<li>Publish a <a href="https://docs.ros.org/melodic/api/nav_msgs/html/msg/Odemetry.html">nav_msgs/Odometry</a> message on the <code>odom</code> topic
+<li>Update its internal odometry state (using the <code class="verbatim">DiffDrive</code> class to keep track it)</li>
+<li>Publish a <a href="https://docs.ros.org/melodic/api/nav_msgs/html/msg/Odemetry.html">nav_msgs/Odometry</a> message on the <code class="verbatim">odom</code> topic
 <ul>
 <li>You do not need to fill out any covariance information (all covariance can be set to zero)</li>
 <li>The pose should be specified in the odom_frame_id frame (this is the nav_msgs/Odometry/header/frame_id)</li>
 <li>The velocity will be specified as the body velocity of the robot in the body_frame_id (this is nav_msgs/Odometry/child_frame_id)</li>
 </ul></li>
-<li>Broadcast the transform between <code>odom_frame_id</code> and the <code>body_frame_id</code> on <code>/tf</code> using a <code>tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a></li>
+<li>Broadcast the transform between <code class="verbatim">odom_frame_id</code> and the <code class="verbatim">body_frame_id</code> on <code class="verbatim">/tf</code> using a <code class="verbatim">tf2</code> <a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20broadcaster%20%28C%2B%2B%29">broadcaster</a></li>
 </ol></li>
 </ol>
 <ul>
-<li>The <code>odometer</code> node should offer a service called <code>set_pose</code>.
+<li>The <code class="verbatim">odometer</code> node should offer a service called <code class="verbatim">set_pose</code>.
 <ul>
 <li>The service request provides the configuration of the robot.</li>
 <li>The location of the odometry is reset so that the robot thinks it is at the requested configuration</li>
 </ul></li>
 </ul>
 <h2 id="task-e.004-fake-turtle">Task E.004 (Fake Turtle)</h2>
-<p>In this task you will create a kinematic simulation of a differential drive robot using the <code>DiffDrive</code> class.</p>
+<p>In this task you will create a kinematic simulation of a differential drive robot using the <code class="verbatim">DiffDrive</code> class.</p>
 <ol>
-<li>The simulation is implemented in a node called <code>fake_turtle</code>.</li>
-<li>The node should subscribe to <code>geometry_msgs/Twist</code> messages on the <code>cmd_vel</code> topic
+<li>The simulation is implemented in a node called <code class="verbatim">fake_turtle</code>.</li>
+<li>The node should subscribe to <code class="verbatim">geometry_msgs/Twist</code> messages on the <code class="verbatim">cmd_vel</code> topic
 <ul>
-<li>Each time a <code>cmd_vel</code> message is received the "wheels" of the fake_turtle start moving with a rotational velocity that achieves the desired twist.</li>
+<li>Each time a <code class="verbatim">cmd_vel</code> message is received the "wheels" of the fake_turtle start moving with a rotational velocity that achieves the desired twist.</li>
 </ul></li>
-<li>The node should publish <code>sensor_msgs/JointState</code> messages on the joint <code>joint_states</code> topic at a fixed frequency
+<li>The node should publish <code class="verbatim">sensor_msgs/JointState</code> messages on the joint <code class="verbatim">joint_states</code> topic at a fixed frequency
 <ul>
 <li>These messages should reflect the current joint angles of each wheel</li>
 </ul></li>
-<li>Use the <code>DiffDrive</code> class to track the state of the simulated robot.</li>
+<li>Use the <code class="verbatim">DiffDrive</code> class to track the state of the simulated robot.</li>
 <li>The node should read from the following parameters:
 <ul>
-<li><code>wheel_base</code> The distance between the wheels</li>
-<li><code>wheel_radius</code>: The radius of the wheels</li>
-<li><code>left_wheel_joint</code>: The name of the left wheel joint</li>
-<li><code>right_wheel_joint</code>: The name of the right wheel joint</li>
+<li><code class="verbatim">wheel_base</code> The distance between the wheels</li>
+<li><code class="verbatim">wheel_radius</code>: The radius of the wheels</li>
+<li><code class="verbatim">left_wheel_joint</code>: The name of the left wheel joint</li>
+<li><code class="verbatim">right_wheel_joint</code>: The name of the right wheel joint</li>
 </ul></li>
 </ol>
 <h2 id="task-e.005-launch-files">Task E.005 (Launch Files)</h2>
 <ul>
-<li>Write a launchfile called <code>fake_turtle_odom.launch</code> that starts the <code>turtlebot3_teleop_keyboard</code> and allows you to drive the <code>fake_turtle</code> node with it.</li>
-<li>The launchfile should use the <code>odometer</code> node to compute the odometry for the simulated turtle</li>
-<li>The launchfile should start <code>rviz</code> and show the <code>turtlebot3</code> model moving in the <code>odom</code> frame according to the <code>odometer</code> node.
+<li>Write a launchfile called <code class="verbatim">fake_turtle_odom.launch</code> that starts the <code class="verbatim">turtlebot3_teleop_keyboard</code> and allows you to drive the <code class="verbatim">fake_turtle</code> node with it.</li>
+<li>The launchfile should use the <code class="verbatim">odometer</code> node to compute the odometry for the simulated turtle</li>
+<li>The launchfile should start <code class="verbatim">rviz</code> and show the <code class="verbatim">turtlebot3</code> model moving in the <code class="verbatim">odom</code> frame according to the <code class="verbatim">odometer</code> node.
 <ul>
-<li>You should also visualize the odometry in <code>rviz</code> using the <a href="http://wiki.ros.org/rviz/DisplayTypes/Odometry">Odometry display type</a></li>
+<li>You should also visualize the odometry in <code class="verbatim">rviz</code> using the <a href="http://wiki.ros.org/rviz/DisplayTypes/Odometry">Odometry display type</a></li>
 </ul></li>
 </ul>
 <h1 id="task-group-f-the-real-robot">Task Group F (The Real Robot)</h1>
@@ -679,81 +679,81 @@ table td {
 <h2 id="task-f.001-a-new-workspace">Task F.001 (A new workspace)</h2>
 <ul>
 <li>We need an additional package to work with the lower-level hardware on the turtlebot. This tasks helps you setup your workspace with the necessary software.</li>
-<li>Your workspace directory is <code>ws</code>.</li>
-<li>The build space is <code>ws/build</code>.</li>
-<li>The devel space is <code>ws/devel</code>.</li>
-<li>The source space is <code>ws/src</code>.</li>
-<li>Your repository is in <code>ws/src/repository</code></li>
-<li>Clone <a href="https://github.com/ME495-Navigation/nuturtlebot.git">https://github.com/ME495-Navigation/nuturtlebot.git</a> into your source space <code>ws/src</code>
+<li>Your workspace directory is <code class="verbatim">ws</code>.</li>
+<li>The build space is <code class="verbatim">ws/build</code>.</li>
+<li>The devel space is <code class="verbatim">ws/devel</code>.</li>
+<li>The source space is <code class="verbatim">ws/src</code>.</li>
+<li>Your repository is in <code class="verbatim">ws/src/repository</code></li>
+<li>Clone <a href="https://github.com/ME495-Navigation/nuturtlebot.git">https://github.com/ME495-Navigation/nuturtlebot.git</a> into your source space <code class="verbatim">ws/src</code>
 <ul>
-<li>This code resides in the <code>ws/src/nuturtlebot</code> directory.</li>
+<li>This code resides in the <code class="verbatim">ws/src/nuturtlebot</code> directory.</li>
 </ul></li>
-<li>Rebuild with <code>catkin</code>.</li>
-<li>Use <a href="https://github.com/dirk-thomas/vcstool">vcstool</a> (install via apt as <code>python3-vcstool</code>) to export a <code>.repos</code> file.
+<li>Rebuild with <code class="verbatim">catkin</code>.</li>
+<li>Use <a href="https://github.com/dirk-thomas/vcstool">vcstool</a> (install via apt as <code class="verbatim">python3-vcstool</code>) to export a <code class="verbatim">.repos</code> file.
 <ul>
-<li><code>vcs export &gt; turtle.repos</code>. Then store <code>turtle.repos</code> in the base directory of your git repository.</li>
-<li>Other people can then download the <code>turtle.repos</code> and use it to duplicate the contents of your <code>ws/src</code> directory.</li>
+<li><code class="verbatim">vcs export &gt; turtle.repos</code>. Then store <code class="verbatim">turtle.repos</code> in the base directory of your git repository.</li>
+<li>Other people can then download the <code class="verbatim">turtle.repos</code> and use it to duplicate the contents of your <code class="verbatim">ws/src</code> directory.</li>
 </ul></li>
 </ul>
 <h2 id="task-f.002-nuturtle_robot-package">Task F.002 (nuturtle_robot package)</h2>
 <p>The goal of this task is to write a launchfile that lets you run nodes on the turtlebot from your computer.</p>
 <ol>
-<li>Create a package called <code>nuturtle_robot</code> to store the code that interacts with the turtlebot hardware.</li>
-<li>Create a launchfile called <code>basic_remote.launch</code>
+<li>Create a package called <code class="verbatim">nuturtle_robot</code> to store the code that interacts with the turtlebot hardware.</li>
+<li>Create a launchfile called <code class="verbatim">basic_remote.launch</code>
 <ul>
-<li>This launchfile should have a <code>&lt;machine&gt;</code> tag describing a turtlebot.</li>
-<li>The <code>machine</code> tag lets you run nodes on one computer from another computer</li>
-<li>The name of the machine is <code>turtlebot</code></li>
-<li>The launchfile takes an argument called <code>robot</code>, which allows the user to specify the <code>hostname</code> of the turtlebot.
+<li>This launchfile should have a <code class="verbatim">&lt;machine&gt;</code> tag describing a turtlebot.</li>
+<li>The <code class="verbatim">machine</code> tag lets you run nodes on one computer from another computer</li>
+<li>The name of the machine is <code class="verbatim">turtlebot</code></li>
+<li>The launchfile takes an argument called <code class="verbatim">robot</code>, which allows the user to specify the <code class="verbatim">hostname</code> of the turtlebot.
 <ul>
-<li>It should default to <code>localhost</code> meaning that the node will run on the local machine</li>
-<li>The <code>user</code> should be <code>ubuntu</code>. Do not use a password, instead your <code>ssh</code> keys should be setup properly</li>
-<li>The machine should use <code>/home/ubuntu/loader.sh</code> as the environment loader script.
+<li>It should default to <code class="verbatim">localhost</code> meaning that the node will run on the local machine</li>
+<li>The <code class="verbatim">user</code> should be <code class="verbatim">ubuntu</code>. Do not use a password, instead your <code class="verbatim">ssh</code> keys should be setup properly</li>
+<li>The machine should use <code class="verbatim">/home/ubuntu/loader.sh</code> as the environment loader script.
 <ul>
 <li>Essentially this script is what roslaunch uses to "source" the setup.bash on the remote computer</li>
-<li>It also sets up <code>ROS_MASTER_URI</code>.</li>
+<li>It also sets up <code class="verbatim">ROS_MASTER_URI</code>.</li>
 </ul></li>
 </ul></li>
 </ul></li>
-<li>The launchfile should also load <code>serial_node.py</code> from the <a href="http://wiki.ros.org/rosserial_python">rosserial_python</a> package on the <code>turtlebot</code> machine
+<li>The launchfile should also load <code class="verbatim">serial_node.py</code> from the <a href="http://wiki.ros.org/rosserial_python">rosserial_python</a> package on the <code class="verbatim">turtlebot</code> machine
 <ul>
-<li>Set port to <code>/dev/ttyACM0</code> and a baud of <code>115200</code> (these are the private parameters <code>port</code> and <code>baud</code>).</li>
+<li>Set port to <code class="verbatim">/dev/ttyACM0</code> and a baud of <code class="verbatim">115200</code> (these are the private parameters <code class="verbatim">port</code> and <code class="verbatim">baud</code>).</li>
 <li>This node communications with the OpenCR board to give you low-level control through ROS</li>
 <li>The firmware on that board is custom, so much of the turtlebot3 software manual does not apply to us (however information about hardware is correct).</li>
 </ul></li>
-<li>Include a <code>README.md</code> in this package that briefly explains its launch files.</li>
+<li>Include a <code class="verbatim">README.md</code> in this package that briefly explains its launch files.</li>
 </ol>
 <h2 id="task-f.003-working-directly-via-ssh">Task F.003 (Working directly via ssh)</h2>
 <ul>
 <li>It is possible to build, run and test your code directly on the turtlebot. It is a good exercise to go through once, but it will hopefully motivate you to want to not rely on the slow turtlebot processor to compile your code.</li>
 </ul>
 <ol>
-<li>In your workspace, delete the <code>build</code>, <code>devel</code>, and <code>install</code> directories (if they exist)
+<li>In your workspace, delete the <code class="verbatim">build</code>, <code class="verbatim">devel</code>, and <code class="verbatim">install</code> directories (if they exist)
 <ul>
-<li>This step is only needed specifically for task <code>F.003</code>, but not ever again</li>
+<li>This step is only needed specifically for task <code class="verbatim">F.003</code>, but not ever again</li>
 </ul></li>
 <li>Copy your workspace to the turtlebot:
 <ul>
-<li><code>cd &lt;your_workspace_dir&gt;</code></li>
-<li><code>rsync -av --delete . ubuntu@turtlebot.local:/home/ubuntu/ws</code>
+<li><code class="verbatim">cd &lt;your_workspace_dir&gt;</code></li>
+<li><code class="verbatim">rsync -av --delete . ubuntu@turtlebot.local:/home/ubuntu/ws</code>
 <ul>
 <li>Note, the presence/absence of a trailing slash after directory names is significant to rsync, so use the above command precisely</li>
-<li>The command makes <code>turtlebot:/home/ubuntu/ws</code> match <code>yourcomputer:/path/to/workspace/</code></li>
-<li>The <code>a</code> flag copies all directories and permissions</li>
-<li>The <code>v</code> flag increases verbosity (you can get more or less by adding/removing more v's)</li>
-<li><code>--delete</code> deletes files in the destination that are not present in the source</li>
-<li><code>rsync</code> is great for syncing directories between machines because it will only copy files that have changed.</li>
+<li>The command makes <code class="verbatim">turtlebot:/home/ubuntu/ws</code> match <code class="verbatim">yourcomputer:/path/to/workspace/</code></li>
+<li>The <code class="verbatim">a</code> flag copies all directories and permissions</li>
+<li>The <code class="verbatim">v</code> flag increases verbosity (you can get more or less by adding/removing more v's)</li>
+<li><code class="verbatim">--delete</code> deletes files in the destination that are not present in the source</li>
+<li><code class="verbatim">rsync</code> is great for syncing directories between machines because it will only copy files that have changed.</li>
 </ul></li>
 </ul></li>
-<li><code>ssh ubuntu@turtlebot.local</code> and <code>cd</code> into <code>ws</code></li>
+<li><code class="verbatim">ssh ubuntu@turtlebot.local</code> and <code class="verbatim">cd</code> into <code class="verbatim">ws</code></li>
 <li>On the turtlebot build the workspace and run your launchfile
 <ul>
-<li><code>turtlebot$ catkin_make -j1</code> to compile your workspace
+<li><code class="verbatim">turtlebot$ catkin_make -j1</code> to compile your workspace
 <ul>
 <li>This may take a few minutes (it takes me about 3).</li>
-<li>The <code>-j1</code> option causes <code>make</code> to only use 1 thread. In my experience, letting it use the full number of threads can cause the raspberry pi to run out of RAM, slowing compilation to a crawl.</li>
+<li>The <code class="verbatim">-j1</code> option causes <code class="verbatim">make</code> to only use 1 thread. In my experience, letting it use the full number of threads can cause the raspberry pi to run out of RAM, slowing compilation to a crawl.</li>
 </ul></li>
-<li><code>turtlebot$ source devel/setup.bash</code></li>
+<li><code class="verbatim">turtlebot$ source devel/setup.bash</code></li>
 <li><code>turtlebot$ roslaunch nuturtle_robot basic_remote.launch robot:=localhost</code></li>
 </ul></li>
 <li>Play a sound on the turtlebot: <code>turtlebot$ rostopic pub /sound turtlebot3_msgs/Sound "value: 0"</code>
@@ -762,15 +762,15 @@ table td {
 </ul></li>
 <li>The next steps occur on your computer
 <ol>
-<li>Make sure you have <code>ros-noetic-turtlebot3</code> installed (via <code>apt</code>).
+<li>Make sure you have <code class="verbatim">ros-noetic-turtlebot3</code> installed (via <code class="verbatim">apt</code>).
 <ul>
-<li>If you needed to install it re-source the <code>/opt/ros/noetic/setup.bash</code> file before continuing.</li>
-<li>We are mainly using this package for the definition of <code>turtlebot3_msgs/Sound</code>.</li>
+<li>If you needed to install it re-source the <code class="verbatim">/opt/ros/noetic/setup.bash</code> file before continuing.</li>
+<li>We are mainly using this package for the definition of <code class="verbatim">turtlebot3_msgs/Sound</code>.</li>
 </ul></li>
-<li><code>rostopic pub /sound turtlebot3_msgs/Sound "value: 0"</code>. You should hear the sound. Keep the publisher open</li>
-<li>Use <code>rqt_graph</code> to save an image <code>nuturtle_robot/images/F003.svg</code> of the graph (There is a button to save as svg in the upper right corner)
+<li><code class="verbatim">rostopic pub /sound turtlebot3_msgs/Sound "value: 0"</code>. You should hear the sound. Keep the publisher open</li>
+<li>Use <code class="verbatim">rqt_graph</code> to save an image <code class="verbatim">nuturtle_robot/images/F003.svg</code> of the graph (There is a button to save as svg in the upper right corner)
 <ul>
-<li>Make sure Dead sinks and leaf topics are not hidden. You should see a <code>/serial</code> node subscribing to <code>/sound</code> and <code>/wheel_cmd</code> and publishing <code>/diagnostics</code> and <code>/sensor_data</code></li>
+<li>Make sure Dead sinks and leaf topics are not hidden. You should see a <code class="verbatim">/serial</code> node subscribing to <code class="verbatim">/sound</code> and <code class="verbatim">/wheel_cmd</code> and publishing <code class="verbatim">/diagnostics</code> and <code class="verbatim">/sensor_data</code></li>
 <li>You should have Nodes/Topics (all) displayed</li>
 </ul></li>
 </ol></li>
@@ -778,50 +778,50 @@ table td {
 <h2 id="task-f.004-cross-compilation">Task F.004 (Cross-compilation)</h2>
 <ol>
 <li>As you saw in F.003, compiling code on the turtlebot itself is rather slow.</li>
-<li>For most of our tasks, we will use a docker container that has all the necessary tools and libraries for compiling <code>arm</code> binaries for the turtlebot on the host system.
+<li>For most of our tasks, we will use a docker container that has all the necessary tools and libraries for compiling <code class="verbatim">arm</code> binaries for the turtlebot on the host system.
 <ul>
 <li>This will let us compile on our own computers, which can greatly speed up the compilation process</li>
 </ul></li>
 <li>Follow the <a href="./cross-compile.html">Cross compilation</a> instructions to setup docker and the cross-compiling system.
 <ul>
-<li>We will use <code>./arm catkin_arm</code> to call <code>catkin_make</code> inside the container</li>
-<li>Use <code>./arm catkin_arm install</code> to run <code>catkin_make install</code> inside the container</li>
+<li>We will use <code class="verbatim">./arm catkin_arm</code> to call <code class="verbatim">catkin_make</code> inside the container</li>
+<li>Use <code class="verbatim">./arm catkin_arm install</code> to run <code class="verbatim">catkin_make install</code> inside the container</li>
 </ul></li>
-<li>Copy the install space the robot: <code>rsync -av --delete arm_install/ ubuntu@turtlebot:/home/ubuntu/install</code>
+<li>Copy the install space the robot: <code class="verbatim">rsync -av --delete arm_install/ ubuntu@turtlebot:/home/ubuntu/install</code>
 <ul>
 <li>It is crucial that install all your nodes and any other files you need on the robot so they are present in the install space.</li>
 <li>You should install your launchfiles and config files in addition to your nodes, this way you can run your code directly from the turtlebot, which is a useful debugging step.</li>
-<li>To install all launchfiles in <code>launch/</code>, for example: <code>install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch</code></li>
-<li>Pay close attention to the trailing <code>/</code> in the above command.</li>
+<li>To install all launchfiles in <code class="verbatim">launch/</code>, for example: <code class="verbatim">install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch</code></li>
+<li>Pay close attention to the trailing <code class="verbatim">/</code> in the above command.</li>
 </ul></li>
 <li>Running your code, from your computer
 <ul>
 <li>From your computer: <code>roslaunch nuturtle_robot basic_remote.launch robot:=turtlebot.local</code> should start the serial node on the robot</li>
 <li>After you complete this run rostopic list to see the topics that are available</li>
-<li>run <code>rosnode machine turtlebot.local</code> to see the nodes running on turtlebot.local run <code>rosnode machine &lt;yourhostname.local&gt;</code> to see the nodes running on your machine</li>
-<li>Make sure that on your computer you have <code>ROS_MASTER_URI</code> set to <code>http://&lt;your_hostname&gt;.local:11311</code> and <code>ROS_HOSTNAME</code> set to <code>&lt;your_hostname&gt;.local</code></li>
+<li>run <code class="verbatim">rosnode machine turtlebot.local</code> to see the nodes running on turtlebot.local run <code class="verbatim">rosnode machine &lt;yourhostname.local&gt;</code> to see the nodes running on your machine</li>
+<li>Make sure that on your computer you have <code class="verbatim">ROS_MASTER_URI</code> set to <code class="verbatim">http://&lt;your_hostname&gt;.local:11311</code> and <code class="verbatim">ROS_HOSTNAME</code> set to <code class="verbatim">&lt;your_hostname&gt;.local</code></li>
 </ul></li>
-<li>Use <code>rqt_plot</code> to show a graph of <code>/sensor_data/battery_voltage</code> and <code>/sensor_data/accelZ</code>. <strong>Carefully</strong> pick the turtlebot up and tilt it to the side.
+<li>Use <code class="verbatim">rqt_plot</code> to show a graph of <code class="verbatim">/sensor_data/battery_voltage</code> and <code class="verbatim">/sensor_data/accelZ</code>. <strong>Carefully</strong> pick the turtlebot up and tilt it to the side.
 <ul>
-<li>Save the figure to <code>nuturtle_robot/images/accbat.svg</code></li>
+<li>Save the figure to <code class="verbatim">nuturtle_robot/images/accbat.svg</code></li>
 </ul></li>
 </ol>
 <h2 id="task-f.005-low-level-commands">Task F.005 (Low Level Commands)</h2>
 <ul>
-<li>We will implement our own low-level control and sensor routines in ROS in a <code>turtle_interface</code> node.</li>
-<li>You should use the <code>DiffDrive</code> class to perform the computations</li>
+<li>We will implement our own low-level control and sensor routines in ROS in a <code class="verbatim">turtle_interface</code> node.</li>
+<li>You should use the <code class="verbatim">DiffDrive</code> class to perform the computations</li>
 <li>This node reads in a twist and converts it to specific wheel commands that make the turtlebot move</li>
 <li>It also reads in raw encoder data and outputs it as joint angles and velocities</li>
-<li>The <code>odometer</code> node reads the joint angles and outputs the odometry</li>
+<li>The <code class="verbatim">odometer</code> node reads the joint angles and outputs the odometry</li>
 </ul>
 <ol>
-<li>Write a node called <code>turtle_interface</code> that
+<li>Write a node called <code class="verbatim">turtle_interface</code> that
 <ul>
-<li>Subscribes to <code>cmd_vel (geometry_msgs/Twist)</code> and publishes <code>wheel_cmd (nuturtlebot/WheelCommands)</code> that will make the turtlebot3 follow the specified twist
+<li>Subscribes to <code class="verbatim">cmd_vel (geometry_msgs/Twist)</code> and publishes <code class="verbatim">wheel_cmd (nuturtlebot/WheelCommands)</code> that will make the turtlebot3 follow the specified twist
 <ul>
 <li>Wheel commands are integer values between -256 and 256 and are proportional to the maximum rotational velocity of the motor (see <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/features/#specifications">Specifications</a>).</li>
 </ul></li>
-<li>Subscribes to <code>sensor_data (nuturtlebot/SensorData)</code> and publishes <code>joint_states (sensor_msgs/JointState)</code> to provide the angle (in radians) and velocity (in rad/sec) of the wheels, based on encoder data.
+<li>Subscribes to <code class="verbatim">sensor_data (nuturtlebot/SensorData)</code> and publishes <code class="verbatim">joint_states (sensor_msgs/JointState)</code> to provide the angle (in radians) and velocity (in rad/sec) of the wheels, based on encoder data.
 <ul>
 <li>The node should saturate its output so the maximum rotational speed of the motor is not exceeded</li>
 <li>Theoretically the max translational and rotational speed of the robot should be solely determined by the maximum motor rotational speed and the geometry of the robot. However, there is an unknown load on the wheels (due to varying friction) which means that the max speed the robot can travel is actually less than the maximum no-load speed of the motors.</li>
@@ -830,67 +830,67 @@ table td {
 </ol>
 <h2 id="task-f.006-ros-api-testing">Task F.006 (ROS API Testing)</h2>
 <ul>
-<li>This task is about testing that <code>turtle_interface</code> actually works by using <code>rostest</code> to exercise its publishers and subscribers</li>
+<li>This task is about testing that <code class="verbatim">turtle_interface</code> actually works by using <code class="verbatim">rostest</code> to exercise its publishers and subscribers</li>
 <li>Using rostest we can test the logic of this node without needing a turtlebot</li>
 </ul>
 <ol>
-<li>Write a test node called <code>turtle_interface_test</code> that uses rostest to test <code>turtle_interface</code> ROS API
+<li>Write a test node called <code class="verbatim">turtle_interface_test</code> that uses rostest to test <code class="verbatim">turtle_interface</code> ROS API
 <ul>
-<li>Write a test that verifies that <code>cmd_vel</code> commands with pure translation result in the appropriate <code>wheel_cmd</code></li>
-<li>Write a test that verifies that <code>cmd_vel</code> commands with pure rotation in the appropriate <code>wheel_cmd</code></li>
-<li>Write a test case that verifies that encoder data on <code>sensors</code> is converted to <code>joint_states</code> properly</li>
-<li>Write a <code>rostest</code> file called <code>turtle_interface.test</code> that runs <code>turtle_interface_test</code> and <code>turtle_interface</code>
+<li>Write a test that verifies that <code class="verbatim">cmd_vel</code> commands with pure translation result in the appropriate <code class="verbatim">wheel_cmd</code></li>
+<li>Write a test that verifies that <code class="verbatim">cmd_vel</code> commands with pure rotation in the appropriate <code class="verbatim">wheel_cmd</code></li>
+<li>Write a test case that verifies that encoder data on <code class="verbatim">sensors</code> is converted to <code class="verbatim">joint_states</code> properly</li>
+<li>Write a <code class="verbatim">rostest</code> file called <code class="verbatim">turtle_interface.test</code> that runs <code class="verbatim">turtle_interface_test</code> and <code class="verbatim">turtle_interface</code>
 <ul>
-<li>Register these tests in <code>CMakeLists.txt</code> such that this node is tested when you run <code>catkin_make run_tests</code></li>
+<li>Register these tests in <code class="verbatim">CMakeLists.txt</code> such that this node is tested when you run <code class="verbatim">catkin_make run_tests</code></li>
 </ul></li>
 <li>Hints:
 <ul>
-<li>It is sometimes helpful to run the <code>rostest</code> file separately from <code>catkin_make run_tests</code>, especially when debugging.</li>
-<li>By default, <code>rostest</code> uses a different <code>roscore</code> than the regular one, making debugging difficult. However, you can force <code>rostest</code> to use your regular <code>rosmaster</code> (see <code>rostest --help</code>).</li>
+<li>It is sometimes helpful to run the <code class="verbatim">rostest</code> file separately from <code class="verbatim">catkin_make run_tests</code>, especially when debugging.</li>
+<li>By default, <code class="verbatim">rostest</code> uses a different <code class="verbatim">roscore</code> than the regular one, making debugging difficult. However, you can force <code class="verbatim">rostest</code> to use your regular <code class="verbatim">rosmaster</code> (see <code class="verbatim">rostest --help</code>).</li>
 <li>When testing subscribers, use a latched publisher. This way, the subscriber will get the last message published by your test case even if it actually subscribes AFTER the message was published.</li>
-<li>When writing the <code>.test</code> file, only use <code>&lt;test&gt;</code> node tags for nodes that are implementing the unit tests. Other nodes should be started with the node tag. I haven't seen this documented anywhere, but as far as I can tell, running regular (non-gtest) nodes with the <code>test</code> tag via <code>catkin_make</code> run_tests causes the test system to freeze.</li>
+<li>When writing the <code class="verbatim">.test</code> file, only use <code class="verbatim">&lt;test&gt;</code> node tags for nodes that are implementing the unit tests. Other nodes should be started with the node tag. I haven't seen this documented anywhere, but as far as I can tell, running regular (non-gtest) nodes with the <code class="verbatim">test</code> tag via <code class="verbatim">catkin_make</code> run_tests causes the test system to freeze.</li>
 <li>You can create a node-handle, publisher, and subscriber on a per-test basis if desired.</li>
-<li>Also, you need to run <code>catkin_make</code> followed by <code>catkin_make run_tests</code> to test your code</li>
-<li>Using <code>output="screen"</code> in the <code>node</code> tag is helpful for viewing debugging output from the nodes under test</li>
+<li>Also, you need to run <code class="verbatim">catkin_make</code> followed by <code class="verbatim">catkin_make run_tests</code> to test your code</li>
+<li>Using <code>output="screen"</code> in the <code class="verbatim">node</code> tag is helpful for viewing debugging output from the nodes under test</li>
 </ul></li>
 </ul></li>
 </ol>
 <h2 id="task-f.007-teleoperation">Task F.007 (Teleoperation)</h2>
-<p>Write a node called <code>follow_circle</code> that publishes commands that let the robot drive in a circle of a specified radius at a specified speed</p>
+<p>Write a node called <code class="verbatim">follow_circle</code> that publishes commands that let the robot drive in a circle of a specified radius at a specified speed</p>
 <ol>
 <li>The node should use private parameters to determine the speed and the radius of the circle</li>
-<li>The node should offer a <code>/control</code> service that causes the robot to travel either clockwise, counter clockwise, or stop.</li>
+<li>The node should offer a <code class="verbatim">/control</code> service that causes the robot to travel either clockwise, counter clockwise, or stop.</li>
 </ol>
 <h2 id="task-f.007-odometry-teleop-launch">Task F.007 (Odometry Teleop Launch)</h2>
-<p>Write a launchfile called <code>odom_teleop.launch</code> that</p>
+<p>Write a launchfile called <code class="verbatim">odom_teleop.launch</code> that</p>
 <ol>
-<li>Launches either the <code>follow_circle</code> or <code>turtlebot3_teleop_key</code> nodes, depending on if the <code>circle</code> argument is true or false</li>
-<li>Launches the <code>odometer</code> and <code>turtle_interface</code> nodes remotely on the <code>turtlebot3</code></li>
-<li>Launches <code>rviz</code> on your computer, in a mode that lets you visualize the position of the robot in the odometry frame</li>
+<li>Launches either the <code class="verbatim">follow_circle</code> or <code class="verbatim">turtlebot3_teleop_key</code> nodes, depending on if the <code class="verbatim">circle</code> argument is true or false</li>
+<li>Launches the <code class="verbatim">odometer</code> and <code class="verbatim">turtle_interface</code> nodes remotely on the <code class="verbatim">turtlebot3</code></li>
+<li>Launches <code class="verbatim">rviz</code> on your computer, in a mode that lets you visualize the position of the robot in the odometry frame</li>
 </ol>
 <h2 id="task-f.008-physical-testing">Task F.008 (Physical Testing)</h2>
 <p>If you run these tests in <em>turtleland</em>, the course is marked out for you. However, you may run these tests at home as well. The precise distances are not important.</p>
 <ol>
-<li><p>Take a video and screencast of each of the experiments and include a <code>gif</code> version in your <code>README.md</code>.</p></li>
-<li><p>The experiments also ask questions that you should answer in the <code>README.md</code></p></li>
+<li><p>Take a video and screencast of each of the experiments and include a <code class="verbatim">gif</code> version in your <code class="verbatim">README.md</code>.</p></li>
+<li><p>The experiments also ask questions that you should answer in the <code class="verbatim">README.md</code></p></li>
 <li><p>Drive the robot forward and backward in a straight line several times, and then stopping when the turtlebot is in its initial configuration.</p>
 <ul>
 <li>Don't rotate the turtlebot at all, even if it means you cannot perfectly line up with the initial configuration</li>
-<li>Record the final location of the turtlebot according to odometry in the <code>README.md</code> (in an ideal world it would be <span class="math inline">\((0,0,0)\)</span>, but don't expect perfection!).</li>
+<li>Record the final location of the turtlebot according to odometry in the <code class="verbatim">README.md</code> (in an ideal world it would be <span class="math inline">\((0,0,0)\)</span>, but don't expect perfection!).</li>
 </ul></li>
 <li><p>Rotate the robot clockwise and counter clockwise several times, stopping when the turtlebot is in its initial configuration.</p>
 <ul>
 <li>Don't translate the turtlebot at all, even if it means you cannot perfectly line up with the initial configuration</li>
-<li>Record the final location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+<li>Record the final location of the turtlebot according to odometry in the <code class="verbatim">README.md</code>.</li>
 </ul></li>
 <li><p>Drive the robot in a circle, clockwise and counter clockwise several times, stopping when the turtlebot is its initial configuration.</p>
 <ul>
-<li>When you get close to stopping, you can use the <code>teleop_keyboard</code> to try to get the robot as close to its initial configuration as you can.</li>
-<li>Record the final location of the turtlebot according to odometry in the <code>README.md</code>.</li>
+<li>When you get close to stopping, you can use the <code class="verbatim">teleop_keyboard</code> to try to get the robot as close to its initial configuration as you can.</li>
+<li>Record the final location of the turtlebot according to odometry in the <code class="verbatim">README.md</code>.</li>
 </ul></li>
 <li><p>Try one of the previous experiments again, but try to get either a significantly better or significantly worse result.</p>
 <ul>
-<li>Was your driving able to make a difference? What did you change with your driving to accomplish this?. Answer in the <code>README.md</code></li>
+<li>Was your driving able to make a difference? What did you change with your driving to accomplish this?. Answer in the <code class="verbatim">README.md</code></li>
 </ul></li>
 </ol>
 </div>

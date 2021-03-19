@@ -578,7 +578,7 @@ table td {
 <li>Since c++17 std::abs() works for floating point as well</li>
 <li>Better yet: include a <code>using std::abs</code> and the correct version will be called.</li>
 </ul></li>
-<li><p>Use <code>const</code> everywhere you can</p></li>
+<li><p>Use <code class="verbatim">const</code> everywhere you can</p></li>
 <li><p>All C++ code should be compiled with <code>c++17</code>, GNU extensions disabled and <code>-Wall -Wextra</code></p></li>
 <li><p>Constructors should use initializer lists to initialize member variables</p></li>
 <li><p>Member variables should be initialized in the constructor initailizer list in the same order in which they are declared</p></li>
@@ -586,18 +586,18 @@ table td {
 <ul>
 <li>(see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</li>
 </ul></li>
-<li><p>Do not put <code>using</code> statements at file scope in header files</p>
+<li><p>Do not put <code class="verbatim">using</code> statements at file scope in header files</p>
 <ul>
-<li>These <code>using</code> statements change the behavior of all code that includes the header, including other headers that are below this one</li>
+<li>These <code class="verbatim">using</code> statements change the behavior of all code that includes the header, including other headers that are below this one</li>
 <li>Thus, if you do do this you can introduce include-order dependencies and mess up the functioning of other people's code when they include your header</li>
 </ul></li>
-<li><p>In most cases it is preferable to explicitly do a using for each function that you need rather than polluting the namespace by doing <code>using namespace std</code></p></li>
+<li><p>In most cases it is preferable to explicitly do a using for each function that you need rather than polluting the namespace by doing <code class="verbatim">using namespace std</code></p></li>
 <li><p>Place variables in the scope closest to where they are needed</p></li>
-<li><p>If you use a global variable, make it <code>static</code> or put it in an anonymous namespace so it can't bee seen by other modules</p>
+<li><p>If you use a global variable, make it <code class="verbatim">static</code> or put it in an anonymous namespace so it can't bee seen by other modules</p>
 <ul>
-<li>There are rare cases where using an <code>extern</code> global variable might make sense, but not in this class, so don't use <code>extern</code></li>
+<li>There are rare cases where using an <code class="verbatim">extern</code> global variable might make sense, but not in this class, so don't use <code>extern</code></li>
 </ul></li>
-<li><p>Usually single-argument constructors should be declared <code>explicit</code></p></li>
+<li><p>Usually single-argument constructors should be declared <code class="verbatim">explicit</code></p></li>
 </ol>
 <h2 id="ros">ROS</h2>
 <ol>
@@ -616,7 +616,7 @@ table td {
 </ul></li>
 <li>Launchfile should not result in errors due to code in one of your packages.</li>
 <li>Launchfile should not results in warnings due to code in one of your packages.</li>
-<li>Launchfile arguments should have a <code>doc</code> attribute to explain their use (<strong>Automatic Zero for Task</strong>)</li>
+<li>Launchfile arguments should have a <code class="verbatim">doc</code> attribute to explain their use (<strong>Automatic Zero for Task</strong>)</li>
 <li>Any <code>package.xml</code> files should be kept up-to-date with the proper dependencies, a description, and author information</li>
 </ol>
 </div>

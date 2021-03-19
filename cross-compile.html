@@ -488,16 +488,16 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>This document describes how to cross-compile for <code>Ubuntu 20.04 LTS</code> running on a raspberry pi 3.</p>
+<p>This document describes how to cross-compile for <code class="verbatim">Ubuntu 20.04 LTS</code> running on a raspberry pi 3.</p>
 <h1 id="cross-compilation-1">Cross Compilation</h1>
 <ul>
 <li>The act of using a compiler on one system to generate code for another system.
 <ul>
-<li>In our case, <code>x86-x64</code> to <code>armhf</code></li>
+<li>In our case, <code class="verbatim">x86-x64</code> to <code class="verbatim">armhf</code></li>
 <li>Not only must our own code be compiled for armhf, but also any libraries that we use
 <ul>
 <li>Libraries greatly complicates our code, as our host systems usually only have libraries for our own architecture</li>
-<li><code>Ubuntu</code> supports <code>multi-arch</code>, that is having libraries installed for multiple architectures
+<li><code class="verbatim">Ubuntu</code> supports <code class="verbatim">multi-arch</code>, that is having libraries installed for multiple architectures
 <ul>
 <li>However, getting all the libraries installed and configured is a difficult task.</li>
 </ul></li>
@@ -505,49 +505,49 @@ table td {
 <li>The alternative is to use a native compiler on the raspberry pi on the turtlebot
 <ul>
 <li>Compiling on the raspberry pi 3 is slow, our laptops are much faster than a raspberry pi</li>
-<li>I actually ran out of RAM when trying to compile the homework on the <code>raspberry pi</code> unless I disabled parallel builds</li>
+<li>I actually ran out of RAM when trying to compile the homework on the <code class="verbatim">raspberry pi</code> unless I disabled parallel builds</li>
 </ul></li>
 </ul></li>
 </ul>
 <h2 id="cross-compiler-docker-container">Cross-Compiler Docker Container</h2>
 <p>I've created a docker container with the necessary libraries and setup for cross compilation. I explain how to use it here. To understand what it actually does (not necessary to use it) see <a href="https://github.com/m-elwin/ros_x86_arm_docker">my github repository</a></p>
 <ul>
-<li>To use, install docker <code>sudo apt install docker.io</code></li>
-<li>Next, in your workspace, run <code>docker run reem17/ros_x86_to_arm:noetic &gt; arm &amp;&amp; chmod 755 arm</code>
+<li>To use, install docker <code class="verbatim">sudo apt install docker.io</code></li>
+<li>Next, in your workspace, run <code class="verbatim">docker run reem17/ros_x86_to_arm:noetic &gt; arm &amp;&amp; chmod 755 arm</code>
 <ul>
-<li>This command runs my docker container and outputs a script (<code>arm</code>) that makes it easy to use.</li>
+<li>This command runs my docker container and outputs a script (<code class="verbatim">arm</code>) that makes it easy to use.</li>
 <li>The docker image should be downloaded automatically the first time you use this command</li>
 </ul></li>
-<li>In your workspace run <code>./arm catkin_arm install</code> to run <code>catkin_make install</code> inside the docker container on your workspace
+<li>In your workspace run <code class="verbatim">./arm catkin_arm install</code> to run <code class="verbatim">catkin_make install</code> inside the docker container on your workspace
 <ul>
-<li>The build, devel, and install spaces are all called <code>arm_build</code>, <code>arm_devel</code> and <code>arm_install</code></li>
-<li><code>./arm</code> essentially just calls a command inside the docker container. Use <code>./arm bash</code> to get a bash prompt, for example
+<li>The build, devel, and install spaces are all called <code class="verbatim">arm_build</code>, <code class="verbatim">arm_devel</code> and <code class="verbatim">arm_install</code></li>
+<li><code class="verbatim">./arm</code> essentially just calls a command inside the docker container. Use <code class="verbatim">./arm bash</code> to get a bash prompt, for example
 <ul>
-<li><code>catkin_arm</code> is a script that runs <code>catkin_make</code> but prefixes the <code>build,devel,install</code> spaces with <code>arm_</code></li>
+<li><code class="verbatim">catkin_arm</code> is a script that runs <code class="verbatim">catkin_make</code> but prefixes the <code class="verbatim">build,devel,install</code> spaces with <code class="verbatim">arm_</code></li>
 </ul></li>
 </ul></li>
 </ul>
 <h3 id="deployment">Deployment</h3>
 <ul>
-<li>Use <code>rsync</code> to copy the <code>install</code> space to the turtlebot: <code>rsync -av --delete arm_install/ ubuntu@turtlebot:/home/ubuntu/install</code>
+<li>Use <code class="verbatim">rsync</code> to copy the <code class="verbatim">install</code> space to the turtlebot: <code class="verbatim">rsync -av --delete arm_install/ ubuntu@turtlebot:/home/ubuntu/install</code>
 <ul>
-<li>This command makes <code>turtlebot:/home/ubuntu/install</code> contain the same exact files as <code>yourcomputer:/path/to/ros/ws/arm_install</code></li>
+<li>This command makes <code class="verbatim">turtlebot:/home/ubuntu/install</code> contain the same exact files as <code class="verbatim">yourcomputer:/path/to/ros/ws/arm_install</code></li>
 </ul></li>
-<li>The deployment process depends upon your <code>ROS</code> nodes being installed properly. You cannot just copy the devel space because of the symlinks it uses.
+<li>The deployment process depends upon your <code class="verbatim">ROS</code> nodes being installed properly. You cannot just copy the devel space because of the symlinks it uses.
 <ul>
 <li>Thus, you must make sure that your nodes are installed properly.</li>
-<li>Anything that is not installed, will not be in the <code>arm_install</code> space and will not be present or available on the <code>raspberry pi</code></li>
+<li>Anything that is not installed, will not be in the <code class="verbatim">arm_install</code> space and will not be present or available on the <code class="verbatim">raspberry pi</code></li>
 </ul></li>
 </ul>
 <h1 id="remote-debugging">Remote Debugging</h1>
-<p>Because we are only copying the install space to the <code>raspberry pi</code> and because the <code>raspberry pi</code> is so slow, it makes sense, for debugging, to run the debugger on our host computer. To do this, the following commands work (after installing <code>gdb-multiarch</code> on your host machine)</p>
+<p>Because we are only copying the install space to the <code class="verbatim">raspberry pi</code> and because the <code class="verbatim">raspberry pi</code> is so slow, it makes sense, for debugging, to run the debugger on our host computer. To do this, the following commands work (after installing <code class="verbatim">gdb-multiarch</code> on your host machine)</p>
 <ol>
-<li>Mount the <code>raspberry pi</code>'s disk image to <code>/mnt/raspberrypi/</code>
+<li>Mount the <code class="verbatim">raspberry pi</code>'s disk image to <code class="verbatim">/mnt/raspberrypi/</code>
 <ul>
-<li><code>sudo losetup -Pf turtle_img</code></li>
-<li>This will output the name of a loop device <code>loopX</code></li>
-<li><code>sudo mount /dev/loopXp2 /mnt/raspberrypi</code></li>
-<li>The <code>/mnt/raspberrypi</code> directory must exist for this to work. You can use any directory that you want</li>
+<li><code class="verbatim">sudo losetup -Pf turtle_img</code></li>
+<li>This will output the name of a loop device <code class="verbatim">loopX</code></li>
+<li><code class="verbatim">sudo mount /dev/loopXp2 /mnt/raspberrypi</code></li>
+<li>The <code class="verbatim">/mnt/raspberrypi</code> directory must exist for this to work. You can use any directory that you want</li>
 </ul></li>
 <li>On raspberry pi <code>gdbserver host:2345 &lt;executable&gt;</code>, where &lt;executable&gt; is the name of the file you wish to run</li>
 <li>On your pc: <code>gdb-multiarch file</code> <code>set debug-file-directory /mnt/raspberrypi/usr/lib/debug</code> <code>set sysroot=/mnt/raspberrypi</code> <code>target extended-remote turtlebotX:2345</code> To kill the remote server: <code>monitor exit</code></li>

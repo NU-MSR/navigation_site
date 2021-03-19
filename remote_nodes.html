@@ -499,77 +499,77 @@ table td {
 <li>Computers running ROS nodes must be able to communicate with each other over a network</li>
 <li>Typically, all computers are on a single local area network (LAN)</li>
 <li>Each computer has a unique IP address, a 4 byte number identifying that computer (e.g., 192.168.0.1).</li>
-<li>Each computer also has a <code>hostname</code> which is a human-readable name that corresponds to that computer's ip address
+<li>Each computer also has a <code class="verbatim">hostname</code> which is a human-readable name that corresponds to that computer's ip address
 <ul>
-<li>name lookup, converts a <code>name</code> to an ip address which is then used to connect to the remote computer</li>
+<li>name lookup, converts a <code class="verbatim">name</code> to an ip address which is then used to connect to the remote computer</li>
 </ul></li>
-<li>The <code>rosmaster</code> process runs on one computer in the network and coordinates ROS nodes
+<li>The <code class="verbatim">rosmaster</code> process runs on one computer in the network and coordinates ROS nodes
 <ul>
-<li>Nodes contact the <code>rosmaster</code> to register their publishers and subscribers</li>
+<li>Nodes contact the <code class="verbatim">rosmaster</code> to register their publishers and subscribers</li>
 <li>Nodes are then directly connected to each other as needed.</li>
 </ul></li>
 </ul>
 <h1 id="environment-variables">Environment variables</h1>
 <ul>
-<li>The <code>ROS_MASTER_URI</code> environment variable tells a node where to find the <code>rosmaster</code>
+<li>The <code class="verbatim">ROS_MASTER_URI</code> environment variable tells a node where to find the <code class="verbatim">rosmaster</code>
 <ul>
-<li>All nodes in the network, when launched, should have the same <code>ROS_MASTER_URI</code> in order to communicate on the same ROS network</li>
-<li>We will run <code>rosmaster</code> on our development computers
+<li>All nodes in the network, when launched, should have the same <code class="verbatim">ROS_MASTER_URI</code> in order to communicate on the same ROS network</li>
+<li>We will run <code class="verbatim">rosmaster</code> on our development computers
 <ul>
-<li>Our development computer is always on, so we don't need to change the <code>ROS_MASTER_URI</code> when we, for example, turn of the robot (like the turtlebot)</li>
-<li>If we wanted the <code>turtlebot</code> to be completely independent of the development computer, we would run <code>rosmaster</code> on the <code>turtlebot</code></li>
+<li>Our development computer is always on, so we don't need to change the <code class="verbatim">ROS_MASTER_URI</code> when we, for example, turn of the robot (like the turtlebot)</li>
+<li>If we wanted the <code class="verbatim">turtlebot</code> to be completely independent of the development computer, we would run <code class="verbatim">rosmaster</code> on the <code class="verbatim">turtlebot</code></li>
 </ul></li>
 </ul></li>
-<li>The <code>ROS_HOSTNAME</code> environment variable contains the address of the node.
+<li>The <code class="verbatim">ROS_HOSTNAME</code> environment variable contains the address of the node.
 <ul>
-<li>When <code>node A</code> connects to <code>rosmaster</code> it provides <code>rosmaster</code> with the value of <code>ROS_HOSTNAME</code>. <code>rosmaster</code> uses this address to tell other nodes how to contact <code>node A</code>.</li>
-<li>If no <code>ROS_HOSTNAME</code> is provided, the <code>hostname</code> of the computer on which the node is running will be used.</li>
+<li>When <code class="verbatim">node A</code> connects to <code class="verbatim">rosmaster</code> it provides <code class="verbatim">rosmaster</code> with the value of <code class="verbatim">ROS_HOSTNAME</code>. <code class="verbatim">rosmaster</code> uses this address to tell other nodes how to contact <code class="verbatim">node A</code>.</li>
+<li>If no <code class="verbatim">ROS_HOSTNAME</code> is provided, the <code class="verbatim">hostname</code> of the computer on which the node is running will be used.</li>
 </ul></li>
-<li>The <code>ROS_IP</code> variable is like <code>ROS_HOSTNAME</code> but contains the ip address of the node. Do not set this if using <code>ROS_HOSTNAME</code>.</li>
+<li>The <code class="verbatim">ROS_IP</code> variable is like <code class="verbatim">ROS_HOSTNAME</code> but contains the ip address of the node. Do not set this if using <code class="verbatim">ROS_HOSTNAME</code>.</li>
 </ul>
 <h1 id="networking-setup">Networking setup</h1>
 <ul>
-<li>ROS networking is easiest if each computer in the network can connect to the other computers via <code>hostname</code> resolution.
+<li>ROS networking is easiest if each computer in the network can connect to the other computers via <code class="verbatim">hostname</code> resolution.
 <ul>
-<li>This means that every computer in the network can <code>ping</code> every other computer by <code>hostname</code></li>
+<li>This means that every computer in the network can <code class="verbatim">ping</code> every other computer by <code class="verbatim">hostname</code></li>
 </ul></li>
-<li>The easiest way to get <code>hostname</code> resolution working on your network is to use a <code>router</code> that sets up name resolution for you automatically
+<li>The easiest way to get <code class="verbatim">hostname</code> resolution working on your network is to use a <code class="verbatim">router</code> that sets up name resolution for you automatically
 <ul>
-<li>Every computer just connects to the router. You then set <code>ROS_MASTER_URI</code> to the <code>hostname</code> of the comptuer running <code>rosmaster</code></li>
-<li>In my experience, <a href="https://openwrt.org/">openWRT</a>, a Linux distribution for routers sets up <code>hostname</code> resolution automatically</li>
-<li>When buying routers for use with robotics, I make sure to buy one that <code>OpenWRT</code> supports. Most consumer-level routers that I know of do not support <code>hostname</code> resolution</li>
-<li>I use this setup on the <code>TURTLENET</code> network in the lab</li>
-<li>You can also assign <code>static ip addresses</code> to each computer, and do everything by <code>ip</code> address or by <code>hostnames</code> written to <code>/etc/hosts</code></li>
+<li>Every computer just connects to the router. You then set <code class="verbatim">ROS_MASTER_URI</code> to the <code class="verbatim">hostname</code> of the comptuer running <code class="verbatim">rosmaster</code></li>
+<li>In my experience, <a href="https://openwrt.org/">openWRT</a>, a Linux distribution for routers sets up <code class="verbatim">hostname</code> resolution automatically</li>
+<li>When buying routers for use with robotics, I make sure to buy one that <code class="verbatim">OpenWRT</code> supports. Most consumer-level routers that I know of do not support <code class="verbatim">hostname</code> resolution</li>
+<li>I use this setup on the <code class="verbatim">TURTLENET</code> network in the lab</li>
+<li>You can also assign <code class="verbatim">static ip addresses</code> to each computer, and do everything by <code class="verbatim">ip</code> address or by <code class="verbatim">hostnames</code> written to <code class="verbatim">/etc/hosts</code></li>
 </ul></li>
-<li>The second easiest way is to use <code>mdns</code> or multi-cast DNS
+<li>The second easiest way is to use <code class="verbatim">mdns</code> or multi-cast DNS
 <ul>
-<li>This feature is setup automatically on <code>ubuntu</code>. It can be used via the <code>avahi-daemon</code> or it is also built-in to <code>NetworkManager/systemd-resolvd</code>.</li>
-<li><code>mDNS</code> (by default) automatically lets computers find each other via the address <code>hostname.local</code>.</li>
-<li>To use this with <code>ROS</code> you must set each computer's <code>ROS_HOSTNAME</code> to <code>&lt;hostname&gt;.local</code> where <code>&lt;hostname&gt;</code> is the hostname of that computer</li>
-<li>I use this setup with the <code>turtlebot</code> that I give you. This works well when <code>mdns</code> is working.</li>
+<li>This feature is setup automatically on <code class="verbatim">ubuntu</code>. It can be used via the <code class="verbatim">avahi-daemon</code> or it is also built-in to <code class="verbatim">NetworkManager/systemd-resolvd</code>.</li>
+<li><code class="verbatim">mDNS</code> (by default) automatically lets computers find each other via the address <code class="verbatim">hostname.local</code>.</li>
+<li>To use this with <code class="verbatim">ROS</code> you must set each computer's <code class="verbatim">ROS_HOSTNAME</code> to <code class="verbatim">&lt;hostname&gt;.local</code> where <code class="verbatim">&lt;hostname&gt;</code> is the hostname of that computer</li>
+<li>I use this setup with the <code class="verbatim">turtlebot</code> that I give you. This works well when <code class="verbatim">mdns</code> is working.</li>
 </ul></li>
-<li>It is also necessary for the remote machine to have <code>ssh</code> enabled, and you must be able to login to the remote machine using an <code>ssh</code> key.</li>
+<li>It is also necessary for the remote machine to have <code class="verbatim">ssh</code> enabled, and you must be able to login to the remote machine using an <code class="verbatim">ssh</code> key.</li>
 </ul>
 <h1 id="remote-nodes-1">Remote Nodes</h1>
 <ol>
 <li>To run a remote node, that node and all its runtime dependencies must be on the computer it runs on</li>
 <li>Therefore, you need to copy your nodes to the remote machine before you can run them</li>
-<li>It is easiest to do a <code>catkin_make install</code> to create the <code>install</code> directory
+<li>It is easiest to do a <code class="verbatim">catkin_make install</code> to create the <code class="verbatim">install</code> directory
 <ul>
-<li><code>install</code> directories in ROS are self-contained</li>
-<li>You then copy the contents of <code>install</code> to the remote comptuer using <code>rsync</code></li>
+<li><code class="verbatim">install</code> directories in ROS are self-contained</li>
+<li>You then copy the contents of <code class="verbatim">install</code> to the remote comptuer using <code class="verbatim">rsync</code></li>
 </ul></li>
 </ol>
 <h2 id="launchfiles">Launchfiles</h2>
 <ol>
 <li>Launchfiles can be used to run nodes on remote machine=</li>
-<li>The <code>&lt;node&gt;</code> tag in a launchfile has a <code>machine</code> attribute that lets you specify a <code>&lt;machine&gt;</code> on which to run the node</li>
-<li>The <code>&lt;machine&gt;</code> tag in a launchfile lets you specify the address of a remote machine
+<li>The <code class="verbatim">&lt;node&gt;</code> tag in a launchfile has a <code class="verbatim">machine</code> attribute that lets you specify a <code class="verbatim">&lt;machine&gt;</code> on which to run the node</li>
+<li>The <code class="verbatim">&lt;machine&gt;</code> tag in a launchfile lets you specify the address of a remote machine
 <ul>
-<li>One important attribute is the <code>env-loader</code> script. This is a script on the remote machine that sets up the <code>ros</code> environment</li>
-<li><code>loader.sh</code> is what we use on the turtlebot
+<li>One important attribute is the <code class="verbatim">env-loader</code> script. This is a script on the remote machine that sets up the <code class="verbatim">ros</code> environment</li>
+<li><code class="verbatim">loader.sh</code> is what we use on the turtlebot
 <ul>
-<li>It essentially <code>sources</code> some workspaces and sets up <code>ROS_MASTER_URI</code> and <code>ROS_HOSTNAME</code></li>
+<li>It essentially <code class="verbatim">sources</code> some workspaces and sets up <code class="verbatim">ROS_MASTER_URI</code> and <code class="verbatim">ROS_HOSTNAME</code></li>
 </ul></li>
 </ul></li>
 </ol>
@@ -577,9 +577,9 @@ table td {
 <ul>
 <li>Many ROS packages rely on timestamps indexed to the actual wall-clock time</li>
 <li>Thus, computers on the network must have their clocks synchronized</li>
-<li>If all computers are connected to the internet they will synchronize with <code>ntp</code> servers and you will not have problems</li>
-<li>If however, a computer does not have internet access, for reliability you will have to run an <code>ntp</code> server on your local network to synchronize everything</li>
-<li>For the <code>turtlebot</code> I have you install an ntp server on your computer. You then configure the <code>turtlebot</code> to connect to this ntp server, thus synchronizing the times.</li>
+<li>If all computers are connected to the internet they will synchronize with <code class="verbatim">ntp</code> servers and you will not have problems</li>
+<li>If however, a computer does not have internet access, for reliability you will have to run an <code class="verbatim">ntp</code> server on your local network to synchronize everything</li>
+<li>For the <code class="verbatim">turtlebot</code> I have you install an ntp server on your computer. You then configure the <code class="verbatim">turtlebot</code> to connect to this ntp server, thus synchronizing the times.</li>
 </ul>
 </div>
 <div class="footer">

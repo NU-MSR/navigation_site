@@ -532,7 +532,7 @@ table td {
 </ul>
 <h1 id="random-number-generation-in-c">Random Number Generation in C++</h1>
 <ul>
-<li><p>If you intend to use the <code>C++</code> standard library for generating random numbers, you can use the following <code>singleton</code> pattern to ensure that you are only seeding the random number generator once in your process.</p>
+<li><p>If you intend to use the <code class="verbatim">C++</code> standard library for generating random numbers, you can use the following <code class="verbatim">singleton</code> pattern to ensure that you are only seeding the random number generator once in your process.</p>
 <pre><code>#include&lt;random&gt;
  std::mt19937 &amp; get_random()
  {
@@ -561,7 +561,7 @@ table td {
 <ol>
 <li>Let <span class="math inline">\(L\)</span> be the (lower) Cholesky decomposition of <span class="math inline">\(Q\)</span> (that is <span class="math inline">\(L\)</span> is lower triangular such that <span class="math inline">\(L L^T = Q\)</span>.
 <ul>
-<li>Use the <code>chol()</code> function from armadillo or the <code>llt()</code> function from eigen</li>
+<li>Use the <code class="verbatim">chol()</code> function from armadillo or the <code class="verbatim">llt()</code> function from eigen</li>
 </ul></li>
 <li>Let <span class="math inline">\(u \in \mathbb{R}^n\)</span> be generated such that each entry is independently drawn from a Gaussian distribution with mean 0 and variance 1.</li>
 <li>Then, <span class="math inline">\(v = m + Lu\)</span> will have the desired distribution</li>

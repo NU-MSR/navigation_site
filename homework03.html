@@ -508,17 +508,17 @@ table td {
 <h1 id="task-g-simulation">Task G (Simulation)</h1>
 <ol>
 <li>We will be writing our own simulator for the turtlebot and SLAM</li>
-<li>The simulator will be in a package named <code>nurtlesim</code></li>
+<li>The simulator will be in a package named <code class="verbatim">nurtlesim</code></li>
 <li>The simulator will simulate the robot kinematics and a sensor that detects the relative x, y positions of landmarks and a landmark id</li>
 </ol>
 <h2 id="task-g.000-setup">Task G.000 (Setup)</h2>
 <ol>
-<li>Create the <code>nurtlesim</code> package</li>
-<li>Copy the <code>fake_turtle.cpp</code> node from <code>rigid2d</code> into <code>nurtlesim</code> and name it to <code>tube_world.cpp</code>
+<li>Create the <code class="verbatim">nurtlesim</code> package</li>
+<li>Copy the <code class="verbatim">fake_turtle.cpp</code> node from <code class="verbatim">rigid2d</code> into <code class="verbatim">nurtlesim</code> and name it to <code class="verbatim">tube_world.cpp</code>
 <ul>
 <li>This file will be the starting point for creating the simulation environment</li>
 </ul></li>
-<li>Copy the <code>fake_turtle_odom.launch</code> file from <code>rigid2d</code> into <code>nurtlesim</code> and name it to <code>tube_world.launch</code>
+<li>Copy the <code class="verbatim">fake_turtle_odom.launch</code> file from <code class="verbatim">rigid2d</code> into <code class="verbatim">nurtlesim</code> and name it to <code class="verbatim">tube_world.launch</code>
 <ul>
 <li>This file will be the starting point for launching the simulation world</li>
 </ul></li>
@@ -526,14 +526,14 @@ table td {
 </ol>
 <h2 id="task-g.001-robot-position">Task G.001 (Robot Position)</h2>
 <ol>
-<li>In addition to tracking/publishing wheel angles, the <code>tube_world</code> node should track the ground truth location of the robot.</li>
+<li>In addition to tracking/publishing wheel angles, the <code class="verbatim">tube_world</code> node should track the ground truth location of the robot.</li>
 <li>The following steps should occur whenever you update the wheel positions (to simulate errors in control and odometry)
 <ol>
 <li>Add some Gaussian noise to the commanded twist (both <span class="math inline">\(v_x\)</span> and <span class="math inline">\(\dot{\theta}\)</span>).</li>
 <li>The robot follows the noise-corrupted twist (rather than the commanded twist) to move to its actual location.</li>
 <li>The wheel angles move to updated positions, assuming no slipping. Then wheel slip noise is added
 <ul>
-<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <code>slip_min</code> and <code>slip_max</code> and <span class="math inline">\(\omega\)</span> is the wheel speed.</li>
+<li>You can experiment with slipping models, but a simple one is <span class="math inline">\(\eta \omega\)</span>, where <span class="math inline">\(\eta\)</span> is uniform random noise between <code class="verbatim">slip_min</code> and <code class="verbatim">slip_max</code> and <span class="math inline">\(\omega\)</span> is the wheel speed.</li>
 <li>This method simulates wheels turning more or less than the robot actually travels, and more slipping happens when driving faster</li>
 </ul></li>
 </ol></li>
@@ -544,7 +544,7 @@ table td {
 </ol>
 <h2 id="task-g.002-simulation-world">Task G.002 (Simulation World)</h2>
 <ol>
-<li>The <code>tube_world</code> must also maintain the positions of obstacles in the world. The obstacles are all cardboard tubes with a 0.0762m radius</li>
+<li>The <code class="verbatim">tube_world</code> must also maintain the positions of obstacles in the world. The obstacles are all cardboard tubes with a 0.0762m radius</li>
 <li>Read the following as parameters:
 <ol>
 <li>The coordinates of the tubes</li>
@@ -552,34 +552,34 @@ table td {
 <li>Covariance matrix for relative x-y sensor</li>
 <li>Maximum distance beyond which tubes are not visible</li>
 </ol></li>
-<li>When the node starts, it should publish, (using a latched publisher) a MarkerArray with cylindrical markers corresponding to the locations of the tubes in the environment. This message provides the "ground truth" and allows <code>rviz</code> to display the location of the markers
+<li>When the node starts, it should publish, (using a latched publisher) a MarkerArray with cylindrical markers corresponding to the locations of the tubes in the environment. This message provides the "ground truth" and allows <code class="verbatim">rviz</code> to display the location of the markers
 <ul>
-<li>Set the namespace (<code>ns</code>) field of the markers to <code>real</code></li>
+<li>Set the namespace (<code class="verbatim">ns</code>) field of the markers to <code class="verbatim">real</code></li>
 </ul></li>
 <li>The node consistently publishes a transform between the <em>world</em> frame and the <em>turtle</em> frame to indicate the location of the robot
 <ul>
 <li>If you want, you can also publish a markers or do other things to visually depict the actual robot location</li>
-<li>We are not displaying a <code>RobotModel</code> here because the <code>RobotModel</code> will be used to depict our estimated robot location.</li>
+<li>We are not displaying a <code class="verbatim">RobotModel</code> here because the <code class="verbatim">RobotModel</code> will be used to depict our estimated robot location.</li>
 </ul></li>
-<li>The node should publish a <code>nav_msgs/Path</code> on the <code>/real_path</code> topic. Rviz can use this message to show the actual robot trajectory</li>
-<li>At a frequency of 10 Hz, publish a MarkerArray on the <code>/fake_sensor</code> topic. It contains the measured positions of the tubes relative to the robot.
+<li>The node should publish a <code class="verbatim">nav_msgs/Path</code> on the <code class="verbatim">/real_path</code> topic. Rviz can use this message to show the actual robot trajectory</li>
+<li>At a frequency of 10 Hz, publish a MarkerArray on the <code class="verbatim">/fake_sensor</code> topic. It contains the measured positions of the tubes relative to the robot.
 <ul>
-<li>Set the namespace (<code>ns</code>) field for the markers</li>
-<li>These positions should have noise added to them based on <code>tube_var</code>.</li>
-<li>If a marker is not within <code>max_range</code>, the action for it should be set to <code>DELETE</code> To make it non-visible</li>
+<li>Set the namespace (<code class="verbatim">ns</code>) field for the markers</li>
+<li>These positions should have noise added to them based on <code class="verbatim">tube_var</code>.</li>
+<li>If a marker is not within <code class="verbatim">max_range</code>, the action for it should be set to <code class="verbatim">DELETE</code> To make it non-visible</li>
 <li>You can subscribe to the markers to get these "measurements", and the measurements can also be easily drawn in rviz.</li>
 <li>If you want to be fancy you can scale the marker so that it represents a level-set of the Gaussian distribution caused by the sensor noise</li>
 </ul></li>
 </ol>
 <h2 id="task-g.003-simulation-launch">Task G.003 (Simulation Launch)</h2>
 <ol>
-<li>The launchfile called <code>tube_world.launch</code> should
+<li>The launchfile called <code class="verbatim">tube_world.launch</code> should
 <ul>
 <li>Start the simulation nodes</li>
-<li>Start rviz and display the simulation state (markers, sensed markers, the <code>world</code> and <code>turtle</code> frames, the path)</li>
-<li>Start the <code>turtlebot3_teleop_key</code> node to let you drive the robot. Driving the robot corresponds to changing the location of the <code>turtle</code> frame relative to the <code>world</code> frame
+<li>Start rviz and display the simulation state (markers, sensed markers, the <code class="verbatim">world</code> and <code class="verbatim">turtle</code> frames, the path)</li>
+<li>Start the <code class="verbatim">turtlebot3_teleop_key</code> node to let you drive the robot. Driving the robot corresponds to changing the location of the <code class="verbatim">turtle</code> frame relative to the <code class="verbatim">world</code> frame
 <ul>
-<li>You should see the <code>turtle</code> frame move as you drive the robot</li>
+<li>You should see the <code class="verbatim">turtle</code> frame move as you drive the robot</li>
 </ul></li>
 </ul></li>
 </ol>
@@ -603,7 +603,7 @@ table td {
 <h1 id="task-l-slam">Task L (SLAM)</h1>
 <ul>
 <li>This task is about implementing Feature-Based Kalman Filter SLAM.</li>
-<li>You will do this task in a new package called <code>nuslam</code></li>
+<li>You will do this task in a new package called <code class="verbatim">nuslam</code></li>
 <li>Task L.001 - outlines the main results for the task.</li>
 <li>Task L.002 - This is a subset of L.001 (implementing SLAM in a controlled environment). Once you implement this, you have completed the core algorithm.</li>
 <li>I am not mandating specific nodes or parameters or a structure for you to use. The design is up to you
@@ -614,7 +614,7 @@ table td {
 <h2 id="task-l.001-main-slam-results">Task L.001 (Main SLAM Results)</h2>
 <ul>
 <li>This task is about the main interface for running and visualizing your algorithms.</li>
-<li>You can write whatever nodes you want, as long as you can run a <code>slam.launch</code> file as specified below and, where appropriate view the necessary visualizations.</li>
+<li>You can write whatever nodes you want, as long as you can run a <code class="verbatim">slam.launch</code> file as specified below and, where appropriate view the necessary visualizations.</li>
 <li>You may also need to modify some nodes to let them publish appropriate visualization topics</li>
 </ul>
 <ol>
@@ -630,10 +630,10 @@ table td {
 <li>Visualization
 <ol>
 <li>If running in simulation: The simulation visualization</li>
-<li>A <code>nav_msgs/Path</code> showing the trajectory of the robot according only to wheel odometry</li>
-<li>A <code>nav_msgs/Path</code> showing the trajectory of the robot according to the SLAM algorithm</li>
+<li>A <code class="verbatim">nav_msgs/Path</code> showing the trajectory of the robot according only to wheel odometry</li>
+<li>A <code class="verbatim">nav_msgs/Path</code> showing the trajectory of the robot according to the SLAM algorithm</li>
 <li>The locations of the landmarks, according to SLAM (i.e., the map)</li>
-<li>The robot model itself should be displayed at the pose determined by the SLAM algorithm (using frames published by <code>robot_state_publisher</code>).</li>
+<li>The robot model itself should be displayed at the pose determined by the SLAM algorithm (using frames published by <code class="verbatim">robot_state_publisher</code>).</li>
 <li>You may find it helpful to add additional visualizations as you test and debug.</li>
 </ol></li>
 </ol>
@@ -647,14 +647,14 @@ table td {
 <li>The data from the simulator, however, has identifiers specifying which landmark is which whereas the laser-scanner data will not have this information</li>
 </ul></li>
 <li>The algorithm should compute the pose of the robots and the pose of the landmarks relative to a map frame.</li>
-<li>You should publish a transform from <code>map</code> to <code>odom</code> such that <code>map</code> to <code>base_footprint</code> reflects the pose of the robot in the <code>map</code> frame.
+<li>You should publish a transform from <code class="verbatim">map</code> to <code class="verbatim">odom</code> such that <code class="verbatim">map</code> to <code class="verbatim">base_footprint</code> reflects the pose of the robot in the <code class="verbatim">map</code> frame.
 <ul>
 <li>See <a href="https://www.ros.org/reps/rep-0105.html">ROS REP 105</a></li>
 </ul></li>
 </ul>
 <ol>
 <li>Implement extended Kalman Filter Slam, assuming a known data association. (That is you know which measurement goes with which landmark)</li>
-<li>Drive the robot along closed path in a <code>tube_world</code> with several landmarks and take a screenshot of <code>rviz</code> at the end of your run.
+<li>Drive the robot along closed path in a <code class="verbatim">tube_world</code> with several landmarks and take a screenshot of <code class="verbatim">rviz</code> at the end of your run.
 <ul>
 <li>The screenshot should clearly show the actual robot position, the estimated position, the map frame, and the odom frame</li>
 <li>You should have noise enabled and a limited detection radius for this test (the radius should be small enough such that you do not see all the landmarks all the time)</li>
@@ -669,13 +669,13 @@ table td {
 <p>The below ideas are my suggestions for how to accomplish this task; however, you may choose to ignore them.</p>
 <h2 id="slam">SLAM</h2>
 <ol>
-<li>Start with the <code>odometer.cpp</code> node from a previous homework. Copy it to the <code>nuslam</code> package and call it <code>slam.cpp</code>
+<li>Start with the <code class="verbatim">odometer.cpp</code> node from a previous homework. Copy it to the <code class="verbatim">nuslam</code> package and call it <code class="verbatim">slam.cpp</code>
 <ul>
 <li>In this guide, we will implement all SLAM functionality in a single node.</li>
 <li>This node will also implement the odometry functionality</li>
 <li>This decision makes it easier to keep everything in sync.
 <ul>
-<li>You need to be careful about synchronization. Since <code>tf</code> must be a tree we can't broadcast the <code>map</code> to <code>base_footprint</code> transform directly: instead, we must publish a <code>map</code> to <code>odom</code> transform such that the <code>map</code> to <code>base_footprint</code> transform is the desired value. Having all these quantities in the same node makes this process easier</li>
+<li>You need to be careful about synchronization. Since <code class="verbatim">tf</code> must be a tree we can't broadcast the <code class="verbatim">map</code> to <code class="verbatim">base_footprint</code> transform directly: instead, we must publish a <code class="verbatim">map</code> to <code class="verbatim">odom</code> transform such that the <code class="verbatim">map</code> to <code class="verbatim">base_footprint</code> transform is the desired value. Having all these quantities in the same node makes this process easier</li>
 <li>However, you lose flexibility: odometry and SLAM are now coupled: for this project the trade-off between flexibility and complication seems worth it.</li>
 </ul></li>
 </ul></li>
@@ -690,11 +690,11 @@ table td {
 </ol>
 <h2 id="debugging-tips">Debugging Tips</h2>
 <ul>
-<li>If your node crashes, run it in gdb as follows: <code>rosrun --prefix 'gdb --args ' packagename nodetype [...]</code></li>
-<li>You can also run a node in gdb from a launchfile using the <code>launch-prefix</code> attribute of the <code>node</code> tag, although I find this less useful since it is often quicker to debug a single node by recompiling and running that individual node rather than restarting the whole system</li>
-<li>Once in <code>gdb</code> use the command <code>r</code> to run the program. When it crashes, use <code>bt</code> to see the stack trace or use <code>up</code> and <code>down</code> to navigate stack frames.
+<li>If your node crashes, run it in gdb as follows: <code class="verbatim">rosrun --prefix 'gdb --args ' packagename nodetype [...]</code></li>
+<li>You can also run a node in gdb from a launchfile using the <code class="verbatim">launch-prefix</code> attribute of the <code class="verbatim">node</code> tag, although I find this less useful since it is often quicker to debug a single node by recompiling and running that individual node rather than restarting the whole system</li>
+<li>Once in <code class="verbatim">gdb</code> use the command <code class="verbatim">r</code> to run the program. When it crashes, use <code class="verbatim">bt</code> to see the stack trace or use <code class="verbatim">up</code> and <code class="verbatim">down</code> to navigate stack frames.
 <ul>
-<li>If a crash is in armadillo, for example, you can repeatedly run <code>up</code> until you get to the point in your code that called the function in <code>armadillo</code> that caused the crash.</li>
+<li>If a crash is in armadillo, for example, you can repeatedly run <code class="verbatim">up</code> until you get to the point in your code that called the function in <code class="verbatim">armadillo</code> that caused the crash.</li>
 </ul></li>
 </ul>
 <h1 id="task-f">Task F</h1>
@@ -712,16 +712,16 @@ table td {
 </ul>
 <h2 id="task-f.111-laser-scanner">Task F.111 (Laser Scanner)</h2>
 <ul>
-<li>In <code>nuturtle_robot</code> <code>basic_remote.launch</code> launch the <code>hlds_laser_publisher</code> node from the <code>hls_lfcd_lds_driver</code> on the <code>turtlebot</code> machine.</li>
-<li>When you run <code>nuturtle_robot</code> <code>odom_teleop</code>, in the <code>rviz</code> display, add the laser scan and make sure it shows up
+<li>In <code class="verbatim">nuturtle_robot</code> <code class="verbatim">basic_remote.launch</code> launch the <code class="verbatim">hlds_laser_publisher</code> node from the <code class="verbatim">hls_lfcd_lds_driver</code> on the <code class="verbatim">turtlebot</code> machine.</li>
+<li>When you run <code class="verbatim">nuturtle_robot</code> <code class="verbatim">odom_teleop</code>, in the <code class="verbatim">rviz</code> display, add the laser scan and make sure it shows up
 <ul>
-<li>If <code>rviz</code> crashes, you are encountering a bug that has recently been fixed. Launch <code>rviz</code> with <code>--opengl 210</code> as an argument to work around the bug.</li>
+<li>If <code class="verbatim">rviz</code> crashes, you are encountering a bug that has recently been fixed. Launch <code class="verbatim">rviz</code> with <code class="verbatim">--opengl 210</code> as an argument to work around the bug.</li>
 </ul></li>
 </ul>
 <h2 id="task-f.999-turtle-vs-armadillo">Task F.999 (Turtle vs Armadillo)</h2>
 <ol>
 <li><p>Download this tarball <a href="https://drive.google.com/file/d/1ww0N9QpqkrkI1J578jvHYvKZMStWMRJL/view?usp=sharing">armadillo.tar.gz</a></p></li>
-<li><p>Copy it to the turtlebot: <code>scp armadillo.tar.gz ubuntu@turtlebot:/tmp</code></p></li>
+<li><p>Copy it to the turtlebot: <code class="verbatim">scp armadillo.tar.gz ubuntu@turtlebot:/tmp</code></p></li>
 <li><p>ssh into the turtlebot and run the following commands</p>
 <pre><code>cd /tmp
 tar xf armadillo.tar.gz
