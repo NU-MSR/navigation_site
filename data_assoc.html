@@ -553,8 +553,7 @@ table td {
 <li>Compute the covariance <span class="math inline">\(\Psi_k = H_k \Sigma H_k^T + R\)</span></li>
 <li>Compute the expected measurement <span class="math inline">\(\hat{z}_k = h(\mu)\)</span></li>
 <li>Compute the mahalanobis distance <span class="math inline">\(d_k = (z_i - \hat{z}_k)^T\Psi^{-1}(z_i-\hat{z}_k)\)</span></li>
-</ol>
-<ol>
+</ol></li>
 <li>Set the mahalanobis distance for landmark <span class="math inline">\(N+1\)</span> (the temporary landmark) to be a the distance threshold.
 <ul>
 <li>If all the landmarks are farther away than this threshold, then the landmark is new.</li>
@@ -566,10 +565,8 @@ corresponding to the minimimum distance.
 <li><span class="math inline">\(\ell\)</span> is the landmark corresponding to <span class="math inline">\(z_i\)</span>. If <span class="math inline">\(\ell = N+1\)</span> then we have a new landmark so increment <span class="math inline">\(N\)</span>.</li>
 <li>Incorporate the new measurement into your EKF estimate
 <ul>
-<li>If getting many false associations you can choose to only incorporate the measurement if it is new or if <span class="math inline">\(d_\ast\)</span> is less than some</li>
-</ul>
-threshold value</li>
-</ol></li>
+<li>If getting many false associations you can choose to only incorporate the measurement if it is new or if <span class="math inline">\(d_\ast\)</span> is less than some threshold value</li>
+</ul></li>
 </ol></li>
 </ol>
 <h1 id="practical-considerations">Practical Considerations</h1>
