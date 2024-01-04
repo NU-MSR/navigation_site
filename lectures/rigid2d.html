@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rigid Body Transformations in 2D</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Rigid Body Transformations in 2D</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcfbfc41">Overview</a></li>
+<li><a href="#orgd23618b">Coordinate Frames</a></li>
+<li><a href="#orgb98f365">Rotation Matrix</a></li>
+<li><a href="#org8d88b85">Transformation Matrix</a></li>
+<li><a href="#orga305d1a">Twist</a></li>
+<li><a href="#orgc0b7ed1">Adjoint</a></li>
+<li><a href="#orgc166bfb">Thought Experiments</a>
+<ul>
+<li><a href="#org70b76b0">Homogeneous Coordinates and Transformations</a>
+<ul>
+<li><a href="#org761475e">1-D Homogeneous coordinates</a></li>
+<li><a href="#org27697a8">2-D Homogeneous coordinates</a></li>
+<li><a href="#orgbbb4862">Transformation Matrix</a></li>
+</ul>
+</li>
+<li><a href="#orgd0410d1">Velocities and Twist</a>
+<ul>
+<li><a href="#org18a4f30">Pure Translations</a></li>
+<li><a href="#orgf4f8106">Pure Rotations</a></li>
+<li><a href="#org5d164ea">Everything is Rotation</a></li>
+</ul>
+</li>
+<li><a href="#org84172a2">Body Twist vs Velocity</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-orgcfbfc41" class="outline-2">
+<h2 id="orgcfbfc41">Overview</h2>
+<div class="outline-text-2" id="text-orgcfbfc41">
+<p>
+Provides a brief review of 2D rigid body transformations, from the perspective
+of a programmer who just wants to use them.  See (Lynch, Park <i>Modern Robotics</i> Chapter 3)
+for more details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd23618b" class="outline-2">
+<h2 id="orgd23618b">Coordinate Frames</h2>
+<div class="outline-text-2" id="text-orgd23618b">
+<p>
+A 2D coordinate frame consists of 2 orthogonal unit vectors located 
+somewhere in space
+</p>
+
+<ul class="org-ul">
+<li>Whenever I discuss frames in these notes, they are stationary.  The body frame of a moving robot is assumed to be
+instantaneously fixed to the location of the robot at any given time.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb98f365" class="outline-2">
+<h2 id="orgb98f365">Rotation Matrix</h2>
+<div class="outline-text-2" id="text-orgb98f365">
+<p>
+A rotation matrix describes the rotation between two coordinate frames.
+If there is a pure rotation (i.e., no translation) between frames \(\{a\}\) (with coordinate vectors \(\hat{x}_a\) and \(\hat{y}_a\)) and
+\(\{b\}\) (with coordinate vectors \(\hat{x}_b\) and \(\hat{y}_b\)) 
+the rotation matrix \(R_{ab}\) lets you find the coordinates of a point \(p\) 
+in frame \(a\) given coordinates in frame \(b\) using the equation
+</p>
+
+\begin{equation}
+p_a = R_{ab} p_b
+\end{equation}
+
+\begin{equation}
+R_{ab} = \begin{bmatrix}
+\cos\theta & -\sin\theta  \\
+\sin\theta & \cos\theta  
+\end{bmatrix}
+\end{equation}
+
+<ul class="org-ul">
+<li>Rotations can be composed: \(R_{ac} = R_{ab}R_{bc}\).</li>
+<li>Rotations can always be inverted and this reverses the rotation:</li>
+</ul>
+
+\begin{equation}
+R_{ba} = R_{ab}^{-1} = 
+\begin{bmatrix}
+\cos\theta & \sin\theta  \\
+-\sin\theta & \cos\theta  
+\end{bmatrix}
+\end{equation}
+</div>
+</div>
+
+<div id="outline-container-org8d88b85" class="outline-2">
+<h2 id="org8d88b85">Transformation Matrix</h2>
+<div class="outline-text-2" id="text-org8d88b85">
+<p>
+If the origin of frame \(\{j\}\) is displaced from frame \(\{i\}\) by \(x \hat{x}_i + y \hat{y}_i\) and the angle between the frames is \(\theta\),
+then to convert a point \(p_j\) in frame \(j\) to frame \(i\) coordinates:
+</p>
+
+\begin{equation}\label{eq:homtran}
+\begin{bmatrix}p_i \\ 1\end{bmatrix} = T_{ij}\begin{bmatrix}p_j \\ 1 \end{bmatrix},
+\end{equation}
+<p>
+where 
+</p>
+\begin{equation}
+T_{ij} = 
+\begin{bmatrix}
+\cos\theta & -\sin\theta & x \\
+\sin\theta & \cos\theta & y \\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation}
+
+<p>
+The inverse is also well defined and allows you to reverse the transformation
+</p>
+\begin{equation}
+T_{ij}^{-1} = T_{ji} = 
+\begin{bmatrix}
+\cos\theta & \sin\theta & -x\cos\theta -y\sin\theta \\
+-\sin\theta & \cos\theta & -y\cos\theta +x\sin\theta \\
+0 & 0 & 1
+\end{bmatrix}
+\end{equation}
+
+
+<p>
+In Equation\eqref{eq:homtran} the points \(p_i\) and \(p_j\) are written in homogeneous coordinates, that is a two-dimensional point \((x, y)\) is written as \((x, y, 1)\).
+</p>
+<ul class="org-ul">
+<li>There is intuition and geometric understanding you can learn to understand the reasoning behind the use of homogeneous coordinates (discussed later)</li>
+<li>You can also, for the purposes of this class, view homogeneous coordinates as a mechanical rule: append a 1 to the point/vector you are transforming, then use
+only the first two elements of the result</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga305d1a" class="outline-2">
+<h2 id="orga305d1a">Twist</h2>
+<div class="outline-text-2" id="text-orga305d1a">
+<p>
+A 2D twist consists of an angular velocity and two translational velocities:
+</p>
+\begin{equation}
+V = \begin{bmatrix} \dot{\theta} \\ \dot{x} \\ \dot{y} \end{bmatrix}
+\end{equation}
+
+<ul class="org-ul">
+<li>A twist represents a rigid body motion.</li>
+<li>For a moving rigid body, each point on that body may have a different velocity.</li>
+<li>For example, on a spinning disc, the points farther from the center of rotation have a higher translational velocity.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc0b7ed1" class="outline-2">
+<h2 id="orgc0b7ed1">Adjoint</h2>
+<div class="outline-text-2" id="text-orgc0b7ed1">
+<p>
+The 2D adjoint converts a twist in one frame to a twist in another frame. 
+</p>
+<ul class="org-ul">
+<li>These are just different coordinate representations for what is the same rigid body motion.</li>
+</ul>
+
+<p>
+The 2D Adjoint is
+</p>
+\begin{equation}
+\mathrm{Ad}_{ij} =
+\begin{bmatrix}
+1 & 0 & 0 \\
+y & \cos\theta & -\sin\theta \\
+-x & \sin\theta & \cos\theta
+\end{bmatrix}.
+\end{equation}
+
+<p>
+To convert a twist from one frame to another
+</p>
+\begin{equation}
+V_i = \mathrm{Ad}_{ij} V_j
+\end{equation}
+</div>
+</div>
+
+<div id="outline-container-orgc166bfb" class="outline-2">
+<h2 id="orgc166bfb">Thought Experiments</h2>
+<div class="outline-text-2" id="text-orgc166bfb">
+<ul class="org-ul">
+<li>These are some thought exercises designed to help build intuition about frames</li>
+<li>They are designed as a guide for thinking about these concepts</li>
+<li>Use interactively: read a line, then try to visualize.  It may help to close your eyes</li>
+<li>This section is experimental: everyone thinks differently and I tried to put in words
+how I think about these concepts. I'm not sure how helpful it will be to others: let me know!</li>
+</ul>
+</div>
+
+<div id="outline-container-org70b76b0" class="outline-3">
+<h3 id="org70b76b0">Homogeneous Coordinates and Transformations</h3>
+<div class="outline-text-3" id="text-org70b76b0">
+</div>
+<div id="outline-container-org761475e" class="outline-4">
+<h4 id="org761475e">1-D Homogeneous coordinates</h4>
+<div class="outline-text-4" id="text-org761475e">
+<ol class="org-ol">
+<li>Imagine a blank wall.</li>
+<li>Horizontally on that wall, there is a numberline stretching horizontally.
+<ul class="org-ul">
+<li>Zero is centered in front of you, negative numbers go to the left, positive to the right</li>
+<li>Your one-dimensional coordinates are this numberline.</li>
+</ul></li>
+<li>Now, one unit below the number line, is a point.  It is at (0, 0).  This is the origin of the
+homogeneous coordinate system.</li>
+<li>Cast a ray from the origin to the number 0. The ray extends upwards, vertically and infinitely</li>
+<li>Notice that the ray intersects the numberline at (0, 1).  This point is one representation of the number zero</li>
+<li>Consider all the other points on this ray. Notice that they too cross through the numberline at (0,1). This whole ray (and all the
+2D points on it) correspond to the one-dimensional point 0.</li>
+<li>Imagine a ray from the origin that passes through (1,1).  This ray (and all the 2D points on it) represents the 1-D point  at 1.
+<ul class="org-ul">
+<li>What are some points on this ray: (2, 2), (3, 3), (4,4) etc.</li>
+<li>Notice that \((2/2) = 1\), \((3/3) = 1\), etc.   In general the 2D homogeneous point \((x, w)\) corresponds to the 1D point \(x/w\) (at least for \(w \neq 0\)).</li>
+</ul></li>
+<li>Now, consider the angle of the ray with respect to the horizontal.  Consider what happens as that angle gets smaller and smaller
+<ul class="org-ul">
+<li>The ray becomes closer and closer to the horizontal</li>
+<li>The point on the real-line that it intersects gets larger and larger in magnitude</li>
+</ul></li>
+<li>What happens when the ray is completely horizontal?
+<ul class="org-ul">
+<li>It doesn't intersect the real number line at all</li>
+<li>But as we approached horizontal, the magnitude of the 1D number the ray represented got larger in larger.</li>
+<li>When the ray is finally horizontal, it lets us represent a point at infinity!</li>
+<li>Loosely speaking, 2D homogeneous point \((x,w)\) maps to 1D point \(x/w\). When \(w = 0\) it makes sense that the 1D point is infinity.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org27697a8" class="outline-4">
+<h4 id="org27697a8">2-D Homogeneous coordinates</h4>
+<div class="outline-text-4" id="text-org27697a8">
+<ol class="org-ol">
+<li>Think about the 1D homogeneous coordinates. They are flat, on the wall.</li>
+<li>Now, imagine of these walls, intersecting each other.
+<ul class="org-ul">
+<li>There are two number lines, 90 degrees apart.</li>
+<li>The two number lines form a horizontal plane.</li>
+<li>One number line is the \(x\) axis, the other is the \(y\) axis, and the horizontal plane is the \(x,y\) plane</li>
+<li>The \((x,y)\) plane is at a height of \(1\), so points in this plane can be written \((x, y, 1)\).  But in general a plane parallel to this \(x,y\) plane
+can be placed at a height of \(w\).</li>
+</ul></li>
+<li>Cast a ray from the origin through the point \((x,y, 1)\)
+<ul class="org-ul">
+<li>This ray (and all the points on it) are equivalent to the point \((x,y)\).</li>
+<li>In general, \((x, y, w)\) is equivalent to the point \((x/w, y/w)\).</li>
+</ul></li>
+<li>Imagine a vertical plane that contains the ray and is perpendicular to the \((x,y)\) plane.
+<ul class="org-ul">
+<li>If we confine everything to the points in this plane, we are now in the 1-D situation</li>
+<li>Thus, in this plane, as the ray moves more horizontal it selects more distant points</li>
+<li>When the ray is completely horiziontal it is equivalent to \(\infty\).</li>
+<li>In this way, each point in 2-D has its own representation of infinity.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgbbb4862" class="outline-4">
+<h4 id="orgbbb4862">Transformation Matrix</h4>
+<div class="outline-text-4" id="text-orgbbb4862">
+<ol class="org-ol">
+<li>The goal is to be able to translate a point a fixed distance regardless of where the point is with a single matrix multiplication
+<ul class="org-ul">
+<li>This is impossible with Euclidean points:
+<ul class="org-ul">
+<li>1D Example:  if you multiply a point \(x\) by some fixed amount \(a\), it ends up at \(ax\).
+<ul class="org-ul">
+<li>Thus, the amount moved by \(a\) depends on \(x\) (for example, \(x = 0\) can never be moved.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>The fundamental operation on homogeneous points is shear
+<ul class="org-ul">
+<li>All points along a line are shifted by an amount proportional to their perpendicular distance from that line
+<ul class="org-ul">
+<li>1D Example: Each point in 1D is represented by a ray in homogeneous coordinates.
+<ul class="org-ul">
+<li>A shear operation that moves a point by \(-1\) in the  \(w = 1\) plane, also moves points in the \(w\) plane by \(w(-1)\).
+<ul class="org-ul">
+<li>So where the ray representing \(-1\) intersects the \(w = 2\) plane, it will be moved by \(-2\).</li>
+<li>This proportional movement can be captured by the matrix \(\begin{matrix}1 & k \\ 0 & 1\end{matrix}\), where in this example \(k = -1\).</li>
+</ul></li>
+<li>For rigid body transformations, all the points are in the \(w = 1\) plane.</li>
+</ul></li>
+<li>Expanding to 2D:
+<ul class="org-ul">
+<li>In 2D the shear is completed in the plane is repeated in the \(x\) and \(y\) direction</li>
+<li>A rotation matrix is used to align the axis in the target frame with the destination frame.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>If you know know the distance and rotation angle between frames \(\{s\}\) and \(\{b\}\) you can
+<ol class="org-ol">
+<li>Form the rotation matrix between them</li>
+<li>Compute the translation as the location of the \(\{b\}\) frame's origin relative to the \(\{s\}\) frame's origin.</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd0410d1" class="outline-3">
+<h3 id="orgd0410d1">Velocities and Twist</h3>
+<div class="outline-text-3" id="text-orgd0410d1">
+</div>
+<div id="outline-container-org18a4f30" class="outline-4">
+<h4 id="org18a4f30">Pure Translations</h4>
+<div class="outline-text-4" id="text-org18a4f30">
+<ol class="org-ol">
+<li>A twist combines angular and translational velocity and describes
+how a reference frame is moving: \((\dot{\theta}, \dot{x}, \dot{y})\)</li>
+<li>Imagine you are sliding a closed laptop across a table at constant velocity directly to the right, without rotation
+<ul class="org-ul">
+<li>Look at the lower left corner of the lid, and the upper left corner of the lid. how far do these points travel after you slide the laptop
+for a few seconds?</li>
+<li>How far do other points on the laptop travel?</li>
+<li>Now assume the laptop grows to completely cover the table and beyond, all the way to infinity.
+<ul class="org-ul">
+<li>Think of a piece of this object that is far away from the laptop, how does it move</li>
+</ul></li>
+</ul></li>
+<li>If an object is purely translating, how does each point on the object move?</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgf4f8106" class="outline-4">
+<h4 id="orgf4f8106">Pure Rotations</h4>
+<div class="outline-text-4" id="text-orgf4f8106">
+<ol class="org-ol">
+<li>Imagine that you are holding onto an infinitely large object by a handle.
+<ul class="org-ul">
+<li>You are holding on at reference frame \(\{b\}\)</li>
+<li>You rotate the handle counter-clockwise at a speed of \(\dot{\theta}\)</li>
+</ul></li>
+<li>Imagine the point directly at the origin of \(\{b\}\).
+<ul class="org-ul">
+<li>What is happening to that point? Is it moving?</li>
+</ul></li>
+<li>Imagine a point directly to the right of the origin
+<ul class="org-ul">
+<li>In which direction is it moving?</li>
+<li>What happens to its speed as it moves further to the right</li>
+<li>What about the points above, below and to the left of the origin?</li>
+</ul></li>
+<li>Now imagine that the points from the previous thoughts are arrows (they can point in any direction, but assume they point in the initial direction of the movement).
+<ul class="org-ul">
+<li>What happens to these arrows as the object rotates? Think of some specific orientations of the main object (say 90 degrees, 180 degrees, 45 degrees).
+What is the orientation of these arrows?</li>
+<li>Does the rotational velocity of a point on the object depend on the location of that point?</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org5d164ea" class="outline-4">
+<h4 id="org5d164ea">Everything is Rotation</h4>
+<div class="outline-text-4" id="text-org5d164ea">
+<ol class="org-ol">
+<li>Center of Rotation - a point in space where the twist has only an angular component
+<ul class="org-ul">
+<li>When we did a pure rotation, how many points had only an angular component and where were they?</li>
+</ul></li>
+<li>Imagine an (infinitely large) object that is translating and rotating simultaneously.
+<ul class="org-ul">
+<li>Is there a point that undergoes a pure rotation?</li>
+</ul></li>
+
+<li>Where is the center of rotation for a pure translation?
+<ul class="org-ul">
+<li>It is at infinity</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org84172a2" class="outline-3">
+<h3 id="org84172a2">Body Twist vs Velocity</h3>
+<div class="outline-text-3" id="text-org84172a2">
+<ol class="org-ol">
+<li>Typically, for a robot at position \(q = (x, y, \theta)\), we represent its velocity \(\dot{q}\).</li>
+<li>The velocity of the robot \(\dot{q}\) is NOT the same as its body twist in the world frame
+<ul class="org-ul">
+<li>The body twist of the robot in the world frame is the velocity (expressed in the world frame) of a point at the world frame origin that is moving
+as if it were rigidly attached to the robot.  This quantity depends on the distance between the world frame and the robot!</li>
+<li>The velocity \(\dot{q}\) is actually the twist at the origin of the robot's body frame expressed in a frame aligned with the world but
+coincident with the body.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

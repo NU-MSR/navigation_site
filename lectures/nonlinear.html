@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nonlinear Control for Wheeled Mobile Robots</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Nonlinear Control for Wheeled Mobile Robots</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2f83a38">Omnidirectional vs Nonholonomic</a>
+<ul>
+<li><a href="#org11166f2">Holonomic Constraint:</a></li>
+<li><a href="#orgef3762e">Nonholonomic constraints</a></li>
+</ul>
+</li>
+<li><a href="#org78d0677">Holonomic constraint example:</a></li>
+<li><a href="#org3ab032e">Non-holonomic constraint example:</a></li>
+<li><a href="#orgf2ac91f">Control Vector Fields</a></li>
+<li><a href="#orgcd78b2a">Lie Brackets</a></li>
+<li><a href="#orgb776d69">Minimum time paths for diff drive</a></li>
+<li><a href="#orgd6bdc68">Differential Flatness (Trajectory following)</a>
+<ul>
+<li><a href="#orgfe757bf">Definitions and Analysis</a></li>
+</ul>
+</li>
+<li><a href="#orgc2cbd6e">Shortest and Optimal Paths</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org2f83a38" class="outline-2">
+<h2 id="org2f83a38">Omnidirectional vs Nonholonomic</h2>
+<div class="outline-text-2" id="text-org2f83a38">
+<ul class="org-ul">
+<li>The four and three wheeled omnidirectional robots
+<ul class="org-ul">
+<li>They are omnidirectional</li>
+<li><p>
+No equality constraints on Chassis Velocity
+</p>
+\begin{align}
+\begin{bmatrix}
+\dot{\theta} \\
+\dot{x} \\
+\dot{y}
+\end{bmatrix}
+=
+\frac{r}{4}
+\begin{bmatrix}
+-\frac{1}{D+L} & \frac{1}{D+L} & \frac{1}{D+L} & -\frac{1}{D+L} \\
+1 & 1 & 1 & 1\\
+-1 & 1 & -1 & 1
+\end{bmatrix}
+\begin{bmatrix}
+u_1 \\ u_2 \\ u_3 \\ u_4
+\end{bmatrix}
+\end{align}</li>
+</ul></li>
+<li>Car like robots that can move in \(x\) direction and turn
+<ul class="org-ul">
+<li>They have constraints on velocity</li>
+<li>Constraints are "not integrable"</li>
+<li><p>
+These are nonholonomic constraints
+</p>
+\begin{equation}
+\begin{bmatrix}
+\dot{\theta}\\
+\dot{x}\\
+\dot{y}
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 1\\
+\cos\theta & 0\\
+\sin\theta & 0
+\end{bmatrix}
+\begin{bmatrix}
+\omega \\
+v
+\end{bmatrix}
+\end{equation}</li>
+</ul></li>
+
+<li>The above is a model that holds generally for many types of cars
+<ul class="org-ul">
+<li>Any car whose twist has \(v_y = 0\) but not a restriction on \(\dot{\theta}\) or \(v_x\)</li>
+<li>Map the individual controls to the body twist- these are then the controls for the generic car</li>
+<li>Limits on the controls map differently for different cars</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-org11166f2" class="outline-3">
+<h3 id="org11166f2">Holonomic Constraint:</h3>
+<div class="outline-text-3" id="text-org11166f2">
+<ul class="org-ul">
+<li>Equality constraints directly on the state of the robot</li>
+<li>Holonomic constraints reduce the degrees of freedom of the robot</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgef3762e" class="outline-3">
+<h3 id="orgef3762e">Nonholonomic constraints</h3>
+<div class="outline-text-3" id="text-orgef3762e">
+<ul class="org-ul">
+<li>Equality constraints on state and derivatives of the robot
+that cannot be integrated. Thus they always depend on derivatives of the state and not just the state itself.</li>
+<li>Nonholonomic constraints do not reduce the degrees of freedom of the robot!</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78d0677" class="outline-2">
+<h2 id="org78d0677">Holonomic constraint example:</h2>
+<div class="outline-text-2" id="text-org78d0677">
+<ul class="org-ul">
+<li>Train on a track: The train's configuration in the plane is \((\theta, x,y)\), but if we must
+be on the track, then we can parameterize the track by a single variable that controls position and heading, and
+use this variable to describe the train's position.</li>
+<li>Thus a train on a track has only one degree of freedom</li>
+<li><p>
+We can also use the derivative of the constraint
+</p>
+<ul class="org-ul">
+<li>The train can only move in the direction of the track</li>
+<li>It is equivalent to the train must be on the track 
+(assuming that the train starts on the track)</li>
+</ul>
+<ul class="org-ul">
+<li>You cannot put the train anywhere in x, y and satisfy the on track constraint,
+it must be on the track</li>
+</ul></li>
+<li>Regardless of the path taken around the track (moving back and forth, etc..)
+at each position on the track the configuration of the train is the same</li>
+<li>Thus, a train is holonomic but not omni-directional!</li>
+
+<li>Penny rolling along a line, cannot turn
+<ul class="org-ul">
+<li>State is angle of Lincoln's head and the coin's x position</li>
+<li>There is a no-slip constraint \(\dot{x} = r \dot{phi}\)</li>
+<li>Knowing the \(x\) position gives you the angle of Lincoln's head</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3ab032e" class="outline-2">
+<h2 id="org3ab032e">Non-holonomic constraint example:</h2>
+<div class="outline-text-2" id="text-org3ab032e">
+<ul class="org-ul">
+<li>Coin rolling on a plane</li>
+<li>State is angle of Lincoln's head, the heading angle, x and y position</li>
+<li>There is a no slip constraint</li>
+<li>Knowing the \(x\) position does NOT give you the angle of Lincoln's head: it can be anything depending
+on the path the penny took</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf2ac91f" class="outline-2">
+<h2 id="orgf2ac91f">Control Vector Fields</h2>
+<div class="outline-text-2" id="text-orgf2ac91f">
+<ul class="org-ul">
+<li>A vector field is an arrow at every point in space</li>
+<li>The vehicles we deal with here are <i>control affine</i> which means that their dynamics are linear in there controls</li>
+<li>Each control value determines the robot's velocity a long a vector in the configuration space
+<ul class="org-ul">
+<li>That vector may vary depending on where the configuration of the robot is.</li>
+<li>Example: The four wheeled omni robot has FOUR controls, and thus it has four control vector fields
+<ul class="org-ul">
+<li>The vector fields are the same everywhere in space (they do not depend on configuration)</li>
+<li>Everywhere in space, the vector fields span the state space, hence the robot can move in any direction</li>
+</ul></li>
+<li>Example: The steered car has two controls and therefore two control vector fields
+<ul class="org-ul">
+<li>Since there are 3 degrees of freedom, these vectors cannot span the configuration space</li>
+<li>Some directions we cannot move in (directly)</li>
+</ul></li>
+</ul></li>
+<li><i>insert vector fields in 3D twisting around image here</i></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgcd78b2a" class="outline-2">
+<h2 id="orgcd78b2a">Lie Brackets</h2>
+<div class="outline-text-2" id="text-orgcd78b2a">
+<ul class="org-ul">
+<li>"Like parallel parking a car"</li>
+<li>Basic concept - given two vector fields \(g_1\) and \(g_2\)
+<ol class="org-ol">
+<li>Start from \(q_0\) and follow \(g_1(q)\) for \(\epsilon\) time. You end up at \(q_1\)</li>
+<li>Go from \(q_1\) and follow \(g_2(q)\) for \(\epsilon\) time. You end up at \(q_2\)</li>
+<li>Go from \(q_2\) and follow \(-g_1(q)\) for \(\epsilon\) time. You end up at \(q_3\)</li>
+<li>Go from \(q_3\) and follow \(-g_2(q)\) for \(\epsilon\) time. Where do you end up
+<ul class="org-ul">
+<li>If you are at \(q_0\), you've accomplished nothing</li>
+<li>If you are not at \(q_0\), you've just moved in a different direction!</li>
+</ul></li>
+</ol></li>
+<li>Lie bracket: $[g_i, g_j](q) = (\frac{\partial g_j}{\partial q}g_i - \frac{\partial g_i}{\partial g_q} g_j)(q)
+<ul class="org-ul">
+<li>Let epsilon get very small</li>
+<li>Generates a new "vector field" and shows that by switching controls we can move in a new direction</li>
+<li>Can use these to show if we can move in any direction by switching the controls</li>
+</ul></li>
+<li>See Modern Robotics 13.3.2.2 For a derivation and deeper discussion</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgb776d69" class="outline-2">
+<h2 id="orgb776d69">Minimum time paths for diff drive</h2>
+<div class="outline-text-2" id="text-orgb776d69">
+<ul class="org-ul">
+<li>Always be moving as fast as possible</li>
+<li>Either Full Forward, Reverse, Turn Left or Turn Right</li>
+<li>40 combinations, with different turning and driving times. Some combinations have multiple solutions.
+<ul class="org-ul">
+<li>Always has only one translation in a given direction.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd6bdc68" class="outline-2">
+<h2 id="orgd6bdc68">Differential Flatness (Trajectory following)</h2>
+<div class="outline-text-2" id="text-orgd6bdc68">
+<ul class="org-ul">
+<li>Goal is to find "outputs" (functions of state, inputs and input derivatives)
+such that we can write the states and inputs of the system
+in terms of these outputs.
+<ul class="org-ul">
+<li>That is, we have \(\dot{q}=f(q,u}\) and want to find \(z = h(q, u, \dot{u}, ...)\) such that
+\(u =a(z, \dot{z}, \ddot{z}, ...)\) and \(\dot{q} = b(z, \dot{z}, \ddot{z}, ...)\).</li>
+<li>Then, if we want robot to find a trajectory, we simply
+<ul class="org-ul">
+<li>Solve for the \(z\) that makes the desired trajectory happen</li>
+<li>Then we automatically know the inputs to make the trajectory happen</li>
+<li>Hopefully, solving for \(z\) is now easier.</li>
+</ul></li>
+</ul></li>
+<li>What is the easiest \(z\) we can choose for our car system?
+-If \(z_1 = x\) and \(z_2 = y\) and we can put the system into its differentially flat form then
+  given a trajectory \(x_d(t)\) and \(y_d(t)\), we can easily find \(z_1\) and \(z_2\) and derivatives,
+  which then gives us the inputs.</li>
+<li>Let's try it!
+<ul class="org-ul">
+<li>Let \(z_1 =x\) and \(z_2 = y\).  Take derivatives and we've found \(\dot{x}_1 = \dot{z}_1\) and \(\dot{x}_2 = \dot{z}_2\)
+<ul class="org-ul">
+<li>Now we just need \(\dot{\theta}\), \(\omega\), and \(v\)!</li>
+</ul></li>
+<li>Use \(\dot{x} = v\cos\theta\) and \(\dot{y} = v\sin\theta\) to solve for \(\theta\). Note this can be written with \(z\) and derivatives
+<ul class="org-ul">
+<li>Take derivative of \(\theta\) to solve for \(\dot{\theta}\). Note that this is also \(\omega\)</li>
+</ul></li>
+<li>Finally, solve for \(v\). If you can do it in terms of \(\dot{x}_1\) and \(\dot{x}_2\), you're done.</li>
+</ul></li>
+</ul>
+</div>
+
+
+
+<div id="outline-container-orgfe757bf" class="outline-3">
+<h3 id="orgfe757bf">Definitions and Analysis</h3>
+<div class="outline-text-3" id="text-orgfe757bf">
+<ul class="org-ul">
+<li>Do there exist controls \(u(t)\) that drive the robot from \(q\) to any \(q_goal\) in finite time?
+<ul class="org-ul">
+<li>If Yes: controllable</li>
+<li>If Yes, we can achieve any configuration, given enough time</li>
+<li>If no, there are some configurations the robot can never be in.</li>
+</ul></li>
+<li>Given a time \(T > 0\) and an neighborhood around an initial configuration, the configurations that the robot can
+reach without leaving the neighborhood is the reachable set</li>
+
+<li>If for any given time \(T > 0\) and neighborhood, if the union of all reachable sets for that neighborhood, \(0 t \leq T\) 
+is fully dimensional, the robot is small-time locally accessible (STLA)
+<ul class="org-ul">
+<li>If the reachable set  is the whole neighborhood, the robot is small time locally controllable STLC
+<ul class="org-ul">
+<li>This is an important property, it means that the robot can move anywhere by putting together STLC neighborhoods</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc2cbd6e" class="outline-2">
+<h2 id="orgc2cbd6e">Shortest and Optimal Paths</h2>
+<div class="outline-text-2" id="text-orgc2cbd6e">
+<ul class="org-ul">
+<li>Deriving these facts is a topic for another class; however, having the general knowledge of this is useful:
+<ul class="org-ul">
+<li>For most common types of cars/configurations the hard work has been done for you</li>
+<li>Therefore, knowledge of these ideas can help you plan better motions and trajectories!</li>
+</ul></li>
+<li>Shortest path for diff drive
+<ul class="org-ul">
+<li>turn drive turn.</li>
+</ul></li>
+<li>Dubins car - a car that can only drive forward
+<ul class="org-ul">
+<li>Interesting because it's a simple model</li>
+<li>Starting point for other models</li>
+<li>Even a Ford Model A (1903) had reverse</li>
+<li>Path consists of optimal segments: Circular Arc C and straight S, \(C_\alpha\) is a more than 180 degree curve
+<ul class="org-ul">
+<li>CSC or C$C_&alpha;$C, with any \(C\) or \(S\) segment being 0</li>
+<li>Circular arc is minimum turning radius</li>
+</ul></li>
+</ul></li>
+<li>Reeds-Shepp car - add the reverse gear
+<ul class="org-ul">
+<li>more combinations of shortest paths</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

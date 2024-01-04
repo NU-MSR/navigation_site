@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jointly Gaussian Distributions</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Jointly Gaussian Distributions</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org72d98aa">Overview</a></li>
+<li><a href="#orgad6c0d0">Linear Transform</a>
+<ul>
+<li><a href="#org47f95de">Sketch of a Proof</a></li>
+</ul>
+</li>
+<li><a href="#org699e769">Conditional Distribution</a></li>
+<li><a href="#org26e0676">Random Number Generation in C++</a>
+<ul>
+<li><a href="#org9866f76">Multivariate Gaussian</a></li>
+</ul>
+</li>
+<li><a href="#orgdf1feb6">Plotting Contours</a>
+<ul>
+<li><a href="#org3fc4848">Derivation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org72d98aa" class="outline-2">
+<h2 id="org72d98aa">Overview</h2>
+<div class="outline-text-2" id="text-org72d98aa">
+<ul class="org-ul">
+<li>Also called Multivariate Normal Distrubtions (or Multi-Normal)</li>
+<li>\(X(\xi) \sim \mathcal{N}(\mu, \Sigma)\),
+<ul class="org-ul">
+<li>\(X(\xi)\) is a jointly Gaussian random variable, (\(\xi\) is an element of the sample space)</li>
+<li>\(\mu \in \mathbb{R}^k\) is the mean. \(\mu = E[X]\) (\(E[]\) is expected value.  I will also drop dependence on the sample space).</li>
+<li>\(\Sigma \in \mathbb{R}^{k \times k}\) is the covariance.  \(\Sigma = E[(X - \mu)(X-\mu)^T]\), and is positive definite.</li>
+</ul></li>
+<li><p>
+The probability density function (pdf) for a jointly Gaussian random variable is
+</p>
+\begin{equation}\label{eq:mvgauss}
+f_X(x) = (2\pi)^{-\frac{k}{2}}(\det{\Sigma})^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}
+\end{equation}</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgad6c0d0" class="outline-2">
+<h2 id="orgad6c0d0">Linear Transform</h2>
+<div class="outline-text-2" id="text-orgad6c0d0">
+<ul class="org-ul">
+<li>Let \(Y = A X + b\), \(X \sim \mathcal{N}(\mu, \Sigma)\), where \(A \in \mathbb{R}^{n \times n}\) is invertable</li>
+<li>Then \(Y \sim \mathcal{N}(A \mu + b, A \Sigma A^T)\)</li>
+</ul>
+</div>
+<details id="org47f95de"><summary class="header-3">Sketch of a Proof</summary>
+<div class="outline-text-3" id="text-org47f95de">
+<ol class="org-ol">
+<li><p>
+Use the multi-variable change of variables formula to find the new density:
+</p>
+\begin{equation}
+f_Y(y) = \frac{f_x(x)}{\det A}
+\end{equation}</li>
+
+<li>Show that the new density has the same form as  multi-variate Gaussian equation~\eqref{eq:mvgauss}.</li>
+</ol>
+</div>
+</details>
+</div>
+
+
+<div id="outline-container-org699e769" class="outline-2">
+<h2 id="org699e769">Conditional Distribution</h2>
+<div class="outline-text-2" id="text-org699e769">
+<ul class="org-ul">
+<li>Let \(X \sim \mathcal{N}(\mu, \Sigma)\).</li>
+<li><p>
+Partition:
+</p>
+\begin{align}
+X &= \begin{bmatrix}X_1 \\ X_2\end{bmatrix} \\
+\mu &= \begin{bmatrix}\mu_1 \\ \mu_2\end{bmatrix}\\
+\Sigma &= \begin{bmatrix}\Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22}\end{bmatrix}
+\end{align}</li>
+<li>What is the conditional probability distribution \(f_{X_1}(x_1 | X_2 = a)\)?</li>
+<li><p>
+Let \(Y \sim X_1 | X_2\) (\(Y\) is a random variable with pdf corresponding to
+the conditional probability of \(X_1\) given \(X_2 = a\)):
+</p>
+\begin{equation}
+  Y \sim \mathcal{N}(\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(a - \mu_2), \Sigma_{11}- \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21})
+\end{equation}</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org26e0676" class="outline-2">
+<h2 id="org26e0676">Random Number Generation in C++</h2>
+<div class="outline-text-2" id="text-org26e0676">
+<ul class="org-ul">
+<li><p>
+If you intend to use the <code>C++</code> standard library for generating random numbers, you can use the following <code>singleton</code> pattern to ensure that
+you are only seeding the random number generator once in your process.
+</p>
+<pre class="example">
+#include&lt;random&gt;
+ std::mt19937 &amp; get_random()
+ {
+     // static variables inside a function are created once and persist for the remainder of the program
+     static std::random_device rd{}; 
+     static std::mt19937 mt{rd()};
+     // we return a reference to the pseudo-random number genrator object. This is always the
+     // same object every time get_random is called
+     return mt;
+ }
+
+ // To generate a gaussian variable:
+ std::normal_distribution&lt;&gt; d(mean, variance);
+ d(get_random());
+
+</pre></li>
+<li>Armadillo also has random number generation functions
+<ul class="org-ul">
+<li>See, for example, <a href="http://arma.sourceforge.net/docs.html#randu_randn_standalone">http://arma.sourceforge.net/docs.html#randu_randn_standalone</a></li>
+<li>These random number generators are different then the built-in C++ method</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-org9866f76" class="outline-3">
+<h3 id="org9866f76">Multivariate Gaussian</h3>
+<div class="outline-text-3" id="text-org9866f76">
+<ul class="org-ul">
+<li>An algorithm for generating multivariate Gaussian noise, given mean \(m \in \mathbb{R}^n\) and variance \(Q \in \mathbb{R}^{n \times n}\) is as follows:
+<ol class="org-ol">
+<li>Let \(L\) be the (lower) Cholesky decomposition of \(Q\)
+(that is \(L\) is lower triangular such that \(L L^T = Q\).
+<ul class="org-ul">
+<li>Use the <code>chol()</code> function from armadillo or the <code>llt()</code> function from eigen</li>
+</ul></li>
+<li>Let \(u \in \mathbb{R}^n\) be generated such that each entry
+is independently drawn from a Gaussian distribution with mean 0 and variance 1.</li>
+<li>Then, \(v = m + Lu\) will have the desired distribution</li>
+</ol></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdf1feb6" class="outline-2">
+<h2 id="orgdf1feb6">Plotting Contours</h2>
+<div class="outline-text-2" id="text-orgdf1feb6">
+<ul class="org-ul">
+<li>The level-sets of a Gaussian distribution (\(f_X(x) = c\)) form ellipsoids.</li>
+<li>Plotting the ellipsoid of a Gaussian is an excellent method of visualizing it
+(at least in 2 or 3 dimensions).</li>
+<li>Diagonalize \(\Sigma\), so that \(\Sigma = P \Lambda P^T\), where the columns of \(P\) are eigenvectors of \(\Sigma\) and
+\(\Lambda\) is a diagonal matrix of eigenvalues, where \(P\) are orthogonal matrices \(PP^T = P^TP = I\)
+(we can do this since covariance is positive definite).</li>
+<li>The lengths of the major axes of the ellipse correspond to the inverse eigenvalues of &Sigma;.</li>
+<li>The major axes are rotated by \(P^T\)</li>
+</ul>
+</div>
+
+<div id="outline-container-org3fc4848" class="outline-3">
+<h3 id="org3fc4848">Derivation</h3>
+<div class="outline-text-3" id="text-org3fc4848">
+\begin{align}
+  c &= (2\pi)^{-\frac{k}{2}}\det{\Sigma}^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)} \\
+  c' &= e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)} \\
+  c'' &= (x - \mu)^T\Sigma^{-1}(x-\mu) \\
+  c'' &= (x - \mu)^T(P\Lambda P^T)^{-1}(x-\mu) \\
+  c'' &= (x-\mu)^TP\Lambda^{-1}P^T(x-\mu) \\
+  c'' &= y^T \Lambda^{-1} y,
+\end{align}
+<p>
+where
+</p>
+\begin{align}
+c' &=(2\pi)^{\frac{k}{2}}\det{\Sigma}^{1/2} \\
+c'' &= 2\log{\frac{1}{c'}}\\
+y &= P^T(x-\mu)
+\end{align}
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

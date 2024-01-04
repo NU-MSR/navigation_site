@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basic ROS 2 C++</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Basic ROS 2 C++</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1a0ceab">Creating a ROS 2 Package that uses C++</a></li>
+<li><a href="#org1cd234a">A Close Reading of CMakeLists.txt</a></li>
+<li><a href="#org76d078e">C++</a></li>
+<li><a href="#org26dae47">member function as a callback from the timer. */</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org1a0ceab" class="outline-2">
+<h2 id="org1a0ceab">Creating a ROS 2 Package that uses C++</h2>
+<div class="outline-text-2" id="text-org1a0ceab">
+<div class="org-src-container">
+<pre class="src src-bash">ros2 pkg create --build-type ament_cmake cpp_pubsub
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1cd234a" class="outline-2">
+<h2 id="org1cd234a">A Close Reading of CMakeLists.txt</h2>
+<div class="outline-text-2" id="text-org1cd234a">
+<p>
+cmake_minimum_required(VERSION 3.8)
+</p>
+
+<p>
+project(cpp_pubsub)
+</p>
+
+<p>
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+</p>
+
+<p>
+find_package(ament_cmake REQUIRED)
+</p>
+
+<p>
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+</p>
+
+<p>
+set(ament_cmake_copyright_FOUND TRUE)
+</p>
+
+<p>
+  set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+</p>
+
+<p>
+ament_package()
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org76d078e" class="outline-2">
+<h2 id="org76d078e">C++</h2>
+<div class="outline-text-2" id="text-org76d078e">
+<p>
+#include &lt;chrono&gt;      <i>/ C++ standard functions having to do with time
+#include &lt;functional&gt;  /</i> C++ standard functions having to do with functional programming
+#include &lt;memory&gt;      <i>/ smart pointers
+#include &lt;string&gt;      /</i> strings
+</p>
+
+<p>
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/string.hpp"
+</p>
+
+<p>
+<i>/ Generally using namespace should not be done because it brings in all the elements
+/</i> of the given namespace (and hence defeating part of the purpose of namespaces)
+<i>/ However, this is for C++11 style custom suffixes, which in this case allows putting
+/</i> units of time (such as ms) after the time used by chrono
+using namespace std::chrono_literals;
+</p>
+
+<p>
+/* This example creates a subclass of Node and uses std::bind() to register a
+</p>
+</div>
+</div>
+<div id="outline-container-org26dae47" class="outline-2">
+<h2 id="org26dae47">member function as a callback from the timer. */</h2>
+<div class="outline-text-2" id="text-org26dae47">
+<p>
+<i>/</i> ROS 2 nodes are based on inheritance (just like python)
+<i>/</i> Except you also don't need to use inheritance
+<i>/</i> However, inheritance, which enables <i>runtime polymorphism</i> is what is
+<i>/</i> is used by the ROS component system to dynamically load multiple nodes into
+<i>/</i> a single container.  However, there is a (very slight) performance downside to
+<i>/</i> enable dynamic laoding: namely the virtual table -( Vtable). Notice that rclcpp::~Node() is virtual
+class MinimalPublisher : public rclcpp::Node
+{
+  public:
+    MinimalPublisher()
+</p>
+<pre class="example">
+Node("minimal_publisher"), count_(0)
+</pre>
+
+<p>
+{
+  publisher_ = this-&gt;create_publisher&lt;std_msgs::msg::String&gt;("topic", 10);
+  timer_ = this-&gt;create_wall_timer(
+  500ms, std::bind(&amp;MinimalPublisher::timer_callback, this));
+}
+</p>
+
+<p>
+  private:
+    void timer_callback()
+    {
+      auto message = std_msgs::msg::String();
+      message.data = "Hello, world! " + std::to_string(count_++);
+      RCLCPP_INFO(this-&gt;get_logger(), "Publishing: '%s'", message.data.c_str());
+      publisher_-&gt;publish(message);
+    }
+    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::Publisher&lt;std_msgs::msg::String&gt;::SharedPtr publisher_;
+    size_t count_;
+};
+</p>
+
+<p>
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared&lt;MinimalPublisher&gt;());
+  rclcpp::shutdown();
+  return 0;
+}
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

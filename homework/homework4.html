@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework 4</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Homework 4</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5bf0961">Task S (Feature Detection)</a>
+<ul>
+<li><a href="#orgc6ef940">Task S.1 (Landmark Detection)</a>
+<ul>
+<li><a href="#orgd9c4a49">Hints:</a></li>
+</ul>
+</li>
+<li><a href="#orge60abfb">Task S.2 (Testing Landmark Detection)</a></li>
+</ul>
+</li>
+<li><a href="#orgf4f1634">Task L (SLAM)</a>
+<ul>
+<li><a href="#org212dc92">Task L.3 (SLAM with unknown data association)</a></li>
+<li><a href="#orgbe6ef79">Task L.4 (SLAM in the Real World)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org5bf0961" class="outline-2">
+<h2 id="org5bf0961">Task S (Feature Detection)</h2>
+<div class="outline-text-2" id="text-org5bf0961">
+<p>
+The first tasks here are to enable you to sense landmarks that can then be used as sensor measurements for SLAM.
+</p>
+</div>
+
+<div id="outline-container-orgc6ef940" class="outline-3">
+<h3 id="orgc6ef940">Task S.1 (Landmark Detection)</h3>
+<div class="outline-text-3" id="text-orgc6ef940">
+<ol class="org-ol">
+<li>Write a node called <code>landmarks</code> in the <code>nuslam</code> package to detect landmarks and publish their relative locations
+<ul class="org-ul">
+<li>This node takes 2D laser_scan data and outputs a landmark locations relative to the robots</li>
+<li>You should have a way to display the detected landmark locations in <code>rviz</code></li>
+</ul></li>
+<li>Write a <code>landmark_detect.launch.xml</code>
+<ul class="org-ul">
+<li>If the <code>robot</code> argument is <code>nusim</code>, it should launch your simulator and the <code>landmarks</code> node and display the sensed landmarks in <code>rviz</code></li>
+</ul></li>
+</ol>
+</div>
+<div id="outline-container-orgd9c4a49" class="outline-4">
+<h4 id="orgd9c4a49">Hints:</h4>
+<div class="outline-text-4" id="text-orgd9c4a49">
+<ol class="org-ol">
+<li>Writing some of the test cases in S.2 while you are coding these algorithms can help you debug and make sure you don't introduce new bugs.
+<ul class="org-ul">
+<li>You may want to do some "test-driven-development (TDD)" and write some test cases for the circle detection algorithm prior to writing the algorithm itself.</li>
+</ul></li>
+<li>You can use any algorithm you want as long as it works.  Below I describe algorithms that I know work.</li>
+<li>First solve an unsupervised learning problem: clustering points into groups corresponding to individual landmarks.
+<ul class="org-ul">
+<li>Cluster the laser scanner points based on a distance threshold.</li>
+<li>Discard any clusters with fewer than 3 points, as these will not provide good results when we fit a circle</li>
+<li>The laser scan data is ordered by increasing relative bearing angle. If two consecutive scan points are near each other they are part
+of the same cluster, otherwise they are in different clusters</li>
+<li>Keep in mind that the scan wraps around, so you may be starting in the middle of a cluster</li>
+<li>To help test this step, I recommend outputting markers to help visualize the clusters.</li>
+</ul></li>
+<li>Next, solve a supervised learning problem: circular regression.
+<ul class="org-ul">
+<li>To detect the circles, implement this <a href="../lectures/circle_fit.html">circle fitting algorithm</a></li>
+<li>It may help to break up each step into separate functions and test them separately.</li>
+</ul></li>
+<li>Solve a classification problem
+<ul class="org-ul">
+<li>Classify the clusters of points into Circle and Not Circle. This step helps to avoid false positives.</li>
+<li>Algorithm below is from  J. Xavier et. al., <i>Fast line, arc/circle and leg detection from laser scan data in a Player driver</i>, ICRA 2005
+<ol class="org-ol">
+<li>Let \(P_1\) and \(P_2\) be the endpoints of a cluster and \(P\) be a point in the cluster.</li>
+<li>If the <code>cluster</code> is an arc of a circle, then the angle from \(P_1\) to \(P\) to \(P_2\) is
+always the same for all \(P\) (a consequence of the inscribed angle theorem)</li>
+<li>So, compute the mean and standard deviation of the angles between the endpoints
+and each point on the segment</li>
+<li>If standard deviation is below <code>0.15</code> radians and <code>mean</code> is between 90 and 135 degrees,
+then it is a circle (thresholds are from the paper, tuning them will help you as their thresholds will not necessarily work well in our application).</li>
+</ol></li>
+</ul></li>
+<li>Practical and Simple Extras to aid accuracy
+<ol class="org-ol">
+<li>Feel free to use these ideas to increase accuracy.  They will help in our specific setup but may not be as generally applicable to all situations.</li>
+<li>Eliminate circles with really large or small radii, since we know the approximate size
+of the landmarks (this increases the assumptions required for your algorithm to work but also is very helpful).</li>
+<li>Make the minimum cluster size larger to ensure better fits for the circle fitting algorithm</li>
+</ol></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge60abfb" class="outline-3">
+<h3 id="orge60abfb">Task S.2 (Testing Landmark Detection)</h3>
+<div class="outline-text-3" id="text-orge60abfb">
+<ol class="org-ol">
+<li>Add some tests for circle detection in a file called <code>circle_tests.cpp</code> in the <code>nuslam</code> package.</li>
+<li>The goal of testing is to break each of the landmark detection parts down into simpler components.
+<ul class="org-ul">
+<li>We will not attempt comprehensive testing here, but writing a few simple tests is well worth our time and can even help in debugging.</li>
+</ul></li>
+<li>The circle fitting algorithm is the easiest to test because the authors of the algorithm provide test data! (from <a href="https://people.cas.uab.edu/~mosya/cl/CPPcircle.html">https://people.cas.uab.edu/~mosya/cl/CPPcircle.html</a>)
+<ul class="org-ul">
+<li>Write tests for the circle algorithm, here are the results you should get. (If you did not use this algorithm, you still must test whatever algorithm that you implement)</li>
+<li>Test 1 Inputs: \(\{(1,7), (2,6), (5,8), (7,7), (9,5), (3,7)\}\). Outputs: center (4.615482, 2.807354), radius 4.8275</li>
+<li>Test 2 Inputs: \(\{(-1,0), (-0.3, -0.06), (0.3, 0.1), (1, 0)\}\). Outputs: center (0.4908357, -22.15212) radius 22.17979</li>
+<li>You can expect to come within \(10^{-4}\) of the results above.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf4f1634" class="outline-2">
+<h2 id="orgf4f1634">Task L (SLAM)</h2>
+<div class="outline-text-2" id="text-orgf4f1634">
+</div>
+<div id="outline-container-org212dc92" class="outline-3">
+<h3 id="org212dc92">Task L.3 (SLAM with unknown data association)</h3>
+<div class="outline-text-3" id="text-org212dc92">
+<p>
+Here, you will implement SLAM based on the laser-scanner measurements, using the landmark detection algorithms developed in Task S.
+</p>
+<ol class="org-ol">
+<li>Implement a data association scheme (either based on mahalanobis distance, euclidean distance, or anything else you can think of)
+to associate measurements with landmarks and incorporate it into the SLAM algorithm
+<ul class="org-ul">
+<li>You should feel free to add any of the additional filtering techniques to make the data association more effective</li>
+<li>See <a href="../lectures/data_assoc.html">Data Association</a> for a description of the basic algorithm</li>
+</ul></li>
+<li>Drive the robot around a closed path in the nusim and include a screencast of the result in rviz. Use your data association scheme and simulated laser scan data.
+<ul class="org-ul">
+<li>Try to drive the robot back to its initial starting position</li>
+<li>Report the final pose error between the actual robot position and odometry in <code>nuslam/README.md</code></li>
+<li>Report the final pose error between the actual robot position and the SLAM estimate in <code>nuslam/README.md</code></li>
+<li>The screencast should show the actual and estimated marker positions, and the actual, estimated and odometry path, and robots.</li>
+</ul></li>
+<li>It is okay if your algorithm only works while driving slowly</li>
+<li>When you complete this task you have fully implemented EKF SLAM with unknown data association!
+<ul class="org-ul">
+<li>It may be helpful to temporarily reduce the noise of the laser scanner in the simulation to zero (you can do this in the xacro urdf) while testing.</li>
+</ul></li>
+<li>You should be able to launch this demo by running <code>ros2 launch nuslam unknown_data_assoc.launch.xml</code></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgbe6ef79" class="outline-3">
+<h3 id="orgbe6ef79">Task L.4 (SLAM in the Real World)</h3>
+<div class="outline-text-3" id="text-orgbe6ef79">
+<ol class="org-ol">
+<li>I have provided some cylindrical obstacles for you to use</li>
+<li>Run your code on the turtlebot and drive it around in the real world
+<ul class="org-ul">
+<li>Complete a circuit of the environment and drive the robot back to its initial position</li>
+</ul></li>
+<li>Include a screenshot from RVIZ at the end of a run and a video of the turtlebot moving.</li>
+<li>Report the final pose \((x, y, \theta)\) as determined by the SLAM algorithm and as determined by the odometry in <code>nuslam/README.md</code>.
+<ul class="org-ul">
+<li>Did your SLAM implementation outperform the odometry? (If not, it may have a bug, require more tuning, or you did not drive the robot far enough)</li>
+<li>You may have to drive slowly to achieve good results.</li>
+</ul></li>
+<li>You should be able to run this demo with
+<ul class="org-ul">
+<li>On the turtlebot: <code>ros2 launch nuslam turtlebot_bringup.launch.xml</code></li>
+<li>On your computer: <code>ros2 launch nuslam pc_bringup.launch.xml</code></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

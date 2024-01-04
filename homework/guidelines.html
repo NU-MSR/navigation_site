@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homework Guidelines</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Homework Guidelines</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4c3f8b0">Overview</a>
+<ul>
+<li><a href="#org6670c9b">Important Notice</a></li>
+</ul>
+</li>
+<li><a href="#orgba0771e">Homework Layout</a></li>
+<li><a href="#orga2637f9">Submission Instructions</a></li>
+<li><a href="#org8257a55">Coding Standards</a>
+<ul>
+<li><a href="#orgeed2578">Git</a></li>
+<li><a href="#orge69584c">ROS</a></li>
+<li><a href="#orgb64a1c0">C++</a>
+<ul>
+<li><a href="#orgee7b8c1">General</a></li>
+<li><a href="#orgf7ddf7b">Comments</a></li>
+<li><a href="#org16801dd">Include Files</a></li>
+<li><a href="#orgada3c3d">Namespaces</a></li>
+<li><a href="#orgeb97a96">Math</a></li>
+<li><a href="#orgdc568d6">Classes</a></li>
+<li><a href="#org4fcec7b">Variables</a></li>
+<li><a href="#orgf2ef097">Pointers</a></li>
+<li><a href="#org2dc79d2">Data-structures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org2f73a72">Citations</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org4c3f8b0" class="outline-2">
+<h2 id="org4c3f8b0">Overview</h2>
+<div class="outline-text-2" id="text-org4c3f8b0">
+<p>
+These guidelines apply to all homework assignments in ME495 Sensing, Navigation, and Machine Learing for Robotics.
+This document also serves central location for collecting coding standards for the course.
+</p>
+</div>
+
+<div id="outline-container-org6670c9b" class="outline-3">
+<h3 id="org6670c9b">Important Notice</h3>
+<div class="outline-text-3" id="text-org6670c9b">
+<ol class="org-ol">
+<li>Failure to adhere to certain guidelines may result in receiving no credit, even for a working solution.</li>
+<li>These guidelines apply to every homework assignment but may be overridden by instructions in an individual assignment.</li>
+<li>If you are unsure about how these guidelines apply or any assignment instructions please ask.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgba0771e" class="outline-2">
+<h2 id="orgba0771e">Homework Layout</h2>
+<div class="outline-text-2" id="text-orgba0771e">
+<ol class="org-ol">
+<li>Each assignment consists of a list of tasks labeled as <code>X.Y</code>, where <code>X</code> is the task group and <code>Y</code> is the subtask.</li>
+<li>All tasks with the same group are related and it makes sense to
+read over all the tasks in a group prior to attempting to complete any of them.</li>
+<li>Tasks within a group are not necessarily meant to be done in the order they are presented.
+<ul class="org-ul">
+<li>It will often make debugging easier to implement simpler versions of several of the tasks 
+simultaneously and slowly build up functionality</li>
+<li>You are encouraged to look over all the tasks before starting</li>
+</ul></li>
+<li>Most of the assignments should be viewed as pieces of a single larger project. 
+Therefore, you may need to correct issues on previous assignments prior to moving forward.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orga2637f9" class="outline-2">
+<h2 id="orga2637f9">Submission Instructions</h2>
+<div class="outline-text-2" id="text-orga2637f9">
+<ol class="org-ol">
+<li>All homework will be completed in a single git repository
+<ul class="org-ul">
+<li>I will send everyone an individual link for creating this repository</li>
+</ul></li>
+<li>I will grade whatever commit is at the <code>HEAD</code> of the <code>main</code> branch when I clone your repository.</li>
+<li>Maintain a file called <code>Tasks.md</code>. 
+<ul class="org-ul">
+<li>Whenever a task is complete, list it on its own line in this file.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8257a55" class="outline-2">
+<h2 id="org8257a55">Coding Standards</h2>
+<div class="outline-text-2" id="text-org8257a55">
+<p>
+The following list contains the standards that our code should strive to adhere to.
+</p>
+
+<p>
+The list may grow as the quarter progresses so check back for each assignment.
+</p>
+</div>
+
+<div id="outline-container-orgeed2578" class="outline-3">
+<h3 id="orgeed2578">Git</h3>
+<div class="outline-text-3" id="text-orgeed2578">
+<ol class="org-ol">
+<li>Do not include files that do not belong in git. For example
+<ul class="org-ul">
+<li>Generated executables, libraries, object files of any kind</li>
+<li>URDF files generated from <code>xacro</code></li>
+<li>Files generated by the build system</li>
+<li>The <code>build</code>, <code>install</code>, or <code>log</code> space</li>
+<li>The <code>.vscode</code> directory</li>
+</ul></li>
+<li>Your name/email address should be set properly in git</li>
+<li>Each homework assignment should consist of many small git commits.
+<ul class="org-ul">
+<li>You should include a meaningful commit message with each commit</li>
+<li>It is okay to commit code with compiler errors to your own development branch, as long as they are not
+present on the <code>main</code> of any branch.</li>
+</ul></li>
+<li>You may use as many branches as you like, but I will only look at the <code>main</code> branch.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge69584c" class="outline-3">
+<h3 id="orge69584c">ROS</h3>
+<div class="outline-text-3" id="text-orge69584c">
+<ol class="org-ol">
+<li>Your code must pass <code>colcon test</code></li>
+<li>Layout your code as <code>git_repository/package</code></li>
+<li>Within a package:
+(note: if you have no files that fit in a given category, do not include the corresponding directory)
+<ul class="org-ul">
+<li><code>config/</code> Contains <code>.yaml</code> and <code>.rviz</code> files</li>
+<li><code>launch/</code> Contains <code>.launch</code> files</li>
+<li><code>urdf/</code>   Contains <code>.xacro</code>, <code>.urdf</code>, and <code>.gazebo</code> files (but not if they are generated at runtime).</li>
+<li><code>src/</code>    Contains the source code for your ROS nodes and libraries</li>
+<li><code>msg/</code>    Contains message files</li>
+<li><code>srv/</code>    Contains service files</li>
+<li><code>include/pkgname</code> Public headers, if you are treating your package as a library</li>
+<li><code>tests/</code>  Unit tests and test scripts</li>
+</ul></li>
+<li>Launchfile should not result in errors or warnings due to code in one of your packages.</li>
+<li>Launchfile arguments should have a <code>description</code> attribute to explain their use</li>
+<li>Any <code>package.xml</code> files should be kept up-to-date with the proper dependencies, a description, and author information</li>
+<li>No hardcoded/absolute directories in launchfiles or code. Use <code>$(find-pkg-share)</code> and other tools as appropriate, so that the code
+can be run on computers other than your own.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgb64a1c0" class="outline-3">
+<h3 id="orgb64a1c0">C++</h3>
+<div class="outline-text-3" id="text-orgb64a1c0">
+</div>
+<div id="outline-container-orgee7b8c1" class="outline-4">
+<h4 id="orgee7b8c1">General</h4>
+<div class="outline-text-4" id="text-orgee7b8c1">
+<ol class="org-ol">
+<li>The code at the <code>HEAD</code> of the <code>main</code> branch should be free from compiler errors (<b>Automatic Zero</b>)
+<ul class="org-ul">
+<li>Commit messages for intermediate commits with errors should be labeled as <code>DOES NOT COMPILE</code></li>
+<li>You will automatically receive a zero for code that does not compile on the main branch or <code>task_x</code> branch.</li>
+<li>If your code does not compile, do not push it to <code>main</code> (though you may push to another branch)!</li>
+</ul></li>
+<li>There should be no compiler warnings.  Take compiler warnings seriously as they often can indicate a bug in your code.</li>
+<li>If your program ever segfaults, it has some type of memory corruption that should be fixed immediately.</li>
+<li>All C++ code should be compiled with <code>c++17</code> and <code>-Wall -Wextra -Wpedantic</code></li>
+<li>Put braces after control-flow expressions even if they are one line (see <a href="https://nakedsecurity.sophos.com/2014/02/24/anatomy-of-a-goto-fail-apples-ssl-bug-explained-plus-an-unofficial-patch/">goto fail</a>)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgf7ddf7b" class="outline-4">
+<h4 id="orgf7ddf7b">Comments</h4>
+<div class="outline-text-4" id="text-orgf7ddf7b">
+<ol class="org-ol">
+<li><p>
+All <code>.cpp</code> files that are ROS nodes should start with the following comment block: 
+</p>
+<pre class="example">
+/// \file
+/// \brief A brief description of what the file does
+///
+/// PARAMETERS:
+///     parameter_name (parameter_type): description of the parameter
+/// PUBLISHES:
+///     topic_name (topic_type): description of topic
+/// SUBSCRIBES:
+///     topic_name (topic_type): description of the topic
+/// SERVERS:
+///     service_name (service_type): description of the service
+/// CLIENTS:
+///     service_name (service_type): description of the service
+</pre></li>
+<li><p>
+All functions/methods should be commented using <code>doxygen</code> style comments 
+</p>
+<pre class="example">
+/// \brief Computes the factorial
+///
+/// \tparam T - An integral type
+/// \param F - the factorial to compute
+/// \returns F! (F Factorial)
+/// &lt;template typename T&gt;
+/// T factorial (T F);
+</pre></li>
+<li>Classes should have a <code>doxygen</code> comment block describing what the class does.
+<ul class="org-ul">
+<li>You should also provide comments for private members (but not doxygen comments), where appropriate</li>
+<li>Private members are an implementation detail and documentation should not be visible to readers of the main documentation.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org16801dd" class="outline-4">
+<h4 id="org16801dd">Include Files</h4>
+<div class="outline-text-4" id="text-org16801dd">
+<ol class="org-ol">
+<li>Use include guards in all header files</li>
+<li>All include files that you write should be included with  <code>#include"package/headerfile.hpp"</code>.</li>
+<li>Minimize the amount of header files you place in each header file by using forward declarations where possible</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgada3c3d" class="outline-4">
+<h4 id="orgada3c3d">Namespaces</h4>
+<div class="outline-text-4" id="text-orgada3c3d">
+<ol class="org-ol">
+<li>Do not put <code>using</code> statements at file scope in header files.
+<ul class="org-ul">
+<li>These <code>using</code> statements change the behavior of all code that includes the header, including other headers that are below this one</li>
+<li>Thus, if you do do this you can introduce include-order dependencies and mess up the functioning of other people's code when they include your header</li>
+</ul></li>
+<li>In most cases it is preferable to explicitly do a <code>using</code> for each function that you need rather than polluting the namespace by doing <code>using namespace std</code>
+<ul class="org-ul">
+<li>One exception to this rule is when using literal suffixes (e.g., the units from <code>std::chrono</code>)</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgeb97a96" class="outline-4">
+<h4 id="orgeb97a96">Math</h4>
+<div class="outline-text-4" id="text-orgeb97a96">
+<ol class="org-ol">
+<li>Double precision literals should always include the decimal point (e.g., 1.0 rather than 1)</li>
+<li>Complicated math expressions should be commented, referencing the derivation or source of the equation.</li>
+<li>Break up long math expressions. It is okay to store intermediate values as <code>const</code> or <code>constexpr</code> variables</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdc568d6" class="outline-4">
+<h4 id="orgdc568d6">Classes</h4>
+<div class="outline-text-4" id="text-orgdc568d6">
+<ol class="org-ol">
+<li>Constructors should use initializer lists to initialize member variables</li>
+<li>Member variables should be initialized in the constructor initailizer list in the same order in which they are declared</li>
+<li>Usually single-argument constructors should be declared <code>explicit</code> (so there will not be an implicit conversion)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4fcec7b" class="outline-4">
+<h4 id="org4fcec7b">Variables</h4>
+<div class="outline-text-4" id="text-org4fcec7b">
+<ol class="org-ol">
+<li>Use <code>constexpr</code> and <code>const</code> everywhere you can
+<ul class="org-ul">
+<li>Do not use <code>const</code> in headers for pass-by-value</li>
+</ul></li>
+<li>Place variables in the scope closest to where they are needed</li>
+<li>If you use a global variable, make it <code>static</code> or put it in an anonymous namespace so it can't bee seen by other modules
+<ul class="org-ul">
+<li>There are rare cases where using an <code>extern</code> global variable might make sense, but not in this class, so don't use <code>extern</code></li>
+</ul></li>
+<li>Use <code>auto</code> a lot (see <a href="https://www.fluentcpp.com/2020/12/04/auto-for-types-but-not-for-concepts/">almost always auto</a></li>
+<li>Do not inherit from a class unless it has a <code>virtual</code> or <code>protected</code> destructor.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgf2ef097" class="outline-4">
+<h4 id="orgf2ef097">Pointers</h4>
+<div class="outline-text-4" id="text-orgf2ef097">
+<ol class="org-ol">
+<li><a href="https://en.cppreference.com/w/cpp/language/raii">Resource Acquisition is Initialization</a>
+<ul class="org-ul">
+<li>This means you probably don't want to be using <code>new</code> except in a constructor or <code>delete</code> except in a destructor</li>
+<li>There are very few reasons (such as writing your own custom data structure) to use <code>new</code> or <code>delete</code> in Modern C++
+<ul class="org-ul">
+<li>Alternatives are smart pointers (with <code>make_shared</code> and <code>make_unique</code> instead of <code>new</code>, or more likely <code>std::vector</code></li>
+</ul></li>
+</ul></li>
+<li>Prefer pass by (<code>const</code> reference) to pass by pointer. There are very few reasons (such as interfacing with C code) to pass
+by raw pointer in modern C++</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org2dc79d2" class="outline-4">
+<h4 id="org2dc79d2">Data-structures</h4>
+<div class="outline-text-4" id="text-org2dc79d2">
+<ol class="org-ol">
+<li>Don't use raw arrays.</li>
+<li>The default data structure of choice is <code>std::vector</code>
+<ul class="org-ul">
+<li>Other data structures may have this or that property, but <code>std::vector</code> almost always can get the job done in the most straight-forward way.</li>
+</ul></li>
+<li>Use the algorithms <code>std::algorithm</code></li>
+<li><p>
+When indexing, use <code>.at()</code> to get runtime bounds checking (at the expense of performance)
+</p>
+<ul class="org-ul">
+<li>Do not ever use <code>[]</code> to index in a C++ program.</li>
+</ul>
+<p>
+-At some point you may want to use <code>[]</code> for effiency reasons, but that point is very far down the road.
+</p></li>
+<li>When using C++20 or beyond, use <code>std::ranges</code> <a href="https://hannes.hauswedell.net/post/2019/11/30/range_intro/">Introductory Tutorial</a></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2f73a72" class="outline-2">
+<h2 id="org2f73a72">Citations</h2>
+<div class="outline-text-2" id="text-org2f73a72">
+<p>
+If you use any external source (a website or a book, another person, or an LLM or other AI tool such as ChatGPT or Github Copilot), you must cite the source.
+</p>
+<ol class="org-ol">
+<li>Create a <code>citations.txt</code> file in the base directory of your repository.</li>
+<li>The first line in <code>citations.txt</code> should state who you worked with generally, even if no specific code can be traced back to an individual.</li>
+<li>The subsequent lines should be labeled with a number that can be referred to in source code. Any source code copied, adapted, or inspired
+by an external source should cross-reference that source in the <code>citations.txt</code>.</li>
+</ol>
+
+<p>
+Exceptions to this rule hold for me, my notes, and anything under <a href="https://docs.ros.org/en/iron/Tutorials.html">https://docs.ros.org/en/iron/Tutorials.html</a>, and any ROS 2 or package-related "boilerplate" code (that is code
+that is necessary for the use of the package/feature that would not vary significantly between different uses).
+</p>
+
+
+<p>
+There are additional rules for AI tools:
+</p>
+<ol class="org-ol">
+<li>If your use of the LLM is external to your text editor (e.g., you use a website) you must provide a transcript of the conversation in your git repository
+and refer to it in the citation.</li>
+<li>If the LLM is built-in to your code editor and uses the context of the editor, then prior to generating the code you must commit your code and record the
+hash of the commit in the <code>citations.txt</code>.</li>
+<li>Each individual use of an LLM must be cited.</li>
+</ol>
+<p>
+Here is an example <code>citations.txt</code>: yours should follow the same format.
+</p>
+<pre class="example">
+Worked With: [List every person you worked with generally here.] [1] Github Copilot. Used on 9/21/2023. Commit prior to use is 3fd56754423456434233242
+[2] ChatGpt. Used on 9/22/2023. Transcript is in ./chatgpt/transcript1.txt
+[3] https://stackoverflow.com/the/answer Accessed on 9/23/22
+[4] John Smith [if John Smith gave you a specific idea outside of generally working with you].
+</pre>
+
+<p>
+And here is an example of a C++ file that used a citation
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span class="org-preprocessor">#include</span><span class="org-string">&lt;iostream&gt;</span>
+
+<span class="org-comment-delimiter">// </span><span class="org-comment">############################## Begin_Citation [4] ##############################</span>
+<span class="org-type">int</span> <span class="org-function-name">main</span>()
+{
+   <span class="org-constant">std</span>::cout &lt;&lt; <span class="org-string">"Hello ROS!"</span> &lt;&lt; <span class="org-constant">std</span>::endl;
+   <span class="org-keyword">return</span> 0;
+}
+<span class="org-comment-delimiter">// </span><span class="org-comment">############################## End_Citation [4]  ###############################</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

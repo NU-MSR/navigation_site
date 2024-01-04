@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bayes Networks</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Bayes Networks</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org386fd78">Overview</a></li>
+<li><a href="#orgd28f9ac">Chain Rule of Probability</a></li>
+<li><a href="#org8c815c3">Defining the Network</a>
+<ul>
+<li><a href="#org8185543">Basic Graph Theory</a></li>
+<li><a href="#orgf7f20c8">Defining the Network</a></li>
+<li><a href="#org3849d35">Example</a>
+<ul>
+<li><a href="#orgbbb149c">Finer Points</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<div id="outline-container-org386fd78" class="outline-2">
+<h2 id="org386fd78">Overview</h2>
+<div class="outline-text-2" id="text-org386fd78">
+<ul class="org-ul">
+<li>Bayes networks are a graphical approach for representing probability distributions</li>
+<li>They help you to construct joint distributions and understand conditional 
+probability relationships between random variables</li>
+<li><a href="./probability.html">Basic Bayes Rule and other Probability Basics</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd28f9ac" class="outline-2">
+<h2 id="orgd28f9ac">Chain Rule of Probability</h2>
+<div class="outline-text-2" id="text-orgd28f9ac">
+<ul class="org-ul">
+<li>\(P(X_n, X_{n-1}, \dots X_{1})\) - The probability that event \(X_n\) and \(X_{n-1}\) and
+(dot dot dot) \(X_{1}\) has occurred.</li>
+<li>Can write as \(P(X_n | X_{n-1}, \dots X_{1}) P(X_{n-1}, X_{n-2}, \dots X_{1})\)</li>
+<li>Notation: \(X_{n:1} = X_{n}, X_{n-1}, \dots, X_{1}\)</li>
+<li>Then</li>
+</ul>
+\begin{align}
+        P(X_{n:1}) = P(X_n  | X_{n-1:1})P(X_{n-1:1}) \\
+                  &= P(X_n |X_{n-1:1}) P(X_{n-1} | X_{n-2:1}) P(X_{n-2:1})
+\end{align}
+<ul class="org-ul">
+<li>We can keep expanding the right-most term until there are no more variables left.</li>
+<li>Summarizing:</li>
+</ul>
+\begin{equation}
+  P(X_{n:1}) = \prod_{k=1}^n P(X_k | X_{k-1:1})
+\end{equation}
+<ul class="org-ul">
+<li>Technical note: When encountering \(X_{0:1}\) then it is nothing</li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-org8c815c3" class="outline-2">
+<h2 id="org8c815c3">Defining the Network</h2>
+<div class="outline-text-2" id="text-org8c815c3">
+</div>
+<div id="outline-container-org8185543" class="outline-3">
+<h3 id="org8185543">Basic Graph Theory</h3>
+<div class="outline-text-3" id="text-org8185543">
+<ul class="org-ul">
+<li>A Bayes Network is a Directed Acyclic Graph (DAG) of nodes
+(representing random variables) and directed edges (representing "causality")</li>
+<li>No directed cycles. This means you can't start at a node, follow the arrows
+and end up back at that same node.</li>
+<li>Parent: A is a parent of B if an edge (an arrow) goes from A to B</li>
+<li>Child: if A is a parent of B then B is a child of A (reverse the arrow)</li>
+<li>Descendant: A is a descendant of B if A can be reached from B by following the
+arrows.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf7f20c8" class="outline-3">
+<h3 id="orgf7f20c8">Defining the Network</h3>
+<div class="outline-text-3" id="text-orgf7f20c8">
+<ul class="org-ul">
+<li>Specify the probability of each random variable (i.e., each node), given its parents</li>
+<li>Each node is conditionally independent of its non-descendants given its parents</li>
+<li>Then, with all those probabilities known, you can compute the full joint distribution
+(and any probability/ conditional probability of the variables in the network)
+<ul class="org-ul">
+<li>The network creates a partial-order of the nodes:
+<ul class="org-ul">
+<li>Each node must come before its parents</li>
+</ul></li>
+<li>If you order the nodes according to the network, you can
+<ol class="org-ol">
+<li>Apply probability chain rule</li>
+<li>Apply conditional independence</li>
+<li>Then you have full distribution in terms of what has been specified</li>
+</ol></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3849d35" class="outline-3">
+<h3 id="org3849d35">Example</h3>
+<div class="outline-text-3" id="text-org3849d35">
+
+<figure>
+<object type="image/svg+xml" data="../images/bayesnet.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+
+<figcaption><span class="figure-number">Figure 1: </span>A Bayes Network, with variables describing conditions that might make a person fall and the relationships between the variables</figcaption>
+</figure>
+<ul class="org-ul">
+<li>We must be given the conditional probabilities of each node, given its parents.
+\(P(C)\), \(P(P)\), \(P(S|C,P)\) \(P(U)\), \(P(F|S)\)</li>
+<li>Next, order the nodes consistent with the graph (children before parents)
+<ul class="org-ul">
+<li>This is a partial order, so any order that meets the rule (children before parents)
+will work</li>
+<li>In this case \(F,S,C,P,U\) works as does \(F,S,U,P,C\) (and other combinations)</li>
+</ul></li>
+<li><p>
+Write out the law of total probability, using the order you decided upon
+</p>
+\begin{equation}
+P(F,S,C,P,U) = P(F | S, C, P, U)P(S | C, P, U) P(C | P, U) P(P | U) P(U)
+\end{equation}</li>
+<li><p>
+Apply the conditional independence: a node is conditionally independent of its non-descendants
+given its parents. In our case:
+</p>
+ \begin{align}
+ P(F | S, C, P, U) = P(F | S, U)\\
+ P(S|C, P, U) = P(S | C, P) \\
+ P(C | P, U) = P(C) \\
+ P(P |U) = P(P)
+\end{align}</li>
+<li><p>
+Finally, we get
+</p>
+\begin{equation}
+P(F, S, C, P, U) = P(F | S, U)P(S | C, P) P(C) P(P)P(U)
+\end{equation}</li>
+<li>Note that the above equation uses exactly the conditional probabilities that
+were given at the beginning</li>
+</ul>
+</div>
+
+<div id="outline-container-orgbbb149c" class="outline-4">
+<h4 id="orgbbb149c">Finer Points</h4>
+<div class="outline-text-4" id="text-orgbbb149c">
+<ul class="org-ul">
+<li>We've set up this network, assuming certain causalities</li>
+<li>You can set up the network however you want.  It just means you need to know different
+conditional probabilities to compute the joint distribution.</li>
+<li>I'm using "distribution" and probability interchangeably here.  It works for both,
+just as Bayes rule has the same form whether dealing with distributions or probabilities.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testing and Debugging in ROS and C++</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Testing and Debugging in ROS and C++</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgdb541ab">Overview</a></li>
+<li><a href="#org95fb2b5">Levels of ROS testing</a>
+<ul>
+<li><a href="#org95101c3">Library-level unit tests</a></li>
+<li><a href="#org5774994">Single Node Unit Tests</a></li>
+<li><a href="#orge9da66a">Integration Test</a></li>
+</ul>
+</li>
+<li><a href="#orgacd5241">C++ Unit Testing Framework</a>
+<ul>
+<li><a href="#org973c7ff">Catch2</a></li>
+<li><a href="#orgeb288ed">Google Test (GTest)</a></li>
+</ul>
+</li>
+<li><a href="#orgface72e">Debugging</a></li>
+<li><a href="#org7464012">References</a></li>
+</ul>
+</div>
+</nav>
+<div id="outline-container-orgdb541ab" class="outline-2">
+<h2 id="orgdb541ab">Overview</h2>
+<div class="outline-text-2" id="text-orgdb541ab">
+<ul class="org-ul">
+<li>See <a href="http://wiki.ros.org/Quality/Tutorials/UnitTesting">Unit Testing</a> for an overview</li>
+<li>The best documentation is <a href="http://docs.ros.org/noetic/api/catkin/html/howto/format2/index.html">Catkin Documentation</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org95fb2b5" class="outline-2">
+<h2 id="org95fb2b5">Levels of ROS testing</h2>
+<div class="outline-text-2" id="text-org95fb2b5">
+</div>
+<div id="outline-container-org95101c3" class="outline-3">
+<h3 id="org95101c3">Library-level unit tests</h3>
+<div class="outline-text-3" id="text-org95101c3">
+<ul class="org-ul">
+<li>These tests are independent of ROS and are used for testing individual functions and libraries.</li>
+<li>Each test should be small and (ideally) run quickly</li>
+<li>Ideally these tests are designed to run every time you compile (or at least
+every time immediately prior to merging your code into the master)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5774994" class="outline-3">
+<h3 id="org5774994">Single Node Unit Tests</h3>
+<div class="outline-text-3" id="text-org5774994">
+<ul class="org-ul">
+<li>The goal is to validate the functionality of a single Node</li>
+<li>Test its publishers, subscribers, and servers, and parameter usage</li>
+<li>These tests should also be relatively small and self contained</li>
+<li>They can be set up to run as part of the compilation process</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge9da66a" class="outline-3">
+<h3 id="orge9da66a">Integration Test</h3>
+<div class="outline-text-3" id="text-orge9da66a">
+<p>
+These tests start multiple nodes and test how the whole system works together
+</p>
+<ul class="org-ul">
+<li>These tests are made in the same way as single node unit tests, but launch more ROS nodes</li>
+<li>Some integration tests can be done automatically as part of the compilation process</li>
+<li>Some integration tests may require physical robot hardware</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgacd5241" class="outline-2">
+<h2 id="orgacd5241">C++ Unit Testing Framework</h2>
+<div class="outline-text-2" id="text-orgacd5241">
+<p>
+There is no standard unit-testing framework for C++. We will use
+<a href="https://github.com/catchorg/Catch2">Catch2 (version 2)</a> in this class, but these
+notes also discuss <code>gtest</code>. 
+</p>
+</div>
+<div id="outline-container-org973c7ff" class="outline-3">
+<h3 id="org973c7ff">Catch2</h3>
+<div class="outline-text-3" id="text-org973c7ff">
+</div>
+<div id="outline-container-org1684b60" class="outline-4">
+<h4 id="org1684b60">Overview</h4>
+<div class="outline-text-4" id="text-org1684b60">
+<ul class="org-ul">
+<li>Catch2 is a light-weight unit-testing framework for C++</li>
+<li>The <a href="https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md#top">Tutorial</a></li>
+<li>The <a href="https://github.com/catchorg/Catch2/blob/devel/docs/Readme.md#top">Reference Documentation</a></li>
+<li>The <a href="http://wiki.ros.org/catch_ros">catch_ros</a> package enables the use of Catch2 with ROS
+<ul class="org-ul">
+<li>See Documentation <a href="https://github.com/AIS-Bonn/catch_ros">here</a></li>
+<li>To add a unit test depend on <code>catch_ros</code> and then <code>catch_add_test(target_name files)</code></li>
+<li>To add a <code>rostest</code> node use <code>catch_add_rostest_node</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org915bfbe" class="outline-4">
+<h4 id="org915bfbe">How To Use With ROS</h4>
+<div class="outline-text-4" id="text-org915bfbe">
+<ol class="org-ol">
+<li>Make sure the <a href="http://wiki.ros.org/catch_ros">catch_ros</a> package is installed
+<ul class="org-ul">
+<li>Details about its usage are on its <a href="https://github.com/AIS-Bonn/catch_ros">github</a> page.</li>
+</ul></li>
+<li>Create a <code>test</code> directory in your package</li>
+<li><code>&lt;depend&gt;</code> on <code>catch_ros</code> in <code>package.xml</code></li>
+<li>Add <code>catch_ros</code> to the <code>catkin REQUIRED COMPONENTS</code></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org59e809d" class="outline-4">
+<h4 id="org59e809d">Independent of roscore</h4>
+<div class="outline-text-4" id="text-org59e809d">
+<p>
+A test is independent of <code>roscore</code> if it does not interact with the ROS API or need <code>roscore</code> running.
+Essentially, these tests are just ordinary C++ unit tests.
+</p>
+
+<ul class="org-ul">
+<li>Write <code>.cpp</code> files in the <code>tests</code> directory.
+<ul class="org-ul">
+<li>These files <code>#include&lt;catch_ros/catch.hpp&gt;</code> and consist of one or more <code>TEST_CASE</code>.</li>
+</ul></li>
+<li>Add the test to <code>CMakeLists.txt</code> to register it with <code>catkin_make run_tests</code>:
+<ul class="org-ul">
+<li><code>catch_add_test(${PROJECT_NAME}_testname test/file1.cpp test/file2.cpp)</code></li>
+<li><code>${PROJECT_NAME}_testname</code> becomes a CMake target so you can use it with <code>target_link_libraries</code> etc.</li>
+</ul></li>
+<li>This test will run with <code>catkin_make run_tests</code> or <code>catkin_make_isolated --catkin-args run_tests</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org90741b1" class="outline-4">
+<h4 id="org90741b1">Dependent on roscore</h4>
+<div class="outline-text-4" id="text-org90741b1">
+<p>
+If your test interacts with ROS nodes via publishers, subscribers, etc. it needs <code>roscore</code> to be running.
+Essentially these tests are for testing nodes.
+</p>
+
+<ul class="org-ul">
+<li>Add a <code>&lt;test_depend&gt;</code> on <code>rostest</code> to the <code>package.xml</code></li>
+<li>Write the tests in <code>.cpp</code> files in the <code>test/</code> directory.
+<ul class="org-ul">
+<li>These files <code>#include&lt;catch_ros/catch.hpp&gt;</code> and consist of one or more <code>TEST_CASE</code>.</li>
+<li>Your test cases can create <code>NodeHandle</code> objects, subscribe, publish, and interact with the ROS API, just like a normal node</li>
+</ul></li>
+<li>In <code>CMakeLists.txt</code>, <code>catch_add_rostest_node(${PROJECT_NAME}_testname test/file1.cpp)</code></li>
+<li>These tests typically require a <a href="http://wiki.ros.org/rostest">rostest</a> file to launch all the nodes needed by the test
+<ul class="org-ul">
+<li>Nodes that actually run unit-tests should be started with the <code>&lt;test&gt;</code> tag.</li>
+<li>Nodes that are not explicitly running unit tests are started with <code>&lt;node&gt;</code></li>
+</ul></li>
+<li>The test can then be run by explicitly using <code>rostest</code> to call the test launchfile</li>
+<li>Using <code>add_rostest(test/mytest.test)</code> in <code>CMakeLists.txt</code> will cause the test launchfile to be called with <code>catkin_make run_tests</code></li>
+<li>After running <code>catkin_make run_tests</code> see a summary of the results with <code>catkin_test_results</code></li>
+</ul>
+</div>
+</div>
+</div>
+
+<details id="orgeb288ed"><summary class="header-3">Google Test (GTest)</summary>
+<div id="outline-container-org4a6e12f" class="outline-4">
+<h4 id="org4a6e12f">Overview</h4>
+<div class="outline-text-4" id="text-org4a6e12f">
+<ul class="org-ul">
+<li>The most common C++ unit testing framework in ROS is Google Test.</li>
+<li><a href="https://github.com/google/googletest/blob/master/googletest/docs/primer.md">Google Test Primer</a></li>
+<li><a href="https://github.com/google/googletest/blob/master/googletest/docs/advanced.md">Google Test Advanced</a> (Not too advanced for you)</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org33cac16" class="outline-4">
+<h4 id="org33cac16">Independent of roscore</h4>
+<div class="outline-text-4" id="text-org33cac16">
+<ul class="org-ul">
+<li>Unit tests using <a href="https://github.com/google/googletest">Google Test</a> (<code>gtest</code>) can be done in ROS natively</li>
+<li>Using <code>gtest</code> is the most common (and only officially supported) C++ unit testing framework in ROS</li>
+<li>After writing the <code>googletest</code> test file, add the tests to CMakeLists.txt (for googletest)</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-cmake"><span class="org-keyword">if</span> (CATKIN_ENABLE_TESTING)
+    <span class="org-function-name">catkin_add_gtest</span>(${<span class="org-variable-name">PROJECT_NAME</span>}_your_testname tests/test.cpp) <span class="org-comment"># for google test</span>
+    <span class="org-function-name">target_link_libraries</span>(your_testname ${<span class="org-variable-name">catkin_Libraries</span>} gtest_main)
+<span class="org-keyword">endif</span>()
+</pre>
+</div>
+<ul class="org-ul">
+<li>By linking with <code>gtest_main</code> you are using the default google test <code>main()</code> function, which is suitable when you are testing a library and not trying to test a node</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbc189b2" class="outline-4">
+<h4 id="orgbc189b2">Dependent upon roscore</h4>
+<div class="outline-text-4" id="text-orgbc189b2">
+<ul class="org-ul">
+<li>To add a unit test that does depend on roscore you will need to use <code>rostest</code> and make your test cases a ROS node</li>
+<li>Add the the test as you did for a regular unit test</li>
+<li>Add a <code>&lt;test_depend&gt;</code> on <code>rostest</code> to the <code>package.xml</code></li>
+<li><p>
+Implement your own main in the test code, as follows
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-type">int</span> <span class="org-function-name">main</span>(<span class="org-type">int</span> <span class="org-variable-name">argc</span>, <span class="org-type">char</span> * <span class="org-variable-name">argv</span>[])
+{
+   <span class="org-constant">testing</span>::InitGoogleTest(&amp;argc, argv);
+   <span class="org-constant">ros</span>::init(argc, argv, <span class="org-string">"test_node_name"</span>);
+   <span class="org-constant">ros</span>::<span class="org-type">NodeHandle</span> <span class="org-variable-name">nh</span>;
+   <span class="org-keyword">return</span> RUN_ALL_TESTS();
+}
+</pre>
+</div></li>
+<li><p>
+In your <code>CMakeLists.txt</code>, after the initial <code>find_package(catkin ...)</code> add
+</p>
+<div class="org-src-container">
+<pre class="src src-cmake"><span class="org-keyword">if</span> (CATKIN_ENABLE_TESTING)
+  <span class="org-function-name">find_package</span>(rostest REQUIRED)
+<span class="org-keyword">endif</span>()
+</pre>
+</div></li>
+<li><p>
+You then want to compile your node and have it run from a test launchfile
+</p>
+<div class="org-src-container">
+<pre class="src src-cmake"><span class="org-keyword">if</span> (CATKIN_ENABLE_TESTING)
+  <span class="org-function-name">add_rostest_gtest</span>(the_rostest tests/the_test_launchfile.test test/unit_test.cpp)
+  <span class="org-function-name">target_link_libraries</span>(the_rostest ${<span class="org-variable-name">catkin_LIBRARIES</span>} [any other libraries])
+<span class="org-keyword">endif</span>()
+</pre>
+</div></li>
+
+<li><p>
+To add launch or test launch files that should be run via <code>rostest</code> but do not depend on <code>gtest</code> when doing a <code>make run_tests</code> use
+</p>
+<div class="org-src-container">
+<pre class="src src-cmake"><span class="org-keyword">if</span> (CATKIN_ENABLE_TESTING)
+   <span class="org-function-name">add_rostest</span>(tests/my_test.test)
+<span class="org-keyword">endif</span>()
+</pre>
+</div></li>
+<li><p>
+To actually write the tests see <a href="https://github.com/google/googletest/blob/master/googletest/docs/primer.md">Google Test Primer</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-cpp"><span class="org-preprocessor">#include</span><span class="org-string">&lt;gtest/gtest.h&gt;</span>
+<span class="org-function-name">TEST</span>(TestSuite1, testCase1)
+{
+    ASSERT_EQ(2, 3);
+    <span class="org-comment-delimiter">// </span><span class="org-comment">There are many other ASSERT (fatal) and EXPECT (non-fatal, tests continue)</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">macros in google test</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">When first setting up tests, I like to write one that fails,</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">to ensure it is being run at the appropriate time</span>
+}
+</pre>
+</div></li>
+<li>To run the tests first run <code>catkin_make</code> to make sure your non-testing nodes are up to date, then use <code>catkin_make run_tests</code></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org501363c" class="outline-4">
+<h4 id="org501363c">Testing Advice</h4>
+<div class="outline-text-4" id="text-org501363c">
+<ol class="org-ol">
+<li>Always run <code>catkin_make</code> prior to running <code>catkin_make run_tests</code>. Sometimes the dependencies for tests can be non-obvious
+<ul class="org-ul">
+<li>Technically you should add the dependencies to the test with <code>add_dependencies</code>, much like you do with <code>add_executable</code> or <code>add_library</code></li>
+</ul></li>
+<li><code>&lt;test&gt;</code> nodes can be placed in regular launchfiles. They are ignored by <code>roslaunch</code> and only called by <code>rostest</code>
+<ul class="org-ul">
+<li>Thus, tests can be placed close to the actual code that is launched, rather than duplicating effort with multiple launchfiles.</li>
+</ul></li>
+<li>When compiling with <code>catkin_make</code> the executables that run your test are in <code>devel/lib/&lt;package_name&gt;</code>.
+<ul class="org-ul">
+<li>Running these executables directly from that location lets you see the output and debugging information more easily</li>
+<li>Likewise, a <code>rostest</code> file can be run directly with <code>rostest</code></li>
+</ul></li>
+<li>By default <code>rostest</code> runs nodes on a separate <code>rosmaster</code>. 
+<ul class="org-ul">
+<li>Running a <code>rostest</code> file with <code>rostest -r</code> will let you use the existing <code>rosmaster</code> running at <code>ROS_MASTER_URI</code></li>
+<li>Using the existing <code>rosmaster</code> enables you to more easily inspect the test nodes with, for example, <code>rostopic echo</code> or <code>rqt_graph</code>.</li>
+</ul></li>
+<li>When testing subscribers (by having the test node publish something), use a latched publisher.
+<ul class="org-ul">
+<li>The subscriber will get the last message published by your test case even if it actually subscribes AFTER the message was published.</li>
+</ul></li>
+</ol>
+<p>
+5.Using <code>output="screen"</code>  in the <code>node</code> tag is helpful for viewing debugging output from the nodes under test. (Or you can use <code>rqt_console</code> to see and filter messages)
+</p>
+</div>
+</div>
+</details>
+</div>
+
+<div id="outline-container-orgface72e" class="outline-2">
+<h2 id="orgface72e">Debugging</h2>
+<div class="outline-text-2" id="text-orgface72e">
+<ul class="org-ul">
+<li>Using <code>gdb</code> can greatly help you track down issues in your program
+<ul class="org-ul">
+<li>Among other features, it enables you to step through the code, examine variables, and break on certain lines</li>
+</ul></li>
+<li>use <code>rosrun --prefix "gdb --args" package node</code>  to launch the node in <code>gdb</code></li>
+<li>Commands that may be useful are
+<ul class="org-ul">
+<li><code>tui enable</code> to view a graphical interface with easier commands</li>
+<li><code>run</code> start running the program. Abbreviated with <code>r</code></li>
+<li><code>continue</code> continue running a paused program. Abbreviated with <code>c</code></li>
+<li><code>break file:line</code> or <code>break function</code> to put a breakpoint at a line or a function. Abbreviated with <code>b</code></li>
+<li><code>next</code> go to the next line, skipping over functions. Abbreviated with <code>n</code></li>
+<li><code>step</code> go to the next line, jumping into functions. Abbreviated with <code>s</code></li>
+<li><code>print</code> display the value of a variable or memory address</li>
+</ul></li>
+<li>To use <code>gdb</code> most effectively, the code must be compiled with Debugging symbols enabled
+<ul class="org-ul">
+<li>Use the <code>Debug</code> build type in <code>CMake</code>. See <a href="./cmake_basics.html">CMake Notes</a> for how to set debugging mode</li>
+</ul></li>
+<li>This <a href="http://wiki.ros.org/roslaunch/Tutorials/Roslaunch%20Nodes%20in%20Valgrind%20or%20GDB">tutorial</a> helps you launch nodes the debugger</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org7464012" class="outline-2">
+<h2 id="org7464012">References</h2>
+<div class="outline-text-2" id="text-org7464012">
+<ul class="org-ul">
+<li><a href="http://wiki.ros.org/rostest">rostest</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turtlebot3 (NU Style)</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Turtlebot3 (NU Style)</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgce7e3a3">Overview</a>
+<ul>
+<li><a href="#org9531089">Differences Between Turtlebot3 and NuTurtlebot3</a></li>
+<li><a href="#org8304880">Stock TurtleBot3</a></li>
+<li><a href="#org44722b3">NU Style</a></li>
+</ul>
+</li>
+<li><a href="#org77f439c">Getting Setup and Logistics</a>
+<ul>
+<li><a href="#org020d215">Hierarchy of Robot Testing</a></li>
+</ul>
+</li>
+<li><a href="#org21f034e">Conceptual Overview</a>
+<ul>
+<li><a href="#orga434b00">ROS</a></li>
+<li><a href="#org5c33b42">First Connection</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-orgce7e3a3" class="outline-2">
+<h2 id="orgce7e3a3">Overview</h2>
+<div class="outline-text-2" id="text-orgce7e3a3">
+<ul class="org-ul">
+<li>The <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/turtlebot3">Turtlebot3</a> is a small differential drive robot.
+<ul class="org-ul">
+<li>We are using the Burger model</li>
+</ul></li>
+<li>It is driven by two <a href="http://emanual.robotis.com/docs/en/dxl/x/xl430-w250/">Dynamixel XL430</a> motors.</li>
+<li>The low-level control is performed by the <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/appendix_opencr1_0/">OpenCR 1.0</a> board
+<ul class="org-ul">
+<li>This board also contains a 9-DOF IMU</li>
+</ul></li>
+<li>Higher-Level control is done with a Raspberry Pi 3 Model B+
+<ul class="org-ul">
+<li>Some of our robots have a Raspberry PI 3 Model B</li>
+</ul></li>
+<li>The Raspberry Pi communicates with OpenCR over a serial port.</li>
+<li>The robot also has a LiDAR and can be equiped with a camera</li>
+</ul>
+</div>
+
+<div id="outline-container-org9531089" class="outline-3">
+<h3 id="org9531089">Differences Between Turtlebot3 and NuTurtlebot3</h3>
+<div class="outline-text-3" id="text-org9531089">
+<ul class="org-ul">
+<li>Although the hardware is the same, our TurtleBots (for this class) run different software.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8304880" class="outline-3">
+<h3 id="org8304880">Stock TurtleBot3</h3>
+<div class="outline-text-3" id="text-org8304880">
+<ul class="org-ul">
+<li>Ubuntu Mate 16.04 or Raspian</li>
+<li>ROS Kinetic</li>
+<li>OpenCR firmware does kinematics and odometry and IMU calibration</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org44722b3" class="outline-3">
+<h3 id="org44722b3">NU Style</h3>
+<div class="outline-text-3" id="text-org44722b3">
+<ul class="org-ul">
+<li>Ubuntu 18.04 LTS</li>
+<li>ROS Melodic</li>
+<li>OpenCR firmware provides low level access to sensors and actuators
+<ul class="org-ul">
+<li>You implement the odometry and kinematics</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org77f439c" class="outline-2">
+<h2 id="org77f439c">Getting Setup and Logistics</h2>
+<div class="outline-text-2" id="text-org77f439c">
+<ol class="org-ol">
+<li>Each turtlebot has a hostname of <code>turtlebotX</code>, where <code>X</code> is a number from 1 - 5.</li>
+<li>You must put your computer on the <code>TURTLENET</code> network.
+<ul class="org-ul">
+<li>The turtlebots automatically connect to this network</li>
+</ul></li>
+<li>On <code>TURTLENET</code> hostname resolution works
+<ul class="org-ul">
+<li>Thus, no need to fiddle with ROS_IP or ROS_HOST</li>
+<li>When on <code>TURTLENET</code> you should be able to <code>ping</code> a turtlebot by its hostname</li>
+</ul></li>
+<li>Stay off <code>TURTLENET</code> unless you actively want to connect to the robot, to avoid overloading the router</li>
+<li>The turtlebot battery chargers are located next to the turtlebot location.
+<ul class="org-ul">
+<li>Keep the batteries charging when not in use</li>
+</ul></li>
+<li>I you have a problem with a robot, please let me know.</li>
+</ol>
+</div>
+<div id="outline-container-org020d215" class="outline-3">
+<h3 id="org020d215">Hierarchy of Robot Testing</h3>
+<div class="outline-text-3" id="text-org020d215">
+<p>
+My philosophy for working with the robots
+</p>
+<ol class="org-ol">
+<li>Any code that can be independent of the hardware should be
+<ul class="org-ul">
+<li>Easier to test</li>
+<li>Easier to debug</li>
+<li>(Secondary issue) easier to reuse.</li>
+</ul></li>
+<li>Any code that can be tested with the robot "up on blocks" should be
+<ul class="org-ul">
+<li>No chance of crashing the robot</li>
+<li>No need to chase after the robot</li>
+<li>You can run the test with the robot plugged in to wall power, avoiding needless battery charging</li>
+</ul></li>
+<li>Eventually, you can and should run the code on the robot, on the ground, that is the whole point after all.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org21f034e" class="outline-2">
+<h2 id="org21f034e">Conceptual Overview</h2>
+<div class="outline-text-2" id="text-org21f034e">
+<ol class="org-ol">
+<li>We want to develop code on our nice fast laptops and then deploy code to the slow computers on the turtlebot</li>
+<li>All decisions and actions that are taken should be done on the turtlebot.</li>
+<li>High-level logistical commands (such as "start the task") should be controlled from our PC</li>
+<li>All data should be visualized on our PC.</li>
+</ol>
+</div>
+
+<div id="outline-container-orga434b00" class="outline-3">
+<h3 id="orga434b00">ROS</h3>
+<div class="outline-text-3" id="text-orga434b00">
+<ul class="org-ul">
+<li>ROS lets you run nodes on multiple computers, all sharing the same <code>rosmaster</code>
+<ul class="org-ul">
+<li>The computers can even have different architectures <code>x86-64</code> versus <code>arm</code> in our case</li>
+</ul></li>
+<li>The turtlebots can run with the <code>rosmaster</code> running on your computer or onboard
+<ul class="org-ul">
+<li>We will do both, but mostly we will run <code>rosmaster</code> on our computer
+<ul class="org-ul">
+<li><code>rosmaster</code> just coordinates messages: they do not all get sent to the <code>master</code>.</li>
+<li>By running <code>rosmaster</code> on our computer we can more easily start and stop nodes running on the robot via launchfiles.</li>
+<li>Sometimes it is helpful to <code>ssh</code> into the turtlebot and run commands directly</li>
+</ul></li>
+</ul></li>
+<li><code>roslaunch</code> can start nodes on other machines using the <code>machine</code> tag
+<ul class="org-ul">
+<li>It is useful to write launchfiles in such a way that they can run either directly on the <code>turtlebot</code> or from your computer.</li>
+</ul></li>
+<li><code>ROS_MASTER_URI</code> is the most important <code>ROS</code> environment variable for network use
+<ul class="org-ul">
+<li>It tells every node where to find <code>rosmaster</code></li>
+<li>If <code>ROS_MASTER_URI</code> is set to an address that is resolvable from every computer on the network then no further network setup is required.
+<ul class="org-ul">
+<li>Thus, if <code>rosmaster</code> is running on <code>turtlebot8</code> then <code>ROS_MASTER_URI=http://turtlebot8:11311</code></li>
+<li>If <code>rosmaster</code> is running on your computer with hostname <code>tarantula</code> then <code>ROS_MASTER_URI=http://tarantula:11311</code></li>
+<li>On the network we will be using, all local hostnames will be resolvable.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5c33b42" class="outline-3">
+<h3 id="org5c33b42">First Connection</h3>
+<div class="outline-text-3" id="text-org5c33b42">
+<ol class="org-ol">
+<li>Generate an <code>ssh</code> key to use just with the turtlebots:
+<code>ssh-keygen -t rsa -f ~/.ssh/id_turtle -N ''</code></li>
+<li>Copy your public ssh key to the robot 
+<code>ssh-copy-id -oHostKeyAlgorithms='ssh-rsa' -i ~/.ssh/id_turtle student@turtlebotX</code> 
+<ul class="org-ul">
+<li>This should be the last time you need to enter the password</li>
+<li>The <code>HostKeyAlgorithm</code> part is needed because <code>roslaunch</code> does not work with other algorithms for authenticating
+that <code>turtlebotX</code> is indeed the computer you expect to be connecting to.</li>
+</ul></li>
+<li>We will all share the user account <code>student</code> and copy our code to <code>/home/student/install</code>.
+<ul class="org-ul">
+<li>Only one person at a time can use each robot</li>
+<li>Copying the necessary files requires running a single <code>rsync</code> command</li>
+<li>You do not have <code>root</code>. Theoretically</li>
+</ul></li>
+<li>Confirm your setup:
+<ol class="org-ol">
+<li><code>ssh</code> into the turtlebot. you should not need to enter a password
+<ul class="org-ul">
+<li>If prompted for a password your key is not being used.</li>
+<li>You may need to add the key using <code>ssh-add ~/.ssh/id_turtle</code></li>
+</ul></li>
+<li>Once ssh'd in, you should be able to ping your own computer by its <code>hostname</code></li>
+<li>Remember, you must be on <code>TURTLENET</code> for this to work</li>
+</ol></li>
+<li>When ssh'd in run the following commands
+<code>roscore &amp;</code>
+<code>rosrun rosserial_python serial_node.py _port:=/dev/ttyACM0 _baud:=1000000</code>
+<code>rostopic pub /sound turtlebot3_msgs/Sound "value: 2"</code>
+<ul class="org-ul">
+<li>You should here a noise, this is the low battery noise.</li>
+<li>If you hear this value while running the turtlebot you must
+turn off the robot and charge the battery; otherwise you can damage the battery</li>
+<li>Why are we using <code>rosserial_python</code>? Isn't this class all about <code>C++</code>?
+<ul class="org-ul">
+<li>The <code>C++</code> of version of rosserial is incomplete.</li>
+<li>The original <code>OpenCR</code> firmware uses <code>rosserial_python</code></li>
+<li>My firmware is really just a modification of the original turtlebot firmware</li>
+</ul></li>
+</ul></li>
+<li>To properly restart the robot, sudo reboot.
+To properly poweroff the robot, sudo poweroff. (this just turns off the computer and nothing else).</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

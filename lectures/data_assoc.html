@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Association for SLAM</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Data Association for SLAM</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8ee27a3">Overview</a></li>
+<li><a href="#org86a842c">The Simplest Data Association</a></li>
+<li><a href="#orge793941">Mahalanobis Distance</a></li>
+<li><a href="#org492d114">Incorporating into SLAM</a>
+<ul>
+<li><a href="#org364fc08">The Basic Idea</a></li>
+<li><a href="#org1d56d82">Algorithm Overview</a></li>
+</ul>
+</li>
+<li><a href="#orgbafdd19">Practical Considerations</a></li>
+<li><a href="#org8f5c6bd">Resources</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org8ee27a3" class="outline-2">
+<h2 id="org8ee27a3">Overview</h2>
+<div class="outline-text-2" id="text-org8ee27a3">
+<ol class="org-ol">
+<li>To perform SLAM effectively, measurements must be associated with
+the proper features in the map.</li>
+<li>The correspondence is \(c_i = j\), which indicates that measurement \(i\) belongs to feature \(j\).</li>
+<li>There is technically a joint distribution of the robot pose, the map, and the features,
+given the measurements \(p(x, m, c | z)\).
+<ul class="org-ul">
+<li>However, this joint distribution is difficult to compute (and it is not Gaussian).</li>
+<li>Instead we try to find the most likely data association rather than the full distribution based on a</li>
+</ul></li>
+<li>Standard EKF SLAM is rather brittle in the face of incorrect data association
+<ul class="org-ul">
+<li>Wrong associations throw the algorithm off</li>
+<li>There are methods to mitigate the negative effects</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org86a842c" class="outline-2">
+<h2 id="org86a842c">The Simplest Data Association</h2>
+<div class="outline-text-2" id="text-org86a842c">
+<ol class="org-ol">
+<li>Since \(z = h(x)\), if \(h\) is invertible then \(x = h^{-1}(z)\).
+<ul class="org-ul">
+<li>The inversion of the measurement model provides a feature location</li>
+<li>Check if the estimated feature location is near an existing feature
+<ul class="org-ul">
+<li>If not add it to the map</li>
+<li>If so, the measurement is associated with the nearest feature</li>
+</ul></li>
+</ul></li>
+<li>Advantage: Simplicity</li>
+<li>Disadvantage: Does not account for covariance</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge793941" class="outline-2">
+<h2 id="orge793941">Mahalanobis Distance</h2>
+<div class="outline-text-2" id="text-orge793941">
+<ul class="org-ul">
+<li>A distance metric that accounts for covariance</li>
+<li>"How many standard deviations away", but for multiple dimensions</li>
+<li>\((x_a - x_b)^T\Sigma^{-1}(x_a - x_b)\).
+<ul class="org-ul">
+<li>\(\Sigma\) is the covariance</li>
+</ul></li>
+
+<li>What do we take the Mahalanobis distance of?
+<ul class="org-ul">
+<li>Distance between measurement resulting from current state and the new measurement</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org492d114" class="outline-2">
+<h2 id="org492d114">Incorporating into SLAM</h2>
+<div class="outline-text-2" id="text-org492d114">
+</div>
+<div id="outline-container-org364fc08" class="outline-3">
+<h3 id="org364fc08">The Basic Idea</h3>
+<div class="outline-text-3" id="text-org364fc08">
+<ol class="org-ol">
+<li>Find the existing landmark that generates a measurement closest
+to the the current measurement</li>
+<li>If the closest existing landmark is farther than some threshold,
+the landmark is a new landmark</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org1d56d82" class="outline-3">
+<h3 id="org1d56d82">Algorithm Overview</h3>
+<div class="outline-text-3" id="text-org1d56d82">
+<ol class="org-ol">
+<li>Let \(N\) be the number of landmarks already seen</li>
+<li>The \(j\) -th landmark is at \((\mu_{x,j}, \mu_{y,j})\)</li>
+<li>Let \((\mu_{x, N+1}, \mu_{y, N+1}) = h^{-1}(z_i)\). 
+<ul class="org-ul">
+<li>We are temporarily adding a landmark corresponding to the latest observation. This is landmark \(N+1\)</li>
+</ul></li>
+<li>For each measurement \(i\)
+<ol class="org-ol">
+<li>For each landmark \(k\) (including the temporarily added landmark)
+<ol class="org-ol">
+<li>Compute \(H_k\), the linearized measurement model (see Kalman Filter)</li>
+<li>Compute the covariance \(\Psi_k = H_k \Sigma H_k^T + R\)</li>
+<li>Compute the expected measurement \(\hat{z}_k = h(\mu)\)</li>
+<li>Compute the mahalanobis distance \(d_k = (z_i - \hat{z}_k)^T\Psi^{-1}(z_i-\hat{z}_k)\)</li>
+</ol></li>
+<li>Set the mahalanobis distance for landmark \(N+1\) (the temporary landmark) to be a the distance threshold.
+<ul class="org-ul">
+<li>If all the landmarks are farther away than this threshold, then the landmark is new.</li>
+</ul></li>
+<li>Let \(d_\ast\) be the minimum mahalonbis distance and \(\ell\) be the landmark index
+corresponding to the minimimum distance.</li>
+<li>\(\ell\) is the landmark corresponding to \(z_i\). If \(\ell = N+1\) then we have a new landmark so increment \(N\).
+<ul class="org-ul">
+<li>The \(\ell+1\) landmark should now be initialized with \(h^{-1}(z_{i+1})\), if the \(i+1\) measurement exists</li>
+</ul></li>
+<li>Incorporate the new measurement into your EKF estimate
+<ul class="org-ul">
+<li>If getting many false associations you can choose to only incorporate the measurement if it is new or if \(d_\ast\) is less than some
+threshold value</li>
+</ul></li>
+</ol></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbafdd19" class="outline-2">
+<h2 id="orgbafdd19">Practical Considerations</h2>
+<div class="outline-text-2" id="text-orgbafdd19">
+<p>
+There are several practical considerations to the above algorithm to improve robustness, however, as outlined above, the algorithm should
+work well enough in our examples.
+</p>
+
+<ol class="org-ol">
+<li>If likelihood of features is similar, an incorrect association can occur
+<ul class="org-ul">
+<li>Choose an environment/sensor combination such that likelihoods are vastly different
+for example, maintain a minimum distance between landmarks to help set a good threshold</li>
+<li>Farther apart landmarks are, less chance of incorrect association but fewer landmarks leads to worse estimate leads to incorect association.</li>
+</ul></li>
+<li>The algorithm is susceptible to spurious measurements/outliers. This can be improved by maintaining a provisional landmark list
+<ul class="org-ul">
+<li>Provisional landmarks: don't add a landmark right away, wait for a few measurements associated with it to come in</li>
+<li>Provisional landmarks are not used for localization</li>
+<li>An even more advanced idea is to maintain probability that landmarks exist</li>
+</ul></li>
+<li>EKF Slam only updates based on landmarks it sees not those that it does not see.
+We can use this to our advantage when doing data association.
+<ul class="org-ul">
+<li>Only add a new landmark if it is seen multiple times in the same location
+<ul class="org-ul">
+<li>Avoids false positives, makes the method more robots</li>
+</ul></li>
+</ul></li>
+<li>Multi-hypothesis kalman filter
+<ul class="org-ul">
+<li>Run several filters with different data associations</li>
+</ul></li>
+<li>While it is possible to explicitly compute \(c_i\) you need not do this:
+For each measurement:
+<ol class="org-ol">
+<li>Temporarily assume that the measurement is for a previously unseen landmark</li>
+<li>Compute mahalonobis distances to each landmark</li>
+<li>Find the mimimum mahalanobis distance</li>
+<li>If the minimum is aboe a threshold add the landmark permanently
+Otherwise incorporate the measurement for the closest landmark.</li>
+</ol></li>
+<li>Your landmark detection scheme should work perfectly on the perfect data form
+a simulation</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org8f5c6bd" class="outline-2">
+<h2 id="org8f5c6bd">Resources</h2>
+<div class="outline-text-2" id="text-org8f5c6bd">
+<p>
+<a href="https://mitpress.mit.edu/books/probabilistic-robotics">Probabilistic Robotics</a> (page 322).
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast SLAM 1.0</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Fast SLAM 1.0</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org7a6fb84">Overview</a></li>
+<li><a href="#orgfe8ec00">What is Required</a>
+<ul>
+<li><a href="#orgc280485">The Forward Model</a>
+<ul>
+<li><a href="#org94daeed">In Our Case</a></li>
+</ul>
+</li>
+<li><a href="#orgf1de83b">The Measurement Model</a>
+<ul>
+<li><a href="#org71a6592">In Our Case</a></li>
+</ul>
+</li>
+<li><a href="#org0b76586">The Map</a></li>
+</ul>
+</li>
+<li><a href="#orgf68206c">The Algorithm</a></li>
+</ul>
+</div>
+</nav>
+
+<div id="outline-container-org7a6fb84" class="outline-2">
+<h2 id="org7a6fb84">Overview</h2>
+<div class="outline-text-2" id="text-org7a6fb84">
+<ul class="org-ul">
+<li>FastSLAM 1.0 is A SLAM method that uses particle filters and Kalman filters
+to efficiently localalize and map an environment</li>
+<li>This document presents a practical guide for how we will be implementing
+FastSLAM in the homework</li>
+<li>Montemerlo et. Al, <a href="http://robots.stanford.edu/papers/montemerlo.fastslam-tr.html">FastSLAM: A Factored Solution to the Simultaneous Localization and Mapping Problem</a>
+AAII National Conference on Artifical Intelligence, 2002</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfe8ec00" class="outline-2">
+<h2 id="orgfe8ec00">What is Required</h2>
+<div class="outline-text-2" id="text-orgfe8ec00">
+</div>
+<div id="outline-container-orgc280485" class="outline-3">
+<h3 id="orgc280485">The Forward Model</h3>
+<div class="outline-text-3" id="text-orgc280485">
+<ol class="org-ol">
+<li>Forward robot model: \(x_t \sim f_X(x_t | x_{t-1}, u_t)\)</li>
+<li>Given previous robot state and a control, where can we expect the
+robot to be at the next time-step?</li>
+<li>\(x_t\) is the robot state, \(u_t\) is the robot controls, at timestep \(t\)</li>
+</ol>
+</div>
+<div id="outline-container-org94daeed" class="outline-4">
+<h4 id="org94daeed">In Our Case</h4>
+<div class="outline-text-4" id="text-org94daeed">
+<ul class="org-ul">
+<li>The odometry plus noise is our forward model</li>
+<li>Odometry provides \(T_{bb'}\), which is our rigid body motion since
+the last timestep due to the controls
+<ul class="org-ul">
+<li>Compute using \(T_{wb}\) and \(T_{wb'}\).</li>
+</ul></li>
+<li>There is, however, some stochastic drift, which we collectively measured</li>
+<li>A crude method of estimating the drift:
+<ol class="org-ol">
+<li>Compute the mean and variance of the \(\theta\), \(x\), and \(y\) drift
+across all experimental conditions</li>
+<li>Assume that the drift is Gaussian, with mean and variance given by the
+previous step.</li>
+</ol></li>
+<li>Let \(W_\theta\), \(W_x\), and \(W_y\) be random variables associated with the drift.</li>
+<li>Let $T_{bb'} = T(&Delta;&theta;, &Delta; x, &Delta; y)</li>
+<li><p>
+Then the noisy model is
+</p>
+\begin{equation}
+\bar{T}_{bb'} = T(\Delta\theta(1 + W_\theta), \Delta x(1 + W_x), \Delta y(1 + W_y))
+\end{equation}
+<ul class="org-ul">
+<li>Note, we multiply the displacement by the drift since drift is a per-distance term.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf1de83b" class="outline-3">
+<h3 id="orgf1de83b">The Measurement Model</h3>
+<div class="outline-text-3" id="text-orgf1de83b">
+<ul class="org-ul">
+<li>Fast SLAM assumes that we have direct measurements of landmarks
+<ul class="org-ul">
+<li>It can handle known or unknown data association (i.e., which
+measurements belong to which landmarks).</li>
+<li>Handling unknown data association is a strength of FastSLAM because
+it enables you efficiently represent outcomes across a distribution of potential
+data associations</li>
+<li><p>
+The measurement model, for landmark \(j\) at time \(t\) is written
+</p>
+\begin{equation}
+z_{j,t} = h(m_j, x_t) + v_t.
+\end{equation}</li>
+<li>\(v_t\) is a term representing the sensor noise</li>
+</ul></li>
+</ul>
+</div>
+<div id="outline-container-org71a6592" class="outline-4">
+<h4 id="org71a6592">In Our Case</h4>
+<div class="outline-text-4" id="text-org71a6592">
+<ul class="org-ul">
+<li>We are using a 2D laser scanner as our measurement device</li>
+<li>This device only gives us range and bearing measurements to points in the
+environment</li>
+<li>We will perform feature detection (e.g., machine learning) algorithms
+to turn the laser scan data into landmarks that can be used for FastSLAM 1.0</li>
+<li>The output of our feature detection then is the relative \(x\) and \(y\) coordinates
+of the landmarks, which can be modeled as</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org0b76586" class="outline-3">
+<h3 id="org0b76586">The Map</h3>
+<div class="outline-text-3" id="text-org0b76586">
+<ul class="org-ul">
+<li>The map is a list of landmark locations, represented by their mean \(\mu_j\) and
+variance \(\Sigma_j\).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf68206c" class="outline-2">
+<h2 id="orgf68206c">The Algorithm</h2>
+<div class="outline-text-2" id="text-orgf68206c">
+<ol class="org-ol">
+<li>The estimate consists of \(M\) particles representing distributions
+of robot poses and landmark locations. Particles are indexed with a superscript \(k\)
+<ul class="org-ul">
+<li><p>
+Thus the estimate at time \(t\) is a series of \(M\) particles with \(N\) landmarks 
+</p>
+\begin{equation}
+Y_t^{[k]} = \langle x_{t}^{[k]}, (\mu_{1,t}^{[k]}, \Sigma_{1,t}^{[k]}), \dots, (\mu_{N,t}^{[k]}, \Sigma_{N,t}^{[k]})\rangle
+\end{equation}</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>

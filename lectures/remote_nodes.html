@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2024-01-03 Wed 23:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remote Nodes</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Matthew Elwin">
+<link rel="stylesheet" href="./../pubme.css" type="text/css"/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="./../index.html"> HOME </a>
+</div><div id="content">
+<header>
+<h1 class="title">Remote Nodes</h1>
+</header><nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org589d5d3">Overview</a></li>
+<li><a href="#org14cdb88">The Network</a></li>
+<li><a href="#org6ee3663">Environment variables</a></li>
+<li><a href="#org8a7e262">Networking setup</a></li>
+<li><a href="#org7bf255d">Remote Nodes</a>
+<ul>
+<li><a href="#orgee757b0">Launchfiles</a></li>
+<li><a href="#orgeac6bde">Time Synchronization</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<div id="outline-container-org589d5d3" class="outline-2">
+<h2 id="org589d5d3">Overview</h2>
+<div class="outline-text-2" id="text-org589d5d3">
+<p>
+Nodes in ROS communicate (via topics and services) over a network.
+Thus ROS nodes need not run on the same computer.
+</p>
+
+<p>
+When using ROS to control a mobile robot, there are often at least two comptuers
+involved: the robot's onboard computer, and the development computer.
+</p>
+
+<p>
+The robot's computer typically runs the autonomous systems and the development
+computer typically runs visualization and diagnostics.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-org14cdb88" class="outline-2">
+<h2 id="org14cdb88">The Network</h2>
+<div class="outline-text-2" id="text-org14cdb88">
+<ul class="org-ul">
+<li>Computers running ROS nodes must be able to communicate with each other over a network</li>
+<li>Typically, all computers are on a single local area network (LAN)</li>
+<li>Each computer has a unique IP address, a 4 byte number identifying that computer (e.g., 192.168.0.1).</li>
+<li>Each computer also has a <code>hostname</code> which is a human-readable name that corresponds to that computer's ip address
+<ul class="org-ul">
+<li>name lookup, converts a <code>name</code> to an ip address which is then used to connect to the remote computer</li>
+</ul></li>
+<li>The <code>rosmaster</code> process runs on one computer in the network and coordinates ROS nodes
+<ul class="org-ul">
+<li>Nodes contact the <code>rosmaster</code> to register their publishers and subscribers</li>
+<li>Nodes are then directly connected to each other as needed.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6ee3663" class="outline-2">
+<h2 id="org6ee3663">Environment variables</h2>
+<div class="outline-text-2" id="text-org6ee3663">
+<ul class="org-ul">
+<li>The <code>ROS_MASTER_URI</code> environment variable tells a node where to find the <code>rosmaster</code>
+<ul class="org-ul">
+<li>All nodes in the network, when launched, should have the same <code>ROS_MASTER_URI</code> in order to communicate on the same ROS network</li>
+<li>We will run <code>rosmaster</code> on our development computers
+<ul class="org-ul">
+<li>Our development computer is always on, so we don't need to change the <code>ROS_MASTER_URI</code> when we, for example, turn of the robot (like the turtlebot)</li>
+<li>If we wanted the <code>turtlebot</code> to be completely independent of the development computer, we would run <code>rosmaster</code> on the <code>turtlebot</code></li>
+</ul></li>
+</ul></li>
+<li>The <code>ROS_HOSTNAME</code> environment variable contains the address of the node.
+<ul class="org-ul">
+<li>When <code>node A</code> connects to <code>rosmaster</code> it provides <code>rosmaster</code> with the value of <code>ROS_HOSTNAME</code>. <code>rosmaster</code> uses this address to tell 
+other nodes how to contact <code>node A</code>.</li>
+<li>If no <code>ROS_HOSTNAME</code> is provided, the <code>hostname</code> of the computer on which the node is running will be used.</li>
+</ul></li>
+<li>The <code>ROS_IP</code> variable is like <code>ROS_HOSTNAME</code> but contains the ip address of the node. Do not set this if using <code>ROS_HOSTNAME</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8a7e262" class="outline-2">
+<h2 id="org8a7e262">Networking setup</h2>
+<div class="outline-text-2" id="text-org8a7e262">
+<ul class="org-ul">
+<li>ROS networking is easiest if each computer in the network can connect to the other computers via <code>hostname</code> resolution.
+<ul class="org-ul">
+<li>This means that every computer in the network can <code>ping</code> every other computer by <code>hostname</code></li>
+</ul></li>
+<li>The easiest way to get <code>hostname</code> resolution working on your network is to use a <code>router</code> that sets up name resolution for you automatically
+<ul class="org-ul">
+<li>Every computer just connects to the router. You then set <code>ROS_MASTER_URI</code> to the <code>hostname</code> of the comptuer running <code>rosmaster</code></li>
+<li>In my experience, <a href="https://openwrt.org/">openWRT</a>, a Linux distribution for routers sets up <code>hostname</code> resolution automatically</li>
+<li>When buying routers for use with robotics, I make sure to buy one that <code>OpenWRT</code> supports.  Most consumer-level routers that I know of
+do not support <code>hostname</code> resolution</li>
+<li>I use this setup on the <code>TURTLENET</code> network in the lab</li>
+<li>You can also assign <code>static ip addresses</code> to each computer, and do everything by <code>ip</code> address or by <code>hostnames</code> written to <code>/etc/hosts</code></li>
+</ul></li>
+<li>The second easiest way is to use <code>mdns</code> or multi-cast DNS
+<ul class="org-ul">
+<li>This feature is setup automatically on <code>ubuntu</code>.  It can be used via the <code>avahi-daemon</code> or it is also built-in to <code>NetworkManager/systemd-resolvd</code>.</li>
+<li><code>mDNS</code> (by default) automatically lets computers find each other via the address <code>hostname.local</code>.</li>
+<li>To use this with <code>ROS</code> you must set each computer's <code>ROS_HOSTNAME</code> to <code>&lt;hostname&gt;.local</code> where <code>&lt;hostname&gt;</code> is the hostname of that computer</li>
+<li>I use this setup with the <code>turtlebot</code> that I give you. This works well when <code>mdns</code> is working.</li>
+</ul></li>
+<li>It is also necessary for the remote machine to have <code>ssh</code> enabled, and you must be able to login to the remote machine using an <code>ssh</code> key.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7bf255d" class="outline-2">
+<h2 id="org7bf255d">Remote Nodes</h2>
+<div class="outline-text-2" id="text-org7bf255d">
+<ol class="org-ol">
+<li>To run a remote node, that node and all its runtime dependencies must be on the computer it runs on</li>
+<li>Therefore, you need to copy your nodes to the remote machine before you can run them</li>
+<li>It is easiest to do a <code>catkin_make install</code> to create the <code>install</code> directory
+<ul class="org-ul">
+<li><code>install</code> directories in ROS are self-contained</li>
+<li>You then copy the contents of <code>install</code> to the remote comptuer using <code>rsync</code></li>
+</ul></li>
+</ol>
+</div>
+<div id="outline-container-orgee757b0" class="outline-3">
+<h3 id="orgee757b0">Launchfiles</h3>
+<div class="outline-text-3" id="text-orgee757b0">
+<ol class="org-ol">
+<li>Launchfiles can be used to run nodes on remote machine=</li>
+<li>The <code>&lt;node&gt;</code> tag in a launchfile has a <code>machine</code> attribute that lets you specify a <code>&lt;machine&gt;</code> on which to run the node</li>
+<li>The <code>&lt;machine&gt;</code> tag  in a launchfile lets you specify the address of a remote machine
+<ul class="org-ul">
+<li>One important attribute is the <code>env-loader</code> script.  This is a script on the remote machine that sets up the <code>ros</code> environment</li>
+<li><code>loader.sh</code> is what we use on the turtlebot
+<ul class="org-ul">
+<li>It essentially <code>sources</code> some workspaces and sets up <code>ROS_MASTER_URI</code> and <code>ROS_HOSTNAME</code></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgeac6bde" class="outline-3">
+<h3 id="orgeac6bde">Time Synchronization</h3>
+<div class="outline-text-3" id="text-orgeac6bde">
+<ul class="org-ul">
+<li>Many ROS packages rely on timestamps indexed to the actual wall-clock time</li>
+<li>Thus, computers on the network must have their clocks synchronized</li>
+<li>If all computers are connected to the internet they will synchronize with <code>ntp</code> servers
+and you will not have problems</li>
+<li>If however, a computer does not have internet access, for reliability you will have to
+run an <code>ntp</code> server on your local network to synchronize everything</li>
+<li>For the <code>turtlebot</code> I have you install an ntp server on your computer. You then configure
+the <code>turtlebot</code> to connect to this ntp server, thus synchronizing the times.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p><p class="outline-2">Author: Matthew Elwin</p></p>
+</div>
+</body>
+</html>
