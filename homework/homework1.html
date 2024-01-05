@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-04 Thu 21:45 -->
+<!-- 2024-01-04 Thu 22:12 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homework 1</title>
@@ -253,7 +253,7 @@ required to display the turtlebot
 <li><code>track_width</code>: The distance between the wheels (see: <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/features/">Turtlebot3 Specifications</a>)</li>
 <li><code>motor_cmd_max</code>: 265. The motors are provided commands in the interval <code>[-motor_cmd_max, motor_cmd_max]</code></li>
 <li><code>motor_cmd_per_rad_sec</code>: Each motor command unit (mcu) is <code>0.024 rad/sec</code> (i.e., <code>1 mcu = 0.024 rad/sec</code>)</li>
-<li><code>encoder_ticks_per_rad</code>: The number of encoder ticks per radian. One revolution of the wheel is \(2^{12}\) ticks because it is a 12-bit encoder. (i.e. \(2^12 \mathrm{ticks} = 2 \Pi \mathrm{rad}\))</li>
+<li><code>encoder_ticks_per_rad</code>: The number of encoder ticks per radian. One revolution of the wheel is \(2^{12}\) ticks because it is a 12-bit encoder. (i.e. \(2^{12} \mathrm{ticks} = 2 \pi \mathrm{rad}\))</li>
 <li><code>collision_radius</code>: Set this to be <code>0.11</code>. This is some simplified geometry used for collision detection</li>
 </ul></li>
 <li>Modify the <code>turtlebot3</code> URDF so that it uses the parameters from <code>diff_params.yaml</code> such that
@@ -421,9 +421,9 @@ go along.
 </ul></li>
 </ol>
 </div>
-<div id="outline-container-org9e5cbf8" class="outline-4">
-<h4 id="org9e5cbf8">Hints</h4>
-<div class="outline-text-4" id="text-org9e5cbf8">
+<div id="outline-container-org8a33209" class="outline-4">
+<h4 id="org8a33209">Hints</h4>
+<div class="outline-text-4" id="text-org8a33209">
 <ol class="org-ol">
 <li>For more information about the operator overloading going on in this example see
 <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">(a good Stack Overflow post)</a></li>
@@ -479,9 +479,9 @@ sudo cmake --build build/ --target install
 </ul></li>
 </ol>
 </div>
-<div id="outline-container-org29c5a72" class="outline-4">
-<h4 id="org29c5a72">Hints</h4>
-<div class="outline-text-4" id="text-org29c5a72">
+<div id="outline-container-org396f0b3" class="outline-4">
+<h4 id="org396f0b3">Hints</h4>
+<div class="outline-text-4" id="text-org396f0b3">
 <ol class="org-ol">
 <li>It makes sense to iterate with B.1 so that you can use the tests to help you implement functionality</li>
 <li>The <code>std::stringstream</code> class will be helpful for testing <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code>. It lets you use an <code>std::string</code> as a stream instead of a file.</li>
@@ -504,9 +504,9 @@ sudo cmake --build build/ --target install
 </ol>
 </div>
 
-<div id="outline-container-org661a0a0" class="outline-4">
-<h4 id="org661a0a0">Hints</h4>
-<div class="outline-text-4" id="text-org661a0a0">
+<div id="outline-container-org6a88183" class="outline-4">
+<h4 id="org6a88183">Hints</h4>
+<div class="outline-text-4" id="text-org6a88183">
 <ol class="org-ol">
 <li>It will be helpful to iterate by working on B.4, B.5, and B.6 as you implement the required functionality so you can test it as you go.</li>
 </ol>
@@ -566,9 +566,9 @@ I have commented the file with XML comments (<code>&lt;!-- --&gt;</code>): these
 </ol>
 </div>
 
-<div id="outline-container-org543e36a" class="outline-4">
-<h4 id="org543e36a">Hint</h4>
-<div class="outline-text-4" id="text-org543e36a">
+<div id="outline-container-org7e4be2d" class="outline-4">
+<h4 id="org7e4be2d">Hint</h4>
+<div class="outline-text-4" id="text-org7e4be2d">
 <ol class="org-ol">
 <li>Modify some values of the sample svg by hand and view the image to get a feel for what they do.</li>
 <li>You may wish to maintain a separate "testing" program to help.</li>
@@ -660,9 +660,9 @@ V_c [1 2 -1]
 </ol>
 </div>
 
-<div id="outline-container-org7e4be2d" class="outline-4">
-<h4 id="org7e4be2d">Hint</h4>
-<div class="outline-text-4" id="text-org7e4be2d">
+<div id="outline-container-org7d5c65c" class="outline-4">
+<h4 id="org7d5c65c">Hint</h4>
+<div class="outline-text-4" id="text-org7d5c65c">
 <ol class="org-ol">
 <li>Think about how the transforms should work and what should be displayed, then open the image in inkscape.</li>
 <li>Sometimes, objects will be drawn on top of each other (e.g., points show up in the same location regardless of what frame they are expressed in)
@@ -730,9 +730,9 @@ A library for handling transformations in SE(2) and other turtlebot-related math
 </div>
 </div>
 
-<div id="outline-container-org8a33209" class="outline-4">
-<h4 id="org8a33209">Hints</h4>
-<div class="outline-text-4" id="text-org8a33209">
+<div id="outline-container-org8f93649" class="outline-4">
+<h4 id="org8f93649">Hints</h4>
+<div class="outline-text-4" id="text-org8f93649">
 <ol class="org-ol">
 <li><a href="https://en.cppreference.com/w/cpp/language/classes">Information About Classes</a></li>
 <li>The <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-class">C++ Core guidelines (Classes and Class Hierarchies)</a> section has the answers.</li>
