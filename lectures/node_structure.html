@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-06 Sat 15:00 -->
+<!-- 2024-01-08 Mon 13:37 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>C++ ROS Node Structure</title>
@@ -27,16 +27,16 @@
 <li><a href="#orga64c761">ROS Node Design</a></li>
 <li><a href="#org33f6a34">Object-Oriented ROS Node</a>
 <ul>
-<li><a href="#orgbc912ef">Example</a></li>
-<li><a href="#orgc13c229">Advantages</a></li>
-<li><a href="#orgadc9136">Disadvantages</a></li>
+<li><a href="#org0131781">Example</a></li>
+<li><a href="#orgd1b9e5e">Advantages</a></li>
+<li><a href="#org73d5a2d">Disadvantages</a></li>
 </ul>
 </li>
 <li><a href="#orgc2691e0">Procedural ROS Node</a>
 <ul>
-<li><a href="#org0131781">Example</a></li>
-<li><a href="#orgd1b9e5e">Advantages</a></li>
-<li><a href="#org73d5a2d">Disadvantages</a></li>
+<li><a href="#org6324e45">Example</a></li>
+<li><a href="#orgf2dd11a">Advantages</a></li>
+<li><a href="#orgc9db292">Disadvantages</a></li>
 </ul>
 </li>
 <li><a href="#orga364a68">Lambda ROS Node</a></li>
@@ -183,9 +183,9 @@ it usually easier if code must run in parallel to create separate nodes</li>
 a member of the class</li>
 </ul>
 </div>
-<div id="outline-container-orgbc912ef" class="outline-3">
-<h3 id="orgbc912ef">Example</h3>
-<div class="outline-text-3" id="text-orgbc912ef">
+<div id="outline-container-org0131781" class="outline-3">
+<h3 id="org0131781">Example</h3>
+<div class="outline-text-3" id="text-org0131781">
 <div class="org-src-container">
 <pre class="src src-cpp"><span class="org-preprocessor">#include</span><span class="org-string">"ros/ros.h"</span>
 <span class="org-preprocessor">#include</span><span class="org-string">"sensor_msgs/JointState.h"</span>
@@ -229,9 +229,9 @@ a member of the class</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc13c229" class="outline-3">
-<h3 id="orgc13c229">Advantages</h3>
-<div class="outline-text-3" id="text-orgc13c229">
+<div id="outline-container-orgd1b9e5e" class="outline-3">
+<h3 id="orgd1b9e5e">Advantages</h3>
+<div class="outline-text-3" id="text-orgd1b9e5e">
 <ul class="org-ul">
 <li>Node class can be re-used in other ROS nodes, or more easily ported to nodelets</li>
 <li>Whatever you make private in the class cannot be used outside the class</li>
@@ -240,9 +240,9 @@ a member of the class</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgadc9136" class="outline-3">
-<h3 id="orgadc9136">Disadvantages</h3>
-<div class="outline-text-3" id="text-orgadc9136">
+<div id="outline-container-org73d5a2d" class="outline-3">
+<h3 id="org73d5a2d">Disadvantages</h3>
+<div class="outline-text-3" id="text-org73d5a2d">
 <ul class="org-ul">
 <li>Introduces an extra class that in many cases is unnecessary</li>
 <li>In some instances you may need to think carefully about class initialization rules in the constructor</li>
@@ -275,9 +275,9 @@ the main loop to transition</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org0131781" class="outline-3">
-<h3 id="org0131781">Example</h3>
-<div class="outline-text-3" id="text-org0131781">
+<div id="outline-container-org6324e45" class="outline-3">
+<h3 id="org6324e45">Example</h3>
+<div class="outline-text-3" id="text-org6324e45">
 <p>
 Here is an example of this basic structure of a ROS node (pseudo-C++)
 </p>
@@ -331,9 +331,9 @@ Here is an example of this basic structure of a ROS node (pseudo-C++)
 </div>
 </div>
 
-<div id="outline-container-orgd1b9e5e" class="outline-3">
-<h3 id="orgd1b9e5e">Advantages</h3>
-<div class="outline-text-3" id="text-orgd1b9e5e">
+<div id="outline-container-orgf2dd11a" class="outline-3">
+<h3 id="orgf2dd11a">Advantages</h3>
+<div class="outline-text-3" id="text-orgf2dd11a">
 <ul class="org-ul">
 <li>Keeps most of the logic in one place (the main loop) since most work does not happen in callbacks</li>
 <li>The single state machine makes relationship between logic and state explicit rather than implicitly existing in many variables</li>
@@ -343,9 +343,9 @@ Here is an example of this basic structure of a ROS node (pseudo-C++)
 </div>
 </div>
 
-<div id="outline-container-org73d5a2d" class="outline-3">
-<h3 id="org73d5a2d">Disadvantages</h3>
-<div class="outline-text-3" id="text-org73d5a2d">
+<div id="outline-container-orgc9db292" class="outline-3">
+<h3 id="orgc9db292">Disadvantages</h3>
+<div class="outline-text-3" id="text-orgc9db292">
 <ul class="org-ul">
 <li>The state machine structure may be overkill for very simple cases</li>
 <li>The global variables may get messy for complicated cases
