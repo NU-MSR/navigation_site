@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-10 Wed 22:03 -->
+<!-- 2024-01-11 Thu 09:26 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testing and Debugging in ROS and C++</title>
@@ -21,7 +21,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0e9d7fb">Overview</a></li>
+<li><a href="#orgd6eed0c">Overview</a></li>
 <li><a href="#org95fb2b5">Levels of ROS testing</a>
 <ul>
 <li><a href="#org95101c3">Library-level unit tests</a></li>
@@ -40,9 +40,9 @@
 </ul>
 </div>
 </nav>
-<div id="outline-container-org0e9d7fb" class="outline-2">
-<h2 id="org0e9d7fb">Overview</h2>
-<div class="outline-text-2" id="text-org0e9d7fb">
+<div id="outline-container-orgd6eed0c" class="outline-2">
+<h2 id="orgd6eed0c">Overview</h2>
+<div class="outline-text-2" id="text-orgd6eed0c">
 <ul class="org-ul">
 <li>See <a href="http://wiki.ros.org/Quality/Tutorials/UnitTesting">Unit Testing</a> for an overview</li>
 <li>The best documentation is <a href="http://docs.ros.org/noetic/api/catkin/html/howto/format2/index.html">Catkin Documentation</a></li>
@@ -104,9 +104,9 @@ notes also discuss <code>gtest</code>.
 <h3 id="org973c7ff">Catch2</h3>
 <div class="outline-text-3" id="text-org973c7ff">
 </div>
-<div id="outline-container-orgd96e12f" class="outline-4">
-<h4 id="orgd96e12f">Overview</h4>
-<div class="outline-text-4" id="text-orgd96e12f">
+<div id="outline-container-org50d64e5" class="outline-4">
+<h4 id="org50d64e5">Overview</h4>
+<div class="outline-text-4" id="text-org50d64e5">
 <ul class="org-ul">
 <li>Catch2 is a light-weight unit-testing framework for C++</li>
 <li>The <a href="https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md#top">Tutorial</a></li>
@@ -135,9 +135,9 @@ notes also discuss <code>gtest</code>.
 </ol>
 </div>
 </div>
-<div id="outline-container-orga0d571a" class="outline-4">
-<h4 id="orga0d571a">Independent of roscore</h4>
-<div class="outline-text-4" id="text-orga0d571a">
+<div id="outline-container-org6ed9897" class="outline-4">
+<h4 id="org6ed9897">Independent of roscore</h4>
+<div class="outline-text-4" id="text-org6ed9897">
 <p>
 A test is independent of <code>roscore</code> if it does not interact with the ROS API or need <code>roscore</code> running.
 Essentially, these tests are just ordinary C++ unit tests.
@@ -187,9 +187,9 @@ Essentially these tests are for testing nodes.
 </div>
 
 <details id="orgeb288ed"><summary class="header-3">Google Test (GTest)</summary>
-<div id="outline-container-orgd6eed0c" class="outline-4">
-<h4 id="orgd6eed0c">Overview</h4>
-<div class="outline-text-4" id="text-orgd6eed0c">
+<div id="outline-container-org732d92f" class="outline-4">
+<h4 id="org732d92f">Overview</h4>
+<div class="outline-text-4" id="text-org732d92f">
 <ul class="org-ul">
 <li>The most common C++ unit testing framework in ROS is Google Test.</li>
 <li><a href="https://github.com/google/googletest/blob/master/googletest/docs/primer.md">Google Test Primer</a></li>
@@ -199,9 +199,9 @@ Essentially these tests are for testing nodes.
 </div>
 
 
-<div id="outline-container-org6ed9897" class="outline-4">
-<h4 id="org6ed9897">Independent of roscore</h4>
-<div class="outline-text-4" id="text-org6ed9897">
+<div id="outline-container-orgca93265" class="outline-4">
+<h4 id="orgca93265">Independent of roscore</h4>
+<div class="outline-text-4" id="text-orgca93265">
 <ul class="org-ul">
 <li>Unit tests using <a href="https://github.com/google/googletest">Google Test</a> (<code>gtest</code>) can be done in ROS natively</li>
 <li>Using <code>gtest</code> is the most common (and only officially supported) C++ unit testing framework in ROS</li>
