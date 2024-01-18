@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-11 Thu 09:26 -->
+<!-- 2024-01-18 Thu 11:40 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homework 1</title>
@@ -402,16 +402,17 @@ go along.
 <li>Create a new directory called <code>turtlelib</code> in your base repository.
 <ul class="org-ul">
 <li>Set this up as a <code>CMake</code> project.  Include the ability to generate documentation with <code>doxygen</code> and run unit tests.</li>
+<li>You may use the example in <a href="../lectures/cmake_basics.html">CMake Basics</a> to get started, but make sure you read through it and do not have any unnecessary code.</li>
 </ul></li>
 <li>This directory will hold the <code>turtlelib</code> library and associated executables and will be a ROS-Independent CMake Project
 <ul class="org-ul">
 <li>Follow the directory structure specified in <a href="../lectures/cmake_basics.html">CMake Basics</a> and be sure to put files in the appropriate locations.</li>
 <li>I will provide file names but not the full path to each file, they should be placed in the correct location based on what they are for.</li>
 </ul></li>
-<li>Download <a href="../images/geometry2d.hpp">geometry.hpp</a>
+<li>Download <a href="../images/geometry2d.hpp">geometry2d.hpp</a>
 <ul class="org-ul">
 <li>This file will be a header that is part of a library called <code>turtlelib</code></li>
-<li>You are responsible for implementing this file in <code>geometry.cpp</code> and filling in any blank implementations (indicated by <code>{}</code> in <code>geometry.hpp</code>).</li>
+<li>You are responsible for implementing this file in <code>geometry2d.cpp</code> and filling in any blank implementations (indicated by <code>{}</code> in <code>geometry2d.hpp</code>).</li>
 <li>You may add <code>private</code> members to any class but do not add or modify any <code>public</code> members or any function prototypes or otherwise add to or modify the <code>turtlelib</code> or global namespaces.</li>
 <li>The <a href="http://www.doxygen.nl">doxygen</a> style comments in the header files should not be repeated in the implementation files
 <ul class="org-ul">
@@ -421,9 +422,9 @@ go along.
 </ul></li>
 </ol>
 </div>
-<div id="outline-container-org600fc8b" class="outline-4">
-<h4 id="org600fc8b">Hints</h4>
-<div class="outline-text-4" id="text-org600fc8b">
+<div id="outline-container-orgde91e14" class="outline-4">
+<h4 id="orgde91e14">Hints</h4>
+<div class="outline-text-4" id="text-orgde91e14">
 <ol class="org-ol">
 <li>For more information about the operator overloading going on in this example see
 <a href="https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading/4421715">(a good Stack Overflow post)</a></li>
@@ -448,7 +449,7 @@ and the hint in <code>geometry2d.hpp</code></li>
 <h3 id="org9633ea2">Task B.2 (unit testing geometry)</h3>
 <div class="outline-text-3" id="text-org9633ea2">
 <ol class="org-ol">
-<li>In <code>test_geometry2.cpp</code>, test all non-constexpr functions in <code>geometry2.hpp</code>
+<li>In <code>test_geometry2d.cpp</code>, test all non-constexpr functions in <code>geometry2d.hpp</code>
 <ul class="org-ul">
 <li>See <a href="https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md#top">The Catch2 Tutorial</a></li>
 <li>Be sure to use approximate comparisons: see <a href="https://github.com/catchorg/Catch2/blob/devel/docs/comparing-floating-point-numbers.md#top">Floating Point Comparisons</a>
@@ -479,9 +480,9 @@ sudo cmake --build build/ --target install
 </ul></li>
 </ol>
 </div>
-<div id="outline-container-orgf2821b9" class="outline-4">
-<h4 id="orgf2821b9">Hints</h4>
-<div class="outline-text-4" id="text-orgf2821b9">
+<div id="outline-container-org56f5148" class="outline-4">
+<h4 id="org56f5148">Hints</h4>
+<div class="outline-text-4" id="text-org56f5148">
 <ol class="org-ol">
 <li>It makes sense to iterate with B.1 so that you can use the tests to help you implement functionality</li>
 <li>The <code>std::stringstream</code> class will be helpful for testing <code>operator&lt;&lt;</code> and <code>operator&gt;&gt;</code>. It lets you use an <code>std::string</code> as a stream instead of a file.</li>
@@ -498,15 +499,15 @@ sudo cmake --build build/ --target install
 <li>Download <a href="../images/se2d.hpp">se2d.hpp</a>, a <code>turtlelib</code> header file that lets you work with SE(2) geometry.
 <ul class="org-ul">
 <li>This file will be a header that is part of the <code>turtlelib</code> library</li>
-<li>Implement the specified functionality in a file called  <code>se2.cpp</code></li>
+<li>Implement the specified functionality in a file called  <code>se2d.cpp</code></li>
 <li>You may add <code>private members to any class but do not add or modify any =public</code> members or any function prototypes or otherwise add to or modify the <code>turtlelib</code> or global namespaces.</li>
 </ul></li>
 </ol>
 </div>
 
-<div id="outline-container-orged2e211" class="outline-4">
-<h4 id="orged2e211">Hints</h4>
-<div class="outline-text-4" id="text-orged2e211">
+<div id="outline-container-orgb11806a" class="outline-4">
+<h4 id="orgb11806a">Hints</h4>
+<div class="outline-text-4" id="text-orgb11806a">
 <ol class="org-ol">
 <li>It will be helpful to iterate by working on B.4, B.5, and B.6 as you implement the required functionality so you can test it as you go.</li>
 </ol>
@@ -518,7 +519,7 @@ sudo cmake --build build/ --target install
 <h3 id="org79ad7f2">Task B.4 (unit testing SE(2))</h3>
 <div class="outline-text-3" id="text-org79ad7f2">
 <ol class="org-ol">
-<li>In <code>test_se2.cpp</code> test every function and method in <code>se2d.hpp</code></li>
+<li>In <code>test_se2d.cpp</code> test every function and method in <code>se2d.hpp</code></li>
 <li>You may directly combine your tests with the work of your classmates to achieve this coverage, as long as the following conditions are met:
 <ul class="org-ul">
 <li>You personally must develop and write at least six test cases.</li>
@@ -566,9 +567,9 @@ I have commented the file with XML comments (<code>&lt;!-- --&gt;</code>): these
 </ol>
 </div>
 
-<div id="outline-container-org5db4f35" class="outline-4">
-<h4 id="org5db4f35">Hint</h4>
-<div class="outline-text-4" id="text-org5db4f35">
+<div id="outline-container-org1f4b4c3" class="outline-4">
+<h4 id="org1f4b4c3">Hint</h4>
+<div class="outline-text-4" id="text-org1f4b4c3">
 <ol class="org-ol">
 <li>Modify some values of the sample svg by hand and view the image to get a feel for what they do.</li>
 <li>You may wish to maintain a separate "testing" program to help.</li>
@@ -660,9 +661,9 @@ V_c: [1 2 -1]
 </ol>
 </div>
 
-<div id="outline-container-org1f4b4c3" class="outline-4">
-<h4 id="org1f4b4c3">Hint</h4>
-<div class="outline-text-4" id="text-org1f4b4c3">
+<div id="outline-container-orgf415c32" class="outline-4">
+<h4 id="orgf415c32">Hint</h4>
+<div class="outline-text-4" id="text-orgf415c32">
 <ol class="org-ol">
 <li>Think about how the transforms should work and what should be displayed, then open the image in inkscape.</li>
 <li>Sometimes, objects will be drawn on top of each other (e.g., points show up in the same location regardless of what frame they are expressed in)
@@ -725,15 +726,15 @@ A library for handling transformations in SE(2) and other turtlebot-related math
 <h4 id="org1f45dda">Normalize Vector</h4>
 <div class="outline-text-4" id="text-org1f45dda">
 <ul class="org-ul">
-<li>Implement the normalize vector functionality (in the geometry2 module) using the method you decided upon in the conceptual questions.</li>
+<li>Implement the normalize vector functionality (in the <code>geometry2d</code> module) using the method you decided upon in the conceptual questions.</li>
 <li>Include at least one unit test for the normalize functionality.</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgde91e14" class="outline-4">
-<h4 id="orgde91e14">Hints</h4>
-<div class="outline-text-4" id="text-orgde91e14">
+<div id="outline-container-org540068d" class="outline-4">
+<h4 id="org540068d">Hints</h4>
+<div class="outline-text-4" id="text-org540068d">
 <ol class="org-ol">
 <li><a href="https://en.cppreference.com/w/cpp/language/classes">Information About Classes</a></li>
 <li>The <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-class">C++ Core guidelines (Classes and Class Hierarchies)</a> section has the answers.</li>

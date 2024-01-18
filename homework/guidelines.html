@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-11 Thu 09:26 -->
+<!-- 2024-01-18 Thu 11:40 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homework Guidelines</title>
@@ -282,6 +282,7 @@ All functions/methods should be commented using <code>doxygen</code> style comme
 <li>Constructors should use initializer lists to initialize member variables</li>
 <li>Member variables should be initialized in the constructor initailizer list in the same order in which they are declared</li>
 <li>Usually single-argument constructors should be declared <code>explicit</code> (so there will not be an implicit conversion)</li>
+<li>Do not use <code>this-&gt;</code> unnecessarily. In C++ <code>this</code> is usually implied when working within a member function.</li>
 </ol>
 </div>
 </div>
