@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-18 Thu 11:40 -->
+<!-- 2024-01-30 Tue 15:00 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rigid Body Transformations in 2D</title>
@@ -46,7 +46,7 @@
 <li><a href="#orgcfbfc41">Overview</a></li>
 <li><a href="#orgd23618b">Coordinate Frames</a></li>
 <li><a href="#orgb98f365">Rotation Matrix</a></li>
-<li><a href="#orgb8c7a0a">Transformation Matrix</a></li>
+<li><a href="#orgffbf6ac">Transformation Matrix</a></li>
 <li><a href="#orga305d1a">Twist</a></li>
 <li><a href="#orgc0b7ed1">Adjoint</a></li>
 <li><a href="#orgc166bfb">Thought Experiments</a>
@@ -55,7 +55,7 @@
 <ul>
 <li><a href="#org761475e">1-D Homogeneous coordinates</a></li>
 <li><a href="#org27697a8">2-D Homogeneous coordinates</a></li>
-<li><a href="#orgffbf6ac">Transformation Matrix</a></li>
+<li><a href="#org7571136">Transformation Matrix</a></li>
 </ul>
 </li>
 <li><a href="#orgd0410d1">Velocities and Twist</a>
@@ -134,9 +134,9 @@ R_{ba} = R_{ab}^{-1} =
 </div>
 </div>
 
-<div id="outline-container-orgb8c7a0a" class="outline-2">
-<h2 id="orgb8c7a0a">Transformation Matrix</h2>
-<div class="outline-text-2" id="text-orgb8c7a0a">
+<div id="outline-container-orgffbf6ac" class="outline-2">
+<h2 id="orgffbf6ac">Transformation Matrix</h2>
+<div class="outline-text-2" id="text-orgffbf6ac">
 <p>
 If the origin of frame \(\{j\}\) is displaced from frame \(\{i\}\) by \(x \hat{x}_i + y \hat{y}_i\) and the angle between the frames is \(\theta\),
 then to convert a point \(p_j\) in frame \(j\) to frame \(i\) coordinates:
@@ -274,7 +274,7 @@ homogeneous coordinate system.</li>
 <li>What happens when the ray is completely horizontal?
 <ul class="org-ul">
 <li>It doesn't intersect the real number line at all</li>
-<li>But as we approached horizontal, the magnitude of the 1D number the ray represented got larger in larger.</li>
+<li>But as we approached horizontal, the magnitude of the 1D number the ray represented got larger and larger.</li>
 <li>When the ray is finally horizontal, it lets us represent a point at infinity!</li>
 <li>Loosely speaking, 2D homogeneous point \((x,w)\) maps to 1D point \(x/w\). When \(w = 0\) it makes sense that the 1D point is infinity.</li>
 </ul></li>
@@ -310,9 +310,9 @@ can be placed at a height of \(w\).</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgffbf6ac" class="outline-4">
-<h4 id="orgffbf6ac">Transformation Matrix</h4>
-<div class="outline-text-4" id="text-orgffbf6ac">
+<div id="outline-container-org7571136" class="outline-4">
+<h4 id="org7571136">Transformation Matrix</h4>
+<div class="outline-text-4" id="text-org7571136">
 <ol class="org-ol">
 <li>The goal is to be able to translate a point a fixed distance regardless of where the point is with a single matrix multiplication
 <ul class="org-ul">
@@ -370,7 +370,7 @@ for a few seconds?</li>
 <li>How far do other points on the laptop travel?</li>
 <li>Now assume the laptop grows to completely cover the table and beyond, all the way to infinity.
 <ul class="org-ul">
-<li>Think of a piece of this object that is far away from the laptop, how does it move</li>
+<li>Think of a piece of this object that is far away from the laptop, how does it move?</li>
 </ul></li>
 </ul></li>
 <li>If an object is purely translating, how does each point on the object move?</li>
