@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-01-30 Tue 15:00 -->
+<!-- 2024-02-01 Thu 17:46 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kinematics for Wheeled Mobile Robots</title>
@@ -52,12 +52,12 @@
 </li>
 <li><a href="#org97acc5c">Transforms Between Body and Wheels</a>
 <ul>
-<li><a href="#org31b34d3">Example: Four Wheel Car</a></li>
+<li><a href="#org90e9301">Example: Four Wheel Car</a></li>
 </ul>
 </li>
 <li><a href="#orga4ac05e">Body Twist in the Wheel Frames</a>
 <ul>
-<li><a href="#org90e9301">Example: Four Wheel Car</a></li>
+<li><a href="#org0dbfb22">Example: Four Wheel Car</a></li>
 </ul>
 </li>
 <li><a href="#org0b7535f">Types of Wheels</a>
@@ -69,15 +69,15 @@
 </li>
 <li><a href="#org14535bb">Car with Four Mecanum Wheels</a>
 <ul>
-<li><a href="#org386548b">Body Twist to Wheel Motion</a></li>
-<li><a href="#orgce87b8d">Inverse Kinematics</a></li>
+<li><a href="#orge070636">Body Twist to Wheel Motion</a></li>
+<li><a href="#orge733f63">Inverse Kinematics</a></li>
 <li><a href="#org5fb5a55">Controls</a></li>
 </ul>
 </li>
 <li><a href="#org1f5f60d">Car with Four Conventional Wheels</a>
 <ul>
-<li><a href="#orge070636">Body Twist to Wheel Motion</a></li>
-<li><a href="#orge733f63">Inverse Kinematics</a></li>
+<li><a href="#orgb93d89a">Body Twist to Wheel Motion</a></li>
+<li><a href="#orge6f8629">Inverse Kinematics</a></li>
 </ul>
 </li>
 <li><a href="#org4bc53b0">Forward Kinematics</a>
@@ -235,9 +235,9 @@ The first step in the process is to find all the transforms and adjoints between
 the body frame and frames located at each wheel.
 </p>
 </div>
-<div id="outline-container-org31b34d3" class="outline-3">
-<h3 id="org31b34d3">Example: Four Wheel Car</h3>
-<div class="outline-text-3" id="text-org31b34d3">
+<div id="outline-container-org90e9301" class="outline-3">
+<h3 id="org90e9301">Example: Four Wheel Car</h3>
+<div class="outline-text-3" id="text-org90e9301">
 
 <figure>
 <object type="image/svg+xml" data="../images/four_wheel_car.svg" class="org-svg">
@@ -346,13 +346,13 @@ and thus tell you how the wheels must move in order to achieve a desired body tw
 </p>
 </div>
 
-<div id="outline-container-org90e9301" class="outline-3">
-<h3 id="org90e9301">Example: Four Wheel Car</h3>
-<div class="outline-text-3" id="text-org90e9301">
+<div id="outline-container-org0dbfb22" class="outline-3">
+<h3 id="org0dbfb22">Example: Four Wheel Car</h3>
+<div class="outline-text-3" id="text-org0dbfb22">
 </div>
-<div id="outline-container-org0222498" class="outline-4">
-<h4 id="org0222498">Wheel 1</h4>
-<div class="outline-text-4" id="text-org0222498">
+<div id="outline-container-org06d559a" class="outline-4">
+<h4 id="org06d559a">Wheel 1</h4>
+<div class="outline-text-4" id="text-org06d559a">
 \begin{align}
 V_1 &= A_{1b}V_b \\
 \begin{bmatrix}
@@ -381,9 +381,9 @@ L\dot{\theta} + v_y
 </div>
 </div>
 
-<div id="outline-container-org3b00468" class="outline-4">
-<h4 id="org3b00468">Wheel 2</h4>
-<div class="outline-text-4" id="text-org3b00468">
+<div id="outline-container-org26bf647" class="outline-4">
+<h4 id="org26bf647">Wheel 2</h4>
+<div class="outline-text-4" id="text-org26bf647">
 \begin{align}
 V_2 &= A_{2b}V_b \\
 \begin{bmatrix}
@@ -412,9 +412,9 @@ L\dot{\theta}+v_y
 </div>
 </div>
 
-<div id="outline-container-org81675d9" class="outline-4">
-<h4 id="org81675d9">Wheel 3</h4>
-<div class="outline-text-4" id="text-org81675d9">
+<div id="outline-container-orgbdbb8b9" class="outline-4">
+<h4 id="orgbdbb8b9">Wheel 3</h4>
+<div class="outline-text-4" id="text-orgbdbb8b9">
 \begin{align}
 V_3 &= A_{3b}V_b \\
 \begin{bmatrix}
@@ -443,9 +443,9 @@ D\dot{\theta}+v_x\\
 </div>
 </div>
 
-<div id="outline-container-org1d7e3b9" class="outline-4">
-<h4 id="org1d7e3b9">Wheel 4</h4>
-<div class="outline-text-4" id="text-org1d7e3b9">
+<div id="outline-container-org5b5854c" class="outline-4">
+<h4 id="org5b5854c">Wheel 4</h4>
+<div class="outline-text-4" id="text-org5b5854c">
 \begin{align}
 V_4 &= A_{4b}V_b \\
 \begin{bmatrix}
@@ -629,13 +629,13 @@ and solve for \(\dot{\phi}_i\) and \(v_{si}\) in terms of the body twist \(\begi
 </p>
 </div>
 
-<div id="outline-container-org386548b" class="outline-3">
-<h3 id="org386548b">Body Twist to Wheel Motion</h3>
-<div class="outline-text-3" id="text-org386548b">
+<div id="outline-container-orge070636" class="outline-3">
+<h3 id="orge070636">Body Twist to Wheel Motion</h3>
+<div class="outline-text-3" id="text-orge070636">
 </div>
-<div id="outline-container-org792ed3c" class="outline-4">
-<h4 id="org792ed3c">Wheel 1</h4>
-<div class="outline-text-4" id="text-org792ed3c">
+<div id="outline-container-org867b285" class="outline-4">
+<h4 id="org867b285">Wheel 1</h4>
+<div class="outline-text-4" id="text-org867b285">
 <p>
 This wheel has a roller angle of \(\gamma = -\frac{\pi}{4}\)
 </p>
@@ -671,9 +671,9 @@ v_y
 </div>
 </div>
 
-<div id="outline-container-org26bf647" class="outline-4">
-<h4 id="org26bf647">Wheel 2</h4>
-<div class="outline-text-4" id="text-org26bf647">
+<div id="outline-container-orga5741de" class="outline-4">
+<h4 id="orga5741de">Wheel 2</h4>
+<div class="outline-text-4" id="text-orga5741de">
 <p>
 This wheel has a roller angle of \(\gamma = \frac{\pi}{4}\)
 </p>
@@ -709,9 +709,9 @@ v_y
 </div>
 </div>
 
-<div id="outline-container-orgbdbb8b9" class="outline-4">
-<h4 id="orgbdbb8b9">Wheel 3</h4>
-<div class="outline-text-4" id="text-orgbdbb8b9">
+<div id="outline-container-org886d3f3" class="outline-4">
+<h4 id="org886d3f3">Wheel 3</h4>
+<div class="outline-text-4" id="text-org886d3f3">
 <p>
 This wheel has a roller angle of \(\gamma = \frac{-\pi}{4}\)
 </p>
@@ -746,9 +746,9 @@ v_y
 </div>
 </div>
 
-<div id="outline-container-org5b5854c" class="outline-4">
-<h4 id="org5b5854c">Wheel 4</h4>
-<div class="outline-text-4" id="text-org5b5854c">
+<div id="outline-container-org36fff97" class="outline-4">
+<h4 id="org36fff97">Wheel 4</h4>
+<div class="outline-text-4" id="text-org36fff97">
 <p>
 This wheel has a roller angle of \(\gamma = \frac{\pi}{4}\)
 </p>
@@ -784,9 +784,9 @@ v_y
 </div>
 </div>
 
-<div id="outline-container-orgce87b8d" class="outline-3">
-<h3 id="orgce87b8d">Inverse Kinematics</h3>
-<div class="outline-text-3" id="text-orgce87b8d">
+<div id="outline-container-orge733f63" class="outline-3">
+<h3 id="orge733f63">Inverse Kinematics</h3>
+<div class="outline-text-3" id="text-orge733f63">
 <p>
 Now that we have the relationship between the body twist and the velocity of the body in each wheel frame, we can now gather everything
 into a single equation:
@@ -905,13 +905,13 @@ would be unachievable by setting the wheel velocities.</li>
 <h2 id="org1f5f60d">Car with Four Conventional Wheels</h2>
 <div class="outline-text-2" id="text-org1f5f60d">
 </div>
-<div id="outline-container-orge070636" class="outline-3">
-<h3 id="orge070636">Body Twist to Wheel Motion</h3>
-<div class="outline-text-3" id="text-orge070636">
+<div id="outline-container-orgb93d89a" class="outline-3">
+<h3 id="orgb93d89a">Body Twist to Wheel Motion</h3>
+<div class="outline-text-3" id="text-orgb93d89a">
 </div>
-<div id="outline-container-org06d559a" class="outline-4">
-<h4 id="org06d559a">Wheel 1</h4>
-<div class="outline-text-4" id="text-org06d559a">
+<div id="outline-container-org25d3d15" class="outline-4">
+<h4 id="org25d3d15">Wheel 1</h4>
+<div class="outline-text-4" id="text-org25d3d15">
 \begin{align}
 \begin{bmatrix}
 \dot{\theta} \\
@@ -953,9 +953,9 @@ The other wheels are similar.
 </div>
 </div>
 
-<div id="outline-container-orge733f63" class="outline-3">
-<h3 id="orge733f63">Inverse Kinematics</h3>
-<div class="outline-text-3" id="text-orge733f63">
+<div id="outline-container-orge6f8629" class="outline-3">
+<h3 id="orge6f8629">Inverse Kinematics</h3>
+<div class="outline-text-3" id="text-orge6f8629">
 <p>
 The kinematic equations are now 
 </p>
