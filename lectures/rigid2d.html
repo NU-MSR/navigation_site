@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-01 Thu 17:46 -->
+<!-- 2024-02-06 Tue 13:19 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rigid Body Transformations in 2D</title>
@@ -46,7 +46,7 @@
 <li><a href="#orgcfbfc41">Overview</a></li>
 <li><a href="#orgd23618b">Coordinate Frames</a></li>
 <li><a href="#orgb98f365">Rotation Matrix</a></li>
-<li><a href="#org7571136">Transformation Matrix</a></li>
+<li><a href="#org472e87c">Transformation Matrix</a></li>
 <li><a href="#orga305d1a">Twist</a></li>
 <li><a href="#orgc0b7ed1">Adjoint</a></li>
 <li><a href="#orgc166bfb">Thought Experiments</a>
@@ -55,7 +55,7 @@
 <ul>
 <li><a href="#org761475e">1-D Homogeneous coordinates</a></li>
 <li><a href="#org27697a8">2-D Homogeneous coordinates</a></li>
-<li><a href="#org472e87c">Transformation Matrix</a></li>
+<li><a href="#org3d46119">Transformation Matrix</a></li>
 </ul>
 </li>
 <li><a href="#orgd0410d1">Velocities and Twist</a>
@@ -134,9 +134,9 @@ R_{ba} = R_{ab}^{-1} =
 </div>
 </div>
 
-<div id="outline-container-org7571136" class="outline-2">
-<h2 id="org7571136">Transformation Matrix</h2>
-<div class="outline-text-2" id="text-org7571136">
+<div id="outline-container-org472e87c" class="outline-2">
+<h2 id="org472e87c">Transformation Matrix</h2>
+<div class="outline-text-2" id="text-org472e87c">
 <p>
 If the origin of frame \(\{j\}\) is displaced from frame \(\{i\}\) by \(x \hat{x}_i + y \hat{y}_i\) and the angle between the frames is \(\theta\),
 then to convert a point \(p_j\) in frame \(j\) to frame \(i\) coordinates:
@@ -310,9 +310,9 @@ can be placed at a height of \(w\).</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org472e87c" class="outline-4">
-<h4 id="org472e87c">Transformation Matrix</h4>
-<div class="outline-text-4" id="text-org472e87c">
+<div id="outline-container-org3d46119" class="outline-4">
+<h4 id="org3d46119">Transformation Matrix</h4>
+<div class="outline-text-4" id="text-org3d46119">
 <ol class="org-ol">
 <li>The goal is to be able to translate a point a fixed distance regardless of where the point is with a single matrix multiplication
 <ul class="org-ul">

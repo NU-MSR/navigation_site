@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-01 Thu 17:46 -->
+<!-- 2024-02-06 Tue 13:19 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homework Guidelines</title>
@@ -47,7 +47,14 @@
 </li>
 </ul>
 </li>
-<li><a href="#org2f73a72">Citations</a></li>
+<li><a href="#citations">Citations</a>
+<ul>
+<li><a href="#org910a2fb">Cross Referencing</a></li>
+<li><a href="#orge1d7d9f">Citing Git Repositories and other Source Code Files</a></li>
+<li><a href="#org0b6ca02">AI Tools</a></li>
+<li><a href="#orgbfcb31d">Example</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </nav>
@@ -351,24 +358,124 @@ When indexing, use <code>.at()</code> to get runtime bounds checking (at the exp
 </div>
 
 <div id="outline-container-org2f73a72" class="outline-2">
-<h2 id="org2f73a72">Citations</h2>
-<div class="outline-text-2" id="text-org2f73a72">
+<h2 id="citations">Citations</h2>
+<div class="outline-text-2" id="text-citations">
 <p>
 If you use any external source (a website or a book, another person, or an LLM or other AI tool such as ChatGPT or Github Copilot), you must cite the source.
+These are general purpose guidelines, but the next sections discuss the use of former solutions and AI tools.
 </p>
+
 <ol class="org-ol">
 <li>Create a <code>citations.txt</code> file in the base directory of your repository.</li>
-<li>The first line in <code>citations.txt</code> should state who you worked with generally, even if no specific code can be traced back to an individual.</li>
-<li>The subsequent lines should be labeled with a number that can be referred to in source code. Any source code copied, adapted, or inspired
-by an external source should cross-reference that source in the <code>citations.txt</code>.</li>
+<li>The first line in <code>citations.txt</code> should state who you worked with generally, even if no specific code can be traced back to an individual.
+<ul class="org-ul">
+<li>e.g., <code>Worked With: Person A, Person B</code></li>
+<li>Citations of online resources must include the date it was accessed on.</li>
+</ul></li>
+<li>The subsequent lines should be labeled with a number that can be referred to in source code when cross-referencing
+<ul class="org-ul">
+<li>If a source inspired a particular piece of code it should be cross-referenced, even if the code was not copied directly.</li>
+<li>When in doubt, cite and cross-reference. Lack of proper cross-referencing is a violation of this policy.</li>
+</ul></li>
+<li>The only sources that are exempt from the citation requirement are:
+<ol class="org-ol">
+<li>Me/anything said by me in office hours or class.</li>
+<li>My notes (on any website authored by me).</li>
+<li>Anything under <a href="https://docs.ros.org/en/iron/Tutorials.html">https://docs.ros.org/en/iron/Tutorials.html</a>.</li>
+<li>Any ROS 2 or package-related "boilerplate" code (i.e., code that is provided as an example for how to use a package/feature that would not vary significantly between different uses).</li>
+<li>C++ reference material (e.g., from <code>cppreference.com</code>) that is used in a generic manner (e.g., to help you understand how a standard part of C++ works) need not be cited.
+<ul class="org-ul">
+<li>However, if you use code examples from <code>cppreference.com</code> these should be cited and cross-referenced appropriately.</li>
+</ul></li>
+</ol></li>
 </ol>
+</div>
+
+<div id="outline-container-org910a2fb" class="outline-3">
+<h3 id="org910a2fb">Cross Referencing</h3>
+<div class="outline-text-3" id="text-org910a2fb">
+<p>
+Cross-referencing properly requires clearly delineating the start and end of such code with comments in the following format:
+</p>
+<ul class="org-ul">
+<li><p>
+For <code>C++ or C</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span class="org-comment-delimiter">// </span><span class="org-comment">############################ Begin_Citation [4] ############################</span>
+Code that was influenced by the <span class="org-type">citation</span> <span class="org-variable-name">here</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">############################ End_Citation [4]  #############################</span>
+</pre>
+</div></li>
+
+<li><p>
+For <code>Python</code> or other languages where <code>#</code> is a comment:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="org-comment-delimiter">############################### </span><span class="org-comment">Begin_Citation [4] ############################</span>
+Code that was influenced by the citation here
+<span class="org-comment-delimiter">############################### </span><span class="org-comment">End_Citation [4]  #############################</span>
+</pre>
+</div></li>
+
+<li><p>
+or <code>xml</code> and similar languages:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span class="org-comment-delimiter">&lt;!--</span><span class="org-comment">########################### Begin_Citation [4] #########################</span><span class="org-comment-delimiter">--&gt;</span>
+<span class="org-nxml-text">Code that was influenced by the citation here</span>
+<span class="org-comment-delimiter">&lt;!--</span><span class="org-comment">########################### End_Citation [4]  ##########################</span><span class="org-comment-delimiter">--&gt;</span>
+</pre>
+</div></li>
+</ul>
 
 <p>
-Exceptions to this rule hold for me, my notes, and anything under <a href="https://docs.ros.org/en/iron/Tutorials.html">https://docs.ros.org/en/iron/Tutorials.html</a>, and any ROS 2 or package-related "boilerplate" code (that is code
-that is necessary for the use of the package/feature that would not vary significantly between different uses).
+Cross-referencing is required whenever a source has direct influence on part of the code you wrote that is specific to the problem you are trying to solve.
 </p>
+</div>
+</div>
 
+<div id="outline-container-orge1d7d9f" class="outline-3">
+<h3 id="orge1d7d9f">Citing Git Repositories and other Source Code Files</h3>
+<div class="outline-text-3" id="text-orge1d7d9f">
+<ol class="org-ol">
+<li>This section details how git repositories and other source code can be cited properly, including those with solutions from previous students.
+<ul class="org-ul">
+<li>These rules are in addition to the other rules in this document</li>
+</ul></li>
+<li>It is highly discouraged for you to look at previous students' solutions or other code that directly provides solutions.
+<ul class="org-ul">
+<li>Sources that provide solutions directly should be viewed as an avenue of last resort and must be cited properly.</li>
+<li>The homework is not the same year-to-year, often in important ways, so this is not necessarily a good idea.</li>
+</ul></li>
+<li>There must be a separate citation line for each file (or corresponding <code>.hpp/.cpp</code> file pair) in the remote repository that you used.
+<ul class="org-ul">
+<li>It is inadequate to merely cite a whole repository as a solution source: this is not specific enough.</li>
+<li><p>
+Cross references must include references to particular lines in the source material, as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-cpp"><span class="org-comment-delimiter">// </span><span class="org-comment">############################ Begin_Citation [4] ############################</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">file.cpp:450-300s</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">############################ End_Citation [4]  #############################</span>
+</pre>
+</div></li>
+</ul></li>
+<li>It is assumed that citations for former solutions will have cross-references in your code.
+<ul class="org-ul">
+<li>If you are looking at another solution, there is typically a direct link between what you looked at and what you are going to be coding, even if
+code is not copied directly. This influence should be specifically acknowledged.</li>
+<li>By citing a file of a solution and not cross-referencing, you are asserting that it only played a general role in your own work and that
+there is no literal, functional, or architectural (outside of the HW specifications) influence of that source on your code.</li>
+<li>If there are any of the above similarities, a cross-reference is required.</li>
+</ul></li>
+</ol>
+</div>
+</div>
 
+<div id="outline-container-org0b6ca02" class="outline-3">
+<h3 id="org0b6ca02">AI Tools</h3>
+<div class="outline-text-3" id="text-org0b6ca02">
 <p>
 There are additional rules for AI tools:
 </p>
@@ -378,12 +485,27 @@ and refer to it in the citation.</li>
 <li>If the LLM is built-in to your code editor and uses the context of the editor, then prior to generating the code you must commit your code and record the
 hash of the commit in the <code>citations.txt</code>.</li>
 <li>Each individual use of an LLM must be cited.</li>
+<li>Any code that has been directly influenced by a "conversation" with AI must cross-reference the particular portion of the conversation.
+<ul class="org-ul">
+<li>Cross references should include line numbers in the transcript file, highlighting the relevant portion</li>
+</ul></li>
+<li>Transcripts must be included in the git repository.
+<ul class="org-ul">
+<li>Transcripts must be included in the repository directly, so that they can be properly cross-referenced.</li>
+</ul></li>
 </ol>
+</div>
+</div>
+
+<div id="outline-container-orgbfcb31d" class="outline-3">
+<h3 id="orgbfcb31d">Example</h3>
+<div class="outline-text-3" id="text-orgbfcb31d">
 <p>
 Here is an example <code>citations.txt</code>: yours should follow the same format.
 </p>
 <pre class="example">
-Worked With: [List every person you worked with generally here.] [1] Github Copilot. Used on 9/21/2023. Commit prior to use is 3fd56754423456434233242
+Worked With: [List every person you worked with generally here.]
+[1] Github Copilot. Used on 9/21/2023. Commit prior to use is 3fd56754423456434233242
 [2] ChatGpt. Used on 9/22/2023. Transcript is in ./chatgpt/transcript1.txt
 [3] https://stackoverflow.com/the/answer Accessed on 9/23/22
 [4] John Smith [if John Smith gave you a specific idea outside of generally working with you].
@@ -396,6 +518,7 @@ And here is an example of a C++ file that used a citation
 <pre class="src src-C++"><span class="org-preprocessor">#include</span><span class="org-string">&lt;iostream&gt;</span>
 
 <span class="org-comment-delimiter">// </span><span class="org-comment">############################## Begin_Citation [4] ##############################</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">From ./chatgpt/transcript1.txt:450-500</span>
 <span class="org-type">int</span> <span class="org-function-name">main</span>()
 {
    <span class="org-constant">std</span>::cout &lt;&lt; <span class="org-string">"Hello ROS!"</span> &lt;&lt; <span class="org-constant">std</span>::endl;
@@ -404,6 +527,7 @@ And here is an example of a C++ file that used a citation
 <span class="org-comment-delimiter">// </span><span class="org-comment">############################## End_Citation [4]  ###############################</span>
 
 </pre>
+</div>
 </div>
 </div>
 </div>

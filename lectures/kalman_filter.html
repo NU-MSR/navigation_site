@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-01 Thu 17:46 -->
+<!-- 2024-02-06 Tue 13:19 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kalman Filters</title>
@@ -123,8 +123,8 @@ Propagate the state and uncertainty forward:
 </ul>
 </div>
 
-<details id="org0dc4df7"><summary class="header-4">Derivation</summary>
-<div class="outline-text-4" id="text-org0dc4df7">
+<details id="org47fde40"><summary class="header-4">Derivation</summary>
+<div class="outline-text-4" id="text-org47fde40">
 <ol class="org-ol">
 <li>For \(X \sim \mathcal{N}(\mu, \Sigma)\), and \(Y = AX + b\), \(Y \sim \mathcal{N}(A\mu +b, A \Sigma A^T)\) (See <a href="./gaussian.html">Lecture on Gaussians</a>)</li>
 <li><p>
@@ -186,8 +186,8 @@ is also a Gaussian distribution.</li>
 </ul>
 </div>
 
-<details id="org47fde40"><summary class="header-4">Derivation</summary>
-<div class="outline-text-4" id="text-org47fde40">
+<details id="org8bc225d"><summary class="header-4">Derivation</summary>
+<div class="outline-text-4" id="text-org8bc225d">
 <ol class="org-ol">
 <li>Let \(Y \sim X_1 | X_2\) = a, where \(\begin{bmatrix}X_1 \\ X_2\end{bmatrix} \sim \mathcal{N}(\begin{bmatrix}\mu_1 \\ \mu_2\end{bmatrix}, \begin{bmatrix}\Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22}\end{bmatrix})\) are Jointly Gaussian.
 Then
