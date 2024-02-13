@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-06 Tue 13:19 -->
+<!-- 2024-02-13 Tue 13:24 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Regression</title>
@@ -50,7 +50,7 @@
 </li>
 <li><a href="#org91be7d2">Linear Regression</a>
 <ul>
-<li><a href="#org7e360e1">The Model</a></li>
+<li><a href="#org16aa742">The Model</a></li>
 <li><a href="#org9222700">Matrix Form</a></li>
 <li><a href="#org3edce35">Least Squares</a>
 <ul>
@@ -61,7 +61,7 @@
 </li>
 <li><a href="#org89b7296">Linear Regression, Gaussian Noise</a>
 <ul>
-<li><a href="#org16aa742">The Model</a></li>
+<li><a href="#orgc3320ff">The Model</a></li>
 <li><a href="#org54c37f0">Finding the Weights</a></li>
 </ul>
 </li>
@@ -132,9 +132,9 @@ Given a previously unseen input \(x_\ast\) can we predict the output \(y_\ast\)?
 <h2 id="org91be7d2">Linear Regression</h2>
 <div class="outline-text-2" id="text-org91be7d2">
 </div>
-<div id="outline-container-org7e360e1" class="outline-3">
-<h3 id="org7e360e1">The Model</h3>
-<div class="outline-text-3" id="text-org7e360e1">
+<div id="outline-container-org16aa742" class="outline-3">
+<h3 id="org16aa742">The Model</h3>
+<div class="outline-text-3" id="text-org16aa742">
 <ol class="org-ol">
 <li>\(y = w_0 + w_1 x_1 + \cdots + w_n x_n\).  The goal is to find the weights \(w\).</li>
 <li>By setting \(x_0 = 1\), we can write the model as \(y = w^T x\).</li>
@@ -221,9 +221,9 @@ In block form the equations are separated
 <h2 id="org89b7296">Linear Regression, Gaussian Noise</h2>
 <div class="outline-text-2" id="text-org89b7296">
 </div>
-<div id="outline-container-org16aa742" class="outline-3">
-<h3 id="org16aa742">The Model</h3>
-<div class="outline-text-3" id="text-org16aa742">
+<div id="outline-container-orgc3320ff" class="outline-3">
+<h3 id="orgc3320ff">The Model</h3>
+<div class="outline-text-3" id="text-orgc3320ff">
 <ol class="org-ol">
 <li>The model: \(y_i = f(x_i) + \epsilon_i\), where \(f(x) = x^T w\) and \(\epsilon_i \sim \mathcal{N}(0, \sigma^2)\).
 <ul class="org-ul">

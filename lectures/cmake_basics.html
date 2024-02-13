@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-06 Tue 13:19 -->
+<!-- 2024-02-13 Tue 13:24 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CMake Basics</title>
@@ -51,15 +51,15 @@
 </li>
 <li><a href="#org6a6cd95">C++ Standard</a>
 <ul>
-<li><a href="#org85f5d62">Locally (Per-Target)</a></li>
-<li><a href="#orgfa7cb24">Globally (all targets)</a></li>
+<li><a href="#org5594385">Locally (Per-Target)</a></li>
+<li><a href="#orgc003deb">Globally (all targets)</a></li>
 <li><a href="#org089d7b9">Standards And ROS</a></li>
 </ul>
 </li>
 <li><a href="#org86510c1">Compile Options</a>
 <ul>
-<li><a href="#org5594385">Locally (Per-Target)</a></li>
-<li><a href="#orgc003deb">Globally (all targets)</a></li>
+<li><a href="#org4e69054">Locally (Per-Target)</a></li>
+<li><a href="#orgd87c091">Globally (all targets)</a></li>
 </ul>
 </li>
 </ul>
@@ -631,9 +631,9 @@ and provides a common standard-setting method across all compilers.
 language features that are desired.</li>
 </ul>
 </div>
-<div id="outline-container-org85f5d62" class="outline-4">
-<h4 id="org85f5d62">Locally (Per-Target)</h4>
-<div class="outline-text-4" id="text-org85f5d62">
+<div id="outline-container-org5594385" class="outline-4">
+<h4 id="org5594385">Locally (Per-Target)</h4>
+<div class="outline-text-4" id="text-org5594385">
 <ul class="org-ul">
 <li><p>
 To set the standard for a given target
@@ -654,9 +654,9 @@ and <code>INTERFACE</code> which means just used by dependencies but not the tar
 </ul>
 </div>
 </div>
-<div id="outline-container-orgfa7cb24" class="outline-4">
-<h4 id="orgfa7cb24">Globally (all targets)</h4>
-<div class="outline-text-4" id="text-orgfa7cb24">
+<div id="outline-container-orgc003deb" class="outline-4">
+<h4 id="orgc003deb">Globally (all targets)</h4>
+<div class="outline-text-4" id="text-orgc003deb">
 <ul class="org-ul">
 <li><p>
 These settings can also be done globally.
@@ -697,17 +697,17 @@ These settings can also be done globally.
 <h3 id="org86510c1">Compile Options</h3>
 <div class="outline-text-3" id="text-org86510c1">
 </div>
-<div id="outline-container-org5594385" class="outline-4">
-<h4 id="org5594385">Locally (Per-Target)</h4>
-<div class="outline-text-4" id="text-org5594385">
+<div id="outline-container-org4e69054" class="outline-4">
+<h4 id="org4e69054">Locally (Per-Target)</h4>
+<div class="outline-text-4" id="text-org4e69054">
 <ul class="org-ul">
 <li>Use <code>target_compile_options(target -Wall -Wextra)</code> to add flags (in this case <code>-Wall -Wextra</code>) to the build</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc003deb" class="outline-4">
-<h4 id="orgc003deb">Globally (all targets)</h4>
-<div class="outline-text-4" id="text-orgc003deb">
+<div id="outline-container-orgd87c091" class="outline-4">
+<h4 id="orgd87c091">Globally (all targets)</h4>
+<div class="outline-text-4" id="text-orgd87c091">
 <ul class="org-ul">
 <li>Global compile options are added with <code>add_compile_options(-Wall -Wextra)</code> (<code>-Wall -Wextra</code> in this case).</li>
 </ul>
