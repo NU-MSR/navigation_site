@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-22 Thu 11:32 -->
+<!-- 2024-02-24 Sat 20:41 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>An Estimation Example</title>
@@ -92,7 +92,7 @@ We will use a linear sensor model, and also drop explicit depencence on element 
 \begin{equation}
 Z = X + W.
 \end{equation}</li>
-<li>Assume we know the joint pdf of \(X\) and \(W\), \(f_{xw}(x,w)\).
+<li>Assume we know the joint pdf of \(X\) and \(W\), \(f_{XW}(x,w)\).
 <ul class="org-ul">
 <li>We therefore also know that
 <ol class="org-ol">
@@ -128,31 +128,31 @@ We relate probabilities to the cumulative distribution and then take a limit
 </p>
 \begin{align}
 P(a \leq x \leq a + \epsilon) &= F_X(a+\epsilon) - F_X(a) \\
-             &= \frac{F_X(a + \epsilon) - F_X(a)}{\epsilon}
+             &= \epsilon\frac{F_X(a + \epsilon) - F_X(a)}{\epsilon}
 \end{align}</li>
 <li><p>
-Taking the limit as \(\epsilon \to 0\) 
+Taking the limit as \(\epsilon \to 0\) and letting \(d\epsilon = \lim_{\epsilon \to 0}\epsilon\):
 </p>
 \begin{align}
-\lim_{\epsilon \to 0}\frac{F_X(a + \epsilon) - F_X(a)}{\epsilon} &=
-\frac{dF_X}{dx}\epsilon \\
+\lim_{\epsilon \to 0}\epsilon\frac{F_X(a + \epsilon) - F_X(a)}{\epsilon} &=
+\frac{dF_X}{dx}d\epsilon \\
 &=
-f_X(x)\epsilon.
+f_X(x)d\epsilon.
 \end{align}</li>
 <li><p>
 Let \(B_\epsilon = \{x : a < x < a + \epsilon\}\). Then 
 </p>
 \begin{align}
- P(X \in B_\epsilon | Z) &= \frac{P(Z \in B_\epsilon| X)P(X \in B_\epsilon}{P(Z \in B_\epsilon)} \\
- f_X(x | z)\epsilon &= \frac{f_Z(z | x)\epsilon f_X(x | z)\epsilon}{f_Z(z)\epsilon}               \\
+ P(X \in B_\epsilon | Z) &= \frac{P(Z \in B_\epsilon| X)P(X \in B_\epsilon)}{P(Z \in B_\epsilon)} \\
+ f_X(x | z)d\epsilon &= \frac{f_Z(z | x)d\epsilon f_X(x | z)d\epsilon}{f_Z(z)d\epsilon}               \\
 \end{align}
 <p>
 Therefore:
 </p>
 
 \begin{equation}
-\label{org74e1ba4}
- f_X(x | z) = \frac{f_Z(z | x) f_X(x)}{f_Z(z)}. \text{ (1) }
+\label{org7f807ed}
+ f_X(x | z) = \frac{f_Z(z | x) f_X(x)}{f_Z(z)}.
 \end{equation}</li>
 </ul>
 </div>
@@ -162,7 +162,7 @@ Therefore:
 <h3 id="org7ad2a5f">What to Actually Compute</h3>
 <div class="outline-text-3" id="text-org7ad2a5f">
 <ul class="org-ul">
-<li>To compute Equation (1), we need to compute \(f_Z(z|x)\) and \(f_z(z)\) (we already know \(f_X(x)\) as that is a parameter of the problem).</li>
+<li>To compute Equation \eqref{org7f807ed}, we need to compute \(f_Z(z|x)\) and \(f_z(z)\) (we already know \(f_X(x)\) as that is a parameter of the problem).</li>
 </ul>
 </div>
 </div>
@@ -217,7 +217,7 @@ We can then marginalize out the \(x\):
 <ul class="org-ul">
 <li>Technically, the above steps enclose the complete process for determining the estimator
 <ul class="org-ul">
-<li>We are given \(f_{XW}(x, w)\), which gives us \(f_X(x)\) and \(f_X(w)\)</li>
+<li>We are given \(f_{XW}(x, w)\), which gives us \(f_X(x)\) and \(f_W(w)\)</li>
 <li>The sensor model (which in this case was linear) lets us write \(f_Z(z | x)\) in terms of \(f_{XW}(x, w)\).</li>
 <li>Then, we apply Bayes rules to find the probability distribution of the state given the measurements</li>
 </ul></li>

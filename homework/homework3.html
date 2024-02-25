@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-22 Thu 11:32 -->
+<!-- 2024-02-24 Sat 20:41 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homework 3</title>
@@ -236,7 +236,7 @@ We will now add error/noise into the <code>nusim</code> robot simulation.
 <li>After computing \(v_i\), move the robot accordingly</li>
 <li>Let \(\eta_r\) and \(\eta_l\) be uniform random between <code>-slip_fraction</code> and <code>slip_fraction</code>
 <ul class="org-ul">
-<li>Update the right wheel position as if it had followed \(v_i*(1+\eta_r)\) and the left wheel's position as if it had followed \(u*(1+\eta_l)\)</li>
+<li>Update the right wheel position as if it had followed \(v_i*(1+\eta_r)\) and the left wheel's position as if it had followed \(v_i*(1+\eta_l)\)</li>
 <li>In this way, the actual wheel positions don't match where they would be if they had not slipped</li>
 </ul></li>
 </ol></li>

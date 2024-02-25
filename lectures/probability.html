@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-22 Thu 11:32 -->
+<!-- 2024-02-24 Sat 20:41 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Probability Basics for Robotics</title>
@@ -70,7 +70,7 @@
 </li>
 <li><a href="#org1406549">Conditional Probability</a>
 <ul>
-<li><a href="#orge2fa9c2">Example:</a></li>
+<li><a href="#orgcdf3c10">Example:</a></li>
 </ul>
 </li>
 <li><a href="#org81e009a">Theorem on total probability</a></li>
@@ -83,7 +83,7 @@
 <li><a href="#orgebc635f">Independence</a></li>
 <li><a href="#org6491524">Random Variable</a>
 <ul>
-<li><a href="#orgcdf3c10">Example:</a></li>
+<li><a href="#org73b46b4">Example:</a></li>
 <li><a href="#orgbfbc845">Discrete Random Variables</a></li>
 </ul>
 </li>
@@ -408,9 +408,9 @@ How does knowledge about event \(B\) occurring change the probability of event \
 <li>For fixed \(B\), \(P[A | B]\) is itself a  probability over this reduced sample space</li>
 </ul>
 </div>
-<div id="outline-container-orge2fa9c2" class="outline-3">
-<h3 id="orge2fa9c2">Example:</h3>
-<div class="outline-text-3" id="text-orge2fa9c2">
+<div id="outline-container-orgcdf3c10" class="outline-3">
+<h3 id="orgcdf3c10">Example:</h3>
+<div class="outline-text-3" id="text-orgcdf3c10">
 <p>
 Random Experiment: Flip two coins, count the number of Heads
 </p>
@@ -520,13 +520,13 @@ of the sample space to only those samples consistent with the Evidence event hav
 <div class="outline-text-3" id="text-org000630d">
 <ul class="org-ul">
 <li><p>
-Linus is a computer programmer. He likes writing bash scripts and is a git guru.
+Linus is a computer programmer. He likes writing bash scripts and is a git expert.
 What is the probability that Linus uses Linux?
 </p>
 <ul class="org-ul">
 <li>H - Linus uses Linux</li>
 <li>Not H - Linus uses Windows (or something else)</li>
-<li>E - Linus is a computer programmer who likes writing bash scripts and is a git guru.</li>
+<li>E - Linus is a computer programmer who likes writing bash scripts and is a git expert.</li>
 </ul>
 
 <figure>
@@ -610,9 +610,9 @@ in the sample space occurs after performing the experiment</li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-orgcdf3c10" class="outline-3">
-<h3 id="orgcdf3c10">Example:</h3>
-<div class="outline-text-3" id="text-orgcdf3c10">
+<div id="outline-container-org73b46b4" class="outline-3">
+<h3 id="org73b46b4">Example:</h3>
+<div class="outline-text-3" id="text-org73b46b4">
 <ul class="org-ul">
 <li><p>
 Flip two coins. \(\xi \in S\). 
@@ -719,7 +719,7 @@ Sorry, your browser does not support SVG.</object>
 </ul></li>
 
 <li><p>
-Cumulative Distribution Function (cdf) for random variable X is the probability of the event that \(x \leq X\).
+Cumulative Distribution Function (cdf) for random variable X is the probability of the event that \(X \leq x\).
 </p>
 \begin{equation}
 F_X(x) = P[X \leq x], -\infty < x < \infty.
