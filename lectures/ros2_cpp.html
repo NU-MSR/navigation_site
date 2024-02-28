@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-27 Tue 23:14 -->
+<!-- 2024-02-27 Tue 23:15 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ROS C++ Details</title>
@@ -60,14 +60,14 @@
 <li><a href="#orga7b079f">Motivating RAII</a></li>
 </ul>
 </li>
-<li><a href="#org9b0bc28">Smart Pointers</a>
+<li><a href="#org4feb8e9">Smart Pointers</a>
 <ul>
 <li><a href="#org01ed969">Example</a></li>
 </ul>
 </li>
 <li><a href="#org3de1e7b">Argument Passing Semantics</a>
 <ul>
-<li><a href="#org4feb8e9">Smart Pointers</a></li>
+<li><a href="#orgf5a5fcb">Smart Pointers</a></li>
 </ul>
 </li>
 <li><a href="#org3abb804">Constness</a></li>
@@ -549,9 +549,9 @@ If an object hadn't yet been constructed, its destructor would not be called
 </div>
 
 
-<div id="outline-container-org9b0bc28" class="outline-2">
-<h2 id="org9b0bc28">Smart Pointers</h2>
-<div class="outline-text-2" id="text-org9b0bc28">
+<div id="outline-container-org4feb8e9" class="outline-2">
+<h2 id="org4feb8e9">Smart Pointers</h2>
+<div class="outline-text-2" id="text-org4feb8e9">
 <ul class="org-ul">
 <li>Smart pointers are used to track and automatically free memory</li>
 <li>There are two main smart pointer types in C++
@@ -626,9 +626,9 @@ instead of being deallocated, can be reused within <code>dostuff</code></li>
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org4feb8e9" class="outline-3">
-<h3 id="org4feb8e9">Smart Pointers</h3>
-<div class="outline-text-3" id="text-org4feb8e9">
+<div id="outline-container-orgf5a5fcb" class="outline-3">
+<h3 id="orgf5a5fcb">Smart Pointers</h3>
+<div class="outline-text-3" id="text-orgf5a5fcb">
 <ul class="org-ul">
 <li>If you pass something by smart pointer, you are making a statement about ownership
 <ul class="org-ul">
