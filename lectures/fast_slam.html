@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2024-02-24 Sat 20:41 -->
+<!-- 2024-02-27 Tue 23:10 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fast SLAM 1.0</title>
@@ -48,12 +48,12 @@
 <ul>
 <li><a href="#orgc280485">The Forward Model</a>
 <ul>
-<li><a href="#org9af06bf">In Our Case</a></li>
+<li><a href="#org04fca2f">In Our Case</a></li>
 </ul>
 </li>
 <li><a href="#orgf1de83b">The Measurement Model</a>
 <ul>
-<li><a href="#org04fca2f">In Our Case</a></li>
+<li><a href="#org3b1cf82">In Our Case</a></li>
 </ul>
 </li>
 <li><a href="#org0b76586">The Map</a></li>
@@ -92,9 +92,9 @@ robot to be at the next time-step?</li>
 <li>\(x_t\) is the robot state, \(u_t\) is the robot controls, at timestep \(t\)</li>
 </ol>
 </div>
-<div id="outline-container-org9af06bf" class="outline-4">
-<h4 id="org9af06bf">In Our Case</h4>
-<div class="outline-text-4" id="text-org9af06bf">
+<div id="outline-container-org04fca2f" class="outline-4">
+<h4 id="org04fca2f">In Our Case</h4>
+<div class="outline-text-4" id="text-org04fca2f">
 <ul class="org-ul">
 <li>The odometry plus noise is our forward model</li>
 <li>Odometry provides \(T_{bb'}\), which is our rigid body motion since
@@ -146,9 +146,9 @@ z_{j,t} = h(m_j, x_t) + v_t.
 </ul></li>
 </ul>
 </div>
-<div id="outline-container-org04fca2f" class="outline-4">
-<h4 id="org04fca2f">In Our Case</h4>
-<div class="outline-text-4" id="text-org04fca2f">
+<div id="outline-container-org3b1cf82" class="outline-4">
+<h4 id="org3b1cf82">In Our Case</h4>
+<div class="outline-text-4" id="text-org3b1cf82">
 <ul class="org-ul">
 <li>We are using a 2D laser scanner as our measurement device</li>
 <li>This device only gives us range and bearing measurements to points in the
